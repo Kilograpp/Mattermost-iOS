@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Signin" bundle:nil];
+    
+    UINavigationController *navController = [sb instantiateInitialViewController];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
+    
+    [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
+    
     return YES;
 }
 

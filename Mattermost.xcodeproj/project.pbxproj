@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40291CEC04735DC0AAC3D156 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5544EE0E60A7795F880B86C /* libPods.a */; };
+		41B63A921CFF658100430228 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 41B63A911CFF658100430228 /* .gitignore */; };
 		41D796CC1CFF542600DAA625 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D796CB1CFF542600DAA625 /* main.m */; };
 		41D796CF1CFF542600DAA625 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D796CE1CFF542600DAA625 /* AppDelegate.m */; };
 		41D796D21CFF542600DAA625 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D796D11CFF542600DAA625 /* ViewController.m */; };
@@ -14,9 +16,13 @@
 		41D796D81CFF542600DAA625 /* Mattermost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 41D796D61CFF542600DAA625 /* Mattermost.xcdatamodeld */; };
 		41D796DA1CFF542600DAA625 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41D796D91CFF542600DAA625 /* Assets.xcassets */; };
 		41D796DD1CFF542600DAA625 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41D796DB1CFF542600DAA625 /* LaunchScreen.storyboard */; };
+		41D796E71CFF548000DAA625 /* Signin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41D796E61CFF548000DAA625 /* Signin.storyboard */; };
+		41D796EE1CFF5FB000DAA625 /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D796ED1CFF5FB000DAA625 /* KGViewController.m */; };
+		41D796F11CFF5FD300DAA625 /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41D796F01CFF5FD300DAA625 /* KGServerUrlViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		41B63A911CFF658100430228 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		41D796C71CFF542600DAA625 /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41D796CB1CFF542600DAA625 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		41D796CD1CFF542600DAA625 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -28,6 +34,14 @@
 		41D796D91CFF542600DAA625 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		41D796DC1CFF542600DAA625 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		41D796DE1CFF542600DAA625 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		41D796E61CFF548000DAA625 /* Signin.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Signin.storyboard; sourceTree = "<group>"; };
+		41D796EC1CFF5FB000DAA625 /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGViewController.h; path = ViewControllers/Base/KGViewController.h; sourceTree = "<group>"; };
+		41D796ED1CFF5FB000DAA625 /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGViewController.m; path = ViewControllers/Base/KGViewController.m; sourceTree = "<group>"; };
+		41D796EF1CFF5FD300DAA625 /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGServerUrlViewController.h; path = ViewControllers/Signin/ServerUrl/KGServerUrlViewController.h; sourceTree = "<group>"; };
+		41D796F01CFF5FD300DAA625 /* KGServerUrlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGServerUrlViewController.m; path = ViewControllers/Signin/ServerUrl/KGServerUrlViewController.m; sourceTree = "<group>"; };
+		553210A7B421E185F785D568 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		A5544EE0E60A7795F880B86C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8347945AF0D464F7E043F89 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +49,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40291CEC04735DC0AAC3D156 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13C57EE7469030C855F41C05 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5544EE0E60A7795F880B86C /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		41D796BE1CFF542600DAA625 = {
 			isa = PBXGroup;
 			children = (
 				41D796C91CFF542600DAA625 /* Mattermost */,
 				41D796C81CFF542600DAA625 /* Products */,
+				5AB107A67990775CB175BDA8 /* Pods */,
+				13C57EE7469030C855F41C05 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +85,8 @@
 		41D796C91CFF542600DAA625 /* Mattermost */ = {
 			isa = PBXGroup;
 			children = (
+				41D796E81CFF5F0600DAA625 /* ViewControllers */,
+				41D796E51CFF545C00DAA625 /* Storyboards */,
 				41D796CD1CFF542600DAA625 /* AppDelegate.h */,
 				41D796CE1CFF542600DAA625 /* AppDelegate.m */,
 				41D796D01CFF542600DAA625 /* ViewController.h */,
@@ -77,9 +104,62 @@
 		41D796CA1CFF542600DAA625 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				41B63A911CFF658100430228 /* .gitignore */,
 				41D796CB1CFF542600DAA625 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		41D796E51CFF545C00DAA625 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				41D796E61CFF548000DAA625 /* Signin.storyboard */,
+			);
+			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		41D796E81CFF5F0600DAA625 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				41D796EB1CFF5F9200DAA625 /* Base */,
+				41D796E91CFF5F0F00DAA625 /* Signin */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		41D796E91CFF5F0F00DAA625 /* Signin */ = {
+			isa = PBXGroup;
+			children = (
+				41D796EA1CFF5F1C00DAA625 /* ServerUrl */,
+			);
+			name = Signin;
+			sourceTree = "<group>";
+		};
+		41D796EA1CFF5F1C00DAA625 /* ServerUrl */ = {
+			isa = PBXGroup;
+			children = (
+				41D796EF1CFF5FD300DAA625 /* KGServerUrlViewController.h */,
+				41D796F01CFF5FD300DAA625 /* KGServerUrlViewController.m */,
+			);
+			name = ServerUrl;
+			sourceTree = "<group>";
+		};
+		41D796EB1CFF5F9200DAA625 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				41D796EC1CFF5FB000DAA625 /* KGViewController.h */,
+				41D796ED1CFF5FB000DAA625 /* KGViewController.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		5AB107A67990775CB175BDA8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A8347945AF0D464F7E043F89 /* Pods.debug.xcconfig */,
+				553210A7B421E185F785D568 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,9 +169,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 41D796E11CFF542600DAA625 /* Build configuration list for PBXNativeTarget "Mattermost" */;
 			buildPhases = (
+				DC408D51AED52C0689825097 /* Check Pods Manifest.lock */,
 				41D796C31CFF542600DAA625 /* Sources */,
 				41D796C41CFF542600DAA625 /* Frameworks */,
 				41D796C51CFF542600DAA625 /* Resources */,
+				53446BB799EABF9B6F49C788 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -139,6 +221,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41B63A921CFF658100430228 /* .gitignore in Resources */,
+				41D796E71CFF548000DAA625 /* Signin.storyboard in Resources */,
 				41D796DD1CFF542600DAA625 /* LaunchScreen.storyboard in Resources */,
 				41D796DA1CFF542600DAA625 /* Assets.xcassets in Resources */,
 				41D796D51CFF542600DAA625 /* Main.storyboard in Resources */,
@@ -146,6 +230,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		53446BB799EABF9B6F49C788 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC408D51AED52C0689825097 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		41D796C31CFF542600DAA625 /* Sources */ = {
@@ -155,7 +272,9 @@
 				41D796D21CFF542600DAA625 /* ViewController.m in Sources */,
 				41D796CF1CFF542600DAA625 /* AppDelegate.m in Sources */,
 				41D796CC1CFF542600DAA625 /* main.m in Sources */,
+				41D796F11CFF5FD300DAA625 /* KGServerUrlViewController.m in Sources */,
 				41D796D81CFF542600DAA625 /* Mattermost.xcdatamodeld in Sources */,
+				41D796EE1CFF5FB000DAA625 /* KGViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,6 +386,7 @@
 		};
 		41D796E21CFF542600DAA625 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8347945AF0D464F7E043F89 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Mattermost/Info.plist;
@@ -278,6 +398,7 @@
 		};
 		41D796E31CFF542600DAA625 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 553210A7B421E185F785D568 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Mattermost/Info.plist;
@@ -306,6 +427,7 @@
 				41D796E31CFF542600DAA625 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

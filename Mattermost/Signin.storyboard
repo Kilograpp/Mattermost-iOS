@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="27i-6R-Mpo">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="hbd-uE-KXU">
+            <objects>
+                <navigationController id="27i-6R-Mpo" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qqK-Si-JrT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="jNR-fS-w6C" kind="relationship" relationship="rootViewController" id="Fq5-bH-DYy"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Je-0X-3QG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-510" y="355"/>
+        </scene>
+        <!--Mattermost-->
+        <scene sceneID="qc5-7L-At2">
+            <objects>
+                <viewController id="jNR-fS-w6C" customClass="KGServerUrlViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rJl-Ha-xgi"/>
+                        <viewControllerLayoutGuide type="bottom" id="jjq-rz-2Gt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UwV-eY-VfC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlO-q6-PN3">
+                                <rect key="frame" x="19" y="263" width="337" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="fdsfsdfdsfsdfdsfds" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RGa-74-lOb">
+                                <rect key="frame" x="19" y="299" width="337" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rnH-Rk-MWC">
+                                <rect key="frame" x="19" y="339" width="337" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFR-C3-x5Q">
+                                <rect key="frame" x="19" y="384" width="337" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="SFR-C3-x5Q" firstAttribute="trailing" secondItem="rnH-Rk-MWC" secondAttribute="trailing" id="0Fj-VH-jz0"/>
+                            <constraint firstItem="rnH-Rk-MWC" firstAttribute="centerY" secondItem="UwV-eY-VfC" secondAttribute="centerY" constant="20" id="0tn-h5-avy"/>
+                            <constraint firstItem="RGa-74-lOb" firstAttribute="centerY" secondItem="UwV-eY-VfC" secondAttribute="centerY" constant="-20" id="0w6-VU-RWi"/>
+                            <constraint firstItem="SFR-C3-x5Q" firstAttribute="leading" secondItem="rnH-Rk-MWC" secondAttribute="leading" id="BqR-WO-XCS"/>
+                            <constraint firstItem="MlO-q6-PN3" firstAttribute="leading" secondItem="RGa-74-lOb" secondAttribute="leading" id="L7K-Gz-8w8"/>
+                            <constraint firstItem="rnH-Rk-MWC" firstAttribute="trailing" secondItem="RGa-74-lOb" secondAttribute="trailing" id="Owz-uj-A1d"/>
+                            <constraint firstItem="MlO-q6-PN3" firstAttribute="trailing" secondItem="RGa-74-lOb" secondAttribute="trailing" id="PLT-4l-u0Z"/>
+                            <constraint firstItem="RGa-74-lOb" firstAttribute="top" secondItem="MlO-q6-PN3" secondAttribute="bottom" constant="15" id="YN3-1D-RXE"/>
+                            <constraint firstItem="rnH-Rk-MWC" firstAttribute="leading" secondItem="RGa-74-lOb" secondAttribute="leading" id="gcD-2X-7Wd"/>
+                            <constraint firstItem="RGa-74-lOb" firstAttribute="centerX" secondItem="UwV-eY-VfC" secondAttribute="centerX" id="nDc-Mx-Wuj"/>
+                            <constraint firstItem="SFR-C3-x5Q" firstAttribute="top" secondItem="rnH-Rk-MWC" secondAttribute="bottom" constant="15" id="nx5-fa-twy"/>
+                            <constraint firstItem="RGa-74-lOb" firstAttribute="width" secondItem="UwV-eY-VfC" secondAttribute="width" multiplier="0.9" id="tkS-gT-YXh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Mattermost" id="26Z-vU-5Jd"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="textField" destination="RGa-74-lOb" id="8It-AM-CB2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nWv-9O-o9f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-43.5" y="354.5"/>
+        </scene>
+    </scenes>
+</document>
