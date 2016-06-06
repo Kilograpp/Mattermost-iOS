@@ -7,6 +7,9 @@
 //
 
 #import "ViewController.h"
+#import "KGBusinessLogic.h"
+#import <MagicalRecord.h>
+#import "KGCurrency.h"
 
 @interface ViewController ()
 
@@ -16,12 +19,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[KGBusinessLogic sharedInstance] loadCurrenciesWithCompletion:^(NSArray *currencies, KGError *error) {
+        NSArray *test = [KGCurrency MR_findAll];
+        NSLog(@"%@", test);
+    }];
 }
 
 @end

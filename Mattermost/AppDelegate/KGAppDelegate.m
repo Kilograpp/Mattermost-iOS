@@ -1,18 +1,18 @@
 //
-//  AppDelegate.m
+//  KGAppDelegate.m
 //  Mattermost
 //
 //  Created by Igor Vedeneev on 06.06.16.
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "KGAppDelegate.h"
 
-@interface AppDelegate ()
+@interface KGAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation KGAppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

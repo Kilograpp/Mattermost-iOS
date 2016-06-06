@@ -7,20 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
-		D696F7791D060FDD008341AF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* AppDelegate.m */; };
+		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
 		D696F77C1D060FDD008341AF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F77B1D060FDD008341AF /* ViewController.m */; };
 		D696F77F1D060FDD008341AF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F77D1D060FDD008341AF /* Main.storyboard */; };
 		D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */; };
 		D696F7841D060FDD008341AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D696F7831D060FDD008341AF /* Assets.xcassets */; };
 		D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F7851D060FDD008341AF /* LaunchScreen.storyboard */; };
+		D696F7951D0612E4008341AF /* KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7941D0612E4008341AF /* KGCurrency.m */; };
+		D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7971D0612F2008341AF /* _KGCurrency.m */; };
+		D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79B1D061331008341AF /* KGBusinessLogic.m */; };
+		D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79F1D0614EF008341AF /* KGManagedObject.m */; };
+		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
+		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
+		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D696F7771D060FDD008341AF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D696F7781D060FDD008341AF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D696F7771D060FDD008341AF /* KGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAppDelegate.h; sourceTree = "<group>"; };
+		D696F7781D060FDD008341AF /* KGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KGAppDelegate.m; sourceTree = "<group>"; };
 		D696F77A1D060FDD008341AF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D696F77B1D060FDD008341AF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D696F77E1D060FDD008341AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -28,6 +37,16 @@
 		D696F7831D060FDD008341AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D696F7861D060FDD008341AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D696F7881D060FDD008341AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D696F7931D0612E4008341AF /* KGCurrency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGCurrency.h; sourceTree = "<group>"; };
+		D696F7941D0612E4008341AF /* KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGCurrency.m; sourceTree = "<group>"; };
+		D696F7961D0612EA008341AF /* _KGCurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _KGCurrency.h; sourceTree = "<group>"; };
+		D696F7971D0612F2008341AF /* _KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGCurrency.m; sourceTree = "<group>"; };
+		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
+		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
+		D696F79F1D0614EF008341AF /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
+		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
+		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
+		D696F7A41D0615D5008341AF /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,16 +54,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA14FEE23A0344239A72E444 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */,
+				544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D696F7681D060FDD008341AF = {
 			isa = PBXGroup;
 			children = (
 				D696F7731D060FDD008341AF /* Mattermost */,
+				1F7A9C62E9AB6C45AE424260 /* Frameworks */,
+				BA14FEE23A0344239A72E444 /* Pods */,
 				D696F7721D060FDD008341AF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,16 +99,14 @@
 		D696F7731D060FDD008341AF /* Mattermost */ = {
 			isa = PBXGroup;
 			children = (
-				D696F7771D060FDD008341AF /* AppDelegate.h */,
-				D696F7781D060FDD008341AF /* AppDelegate.m */,
+				D696F7901D061107008341AF /* AppDelegate */,
+				D696F7991D061301008341AF /* BusinessLogic */,
+				D696F78F1D061099008341AF /* Model */,
+				D696F79E1D061368008341AF /* Resoureces */,
+				D696F79D1D061340008341AF /* Storyboards */,
+				D696F7741D060FDD008341AF /* Supporting Files */,
 				D696F77A1D060FDD008341AF /* ViewController.h */,
 				D696F77B1D060FDD008341AF /* ViewController.m */,
-				D696F77D1D060FDD008341AF /* Main.storyboard */,
-				D696F7831D060FDD008341AF /* Assets.xcassets */,
-				D696F7851D060FDD008341AF /* LaunchScreen.storyboard */,
-				D696F7881D060FDD008341AF /* Info.plist */,
-				D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */,
-				D696F7741D060FDD008341AF /* Supporting Files */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -79,7 +116,83 @@
 			children = (
 				D696F7751D060FDD008341AF /* main.m */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D696F78F1D061099008341AF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7911D06121D008341AF /* Human */,
+				D696F7921D061226008341AF /* Machine */,
+				D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D696F7901D061107008341AF /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7771D060FDD008341AF /* KGAppDelegate.h */,
+				D696F7781D060FDD008341AF /* KGAppDelegate.m */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		D696F7911D06121D008341AF /* Human */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7931D0612E4008341AF /* KGCurrency.h */,
+				D696F7941D0612E4008341AF /* KGCurrency.m */,
+				D696F7A01D0614EF008341AF /* KGManagedObject.h */,
+				D696F79F1D0614EF008341AF /* KGManagedObject.m */,
+			);
+			path = Human;
+			sourceTree = "<group>";
+		};
+		D696F7921D061226008341AF /* Machine */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7961D0612EA008341AF /* _KGCurrency.h */,
+				D696F7971D0612F2008341AF /* _KGCurrency.m */,
+			);
+			path = Machine;
+			sourceTree = "<group>";
+		};
+		D696F7991D061301008341AF /* BusinessLogic */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7A21D0615C2008341AF /* Error */,
+				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
+				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
+			);
+			path = BusinessLogic;
+			sourceTree = "<group>";
+		};
+		D696F79D1D061340008341AF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D696F77D1D060FDD008341AF /* Main.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		D696F79E1D061368008341AF /* Resoureces */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7831D060FDD008341AF /* Assets.xcassets */,
+				D696F7881D060FDD008341AF /* Info.plist */,
+				D696F7851D060FDD008341AF /* LaunchScreen.storyboard */,
+			);
+			path = Resoureces;
+			sourceTree = "<group>";
+		};
+		D696F7A21D0615C2008341AF /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				D696F7A31D0615D5008341AF /* KGError.h */,
+				D696F7A41D0615D5008341AF /* KGError.m */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,9 +202,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D696F78B1D060FDD008341AF /* Build configuration list for PBXNativeTarget "Mattermost" */;
 			buildPhases = (
+				60473A4FCBD49FB229750F91 /* Check Pods Manifest.lock */,
+				D696F78E1D06107D008341AF /* ShellScript */,
 				D696F76D1D060FDD008341AF /* Sources */,
 				D696F76E1D060FDD008341AF /* Frameworks */,
 				D696F76F1D060FDD008341AF /* Resources */,
+				49D577B336C5381128546E9E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -148,14 +264,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		49D577B336C5381128546E9E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60473A4FCBD49FB229750F91 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D696F78E1D06107D008341AF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "MODEL_PATH=\"$PROJECT_DIR/$PROJECT_NAME/Model/$PROJECT_NAME.xcdatamodeld\"\nHUMAN_DIR=\"$PROJECT_DIR/$PROJECT_NAME/Model/Human\"\nMACHINE_DIR=\"$PROJECT_DIR/$PROJECT_NAME/Model/Machine\"\n/usr/local/bin/mogenerator --v2 --model $MODEL_PATH --human-dir $HUMAN_DIR --machine-dir $MACHINE_DIR --base-class KGManagedObject";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D696F76D1D060FDD008341AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D696F7A51D0615D5008341AF /* KGError.m in Sources */,
 				D696F77C1D060FDD008341AF /* ViewController.m in Sources */,
-				D696F7791D060FDD008341AF /* AppDelegate.m in Sources */,
+				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
+				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
+				D696F7951D0612E4008341AF /* KGCurrency.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
+				D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */,
+				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,6 +336,7 @@
 				D696F77E1D060FDD008341AF /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		D696F7851D060FDD008341AF /* LaunchScreen.storyboard */ = {
@@ -177,6 +345,7 @@
 				D696F7861D060FDD008341AF /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -200,7 +369,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Maxim Gubin (26358JFF57)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -244,7 +413,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Maxim Gubin (26358JFF57)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -266,9 +435,11 @@
 		};
 		D696F78C1D060FDD008341AF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Mattermost/Info.plist;
+				INFOPLIST_FILE = Mattermost/Resoureces/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -277,9 +448,11 @@
 		};
 		D696F78D1D060FDD008341AF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Mattermost/Info.plist;
+				INFOPLIST_FILE = Mattermost/Resoureces/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,6 +478,7 @@
 				D696F78D1D060FDD008341AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
