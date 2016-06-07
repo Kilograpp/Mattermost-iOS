@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UIFont (KGPreparedFont)
-
++ (UIFont *)kg_semibold30Font;
++ (UIFont *)kg_regular14Font;
++ (UIFont *)kg_regular16Font;
++ (UIFont *)kg_regular18Font;
++ (UIFont *)kg_light18Font;
 @end

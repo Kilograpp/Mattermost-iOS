@@ -9,10 +9,10 @@
 #import "UIFont+KGPreparedFont.h"
 #import "KGUtils.h"
 
-NSString *const KGPreparedRegularFontName = @"OpenSans-Regular";
+NSString *const KGPreparedRegularFontName = @"OpenSans";
 NSString *const KGPreparedBoldFontName = @"OpenSans-Bold";
 NSString *const KGPreparedSemiboldFontName = @"OpenSans-Semibold";
-NSString *const KGPreparedItalicFontName = @"OpenSans";
+NSString *const KGPreparedLightFontName = @"OpenSans-Light";
 
 @implementation UIFont (CustomFonts)
 #pragma clang diagnostic push
@@ -31,6 +31,24 @@ NSString *const KGPreparedItalicFontName = @"OpenSans";
     return font;
 }
 
++ (UIFont *)kg_regular14Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedRegularFontName size:14.f])
+    return font;
+}
+
++ (UIFont *)kg_regular16Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedRegularFontName size:16.f])
+    return font;
+}
++ (UIFont *)kg_regular18Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedRegularFontName size:18.f])
+    return font;
+}
+
++ (UIFont *)kg_light18Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedLightFontName size:18.f])
+    return font;
+}
 //+ (UIFont *)semiBoldSystemFontOfSize:(CGFloat)fontSize {
 //    return [UIFont fontWithName:KGPreparedSemiboldFontName size:fontSize];
 //}

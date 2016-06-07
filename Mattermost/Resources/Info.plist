@@ -4,10 +4,10 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>OpenSans-Regular</string>
-		<string>OpenSans-Bold</string>
-		<string>OpenSans-Light</string>
-		<string>OpenSans-Semibold</string>
+		<string>OpenSans-Semibold.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-Light.ttf</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
