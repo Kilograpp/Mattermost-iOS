@@ -8,6 +8,7 @@
 
 #import "KGLoginNavigationController.h"
 #import "UIColor+KGPreparedColor.h"
+#import "UIFont+KGPreparedFont.h"
 
 @interface KGLoginNavigationController ()
 
@@ -22,15 +23,14 @@
 }
 
 - (void)setupNavigationBar {
-    UINavigationBar *navBar = self.navigationBar;
-    navBar.translucent = YES;
-    
-    [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    navBar.shadowImage = [UIImage new];
-    navBar.tintColor = [UIColor kg_blueColor];
-    navBar.backgroundColor = [UIColor clearColor];
-//    [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
-//                                                   NSFontAttributeName : [UIFont kg_medium18Font] }];
+//    UINavigationBar *navBar = self.navigationBar;
+//    navBar.translucent = YES;
+//    
+//    [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    navBar.shadowImage = [UIImage new];
+//    navBar.tintColor = [UIColor kg_blueColor];
+//    navBar.backgroundColor = [UIColor clearColor];
+    [self.navigationBar setTitleTextAttributes: @{ NSFontAttributeName : [UIFont kg_regular18Font] }];
 }
 
 @end
