@@ -10,6 +10,7 @@
 
 NSString * const KGRestKitClassPrefix = @"RK";
 NSString * const KGAuthTokenHeaderName = @"MMAUTHTOKEN";
+float      const KGStandartCornerRadius = 2.f;
 
 @implementation KGConstants
 

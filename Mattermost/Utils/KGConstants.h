@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const KGRestKitClassPrefix; 
+extern NSString * const KGRestKitClassPrefix;
+extern float      const KGStandartCornerRadius;
 
 @interface KGConstants : NSObject
 
