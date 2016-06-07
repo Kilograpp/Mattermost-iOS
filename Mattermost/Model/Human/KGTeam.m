@@ -1,5 +1,7 @@
 #import "KGTeam.h"
+#import "RKEntityMapping.h"
 #import <RestKit.h>
+
 @interface KGTeam ()
 
 // Private interface goes here.
@@ -18,6 +20,18 @@
     return mapping;
 }
 
+
++ (NSString*)initialLoadPathPattern {
+    return @"users/initial_load";
+}
+
++ (RKResponseDescriptor*)initalResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self initialLoadPathPattern]
+                                                       keyPath:@"teams"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
 
 
 

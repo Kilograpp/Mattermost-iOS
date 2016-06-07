@@ -5,6 +5,7 @@
 #import "KGManagedObject.h"
 
 extern const struct KGTeamAttributes {
+	__unsafe_unretained NSString *currentTeam;
 	__unsafe_unretained NSString *displayName;
 	__unsafe_unretained NSString *identifier;
 	__unsafe_unretained NSString *name;
@@ -18,6 +19,14 @@ extern const struct KGTeamAttributes {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGTeamID* objectID;
+
+@property (nonatomic, strong) NSNumber* currentTeam;
+
+@property (atomic) BOOL currentTeamValue;
+- (BOOL)currentTeamValue;
+- (void)setCurrentTeamValue:(BOOL)value_;
+
+//- (BOOL)validateCurrentTeam:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* displayName;
 
@@ -38,6 +47,12 @@ extern const struct KGTeamAttributes {
 @end
 
 @interface _KGTeam (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveCurrentTeam;
+- (void)setPrimitiveCurrentTeam:(NSNumber*)value;
+
+- (BOOL)primitiveCurrentTeamValue;
+- (void)setPrimitiveCurrentTeamValue:(BOOL)value_;
 
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;

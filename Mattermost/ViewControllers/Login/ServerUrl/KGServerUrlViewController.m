@@ -48,6 +48,7 @@
     self.nextButton.backgroundColor = [UIColor kg_blueColor];
     [self.nextButton setTitle:NSLocalizedString(@"Next", nil) forState:UIControlStateNormal];
     [self.nextButton setTintColor:[UIColor whiteColor]];
+    self.nextButton.titleLabel.font = [UIFont kg_regular16Font];
 }
 #pragma mark - Actions
 

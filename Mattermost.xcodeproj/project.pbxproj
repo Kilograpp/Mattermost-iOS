@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
+		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
+		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
+		9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */; };
+		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
+		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
+		9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C6FC588149134FF2451 /* Login.storyboard */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
@@ -19,20 +25,12 @@
 		D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79B1D061331008341AF /* KGBusinessLogic.m */; };
 		D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79F1D0614EF008341AF /* KGManagedObject.m */; };
 		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
-		D6C154C11D074E4400B053CE /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6C154C01D074E4400B053CE /* OpenSans-Semibold.ttf */; };
-		D6FFFA681D073553009B6199 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA671D073553009B6199 /* Login.storyboard */; };
-		D6FFFA711D0738AB009B6199 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA701D0738AB009B6199 /* UIFont+KGPreparedFont.m */; };
-		D6FFFA771D073F40009B6199 /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA761D073F40009B6199 /* KGViewController.m */; };
-		D6FFFA7D1D073FB8009B6199 /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA7C1D073FB8009B6199 /* KGServerUrlViewController.m */; };
-		D6FFFA801D073FC5009B6199 /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA7F1D073FC5009B6199 /* KGLoginViewController.m */; };
-		D6FFFA841D074024009B6199 /* KGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA831D074024009B6199 /* KGNavigationController.m */; };
-		D6FFFA881D074046009B6199 /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA871D074046009B6199 /* KGLoginNavigationController.m */; };
-		D6FFFA8C1D074167009B6199 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA8B1D074167009B6199 /* KGButton.m */; };
-		D6FFFA901D074458009B6199 /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D6FFFA8F1D074458009B6199 /* UIColor+KGPreparedColor.m */; };
-		D6FFFA911D074665009B6199 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA6A1D0737D0009B6199 /* OpenSans-Bold.ttf */; };
-		D6FFFA931D0746EF009B6199 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA6B1D0737DA009B6199 /* OpenSans-Light.ttf */; };
-		D6FFFA941D0746F3009B6199 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA6C1D0737E2009B6199 /* OpenSans-Regular.ttf */; };
-		D6FFFA971D074C33009B6199 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D696F7881D060FDD008341AF /* Info.plist */; };
+		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
+		D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */; };
+		D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CD1D0755A800B053CE /* KGLoginViewController.m */; };
+		D6C154D21D07560900B053CE /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154D11D07560900B053CE /* UIColor+KGPreparedColor.m */; };
+		D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154D71D07570B00B053CE /* KGNavigationController.m */; };
+		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
 		D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428ED1D06DFE6008BF955 /* KGTeam.m */; };
 		D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428EF1D06DFE6008BF955 /* KGUser.m */; };
 		D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F31D06DFED008BF955 /* _KGTeam.m */; };
@@ -43,13 +41,22 @@
 		D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */; };
 		D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */; };
 		D8B429161D071969008BF955 /* KGConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429151D071969008BF955 /* KGConstants.m */; };
+		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
+		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
+		9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		9B822841FBC403ADD0E34F6B /* UIFont+KGPreparedFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+KGPreparedFont.h"; sourceTree = "<group>"; };
 		9B8229629554C9C159E8BC63 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
+		9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
+		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
 		9B822E11B8EFD2FD0DCDD7CD /* _KGBaseEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGBaseEntity.h; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,28 +77,18 @@
 		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		D696F7A41D0615D5008341AF /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
-		D6C154C01D074E4400B053CE /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		D6FFFA671D073553009B6199 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
-		D6FFFA6A1D0737D0009B6199 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		D6FFFA6B1D0737DA009B6199 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
-		D6FFFA6C1D0737E2009B6199 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		D6FFFA6F1D0738AB009B6199 /* UIFont+KGPreparedFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+KGPreparedFont.h"; sourceTree = "<group>"; };
-		D6FFFA701D0738AB009B6199 /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
-		D6FFFA731D073B08009B6199 /* KGUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
-		D6FFFA751D073F40009B6199 /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
-		D6FFFA761D073F40009B6199 /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGViewController.m; sourceTree = "<group>"; };
-		D6FFFA7B1D073FB8009B6199 /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGServerUrlViewController.h; sourceTree = "<group>"; };
-		D6FFFA7C1D073FB8009B6199 /* KGServerUrlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGServerUrlViewController.m; sourceTree = "<group>"; };
-		D6FFFA7E1D073FC5009B6199 /* KGLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginViewController.h; sourceTree = "<group>"; };
-		D6FFFA7F1D073FC5009B6199 /* KGLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginViewController.m; sourceTree = "<group>"; };
-		D6FFFA821D074024009B6199 /* KGNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGNavigationController.h; sourceTree = "<group>"; };
-		D6FFFA831D074024009B6199 /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNavigationController.m; sourceTree = "<group>"; };
-		D6FFFA861D074046009B6199 /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginNavigationController.h; sourceTree = "<group>"; };
-		D6FFFA871D074046009B6199 /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginNavigationController.m; sourceTree = "<group>"; };
-		D6FFFA8A1D074167009B6199 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
-		D6FFFA8B1D074167009B6199 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
-		D6FFFA8E1D074458009B6199 /* UIColor+KGPreparedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+KGPreparedColor.h"; sourceTree = "<group>"; };
-		D6FFFA8F1D074458009B6199 /* UIColor+KGPreparedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+KGPreparedColor.m"; sourceTree = "<group>"; };
+		D6C154C41D07557600B053CE /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
+		D6C154C51D07557600B053CE /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGViewController.m; sourceTree = "<group>"; };
+		D6C154C91D07559E00B053CE /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGServerUrlViewController.h; sourceTree = "<group>"; };
+		D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGServerUrlViewController.m; sourceTree = "<group>"; };
+		D6C154CC1D0755A800B053CE /* KGLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginViewController.h; sourceTree = "<group>"; };
+		D6C154CD1D0755A800B053CE /* KGLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginViewController.m; sourceTree = "<group>"; };
+		D6C154D01D07560900B053CE /* UIColor+KGPreparedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+KGPreparedColor.h"; sourceTree = "<group>"; };
+		D6C154D11D07560900B053CE /* UIColor+KGPreparedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+KGPreparedColor.m"; sourceTree = "<group>"; };
+		D6C154D61D07570B00B053CE /* KGNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGNavigationController.h; path = NavigationControllers/Base/KGNavigationController.h; sourceTree = "<group>"; };
+		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGNavigationController.m; path = NavigationControllers/Base/KGNavigationController.m; sourceTree = "<group>"; };
+		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGLoginNavigationController.h; path = NavigationControllers/Login/KGLoginNavigationController.h; sourceTree = "<group>"; };
+		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGLoginNavigationController.m; path = NavigationControllers/Login/KGLoginNavigationController.m; sourceTree = "<group>"; };
 		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
 		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
 		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
@@ -111,6 +108,8 @@
 		D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKRequestDescriptor+Runtime.m"; sourceTree = "<group>"; };
 		D8B429141D071969008BF955 /* KGConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGConstants.h; sourceTree = "<group>"; };
 		D8B429151D071969008BF955 /* KGConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGConstants.m; sourceTree = "<group>"; };
+		D8B429191D073740008BF955 /* KGBusinessLogic+Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Team.h"; sourceTree = "<group>"; };
+		D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Team.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +132,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B82261E84449FAA9ABDE609 /* UIFont */ = {
+			isa = PBXGroup;
+			children = (
+				9B822841FBC403ADD0E34F6B /* UIFont+KGPreparedFont.h */,
+				9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */,
+			);
+			path = UIFont;
+			sourceTree = "<group>";
+		};
 		9B8229E81C4A960156D4C50F /* NSError */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,15 +150,26 @@
 			path = NSError;
 			sourceTree = "<group>";
 		};
+		9B822AE956F9663378049854 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */,
+				9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */,
+				9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */,
+				9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		9B822B986A41E5765DB8CD58 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA8D1D07443F009B6199 /* UIColor */,
 				9B8229E81C4A960156D4C50F /* NSError */,
 				D8B429111D0717FB008BF955 /* NSObject */,
 				D8B4290D1D071764008BF955 /* RKRequestDescriptor */,
 				D8B429011D071290008BF955 /* RKResponseDescriptor */,
-				D6FFFA6E1D07389A009B6199 /* UIFont */,
+				D6C154CF1D0755EB00B053CE /* UIColor */,
+				9B82261E84449FAA9ABDE609 /* UIFont */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -188,15 +207,13 @@
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
 				9B822B986A41E5765DB8CD58 /* Categories */,
-				D6FFFA721D073AD7009B6199 /* Helpers */,
 				D696F78F1D061099008341AF /* Model */,
-				D6AA864A1D0693EF003DF669 /* NavigationControllers */,
+				D6C154D31D0756DC00B053CE /* NavigationControllers */,
 				D696F79E1D061368008341AF /* Resources */,
 				D696F79D1D061340008341AF /* Storyboards */,
 				D696F7741D060FDD008341AF /* Supporting Files */,
 				D8B429121D071846008BF955 /* Utils */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
-				D6AA864B1D069400003DF669 /* Views */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -263,6 +280,7 @@
 			children = (
 				D696F7A21D0615C2008341AF /* Error */,
 				D8B429171D07330D008BF955 /* Session */,
+				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 			);
@@ -272,7 +290,7 @@
 		D696F79D1D061340008341AF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA671D073553009B6199 /* Login.storyboard */,
+				9B822C6FC588149134FF2451 /* Login.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -280,7 +298,7 @@
 		D696F79E1D061368008341AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA691D073785009B6199 /* Fonts */,
+				9B822AE956F9663378049854 /* Fonts */,
 				D696F7831D060FDD008341AF /* Assets.xcassets */,
 				D696F7881D060FDD008341AF /* Info.plist */,
 				D696F7851D060FDD008341AF /* LaunchScreen.storyboard */,
@@ -300,127 +318,82 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA741D073F23009B6199 /* Base */,
-				D6FFFA781D073F4B009B6199 /* Login */,
+				D6C154C21D07555D00B053CE /* Base */,
+				D6C154C31D07556600B053CE /* Login */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		D6AA864A1D0693EF003DF669 /* NavigationControllers */ = {
+		D6C154C21D07555D00B053CE /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA811D07400A009B6199 /* Base */,
-				D6FFFA851D074028009B6199 /* Login */,
-			);
-			path = NavigationControllers;
-			sourceTree = "<group>";
-		};
-		D6AA864B1D069400003DF669 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				D6FFFA891D074109009B6199 /* Buttons */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		D6FFFA691D073785009B6199 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				D6C154C01D074E4400B053CE /* OpenSans-Semibold.ttf */,
-				D6FFFA6A1D0737D0009B6199 /* OpenSans-Bold.ttf */,
-				D6FFFA6B1D0737DA009B6199 /* OpenSans-Light.ttf */,
-				D6FFFA6C1D0737E2009B6199 /* OpenSans-Regular.ttf */,
-			);
-			path = Fonts;
-			sourceTree = "<group>";
-		};
-		D6FFFA6E1D07389A009B6199 /* UIFont */ = {
-			isa = PBXGroup;
-			children = (
-				D6FFFA6F1D0738AB009B6199 /* UIFont+KGPreparedFont.h */,
-				D6FFFA701D0738AB009B6199 /* UIFont+KGPreparedFont.m */,
-			);
-			path = UIFont;
-			sourceTree = "<group>";
-		};
-		D6FFFA721D073AD7009B6199 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				D6FFFA731D073B08009B6199 /* KGUtils.h */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		D6FFFA741D073F23009B6199 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				D6FFFA751D073F40009B6199 /* KGViewController.h */,
-				D6FFFA761D073F40009B6199 /* KGViewController.m */,
+				D6C154C41D07557600B053CE /* KGViewController.h */,
+				D6C154C51D07557600B053CE /* KGViewController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
 		};
-		D6FFFA781D073F4B009B6199 /* Login */ = {
+		D6C154C31D07556600B053CE /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA7A1D073F5E009B6199 /* Login */,
-				D6FFFA791D073F51009B6199 /* ServerUrl */,
+				D6C154C81D07558F00B053CE /* Login */,
+				D6C154C71D07558600B053CE /* ServerUrl */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
-		D6FFFA791D073F51009B6199 /* ServerUrl */ = {
+		D6C154C71D07558600B053CE /* ServerUrl */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA7B1D073FB8009B6199 /* KGServerUrlViewController.h */,
-				D6FFFA7C1D073FB8009B6199 /* KGServerUrlViewController.m */,
+				D6C154C91D07559E00B053CE /* KGServerUrlViewController.h */,
+				D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */,
 			);
 			path = ServerUrl;
 			sourceTree = "<group>";
 		};
-		D6FFFA7A1D073F5E009B6199 /* Login */ = {
+		D6C154C81D07558F00B053CE /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA7E1D073FC5009B6199 /* KGLoginViewController.h */,
-				D6FFFA7F1D073FC5009B6199 /* KGLoginViewController.m */,
+				D6C154CC1D0755A800B053CE /* KGLoginViewController.h */,
+				D6C154CD1D0755A800B053CE /* KGLoginViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
-		D6FFFA811D07400A009B6199 /* Base */ = {
+		D6C154CF1D0755EB00B053CE /* UIColor */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA821D074024009B6199 /* KGNavigationController.h */,
-				D6FFFA831D074024009B6199 /* KGNavigationController.m */,
+				D6C154D01D07560900B053CE /* UIColor+KGPreparedColor.h */,
+				D6C154D11D07560900B053CE /* UIColor+KGPreparedColor.m */,
 			);
-			path = Base;
+			path = UIColor;
 			sourceTree = "<group>";
 		};
-		D6FFFA851D074028009B6199 /* Login */ = {
+		D6C154D31D0756DC00B053CE /* NavigationControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA861D074046009B6199 /* KGLoginNavigationController.h */,
-				D6FFFA871D074046009B6199 /* KGLoginNavigationController.m */,
+				D6C154D51D07570000B053CE /* Login */,
+				D6C154D41D0756F500B053CE /* Base */,
 			);
-			path = Login;
+			name = NavigationControllers;
 			sourceTree = "<group>";
 		};
-		D6FFFA891D074109009B6199 /* Buttons */ = {
+		D6C154D41D0756F500B053CE /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA8A1D074167009B6199 /* KGButton.h */,
-				D6FFFA8B1D074167009B6199 /* KGButton.m */,
+				D6C154D61D07570B00B053CE /* KGNavigationController.h */,
+				D6C154D71D07570B00B053CE /* KGNavigationController.m */,
 			);
-			path = Buttons;
+			name = Base;
 			sourceTree = "<group>";
 		};
-		D6FFFA8D1D07443F009B6199 /* UIColor */ = {
+		D6C154D51D07570000B053CE /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFFA8E1D074458009B6199 /* UIColor+KGPreparedColor.h */,
-				D6FFFA8F1D074458009B6199 /* UIColor+KGPreparedColor.m */,
+				D6C154D91D07572200B053CE /* KGLoginNavigationController.h */,
+				D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */,
 			);
-			name = UIColor;
+			name = Login;
 			sourceTree = "<group>";
 		};
 		D8B429011D071290008BF955 /* RKResponseDescriptor */ = {
@@ -455,6 +428,7 @@
 			children = (
 				D8B429141D071969008BF955 /* KGConstants.h */,
 				D8B429151D071969008BF955 /* KGConstants.m */,
+				9B822E068632C717861972A7 /* KGUtils.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -466,6 +440,15 @@
 				D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */,
 			);
 			path = Session;
+			sourceTree = "<group>";
+		};
+		D8B429181D073729008BF955 /* Team */ = {
+			isa = PBXGroup;
+			children = (
+				D8B429191D073740008BF955 /* KGBusinessLogic+Team.h */,
+				D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */,
+			);
+			path = Team;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -529,14 +512,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6FFFA971D074C33009B6199 /* Info.plist in Resources */,
-				D6FFFA931D0746EF009B6199 /* OpenSans-Light.ttf in Resources */,
-				D6FFFA681D073553009B6199 /* Login.storyboard in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
-				D6C154C11D074E4400B053CE /* OpenSans-Semibold.ttf in Resources */,
-				D6FFFA941D0746F3009B6199 /* OpenSans-Regular.ttf in Resources */,
-				D6FFFA911D074665009B6199 /* OpenSans-Bold.ttf in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
+				9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */,
+				9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */,
+				9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */,
+				9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */,
+				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,32 +576,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
-				D6FFFA7D1D073FB8009B6199 /* KGServerUrlViewController.m in Sources */,
+				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
 				D696F7A51D0615D5008341AF /* KGError.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
-				D6FFFA771D073F40009B6199 /* KGViewController.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
+				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
 				D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */,
 				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
-				D6FFFA711D0738AB009B6199 /* UIFont+KGPreparedFont.m in Sources */,
 				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
+				D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */,
 				D696F7951D0612E4008341AF /* KGCurrency.m in Sources */,
+				D6C154D21D07560900B053CE /* UIColor+KGPreparedColor.m in Sources */,
+				D6C154C61D07557600B053CE /* KGViewController.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
+				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */,
-				D6FFFA8C1D074167009B6199 /* KGButton.m in Sources */,
 				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
+				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
-				D6FFFA841D074024009B6199 /* KGNavigationController.m in Sources */,
 				D8B429001D07030D008BF955 /* _KGBaseEntity.m in Sources */,
-				D6FFFA901D074458009B6199 /* UIColor+KGPreparedColor.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
-				D6FFFA881D074046009B6199 /* KGLoginNavigationController.m in Sources */,
 				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
 				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
 				D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */,
-				D6FFFA801D073FC5009B6199 /* KGLoginViewController.m in Sources */,
+				9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -730,6 +712,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Debug;
 		};
@@ -743,6 +726,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 			};
 			name = Release;
 		};

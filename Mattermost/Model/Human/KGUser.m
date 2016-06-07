@@ -1,4 +1,5 @@
 #import "KGUser.h"
+#import "KGTeam.h"
 #import <RestKit.h>
 
 @interface KGUser ()
@@ -8,6 +9,8 @@
 @end
 
 @implementation KGUser
+
+#pragma mark - Entity Mappings
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super entityMapping];
@@ -21,12 +24,46 @@
     return mapping;
 }
 
++ (RKEntityMapping*)directProfileEntityMapping {
+    RKEntityMapping *mapping = [super emptyEntityMapping];
+    [mapping setForceCollectionMapping:YES];
+    [mapping setIdentificationAttributes:@[@"identifier"]];
+    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
+    [mapping addAttributeMappingsFromDictionary:@{
+            @"(identifier).first_name" : @"firstName",
+            @"(identifier).last_name"  : @"lastName",
+            @"(identifier).username"   : @"username",
+            @"(identifier).email"      : @"email"
+    }];
+    return mapping;
+}
+
+#pragma mark - Path patterns
+
++ (NSString*)authPathPattern {
+    return @"users/login";
+}
+
++ (NSString*)initialLoadPathPattern {
+    return [KGTeam initialLoadPathPattern];
+}
+
+#pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
                                                         method:RKRequestMethodPOST
-                                                   pathPattern:@"users/login"
+                                                   pathPattern:[self authPathPattern]
                                                        keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
++ (RKResponseDescriptor*)initialLoadResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self initialLoadPathPattern]
+                                                       keyPath:@"direct_profiles"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 

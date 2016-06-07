@@ -7,6 +7,7 @@
 //
 
 #import "KGAppDelegate.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface KGAppDelegate ()
 
@@ -16,21 +17,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-
-    UINavigationController *navController = [sb instantiateInitialViewController];
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
-    
-    for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }
+    [self loadInitialScreen];
+    [self setupKeyboardManager];
     
     return YES;
 }
@@ -57,6 +45,21 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
+}
+
+
+#pragma mark - Private
+
+- (void)loadInitialScreen {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    
+    UINavigationController *navController = [sb instantiateInitialViewController];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
+}
+
+- (void)setupKeyboardManager {
+    [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
 }
 
 #pragma mark - Core Data stack

@@ -4,6 +4,7 @@
 #import "_KGTeam.h"
 
 const struct KGTeamAttributes KGTeamAttributes = {
+	.currentTeam = @"currentTeam",
 	.displayName = @"displayName",
 	.identifier = @"identifier",
 	.name = @"name",
@@ -35,6 +36,11 @@ const struct KGTeamAttributes KGTeamAttributes = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"currentTeamValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"currentTeam"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"identifierValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -42,6 +48,26 @@ const struct KGTeamAttributes KGTeamAttributes = {
 	}
 
 	return keyPaths;
+}
+
+@dynamic currentTeam;
+
+- (BOOL)currentTeamValue {
+	NSNumber *result = [self currentTeam];
+	return [result boolValue];
+}
+
+- (void)setCurrentTeamValue:(BOOL)value_ {
+	[self setCurrentTeam:@(value_)];
+}
+
+- (BOOL)primitiveCurrentTeamValue {
+	NSNumber *result = [self primitiveCurrentTeam];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveCurrentTeamValue:(BOOL)value_ {
+	[self setPrimitiveCurrentTeam:@(value_)];
 }
 
 @dynamic displayName;

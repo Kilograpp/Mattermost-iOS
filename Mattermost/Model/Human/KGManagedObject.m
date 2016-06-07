@@ -28,6 +28,11 @@
     return mapping;
 }
 
++ (RKEntityMapping *)emptyEntityMapping {
+    return [RKEntityMapping mappingForEntityForName:[self entityName]
+                                                          inManagedObjectStore:[KGBusinessLogic sharedInstance].managedObjectStore];
+}
+
 + (RKObjectMapping *)requestMapping {
     RKObjectMapping *requestMapping = [RKObjectMapping requestMapping];
     [requestMapping addAttributeMappingsFromDictionary:@{ @"identifier" : @"id" }];
