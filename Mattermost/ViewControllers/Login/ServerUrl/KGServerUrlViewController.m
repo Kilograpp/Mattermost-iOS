@@ -9,6 +9,7 @@
 #import "KGServerUrlViewController.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "KGConstants.h"
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -27,29 +28,51 @@
     [self setupSubtitleLabel];
     [self setupPromtLabel];
     [self setupNextButton];
+    [self setupTextfield];
+    [self configureLabels];
 }
 
 #pragma mark - Setup 
 
 - (void)setupTitleLabel {
     self.titleLabel.font = [UIFont kg_semibold30Font];
+    self.titleLabel.textColor = [UIColor kg_blackColor];
 }
 
 - (void)setupSubtitleLabel {
     self.subtitleLabel.font = [UIFont kg_light18Font];
+    self.subtitleLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupPromtLabel {
     self.promtLabel.font = [UIFont kg_regular14Font];
+    self.promtLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupNextButton {
-    self.nextButton.layer.cornerRadius = 2.f;
+    self.nextButton.layer.cornerRadius = KGStandartCornerRadius;
     self.nextButton.backgroundColor = [UIColor kg_blueColor];
     [self.nextButton setTitle:NSLocalizedString(@"Next", nil) forState:UIControlStateNormal];
     [self.nextButton setTintColor:[UIColor whiteColor]];
     self.nextButton.titleLabel.font = [UIFont kg_regular16Font];
 }
+
+- (void)setupTextfield {
+    self.textField.textColor = [UIColor kg_blackColor];
+    self.textField.font = [UIFont kg_regular16Font];
+    self.textField.placeholder = @"https://matttermost.example.com";
+    [self.textField becomeFirstResponder];
+}
+
+
+#pragma mark - Configuration
+
+- (void)configureLabels {
+    self.titleLabel.text = @"Mattermost";
+    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere";
+    self.promtLabel.text = @"Team server URL";
+}
+
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
