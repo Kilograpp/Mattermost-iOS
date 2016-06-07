@@ -1,39 +1,36 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGTeam.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGTeamAttributes {
-	__unsafe_unretained NSString *displayName;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *name;
-} KGTeamAttributes;
+NS_ASSUME_NONNULL_BEGIN
 
 @interface KGTeamID : NSManagedObjectID {}
 @end
 
-@interface _KGTeam : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGTeam : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGTeamID* objectID;
+@property (nonatomic, readonly, strong) KGTeamID *objectID;
 
-@property (nonatomic, strong) NSString* displayName;
+@property (nonatomic, strong, nullable) NSString* displayName;
 
-//- (BOOL)validateDisplayName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* identifier;
+@property (nonatomic, strong, nullable) NSNumber* identifier;
 
 @property (atomic) int64_t identifierValue;
 - (int64_t)identifierValue;
 - (void)setIdentifierValue:(int64_t)value_;
 
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* name;
-
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* name;
 
 @end
 
@@ -52,3 +49,11 @@ extern const struct KGTeamAttributes {
 - (void)setPrimitiveName:(NSString*)value;
 
 @end
+
+@interface KGTeamAttributes: NSObject 
++ (NSString *)displayName;
++ (NSString *)identifier;
++ (NSString *)name;
+@end
+
+NS_ASSUME_NONNULL_END
