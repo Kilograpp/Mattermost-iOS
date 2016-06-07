@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15C50" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Automatic">
     <entity name="Currency" representedClassName="KGCurrency" syncable="YES">
         <attribute name="base" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -7,6 +7,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName="KGTeam" syncable="YES">
+        <attribute name="currentTeam" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,7 +22,7 @@
     </entity>
     <elements>
         <element name="Currency" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Team" positionX="-434" positionY="-27" width="128" height="88"/>
+        <element name="Team" positionX="-434" positionY="-27" width="128" height="103"/>
         <element name="User" positionX="-918" positionY="-54" width="128" height="133"/>
     </elements>
 </model>

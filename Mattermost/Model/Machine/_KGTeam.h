@@ -22,6 +22,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGTeamID *objectID;
 
+@property (nonatomic, strong, nullable) NSNumber* currentTeam;
+
+@property (atomic) BOOL currentTeamValue;
+- (BOOL)currentTeamValue;
+- (void)setCurrentTeamValue:(BOOL)value_;
+
 @property (nonatomic, strong, nullable) NSString* displayName;
 
 @property (nonatomic, strong, nullable) NSNumber* identifier;
@@ -35,6 +41,12 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface _KGTeam (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveCurrentTeam;
+- (void)setPrimitiveCurrentTeam:(NSNumber*)value;
+
+- (BOOL)primitiveCurrentTeamValue;
+- (void)setPrimitiveCurrentTeamValue:(BOOL)value_;
 
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;
@@ -51,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGTeamAttributes: NSObject 
++ (NSString *)currentTeam;
 + (NSString *)displayName;
 + (NSString *)identifier;
 + (NSString *)name;

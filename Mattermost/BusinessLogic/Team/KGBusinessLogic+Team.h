@@ -8,8 +8,10 @@
 
 #import "KGBusinessLogic.h"
 
+@class KGTeam;
+
 @interface KGBusinessLogic (Team)
 
 - (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion;
-
+- (KGTeam *)currentTeam;
 @end
