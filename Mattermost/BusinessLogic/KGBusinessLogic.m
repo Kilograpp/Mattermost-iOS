@@ -11,7 +11,7 @@
 #import <MagicalRecord/MagicalRecord.h>
 #import <RestKit/RestKit.h>
 
-static NSString *const KGAPIURL_DEV = @"http://tomcat.kilograpp.com/tripsformer-development/api/";
+static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/";
 
 @interface KGBusinessLogic ()
 
