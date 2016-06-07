@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSError+KGError.h"
+
 @class RKResponseDescriptor;
 
 typedef NS_ENUM(NSInteger, KGErrorCode) {

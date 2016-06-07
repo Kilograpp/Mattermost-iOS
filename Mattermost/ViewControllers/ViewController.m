@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Session.h"
 #import <MagicalRecord.h>
 #import "KGCurrency.h"
 
@@ -19,11 +20,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [[KGBusinessLogic sharedInstance] loadCurrenciesWithCompletion:^(NSArray *currencies, KGError *error) {
-        NSArray *test = [KGCurrency MR_findAll];
-        NSLog(@"%@", test);
-    }];
+    
+    [[KGBusinessLogic sharedInstance] loginWithEmail:@"maxim@kilograpp.com" password:@"loladin" completion:^(KGError *error) {}];
+    
+    
 }
 
 @end
