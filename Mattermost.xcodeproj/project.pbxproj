@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
+		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
 		D696F77C1D060FDD008341AF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F77B1D060FDD008341AF /* ViewController.m */; };
@@ -20,12 +21,25 @@
 		D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79B1D061331008341AF /* KGBusinessLogic.m */; };
 		D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79F1D0614EF008341AF /* KGManagedObject.m */; };
 		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
-		D6FFFA661D072C77009B6199 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA651D072C77009B6199 /* Login.storyboard */; };
+		D6FFFA681D073553009B6199 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6FFFA671D073553009B6199 /* Login.storyboard */; };
+		D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428ED1D06DFE6008BF955 /* KGTeam.m */; };
+		D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428EF1D06DFE6008BF955 /* KGUser.m */; };
+		D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F31D06DFED008BF955 /* _KGTeam.m */; };
+		D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F51D06DFED008BF955 /* _KGUser.m */; };
+		D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */; };
+		D8B429001D07030D008BF955 /* _KGBaseEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428FF1D07030D008BF955 /* _KGBaseEntity.m */; };
+		D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429031D0712B5008BF955 /* RKResponseDescriptor+Runtime.m */; };
+		D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */; };
+		D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */; };
+		D8B429161D071969008BF955 /* KGConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429151D071969008BF955 /* KGConstants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
+		9B8229629554C9C159E8BC63 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
+		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
+		9B822E11B8EFD2FD0DCDD7CD /* _KGBaseEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGBaseEntity.h; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -48,7 +62,26 @@
 		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		D696F7A41D0615D5008341AF /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
-		D6FFFA651D072C77009B6199 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		D6FFFA671D073553009B6199 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
+		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
+		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
+		D8B428EF1D06DFE6008BF955 /* KGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGUser.m; sourceTree = "<group>"; };
+		D8B428F21D06DFED008BF955 /* _KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGTeam.h; sourceTree = "<group>"; };
+		D8B428F31D06DFED008BF955 /* _KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGTeam.m; sourceTree = "<group>"; };
+		D8B428F41D06DFED008BF955 /* _KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGUser.h; sourceTree = "<group>"; };
+		D8B428F51D06DFED008BF955 /* _KGUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGUser.m; sourceTree = "<group>"; };
+		D8B428F81D06E09F008BF955 /* KGBusinessLogic+Session.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Session.h"; sourceTree = "<group>"; };
+		D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Session.m"; sourceTree = "<group>"; };
+		D8B428FF1D07030D008BF955 /* _KGBaseEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGBaseEntity.m; sourceTree = "<group>"; };
+		D8B429021D0712B5008BF955 /* RKResponseDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKResponseDescriptor+Runtime.h"; sourceTree = "<group>"; };
+		D8B429031D0712B5008BF955 /* RKResponseDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKResponseDescriptor+Runtime.m"; sourceTree = "<group>"; };
+		D8B4290A1D0713F1008BF955 /* NSObject+MethodDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MethodDump.h"; sourceTree = "<group>"; };
+		D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MethodDump.m"; sourceTree = "<group>"; };
+		D8B4290E1D071776008BF955 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
+		D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKRequestDescriptor+Runtime.m"; sourceTree = "<group>"; };
+		D8B429141D071969008BF955 /* KGConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGConstants.h; sourceTree = "<group>"; };
+		D8B429151D071969008BF955 /* KGConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +102,26 @@
 				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9B8229E81C4A960156D4C50F /* NSError */ = {
+			isa = PBXGroup;
+			children = (
+				9B8229629554C9C159E8BC63 /* NSError+KGError.h */,
+				9B822C537DAEB1629E36B183 /* NSError+KGError.m */,
+			);
+			path = NSError;
+			sourceTree = "<group>";
+		};
+		9B822B986A41E5765DB8CD58 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				9B8229E81C4A960156D4C50F /* NSError */,
+				D8B429111D0717FB008BF955 /* NSObject */,
+				D8B4290D1D071764008BF955 /* RKRequestDescriptor */,
+				D8B429011D071290008BF955 /* RKResponseDescriptor */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		BA14FEE23A0344239A72E444 /* Pods */ = {
@@ -103,11 +156,13 @@
 			children = (
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
+				9B822B986A41E5765DB8CD58 /* Categories */,
 				D696F78F1D061099008341AF /* Model */,
 				D6AA864A1D0693EF003DF669 /* NavigationControllers */,
-				D696F79E1D061368008341AF /* Resoureces */,
+				D696F79E1D061368008341AF /* Resources */,
 				D696F79D1D061340008341AF /* Storyboards */,
 				D696F7741D060FDD008341AF /* Supporting Files */,
+				D8B429121D071846008BF955 /* Utils */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
 				D6AA864B1D069400003DF669 /* Views */,
 			);
@@ -148,6 +203,10 @@
 				D696F7941D0612E4008341AF /* KGCurrency.m */,
 				D696F7A01D0614EF008341AF /* KGManagedObject.h */,
 				D696F79F1D0614EF008341AF /* KGManagedObject.m */,
+				D8B428EC1D06DFE6008BF955 /* KGTeam.h */,
+				D8B428ED1D06DFE6008BF955 /* KGTeam.m */,
+				D8B428EE1D06DFE6008BF955 /* KGUser.h */,
+				D8B428EF1D06DFE6008BF955 /* KGUser.m */,
 			);
 			path = Human;
 			sourceTree = "<group>";
@@ -155,8 +214,14 @@
 		D696F7921D061226008341AF /* Machine */ = {
 			isa = PBXGroup;
 			children = (
+				9B822E11B8EFD2FD0DCDD7CD /* _KGBaseEntity.h */,
+				D8B428FF1D07030D008BF955 /* _KGBaseEntity.m */,
 				D696F7961D0612EA008341AF /* _KGCurrency.h */,
 				D696F7971D0612F2008341AF /* _KGCurrency.m */,
+				D8B428F21D06DFED008BF955 /* _KGTeam.h */,
+				D8B428F31D06DFED008BF955 /* _KGTeam.m */,
+				D8B428F41D06DFED008BF955 /* _KGUser.h */,
+				D8B428F51D06DFED008BF955 /* _KGUser.m */,
 			);
 			path = Machine;
 			sourceTree = "<group>";
@@ -165,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				D696F7A21D0615C2008341AF /* Error */,
+				D8B429171D07330D008BF955 /* Session */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 			);
@@ -174,20 +240,20 @@
 		D696F79D1D061340008341AF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				D6FFFA671D073553009B6199 /* Login.storyboard */,
 				D696F77D1D060FDD008341AF /* Main.storyboard */,
-				D6FFFA651D072C77009B6199 /* Login.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		D696F79E1D061368008341AF /* Resoureces */ = {
+		D696F79E1D061368008341AF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				D696F7831D060FDD008341AF /* Assets.xcassets */,
 				D696F7881D060FDD008341AF /* Info.plist */,
 				D696F7851D060FDD008341AF /* LaunchScreen.storyboard */,
 			);
-			path = Resoureces;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D696F7A21D0615C2008341AF /* Error */ = {
@@ -220,6 +286,51 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		D8B429011D071290008BF955 /* RKResponseDescriptor */ = {
+			isa = PBXGroup;
+			children = (
+				D8B429021D0712B5008BF955 /* RKResponseDescriptor+Runtime.h */,
+				D8B429031D0712B5008BF955 /* RKResponseDescriptor+Runtime.m */,
+			);
+			path = RKResponseDescriptor;
+			sourceTree = "<group>";
+		};
+		D8B4290D1D071764008BF955 /* RKRequestDescriptor */ = {
+			isa = PBXGroup;
+			children = (
+				D8B4290E1D071776008BF955 /* RKRequestDescriptor+Runtime.h */,
+				D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */,
+			);
+			path = RKRequestDescriptor;
+			sourceTree = "<group>";
+		};
+		D8B429111D0717FB008BF955 /* NSObject */ = {
+			isa = PBXGroup;
+			children = (
+				D8B4290A1D0713F1008BF955 /* NSObject+MethodDump.h */,
+				D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */,
+			);
+			path = NSObject;
+			sourceTree = "<group>";
+		};
+		D8B429121D071846008BF955 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				D8B429141D071969008BF955 /* KGConstants.h */,
+				D8B429151D071969008BF955 /* KGConstants.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		D8B429171D07330D008BF955 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				D8B428F81D06E09F008BF955 /* KGBusinessLogic+Session.h */,
+				D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,8 +394,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6FFFA681D073553009B6199 /* Login.storyboard in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
-				D6FFFA661D072C77009B6199 /* Login.storyboard in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
 				D696F77F1D060FDD008341AF /* Main.storyboard in Resources */,
 			);
@@ -343,15 +454,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D696F7A51D0615D5008341AF /* KGError.m in Sources */,
 				D696F77C1D060FDD008341AF /* ViewController.m in Sources */,
+				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
+				D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */,
+				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
 				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
 				D696F7951D0612E4008341AF /* KGCurrency.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
+				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
+				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */,
 				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
+				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
+				D8B429001D07030D008BF955 /* _KGBaseEntity.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
+				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
+				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
+				D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +588,7 @@
 			baseConfigurationReference = 2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Mattermost/Resoureces/Info.plist;
+				INFOPLIST_FILE = Mattermost/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;
@@ -479,7 +601,7 @@
 			baseConfigurationReference = 544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Mattermost/Resoureces/Info.plist;
+				INFOPLIST_FILE = Mattermost/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kilograpp.Mattermost;

@@ -10,8 +10,11 @@
 #import "KGCurrency.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import <RestKit/RestKit.h>
+#import <Objc/Runtime.h>
+#import "RKResponseDescriptor+Runtime.h"
+#import "RKRequestDescriptor+Runtime.h"
 
-static NSString *const KGAPIURL_DEV = @"http://tomcat.kilograpp.com/tripsformer-development/api/";
+static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/";
 
 @interface KGBusinessLogic ()
 
@@ -50,14 +53,16 @@ static NSString *const KGAPIURL_DEV = @"http://tomcat.kilograpp.com/tripsformer-
     if (!_defaultObjectManager) {
         NSURL *serverAddressUrl = [NSURL URLWithString:KGAPIURL_DEV];
         RKObjectManager *manager = [RKObjectManager managerWithBaseURL:serverAddressUrl];
-        
         [manager setManagedObjectStore:self.managedObjectStore];
         
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:@"Content-Type" value:@"application/json"];
         [manager.HTTPClient setDefaultHeader:@"Accept-Language" value:[self currentLocale]];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
-        [manager addResponseDescriptorsFromArray:[KGCurrency responseDescriptors]];
+        
+        [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
+        [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
+        
         [self configureAuthorizationHeaderForManager:manager];
         
         _defaultObjectManager = manager;

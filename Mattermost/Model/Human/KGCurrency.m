@@ -19,17 +19,13 @@
     return mapping;
 }
 
-+ (NSArray *)responseDescriptors {
-    NSMutableArray *responseDescriptors = [NSMutableArray array];
-    
-    [responseDescriptors addObject:[RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
-                                                                                method:RKRequestMethodGET
-                                                                           pathPattern:@"expenses/currencies"
-                                                                               keyPath:nil
-                                                                           statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]];
-    
-    return responseDescriptors.copy;
-}
 
++ (RKResponseDescriptor*)baseResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:@"expenses/currencies"
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
 
 @end
