@@ -1,28 +1,25 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGBaseEntity.h instead.
 
-#if __has_feature(modules)
-    @import Foundation;
-    @import CoreData;
-#else
-    #import <Foundation/Foundation.h>
-    #import <CoreData/CoreData.h>
-#endif
-
+@import CoreData;
 #import "KGManagedObject.h"
 
-NS_ASSUME_NONNULL_BEGIN
+extern const struct KGBaseEntityAttributes {
+	__unsafe_unretained NSString *identifier;
+} KGBaseEntityAttributes;
 
 @interface KGBaseEntityID : NSManagedObjectID {}
 @end
 
-@interface _KGBaseEntity : KGManagedObject
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
+@interface _KGBaseEntity : KGManagedObject {}
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGBaseEntityID *objectID;
+@property (nonatomic, readonly, strong) KGBaseEntityID* objectID;
 
 @property (nonatomic, strong) NSString* identifier;
+
+//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
 
 @end
 
@@ -32,9 +29,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setPrimitiveIdentifier:(NSString*)value;
 
 @end
-
-@interface KGBaseEntityAttributes: NSObject 
-+ (NSString *)identifier;
-@end
-
-NS_ASSUME_NONNULL_END

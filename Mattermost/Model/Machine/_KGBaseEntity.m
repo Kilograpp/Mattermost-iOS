@@ -3,12 +3,16 @@
 
 #import "_KGBaseEntity.h"
 
+const struct KGBaseEntityAttributes KGBaseEntityAttributes = {
+	.identifier = @"identifier",
+};
+
 @implementation KGBaseEntityID
 @end
 
 @implementation _KGBaseEntity
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"BaseEntity" inManagedObjectContext:moc_];
 }
@@ -34,11 +38,5 @@
 
 @dynamic identifier;
 
-@end
-
-@implementation KGBaseEntityAttributes 
-+ (NSString *)identifier {
-	return @"identifier";
-}
 @end
 

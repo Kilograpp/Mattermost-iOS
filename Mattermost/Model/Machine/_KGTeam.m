@@ -3,12 +3,18 @@
 
 #import "_KGTeam.h"
 
+const struct KGTeamAttributes KGTeamAttributes = {
+	.displayName = @"displayName",
+	.identifier = @"identifier",
+	.name = @"name",
+};
+
 @implementation KGTeamID
 @end
 
 @implementation _KGTeam
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Team" inManagedObjectContext:moc_];
 }
@@ -29,21 +35,38 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"identifierValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+
 	return keyPaths;
 }
 
 @dynamic displayName;
 
+@dynamic identifier;
+
+- (int64_t)identifierValue {
+	NSNumber *result = [self identifier];
+	return [result longLongValue];
+}
+
+- (void)setIdentifierValue:(int64_t)value_ {
+	[self setIdentifier:@(value_)];
+}
+
+- (int64_t)primitiveIdentifierValue {
+	NSNumber *result = [self primitiveIdentifier];
+	return [result longLongValue];
+}
+
+- (void)setPrimitiveIdentifierValue:(int64_t)value_ {
+	[self setPrimitiveIdentifier:@(value_)];
+}
+
 @dynamic name;
 
-@end
-
-@implementation KGTeamAttributes 
-+ (NSString *)displayName {
-	return @"displayName";
-}
-+ (NSString *)name {
-	return @"name";
-}
 @end
 

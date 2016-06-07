@@ -3,12 +3,19 @@
 
 #import "_KGCurrency.h"
 
+const struct KGCurrencyAttributes KGCurrencyAttributes = {
+	.base = @"base",
+	.identifier = @"identifier",
+	.rate = @"rate",
+	.title = @"title",
+};
+
 @implementation KGCurrencyID
 @end
 
 @implementation _KGCurrency
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Currency" inManagedObjectContext:moc_];
 }
@@ -87,20 +94,5 @@
 
 @dynamic title;
 
-@end
-
-@implementation KGCurrencyAttributes 
-+ (NSString *)base {
-	return @"base";
-}
-+ (NSString *)identifier {
-	return @"identifier";
-}
-+ (NSString *)rate {
-	return @"rate";
-}
-+ (NSString *)title {
-	return @"title";
-}
 @end
 
