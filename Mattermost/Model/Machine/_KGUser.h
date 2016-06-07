@@ -2,20 +2,21 @@
 // Make changes to KGUser.h instead.
 
 @import CoreData;
-#import "KGBaseEntity.h"
+#import "KGManagedObject.h"
 
 extern const struct KGUserAttributes {
 	__unsafe_unretained NSString *currentUser;
 	__unsafe_unretained NSString *email;
 	__unsafe_unretained NSString *firstName;
+	__unsafe_unretained NSString *identifier;
 	__unsafe_unretained NSString *lastName;
 	__unsafe_unretained NSString *username;
 } KGUserAttributes;
 
-@interface KGUserID : KGBaseEntityID {}
+@interface KGUserID : NSManagedObjectID {}
 @end
 
-@interface _KGUser : KGBaseEntity {}
+@interface _KGUser : KGManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -36,6 +37,14 @@ extern const struct KGUserAttributes {
 @property (nonatomic, strong) NSString* firstName;
 
 //- (BOOL)validateFirstName:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* identifier;
+
+@property (atomic) int64_t identifierValue;
+- (int64_t)identifierValue;
+- (void)setIdentifierValue:(int64_t)value_;
+
+//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* lastName;
 
@@ -60,6 +69,12 @@ extern const struct KGUserAttributes {
 
 - (NSString*)primitiveFirstName;
 - (void)setPrimitiveFirstName:(NSString*)value;
+
+- (NSNumber*)primitiveIdentifier;
+- (void)setPrimitiveIdentifier:(NSNumber*)value;
+
+- (int64_t)primitiveIdentifierValue;
+- (void)setPrimitiveIdentifierValue:(int64_t)value_;
 
 - (NSString*)primitiveLastName;
 - (void)setPrimitiveLastName:(NSString*)value;

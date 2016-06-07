@@ -2,17 +2,18 @@
 // Make changes to KGTeam.h instead.
 
 @import CoreData;
-#import "KGBaseEntity.h"
+#import "KGManagedObject.h"
 
 extern const struct KGTeamAttributes {
 	__unsafe_unretained NSString *displayName;
+	__unsafe_unretained NSString *identifier;
 	__unsafe_unretained NSString *name;
 } KGTeamAttributes;
 
-@interface KGTeamID : KGBaseEntityID {}
+@interface KGTeamID : NSManagedObjectID {}
 @end
 
-@interface _KGTeam : KGBaseEntity {}
+@interface _KGTeam : KGManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -21,6 +22,14 @@ extern const struct KGTeamAttributes {
 @property (nonatomic, strong) NSString* displayName;
 
 //- (BOOL)validateDisplayName:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* identifier;
+
+@property (atomic) int64_t identifierValue;
+- (int64_t)identifierValue;
+- (void)setIdentifierValue:(int64_t)value_;
+
+//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* name;
 
@@ -32,6 +41,12 @@ extern const struct KGTeamAttributes {
 
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;
+
+- (NSNumber*)primitiveIdentifier;
+- (void)setPrimitiveIdentifier:(NSNumber*)value;
+
+- (int64_t)primitiveIdentifierValue;
+- (void)setPrimitiveIdentifierValue:(int64_t)value_;
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;

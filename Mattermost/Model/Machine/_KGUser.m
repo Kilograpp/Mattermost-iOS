@@ -7,6 +7,7 @@ const struct KGUserAttributes KGUserAttributes = {
 	.currentUser = @"currentUser",
 	.email = @"email",
 	.firstName = @"firstName",
+	.identifier = @"identifier",
 	.lastName = @"lastName",
 	.username = @"username",
 };
@@ -42,6 +43,11 @@ const struct KGUserAttributes KGUserAttributes = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"identifierValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -69,6 +75,26 @@ const struct KGUserAttributes KGUserAttributes = {
 @dynamic email;
 
 @dynamic firstName;
+
+@dynamic identifier;
+
+- (int64_t)identifierValue {
+	NSNumber *result = [self identifier];
+	return [result longLongValue];
+}
+
+- (void)setIdentifierValue:(int64_t)value_ {
+	[self setIdentifier:@(value_)];
+}
+
+- (int64_t)primitiveIdentifierValue {
+	NSNumber *result = [self primitiveIdentifier];
+	return [result longLongValue];
+}
+
+- (void)setPrimitiveIdentifierValue:(int64_t)value_ {
+	[self setPrimitiveIdentifier:@(value_)];
+}
 
 @dynamic lastName;
 
