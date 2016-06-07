@@ -9,6 +9,10 @@
         <attribute name="rate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="Team" representedClassName="KGTeam" parentEntity="BaseEntity" syncable="YES">
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="User" representedClassName="KGUser" parentEntity="BaseEntity" syncable="YES">
         <attribute name="currentUser" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
@@ -18,6 +22,7 @@
     </entity>
     <elements>
         <element name="Currency" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="Team" positionX="-434" positionY="-27" width="128" height="73"/>
         <element name="User" positionX="-918" positionY="-54" width="128" height="118"/>
         <element name="BaseEntity" positionX="-416" positionY="-207" width="128" height="58"/>
     </elements>
