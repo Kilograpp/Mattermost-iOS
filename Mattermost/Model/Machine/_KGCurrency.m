@@ -36,13 +36,13 @@ const struct KGCurrencyAttributes KGCurrencyAttributes = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
-	if ([key isEqualToString:@"baseValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"base"];
+	if ([key isEqualToString:@"identifierValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"identifierValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
+	if ([key isEqualToString:@"rateValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"rate"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -51,24 +51,6 @@ const struct KGCurrencyAttributes KGCurrencyAttributes = {
 }
 
 @dynamic base;
-
-- (float)baseValue {
-	NSNumber *result = [self base];
-	return [result floatValue];
-}
-
-- (void)setBaseValue:(float)value_ {
-	[self setBase:@(value_)];
-}
-
-- (float)primitiveBaseValue {
-	NSNumber *result = [self primitiveBase];
-	return [result floatValue];
-}
-
-- (void)setPrimitiveBaseValue:(float)value_ {
-	[self setPrimitiveBase:@(value_)];
-}
 
 @dynamic identifier;
 
@@ -91,6 +73,24 @@ const struct KGCurrencyAttributes KGCurrencyAttributes = {
 }
 
 @dynamic rate;
+
+- (float)rateValue {
+	NSNumber *result = [self rate];
+	return [result floatValue];
+}
+
+- (void)setRateValue:(float)value_ {
+	[self setRate:@(value_)];
+}
+
+- (float)primitiveRateValue {
+	NSNumber *result = [self primitiveRate];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveRateValue:(float)value_ {
+	[self setPrimitiveRate:@(value_)];
+}
 
 @dynamic title;
 

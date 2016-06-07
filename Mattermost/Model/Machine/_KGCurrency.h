@@ -20,11 +20,7 @@ extern const struct KGCurrencyAttributes {
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGCurrencyID* objectID;
 
-@property (nonatomic, strong) NSNumber* base;
-
-@property (atomic) float baseValue;
-- (float)baseValue;
-- (void)setBaseValue:(float)value_;
+@property (nonatomic, strong) NSString* base;
 
 //- (BOOL)validateBase:(id*)value_ error:(NSError**)error_;
 
@@ -36,7 +32,11 @@ extern const struct KGCurrencyAttributes {
 
 //- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* rate;
+@property (nonatomic, strong) NSNumber* rate;
+
+@property (atomic) float rateValue;
+- (float)rateValue;
+- (void)setRateValue:(float)value_;
 
 //- (BOOL)validateRate:(id*)value_ error:(NSError**)error_;
 
@@ -48,11 +48,8 @@ extern const struct KGCurrencyAttributes {
 
 @interface _KGCurrency (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveBase;
-- (void)setPrimitiveBase:(NSNumber*)value;
-
-- (float)primitiveBaseValue;
-- (void)setPrimitiveBaseValue:(float)value_;
+- (NSString*)primitiveBase;
+- (void)setPrimitiveBase:(NSString*)value;
 
 - (NSNumber*)primitiveIdentifier;
 - (void)setPrimitiveIdentifier:(NSNumber*)value;
@@ -60,8 +57,11 @@ extern const struct KGCurrencyAttributes {
 - (int64_t)primitiveIdentifierValue;
 - (void)setPrimitiveIdentifierValue:(int64_t)value_;
 
-- (NSString*)primitiveRate;
-- (void)setPrimitiveRate:(NSString*)value;
+- (NSNumber*)primitiveRate;
+- (void)setPrimitiveRate:(NSNumber*)value;
+
+- (float)primitiveRateValue;
+- (void)setPrimitiveRateValue:(float)value_;
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
