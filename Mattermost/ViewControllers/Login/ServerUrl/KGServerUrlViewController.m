@@ -21,6 +21,8 @@
 
 @implementation KGServerUrlViewController
 
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -31,6 +33,13 @@
     [self setupTextfield];
     [self configureLabels];
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.textField becomeFirstResponder];
+}
+
 
 #pragma mark - Setup 
 
@@ -61,7 +70,7 @@
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
     self.textField.placeholder = @"https://matttermost.example.com";
-    [self.textField becomeFirstResponder];
+    self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 
