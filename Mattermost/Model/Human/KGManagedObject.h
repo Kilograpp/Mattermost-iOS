@@ -7,6 +7,7 @@
 //
 
 #import <CoreData/CoreData.h>
+#import <RKObjectMapping.h>
 @class RKEntityMapping, RKObjectMapping;
 
 @protocol KGShareble <NSObject>
@@ -24,5 +25,6 @@
 + (RKEntityMapping *)entityMapping;
 + (NSArray *)responseDescriptors;
 + (RKObjectMapping *)requestMapping;
++ (RKEntityMapping *)emptyEntityMapping;
 
 @end
