@@ -33,7 +33,7 @@ extern NSString * const KGAuthTokenHeaderName;
 }
 
 - (KGUser*)currentUser {
-    return [KGUser MR_findFirstByAttribute:@"currentUser" withValue:@YES inContext:[NSManagedObjectContext MR_defaultContext]];
+    return [KGUser MR_findFirstByAttribute:@"currentUser" withValue:@YES];
 }
 
 - (BOOL)isSignedIn {
