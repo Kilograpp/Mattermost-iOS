@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
+		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
 		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
 		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
@@ -46,6 +48,10 @@
 
 /* Begin PBXFileReference section */
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
+		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
+		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
+		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
+		41FC94B81D07FAA5009E1090 /* KGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTextField.m; sourceTree = "<group>"; };
 		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
 		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
@@ -132,6 +138,33 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		41FC94B11D07FA6C009E1090 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				41FC94B61D07FA8C009E1090 /* TextField */,
+				41FC94B21D07FA73009E1090 /* Button */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		41FC94B21D07FA73009E1090 /* Button */ = {
+			isa = PBXGroup;
+			children = (
+				41FC94B31D07FA87009E1090 /* KGButton.h */,
+				41FC94B41D07FA87009E1090 /* KGButton.m */,
+			);
+			name = Button;
+			sourceTree = "<group>";
+		};
+		41FC94B61D07FA8C009E1090 /* TextField */ = {
+			isa = PBXGroup;
+			children = (
+				41FC94B71D07FAA5009E1090 /* KGTextField.h */,
+				41FC94B81D07FAA5009E1090 /* KGTextField.m */,
+			);
+			name = TextField;
+			sourceTree = "<group>";
+		};
 		9B82261E84449FAA9ABDE609 /* UIFont */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +237,7 @@
 		D696F7731D060FDD008341AF /* Mattermost */ = {
 			isa = PBXGroup;
 			children = (
+				41FC94B11D07FA6C009E1090 /* View */,
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
 				9B822B986A41E5765DB8CD58 /* Categories */,
@@ -582,6 +616,7 @@
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
 				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
 				D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */,
+				41FC94B51D07FA87009E1090 /* KGButton.m in Sources */,
 				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
 				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
 				D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */,
@@ -592,6 +627,7 @@
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
+				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
 				D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */,
 				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,

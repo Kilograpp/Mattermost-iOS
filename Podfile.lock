@@ -6,6 +6,7 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
+  - Masonry (1.0.1)
   - RestKit (0.26.0):
     - RestKit/Core (= 0.26.0)
   - RestKit/Core (0.26.0):
@@ -32,6 +33,7 @@ PODS:
 DEPENDENCIES:
   - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
   - MagicalRecord
+  - Masonry
   - RestKit
 
 EXTERNAL SOURCES:
@@ -48,6 +50,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 7d0926d5391b99b842ccc6367b849dd1975c8bf9
   ISO8601DateFormatterValueTransformer: 52da467d6ec899d6aedda8e48280ac92e8ee97e6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   RestKit: 112fba5bd1f97598aac0db7981863d5fdc0263a2
   RKValueTransformers: e5ed67e3811229b616fe01bddeeafe3bb337b1b9
   SOCKit: c7376ac262bea9115b8f749358f762522a47d392
