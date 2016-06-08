@@ -13,6 +13,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class KGChannel;
+
 @interface KGTeamID : NSManagedObjectID {}
 @end
 
@@ -30,13 +32,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* displayName;
 
-@property (nonatomic, strong, nullable) NSNumber* identifier;
-
-@property (atomic) int64_t identifierValue;
-- (int64_t)identifierValue;
-- (void)setIdentifierValue:(int64_t)value_;
+@property (nonatomic, strong, nullable) NSString* identifier;
 
 @property (nonatomic, strong, nullable) NSString* name;
+
+@property (nonatomic, strong, nullable) NSSet<KGChannel*> *channels;
+- (nullable NSMutableSet<KGChannel*>*)channelsSet;
+
+@end
+
+@interface _KGTeam (ChannelsCoreDataGeneratedAccessors)
+- (void)addChannels:(NSSet<KGChannel*>*)value_;
+- (void)removeChannels:(NSSet<KGChannel*>*)value_;
+- (void)addChannelsObject:(KGChannel*)value_;
+- (void)removeChannelsObject:(KGChannel*)value_;
 
 @end
 
@@ -51,14 +60,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;
 
-- (NSNumber*)primitiveIdentifier;
-- (void)setPrimitiveIdentifier:(NSNumber*)value;
-
-- (int64_t)primitiveIdentifierValue;
-- (void)setPrimitiveIdentifierValue:(int64_t)value_;
+- (NSString*)primitiveIdentifier;
+- (void)setPrimitiveIdentifier:(NSString*)value;
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
+
+- (NSMutableSet<KGChannel*>*)primitiveChannels;
+- (void)setPrimitiveChannels:(NSMutableSet<KGChannel*>*)value;
 
 @end
 
@@ -67,6 +76,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)displayName;
 + (NSString *)identifier;
 + (NSString *)name;
+@end
+
+@interface KGTeamRelationships: NSObject
++ (NSString *)channels;
 @end
 
 NS_ASSUME_NONNULL_END
