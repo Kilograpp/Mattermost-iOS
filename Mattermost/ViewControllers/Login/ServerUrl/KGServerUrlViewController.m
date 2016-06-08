@@ -17,7 +17,6 @@
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *promtLabel;
 @property (weak, nonatomic) IBOutlet KGTextField *textField;
 
@@ -32,8 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
     [self setupTitleLabel];
-    [self setupSubtitleLabel];
     [self setupPromtLabel];
     [self setupNextButton];
     [self setupTextfield];
@@ -54,11 +53,6 @@
     self.titleLabel.textColor = [UIColor kg_blackColor];
 }
 
-- (void)setupSubtitleLabel {
-    self.subtitleLabel.font = [UIFont kg_light18Font];
-    self.subtitleLabel.textColor = [UIColor kg_grayColor];
-}
-
 - (void)setupPromtLabel {
     self.promtLabel.font = [UIFont kg_regular14Font];
     self.promtLabel.textColor = [UIColor kg_grayColor];
@@ -70,10 +64,12 @@
     [self.nextButton setTitle:NSLocalizedString(@"Next", nil) forState:UIControlStateNormal];
     [self.nextButton setTintColor:[UIColor whiteColor]];
     self.nextButton.titleLabel.font = [UIFont kg_regular16Font];
+    self.nextButton.enabled = NO;
 }
 
 - (void)setupTextfield {
 
+    self.textField.delegate = self;
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
     self.textField.placeholder = @"https://matttermost.example.com";
@@ -88,14 +84,18 @@
 
 - (void)configureLabels {
     self.titleLabel.text = @"Mattermost";
-    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere";
     self.promtLabel.text = @"Team server URL";
 }
 
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
+    
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
+}
+
+- (IBAction)textChangeAction:(id)sender {
+    self.nextButton.enabled = (self.textField.text.length > 0) ? YES : NO;
 }
 
 

@@ -13,17 +13,16 @@
 #import "KGButton.h"
 #import "KGTextField.h"
 #import "KGBusinessLogic+Session.h"
+#import "NSString+Validation.h"
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *loginPromtLabel;
 @property (weak, nonatomic) IBOutlet UILabel *passwordPromtLabel;
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
-
 
 @end
 
@@ -37,7 +36,6 @@
     
     [self setup];
     [self setupTitleLabel];
-    [self setupSubtitleLabel];
     [self setupPromtLabels];
     [self setupLoginButton];
     [self setupRecoveryButton];
@@ -64,11 +62,6 @@
     self.titleLabel.textColor = [UIColor kg_blackColor];
 }
 
-- (void)setupSubtitleLabel {
-    self.subtitleLabel.font = [UIFont kg_light18Font];
-    self.subtitleLabel.textColor = [UIColor kg_grayColor];
-}
-
 - (void)setupPromtLabels {
     self.loginPromtLabel.font = [UIFont kg_regular14Font];
     self.loginPromtLabel.textColor = [UIColor kg_grayColor];
@@ -84,6 +77,7 @@
     [self.loginButton setTintColor:[UIColor whiteColor]];
     self.loginButton.titleLabel.font = [UIFont kg_regular16Font];
     self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.loginButton.enabled = NO;
 }
 
 - (void)setupRecoveryButton {
@@ -97,6 +91,7 @@
 
 - (void)setupLoginTextfield {
 
+    self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
     self.loginTextField.placeholder = @"your_name@example.com";
@@ -106,6 +101,7 @@
 
 - (void)setupPasswordTextField {
 
+    self.passwordTextField.delegate = self;
     self.passwordTextField.textColor = [UIColor kg_blackColor];
     self.passwordTextField.font = [UIFont kg_regular16Font];
     self.passwordTextField.placeholder = @"password";
@@ -121,7 +117,6 @@
 
 - (void)configureLabels {
     self.titleLabel.text = @"Mattermost";
-    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere";
     self.loginPromtLabel.text = @"Email";
     self.passwordPromtLabel.text = @"Password";
 }
@@ -130,12 +125,32 @@
 #pragma mark - Actions
 
 - (IBAction)loginAction:(id)sender {
-    [self login];
+    if ([self.loginTextField.text kg_isValidEmail]){
+        [self login];
+        
+    } else{
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"incorrect email" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
+        [alert show];
+    }
 }
 
 - (IBAction)recoveryAction:(id)sender {
 }
 
+- (IBAction)loginChangeAction:(id)sender {
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0){
+        self.loginButton.enabled = YES;
+    } else {
+        self.loginButton.enabled = NO;
+    }
+}
+- (IBAction)passwordChangeAction:(id)sender {
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0){
+        self.loginButton.enabled = YES;
+    } else {
+        self.loginButton.enabled = NO;
+    }
+}
 
 #pragma mark - Requests
 
@@ -145,12 +160,13 @@
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         NSString *title = error ? @"Error" : @"Success";
         if (error){
-//            [self.loginTextField highlightForError];
-//            [self.passwordTextField highlightForError];
+            [self processError:error];
             [self highlightTextFieldsForError];
         }
+        else {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
         [alert show];
+        }
     }];
 }
 
