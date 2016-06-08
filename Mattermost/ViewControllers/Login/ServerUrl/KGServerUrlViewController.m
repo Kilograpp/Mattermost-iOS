@@ -10,6 +10,7 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGConstants.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -38,6 +39,18 @@
     [super viewDidAppear:animated];
     
     [self.textField becomeFirstResponder];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
 }
 
 
