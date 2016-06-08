@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="P8H-Ls-CA8">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="P8H-Ls-CA8">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -42,29 +42,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQC-AE-JmK">
-                                <rect key="frame" x="19" y="207" width="338" height="24"/>
+                                <rect key="frame" x="19" y="203" width="338" height="24"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtE-p2-Eq9">
-                                <rect key="frame" x="19" y="239" width="338" height="21"/>
+                                <rect key="frame" x="19" y="235" width="338" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hS3-Od-NCr">
-                                <rect key="frame" x="19" y="274" width="338" height="21"/>
+                                <rect key="frame" x="19" y="270" width="338" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pl0-5n-46T">
-                                <rect key="frame" x="19" y="303" width="338" height="22"/>
-                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXN-ab-lLX">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXN-ab-lLX" customClass="KGButton">
                                 <rect key="frame" x="19" y="344" width="338" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="IEd-HR-gmf"/>
@@ -75,6 +70,14 @@
                                     <segue destination="Iuf-tQ-ZQM" kind="show" id="q0v-PV-jBO"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="textfield" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pl0-5n-46T" customClass="KGTextField">
+                                <rect key="frame" x="19" y="299" width="338" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1Gl-Nj-etJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -106,10 +109,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="9tY-am-fCU"/>
                     <connections>
-                        <outlet property="nextButton" destination="kXN-ab-lLX" id="Sjg-Qs-rLb"/>
+                        <outlet property="nextButton" destination="kXN-ab-lLX" id="Jbm-Uv-UWA"/>
                         <outlet property="promtLabel" destination="hS3-Od-NCr" id="LfT-Gj-Rve"/>
                         <outlet property="subtitleLabel" destination="NtE-p2-Eq9" id="RkP-Fr-rpy"/>
-                        <outlet property="textField" destination="Pl0-5n-46T" id="lTL-dc-UZn"/>
+                        <outlet property="textField" destination="Pl0-5n-46T" id="B1g-sj-Vkg"/>
                         <outlet property="titleLabel" destination="eQC-AE-JmK" id="Zcb-HF-XI4"/>
                     </connections>
                 </viewController>
@@ -130,35 +133,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPM-Op-0Zd">
-                                <rect key="frame" x="19" y="176" width="337" height="21"/>
+                                <rect key="frame" x="19" y="186" width="337" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kr8-oT-WmY">
-                                <rect key="frame" x="19" y="205" width="337" height="21"/>
+                                <rect key="frame" x="19" y="215" width="337" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWl-fL-8cW">
-                                <rect key="frame" x="19" y="234" width="337" height="21"/>
+                                <rect key="frame" x="19" y="244" width="337" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WHu-EL-EdS">
-                                <rect key="frame" x="19" y="263" width="337" height="20"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="textField" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="32I-Ix-LnB" customClass="KGTextField">
+                                <rect key="frame" x="19" y="344" width="337" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="D8q-Pq-QPA"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="32I-Ix-LnB">
-                                <rect key="frame" x="19" y="324" width="337" height="20"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAr-eG-x93">
-                                <rect key="frame" x="19" y="352" width="46" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAr-eG-x93" customClass="KGButton">
+                                <rect key="frame" x="19" y="382" width="54" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Gle-rj-Mpo"/>
                                 </constraints>
@@ -167,19 +168,34 @@
                                     <action selector="loginAction:" destination="Iuf-tQ-ZQM" eventType="touchUpInside" id="JE5-ry-qWN"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moc-K2-dbE">
-                                <rect key="frame" x="310" y="352" width="46" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="moc-K2-dbE">
+                                <rect key="frame" x="302" y="382" width="54" height="40"/>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="recoveryAction:" destination="Iuf-tQ-ZQM" eventType="touchUpInside" id="l14-vt-a43"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92z-15-WOD">
-                                <rect key="frame" x="19" y="295" width="337" height="21"/>
+                                <rect key="frame" x="19" y="315" width="337" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uWy-UU-6fx">
+                                <rect key="frame" x="36" y="462" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="logOutAction:" destination="Iuf-tQ-ZQM" eventType="touchUpInside" id="rIG-RL-Fu7"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="textField" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WHu-EL-EdS" customClass="KGTextField">
+                                <rect key="frame" x="19" y="273" width="337" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="0MR-xc-ESL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -199,7 +215,7 @@
                             <constraint firstItem="ZAr-eG-x93" firstAttribute="leading" secondItem="32I-Ix-LnB" secondAttribute="leading" id="bJj-cG-PdM"/>
                             <constraint firstItem="moc-K2-dbE" firstAttribute="centerY" secondItem="ZAr-eG-x93" secondAttribute="centerY" id="ddx-8U-4H6"/>
                             <constraint firstItem="moc-K2-dbE" firstAttribute="height" secondItem="ZAr-eG-x93" secondAttribute="height" id="gDV-4k-0i7"/>
-                            <constraint firstItem="32I-Ix-LnB" firstAttribute="centerY" secondItem="05d-AE-RJ2" secondAttribute="centerY" id="mti-2R-xiJ"/>
+                            <constraint firstItem="32I-Ix-LnB" firstAttribute="centerY" secondItem="05d-AE-RJ2" secondAttribute="centerY" constant="25" id="mti-2R-xiJ"/>
                             <constraint firstItem="Kr8-oT-WmY" firstAttribute="top" secondItem="PPM-Op-0Zd" secondAttribute="bottom" constant="8" id="p6l-rI-XvA"/>
                             <constraint firstItem="32I-Ix-LnB" firstAttribute="top" secondItem="92z-15-WOD" secondAttribute="bottom" constant="8" id="sIs-hU-3eI"/>
                             <constraint firstItem="WHu-EL-EdS" firstAttribute="trailing" secondItem="32I-Ix-LnB" secondAttribute="trailing" id="sif-ob-rcp"/>
@@ -209,11 +225,11 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="loginButton" destination="ZAr-eG-x93" id="NA8-ev-JF7"/>
+                        <outlet property="loginButton" destination="ZAr-eG-x93" id="fVN-ba-Sap"/>
                         <outlet property="loginPromtLabel" destination="aWl-fL-8cW" id="sJF-x5-MYp"/>
-                        <outlet property="loginTextField" destination="WHu-EL-EdS" id="f0U-Jd-0O0"/>
+                        <outlet property="loginTextField" destination="WHu-EL-EdS" id="rTD-In-Q1h"/>
                         <outlet property="passwordPromtLabel" destination="92z-15-WOD" id="RYN-pD-Feq"/>
-                        <outlet property="passwordTextField" destination="32I-Ix-LnB" id="7Mq-O3-E0S"/>
+                        <outlet property="passwordTextField" destination="32I-Ix-LnB" id="wX4-tA-nHW"/>
                         <outlet property="recoveryButton" destination="moc-K2-dbE" id="rxp-Zy-Oeh"/>
                         <outlet property="subtitleLabel" destination="Kr8-oT-WmY" id="zvF-sl-Rkb"/>
                         <outlet property="titleLabel" destination="PPM-Op-0Zd" id="viN-cL-9Nz"/>

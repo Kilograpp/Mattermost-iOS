@@ -10,16 +10,20 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGConstants.h"
+#import "KGButton.h"
+#import "KGTextField.h"
+#import "KGBusinessLogic+Session.h"
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *loginPromtLabel;
 @property (weak, nonatomic) IBOutlet UILabel *passwordPromtLabel;
-@property (weak, nonatomic) IBOutlet UITextField *loginTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet KGButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
+@property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
+@property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
+
 
 @end
 
@@ -87,10 +91,12 @@
     self.recoveryButton.backgroundColor = [UIColor kg_whiteColor];
     [self.recoveryButton setTitle:NSLocalizedString(@"I forgot password", nil) forState:UIControlStateNormal];
     [self.recoveryButton setTintColor:[UIColor kg_blueColor]];
+    [self.recoveryButton setTitleColor:[UIColor kg_blueColor] forState:UIControlStateNormal];
     self.recoveryButton.titleLabel.font = [UIFont kg_regular16Font];
 }
 
 - (void)setupLoginTextfield {
+
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
     self.loginTextField.placeholder = @"your_name@example.com";
@@ -99,6 +105,7 @@
 }
 
 - (void)setupPasswordTextField {
+
     self.passwordTextField.textColor = [UIColor kg_blackColor];
     self.passwordTextField.font = [UIFont kg_regular16Font];
     self.passwordTextField.placeholder = @"password";
@@ -106,6 +113,9 @@
     self.passwordTextField.secureTextEntry = YES;
 }
 
+- (IBAction)logOutAction:(id)sender {
+    [[KGBusinessLogic sharedInstance] signOut];
+}
 
 #pragma mark - Configuration
 
@@ -120,9 +130,29 @@
 #pragma mark - Actions
 
 - (IBAction)loginAction:(id)sender {
+    [self login];
 }
 
 - (IBAction)recoveryAction:(id)sender {
 }
+
+
+#pragma mark - Requests
+
+- (void)login {
+    NSString * login = self.loginTextField.text;
+    NSString * password = self.passwordTextField.text;
+    [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
+        NSString *title = error ? @"Error" : @"Success";
+        if (error){
+//            [self.loginTextField highlightForError];
+//            [self.passwordTextField highlightForError];
+            [self highlightTextFieldsForError];
+        }
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
+        [alert show];
+    }];
+}
+
 
 @end
