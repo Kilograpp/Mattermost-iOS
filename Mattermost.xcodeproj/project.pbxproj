@@ -78,7 +78,7 @@
 		D696F7961D0612EA008341AF /* _KGCurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _KGCurrency.h; sourceTree = "<group>"; };
 		D696F7971D0612F2008341AF /* _KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGCurrency.m; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
-		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
+		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGBusinessLogic.m; path = BusinessLogic/KGBusinessLogic.m; sourceTree = "<group>"; };
 		D696F79F1D0614EF008341AF /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
 		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
@@ -240,9 +240,10 @@
 				41FC94B11D07FA6C009E1090 /* View */,
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
-				9B822B986A41E5765DB8CD58 /* Categories */,
+				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 				D696F78F1D061099008341AF /* Model */,
 				D6C154D31D0756DC00B053CE /* NavigationControllers */,
+				9B822B986A41E5765DB8CD58 /* Categories */,
 				D696F79E1D061368008341AF /* Resources */,
 				D696F79D1D061340008341AF /* Storyboards */,
 				D696F7741D060FDD008341AF /* Supporting Files */,
@@ -316,7 +317,6 @@
 				D8B429171D07330D008BF955 /* Session */,
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
-				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";

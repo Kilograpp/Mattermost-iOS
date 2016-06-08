@@ -27,7 +27,7 @@ extern NSString * const KGAuthTokenHeaderName;
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if(completion) {
-            completion([error kg_error]);
+            completion([KGError errorWithNSError:error]);
         }
     }];
 }
