@@ -12,6 +12,7 @@
 #import "KGConstants.h"
 #import "KGButton.h"
 #import "KGTextField.h"
+#import "KGPreferences.h"
 
 
 @interface KGServerUrlViewController ()
@@ -94,6 +95,7 @@
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
+    [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
 }
 
 
