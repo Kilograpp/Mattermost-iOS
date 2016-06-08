@@ -8,6 +8,6 @@
 
 #import "KGViewController.h"
 
-@interface KGLoginBaseViewController : KGViewController
-
+@interface KGLoginBaseViewController : KGViewController <UITextFieldDelegate>
+- (void)highlightTextFieldsForError;
 @end

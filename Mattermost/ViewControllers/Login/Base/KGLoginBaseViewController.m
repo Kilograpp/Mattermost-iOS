@@ -7,16 +7,19 @@
 //
 
 #import "KGLoginBaseViewController.h"
-
-@interface KGLoginBaseViewController ()
+#import "KGTextField.h"
+#import "UIColor+KGPreparedColor.h"
+@interface KGLoginBaseViewController () 
 
 @end
 
 @implementation KGLoginBaseViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +27,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)highlightTextFieldsForError {
+    for (UIView *v in self.view.subviews){
+        if ([v isKindOfClass:[KGTextField class]]){
+            KGTextField *textField = v;
+            textField.underlineView.backgroundColor = [UIColor kg_redColor];
+        }
+    }
 }
-*/
 
+
+#pragma mark - UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    if ([textField isKindOfClass:[KGTextField class]]){
+        KGTextField *customTextField = textField;
+        customTextField.underlineView.backgroundColor = [UIColor kg_blueColor];
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if ([textField isKindOfClass:[KGTextField class]]){
+        KGTextField *customTextField = textField;
+        customTextField.underlineView.backgroundColor = [UIColor kg_lightGrayColor];
+    }
+}
 @end

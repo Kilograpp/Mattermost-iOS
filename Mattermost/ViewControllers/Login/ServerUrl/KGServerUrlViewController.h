@@ -6,8 +6,8 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "KGViewController.h"
+#import "KGLoginBaseViewController.h"
 
-@interface KGServerUrlViewController : KGViewController
+@interface KGServerUrlViewController : KGLoginBaseViewController
 
 @end

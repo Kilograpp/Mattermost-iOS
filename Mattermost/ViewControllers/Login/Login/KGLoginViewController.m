@@ -113,6 +113,9 @@
     self.passwordTextField.secureTextEntry = YES;
 }
 
+- (IBAction)logOutAction:(id)sender {
+    [[KGBusinessLogic sharedInstance] signOut];
+}
 
 #pragma mark - Configuration
 
@@ -141,9 +144,15 @@
     NSString * password = self.passwordTextField.text;
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         NSString *title = error ? @"Error" : @"Success";
+        if (error){
+//            [self.loginTextField highlightForError];
+//            [self.passwordTextField highlightForError];
+            [self highlightTextFieldsForError];
+        }
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
         [alert show];
     }];
 }
+
 
 @end
