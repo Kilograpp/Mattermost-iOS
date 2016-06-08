@@ -18,6 +18,7 @@
 		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
 		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
 		9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C6FC588149134FF2451 /* Login.storyboard */; };
+		9B822BDCA6EA4620FAAE34D6 /* NSObject+ListProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -63,6 +64,7 @@
 		9B82276635BE51FB6CAFF1A9 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Preferences.plist; sourceTree = "<group>"; };
 		9B82282B314DA6557A5AA0DD /* KGPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPreferences.h; sourceTree = "<group>"; };
 		9B822841FBC403ADD0E34F6B /* UIFont+KGPreparedFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+KGPreparedFont.h"; sourceTree = "<group>"; };
+		9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ListProperties.m"; sourceTree = "<group>"; };
 		9B8229629554C9C159E8BC63 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
 		9B822A262E677040DD4EF48D /* KGPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPreferences.m; sourceTree = "<group>"; };
 		9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
+		9B822E4DC3786A5C93FF79EC /* NSObject+ListProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ListProperties.h"; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 			children = (
 				D8B4290A1D0713F1008BF955 /* NSObject+MethodDump.h */,
 				D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */,
+				9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */,
+				9B822E4DC3786A5C93FF79EC /* NSObject+ListProperties.h */,
 			);
 			path = NSObject;
 			sourceTree = "<group>";
@@ -656,6 +661,7 @@
 				9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
+				9B822BDCA6EA4620FAAE34D6 /* NSObject+ListProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
