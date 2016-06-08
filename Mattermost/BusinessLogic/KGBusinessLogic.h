@@ -17,8 +17,4 @@
 @property (strong, nonatomic, readonly) RKObjectManager *defaultObjectManager;
 @property (nonatomic, strong, readonly) RKManagedObjectStore *managedObjectStore;
 
-
-
-- (void)loadCurrenciesWithCompletion:(void (^)(NSArray *currencies, KGError *error))completion;
-
 @end
