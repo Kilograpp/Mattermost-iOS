@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
+		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
 		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
 		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
 		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
@@ -52,6 +53,8 @@
 		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
 		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
 		41FC94B81D07FAA5009E1090 /* KGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTextField.m; sourceTree = "<group>"; };
+		41FC94BB1D081F1F009E1090 /* KGLoginBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginBaseViewController.h; sourceTree = "<group>"; };
+		41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginBaseViewController.m; sourceTree = "<group>"; };
 		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
 		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
@@ -78,7 +81,7 @@
 		D696F7961D0612EA008341AF /* _KGCurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _KGCurrency.h; sourceTree = "<group>"; };
 		D696F7971D0612F2008341AF /* _KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGCurrency.m; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
-		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGBusinessLogic.m; path = BusinessLogic/KGBusinessLogic.m; sourceTree = "<group>"; };
+		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
 		D696F79F1D0614EF008341AF /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
 		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
@@ -91,10 +94,10 @@
 		D6C154CD1D0755A800B053CE /* KGLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginViewController.m; sourceTree = "<group>"; };
 		D6C154D01D07560900B053CE /* UIColor+KGPreparedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+KGPreparedColor.h"; sourceTree = "<group>"; };
 		D6C154D11D07560900B053CE /* UIColor+KGPreparedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+KGPreparedColor.m"; sourceTree = "<group>"; };
-		D6C154D61D07570B00B053CE /* KGNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGNavigationController.h; path = NavigationControllers/Base/KGNavigationController.h; sourceTree = "<group>"; };
-		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGNavigationController.m; path = NavigationControllers/Base/KGNavigationController.m; sourceTree = "<group>"; };
-		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGLoginNavigationController.h; path = NavigationControllers/Login/KGLoginNavigationController.h; sourceTree = "<group>"; };
-		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGLoginNavigationController.m; path = NavigationControllers/Login/KGLoginNavigationController.m; sourceTree = "<group>"; };
+		D6C154D61D07570B00B053CE /* KGNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGNavigationController.h; sourceTree = "<group>"; };
+		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNavigationController.m; sourceTree = "<group>"; };
+		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginNavigationController.h; sourceTree = "<group>"; };
+		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginNavigationController.m; sourceTree = "<group>"; };
 		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
 		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
 		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
@@ -141,10 +144,10 @@
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				41FC94B61D07FA8C009E1090 /* TextField */,
 				41FC94B21D07FA73009E1090 /* Button */,
+				41FC94B61D07FA8C009E1090 /* TextField */,
 			);
-			name = View;
+			path = View;
 			sourceTree = "<group>";
 		};
 		41FC94B21D07FA73009E1090 /* Button */ = {
@@ -153,7 +156,7 @@
 				41FC94B31D07FA87009E1090 /* KGButton.h */,
 				41FC94B41D07FA87009E1090 /* KGButton.m */,
 			);
-			name = Button;
+			path = Button;
 			sourceTree = "<group>";
 		};
 		41FC94B61D07FA8C009E1090 /* TextField */ = {
@@ -162,7 +165,16 @@
 				41FC94B71D07FAA5009E1090 /* KGTextField.h */,
 				41FC94B81D07FAA5009E1090 /* KGTextField.m */,
 			);
-			name = TextField;
+			path = TextField;
+			sourceTree = "<group>";
+		};
+		41FC94BA1D081EC8009E1090 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				41FC94BB1D081F1F009E1090 /* KGLoginBaseViewController.h */,
+				41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		9B82261E84449FAA9ABDE609 /* UIFont */ = {
@@ -237,18 +249,18 @@
 		D696F7731D060FDD008341AF /* Mattermost */ = {
 			isa = PBXGroup;
 			children = (
-				41FC94B11D07FA6C009E1090 /* View */,
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
-				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
+				9B822B986A41E5765DB8CD58 /* Categories */,
 				D696F78F1D061099008341AF /* Model */,
 				D6C154D31D0756DC00B053CE /* NavigationControllers */,
-				9B822B986A41E5765DB8CD58 /* Categories */,
 				D696F79E1D061368008341AF /* Resources */,
 				D696F79D1D061340008341AF /* Storyboards */,
 				D696F7741D060FDD008341AF /* Supporting Files */,
 				D8B429121D071846008BF955 /* Utils */,
+				41FC94B11D07FA6C009E1090 /* View */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
+				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -370,6 +382,7 @@
 		D6C154C31D07556600B053CE /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				41FC94BA1D081EC8009E1090 /* Base */,
 				D6C154C81D07558F00B053CE /* Login */,
 				D6C154C71D07558600B053CE /* ServerUrl */,
 			);
@@ -406,10 +419,10 @@
 		D6C154D31D0756DC00B053CE /* NavigationControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D6C154D51D07570000B053CE /* Login */,
 				D6C154D41D0756F500B053CE /* Base */,
+				D6C154D51D07570000B053CE /* Login */,
 			);
-			name = NavigationControllers;
+			path = NavigationControllers;
 			sourceTree = "<group>";
 		};
 		D6C154D41D0756F500B053CE /* Base */ = {
@@ -418,7 +431,7 @@
 				D6C154D61D07570B00B053CE /* KGNavigationController.h */,
 				D6C154D71D07570B00B053CE /* KGNavigationController.m */,
 			);
-			name = Base;
+			path = Base;
 			sourceTree = "<group>";
 		};
 		D6C154D51D07570000B053CE /* Login */ = {
@@ -427,7 +440,7 @@
 				D6C154D91D07572200B053CE /* KGLoginNavigationController.h */,
 				D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */,
 			);
-			name = Login;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		D8B429011D071290008BF955 /* RKResponseDescriptor */ = {
@@ -638,6 +651,7 @@
 				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
 				D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */,
 				9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */,
+				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

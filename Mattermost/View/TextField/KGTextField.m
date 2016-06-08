@@ -10,8 +10,7 @@
 #import "UIColor+KGPreparedColor.h"
 #import <Masonry/Masonry.h>
 
-@interface KGTextField () <UITextFieldDelegate>
-@property (nonatomic,strong) UIView * underlineView;
+@interface KGTextField ()
 
 @end
 
@@ -21,7 +20,8 @@
 {
     self = [super init];
     if (self) {
-        
+        //self.delegate = self;
+
     }
     return self;
 }
@@ -30,7 +30,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.delegate = self;
+        //self.delegate = self;
     }
     return self;
 }
@@ -59,7 +59,9 @@
     return CGRectInset(bounds, 10, 0);
 }
 
-
+- (void)highlightForError {
+    self.underlineView.backgroundColor = [UIColor kg_redColor];
+}
 #pragma mark - UITextFieldDelegate
 
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -14,14 +15,48 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="logoIntro" translatesAutoresizingMaskIntoConstraints="NO" id="t7e-ht-pHK">
+                                <rect key="frame" x="-13" y="272" width="401" height="123"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="123" id="aS7-1k-BWY"/>
+                                    <constraint firstAttribute="width" secondItem="t7e-ht-pHK" secondAttribute="height" multiplier="433:252" id="ctp-tg-4lQ"/>
+                                    <constraint firstAttribute="width" constant="401" id="ePc-do-wWE"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ctp-tg-4lQ"/>
+                                    </mask>
+                                </variation>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Copyright (c) 2015 Mattermost Inc.. All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="z7N-cz-VD4">
+                                <rect key="frame" x="8" y="626" width="359" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="t7e-ht-pHK" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="76n-rm-cOK"/>
+                            <constraint firstItem="z7N-cz-VD4" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="8" id="KhE-DW-9tG"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="z7N-cz-VD4" secondAttribute="bottom" constant="20" id="LPJ-dN-g3w"/>
+                            <constraint firstAttribute="trailing" secondItem="z7N-cz-VD4" secondAttribute="trailing" constant="8" id="TpL-QS-Qeu"/>
+                            <constraint firstItem="t7e-ht-pHK" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="kQq-ap-me0"/>
+                        </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="116" y="712"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logoIntro" width="201" height="123"/>
+    </resources>
 </document>

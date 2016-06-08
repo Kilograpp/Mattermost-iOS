@@ -15,5 +15,6 @@
 + (UIColor *)kg_blackColor;
 + (UIColor *)kg_grayColor;
 + (UIColor *)kg_lightGrayColor;
++ (UIColor *)kg_redColor;
 
 @end

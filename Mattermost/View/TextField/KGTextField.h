@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface KGTextField : UITextField 
+@interface KGTextField : UITextField
+@property (nonatomic,strong) UIView * underlineView;
 
+- (void)highlightForError;
 @end
