@@ -10,13 +10,17 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGConstants.h"
+#import "KGButton.h"
+#import "KGTextField.h"
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *promtLabel;
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet KGTextField *textField;
+
+@property (weak, nonatomic) IBOutlet KGButton *nextButton;
+
 @end
 
 @implementation KGServerUrlViewController
@@ -67,10 +71,14 @@
 }
 
 - (void)setupTextfield {
+
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
     self.textField.placeholder = @"https://matttermost.example.com";
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+//    UIView * subView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.textField.frame.size.width, 1.f)];
+//    subView.backgroundColor = [UIColor grayColor];
+//    [self.textField addSubview:subView];
 }
 
 
