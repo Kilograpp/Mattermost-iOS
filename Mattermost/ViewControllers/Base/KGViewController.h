@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KGError.h"
 
 @interface KGViewController : UIViewController
-
+- (void)processError:(KGError *)error;
 @end

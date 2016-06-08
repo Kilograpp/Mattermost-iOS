@@ -8,6 +8,7 @@
 
 #import "KGViewController.h"
 
+
 @interface KGViewController ()
 
 @end
@@ -24,14 +25,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Error processing
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)processError:(KGError *)error {
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.message delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
+    [alert show];
 }
-*/
 
 @end
