@@ -8,10 +8,14 @@
 
 #import "NSObject+MethodDump.h"
 #import <objc/runtime.h>
+
+NSArray *ClassGetSubclasses(Class parentClass)
+;
+
 @implementation NSObject (MethodDump)
 
 
-+ (NSArray*)dumpValuesFromRootClass:(Class)rootClass withClassPrefix:(NSString*)prefixToTrim {
++ (NSArray*)dumpValuesFromRootClass:(Class)rootClass withClassPrefix:(const NSString *)prefixToTrim {
     
     NSMutableArray* values = [NSMutableArray array];
     
@@ -37,7 +41,7 @@
     return [NSArray arrayWithArray: values];
 }
 
-+ (NSArray*)dumpMethodsFromClass:(Class)clz prefixToTrim:(NSString*)prefixToTrim {
++ (NSArray*)dumpMethodsFromClass:(Class)clz prefixToTrim:(const NSString *)prefixToTrim {
     NSMutableArray* methodsToCall = [NSMutableArray array];
     
     unsigned int methodCount = 0;

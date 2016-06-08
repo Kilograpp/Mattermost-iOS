@@ -8,6 +8,7 @@
 
 #import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
+#import <RKManagedObjectStore.h>
 #import <MagicalRecord.h>
 #import "KGUser.h"
 
