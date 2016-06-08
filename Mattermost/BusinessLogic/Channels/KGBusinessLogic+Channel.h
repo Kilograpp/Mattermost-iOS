@@ -4,7 +4,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KGBusinessLogic.h"
 
-@interface NSObject (ListProperties)
-- (void)listPropertiesWithBlock:(void(^)(NSString* propertyName))handler;
+@interface KGBusinessLogic (Channel)
+
+- (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion;
+
 @end

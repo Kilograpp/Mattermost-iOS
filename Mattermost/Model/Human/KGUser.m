@@ -1,5 +1,6 @@
 #import "KGUser.h"
 #import "KGTeam.h"
+#import "KGChannel.h"
 #import <RestKit.h>
 
 @interface KGUser ()
@@ -48,6 +49,10 @@
     return [KGTeam initialLoadPathPattern];
 }
 
++ (NSString*)channelMembersListPathPattern {
+    return [KGChannel listPathPattern];
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {
@@ -66,5 +71,14 @@
                                                        keyPath:@"direct_profiles"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
++ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self channelMembersListPathPattern]
+                                                       keyPath:@"members"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 
 @end

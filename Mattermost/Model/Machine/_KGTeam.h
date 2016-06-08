@@ -1,48 +1,51 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGTeam.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGTeamAttributes {
-	__unsafe_unretained NSString *currentTeam;
-	__unsafe_unretained NSString *displayName;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *name;
-} KGTeamAttributes;
+NS_ASSUME_NONNULL_BEGIN
+
+@class KGChannel;
 
 @interface KGTeamID : NSManagedObjectID {}
 @end
 
-@interface _KGTeam : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGTeam : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGTeamID* objectID;
+@property (nonatomic, readonly, strong) KGTeamID *objectID;
 
-@property (nonatomic, strong) NSNumber* currentTeam;
+@property (nonatomic, strong, nullable) NSNumber* currentTeam;
 
 @property (atomic) BOOL currentTeamValue;
 - (BOOL)currentTeamValue;
 - (void)setCurrentTeamValue:(BOOL)value_;
 
-//- (BOOL)validateCurrentTeam:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* displayName;
 
-@property (nonatomic, strong) NSString* displayName;
+@property (nonatomic, strong, nullable) NSString* identifier;
 
-//- (BOOL)validateDisplayName:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* name;
 
-@property (nonatomic, strong) NSNumber* identifier;
+@property (nonatomic, strong, nullable) NSSet<KGChannel*> *channels;
+- (nullable NSMutableSet<KGChannel*>*)channelsSet;
 
-@property (atomic) int64_t identifierValue;
-- (int64_t)identifierValue;
-- (void)setIdentifierValue:(int64_t)value_;
+@end
 
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* name;
-
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+@interface _KGTeam (ChannelsCoreDataGeneratedAccessors)
+- (void)addChannels:(NSSet<KGChannel*>*)value_;
+- (void)removeChannels:(NSSet<KGChannel*>*)value_;
+- (void)addChannelsObject:(KGChannel*)value_;
+- (void)removeChannelsObject:(KGChannel*)value_;
 
 @end
 
@@ -57,13 +60,26 @@ extern const struct KGTeamAttributes {
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;
 
-- (NSNumber*)primitiveIdentifier;
-- (void)setPrimitiveIdentifier:(NSNumber*)value;
-
-- (int64_t)primitiveIdentifierValue;
-- (void)setPrimitiveIdentifierValue:(int64_t)value_;
+- (NSString*)primitiveIdentifier;
+- (void)setPrimitiveIdentifier:(NSString*)value;
 
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
 
+- (NSMutableSet<KGChannel*>*)primitiveChannels;
+- (void)setPrimitiveChannels:(NSMutableSet<KGChannel*>*)value;
+
 @end
+
+@interface KGTeamAttributes: NSObject 
++ (NSString *)currentTeam;
++ (NSString *)displayName;
++ (NSString *)identifier;
++ (NSString *)name;
+@end
+
+@interface KGTeamRelationships: NSObject
++ (NSString *)channels;
+@end
+
+NS_ASSUME_NONNULL_END

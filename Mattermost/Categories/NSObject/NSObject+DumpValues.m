@@ -6,13 +6,13 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "NSObject+MethodDump.h"
+#import "NSObject+DumpValues.h"
 #import <objc/runtime.h>
 
 NSArray *ClassGetSubclasses(Class parentClass)
 ;
 
-@implementation NSObject (MethodDump)
+@implementation NSObject (DumpValues)
 
 
 + (NSArray*)dumpValuesFromRootClass:(Class)rootClass withClassPrefix:(const NSString *)prefixToTrim {

@@ -4,7 +4,7 @@
 //
 
 #import "KGPreferences.h"
-#import "NSObject+ListProperties.h"
+#import "NSObject+EnumerateProperties.h"
 
 @implementation KGPreferences
 
@@ -27,14 +27,14 @@
 
 - (void)load  {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    [self listPropertiesWithBlock:^(NSString *propertyName) {
+    [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
         [self setValue:[defaults valueForKey:propertyName] forKey:propertyName];
     }];
 }
 
 - (void)save {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    [self listPropertiesWithBlock:^(NSString *propertyName) {
+    [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
         [defaults setValue:[self valueForKey:propertyName] forKey:propertyName];
     }];
     [defaults synchronize];

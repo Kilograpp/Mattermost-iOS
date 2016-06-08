@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Automatic">
-    <entity name="Currency" representedClassName="KGCurrency" syncable="YES">
-        <attribute name="base" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
-        <attribute name="rate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Channel" representedClassName="KGChannel" syncable="YES">
+        <attribute name="backendType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastPostDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="messagesCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="purpose" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shouldUpdateAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="teamId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="channel" inverseEntity="Post" syncable="YES"/>
+        <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="channels" inverseEntity="Team" syncable="YES"/>
+    </entity>
+    <entity name="Post" representedClassName="KGPost" syncable="YES">
+        <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deletedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User" syncable="YES"/>
+        <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="posts" inverseEntity="Channel" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName="KGTeam" syncable="YES">
         <attribute name="currentTeam" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="channels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Channel" inverseName="team" inverseEntity="Channel" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="KGUser" syncable="YES">
         <attribute name="currentUser" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -19,10 +42,12 @@
         <attribute name="identifier" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="author" inverseEntity="Post" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Currency" positionX="-63" positionY="-18" width="128" height="105"/>
-        <element name="Team" positionX="-434" positionY="-27" width="128" height="103"/>
-        <element name="User" positionX="-918" positionY="-54" width="128" height="133"/>
+        <element name="Team" positionX="-434" positionY="-27" width="128" height="118"/>
+        <element name="User" positionX="-389" positionY="128" width="128" height="148"/>
+        <element name="Channel" positionX="25" positionY="117" width="128" height="253"/>
+        <element name="Post" positionX="-173" positionY="128" width="128" height="193"/>
     </elements>
 </model>

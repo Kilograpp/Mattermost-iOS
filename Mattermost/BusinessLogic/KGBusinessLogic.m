@@ -7,7 +7,6 @@
 //
 
 #import "KGBusinessLogic.h"
-#import "KGCurrency.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import <RKObjectManager.h>
 #import <RestKit/RestKit.h>
@@ -65,7 +64,8 @@
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
         RKObjectManager *manager = [RKObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
-        
+
+        [manager.HTTPClient setDefaultHeader:@"X-Requested-With" value:@"XMLHttpRequest"];
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];

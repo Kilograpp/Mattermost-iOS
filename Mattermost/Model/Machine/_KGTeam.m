@@ -3,19 +3,12 @@
 
 #import "_KGTeam.h"
 
-const struct KGTeamAttributes KGTeamAttributes = {
-	.currentTeam = @"currentTeam",
-	.displayName = @"displayName",
-	.identifier = @"identifier",
-	.name = @"name",
-};
-
 @implementation KGTeamID
 @end
 
 @implementation _KGTeam
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Team" inManagedObjectContext:moc_];
 }
@@ -38,11 +31,6 @@ const struct KGTeamAttributes KGTeamAttributes = {
 
 	if ([key isEqualToString:@"currentTeamValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"currentTeam"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"identifierValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"identifier"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -74,25 +62,39 @@ const struct KGTeamAttributes KGTeamAttributes = {
 
 @dynamic identifier;
 
-- (int64_t)identifierValue {
-	NSNumber *result = [self identifier];
-	return [result longLongValue];
-}
-
-- (void)setIdentifierValue:(int64_t)value_ {
-	[self setIdentifier:@(value_)];
-}
-
-- (int64_t)primitiveIdentifierValue {
-	NSNumber *result = [self primitiveIdentifier];
-	return [result longLongValue];
-}
-
-- (void)setPrimitiveIdentifierValue:(int64_t)value_ {
-	[self setPrimitiveIdentifier:@(value_)];
-}
-
 @dynamic name;
 
+@dynamic channels;
+
+- (NSMutableSet<KGChannel*>*)channelsSet {
+	[self willAccessValueForKey:@"channels"];
+
+	NSMutableSet<KGChannel*> *result = (NSMutableSet<KGChannel*>*)[self mutableSetValueForKey:@"channels"];
+
+	[self didAccessValueForKey:@"channels"];
+	return result;
+}
+
+@end
+
+@implementation KGTeamAttributes 
++ (NSString *)currentTeam {
+	return @"currentTeam";
+}
++ (NSString *)displayName {
+	return @"displayName";
+}
++ (NSString *)identifier {
+	return @"identifier";
+}
++ (NSString *)name {
+	return @"name";
+}
+@end
+
+@implementation KGTeamRelationships 
++ (NSString *)channels {
+	return @"channels";
+}
 @end
 
