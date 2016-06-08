@@ -1,42 +1,48 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGTeam.h instead.
 
-#if __has_feature(modules)
-    @import Foundation;
-    @import CoreData;
-#else
-    #import <Foundation/Foundation.h>
-    #import <CoreData/CoreData.h>
-#endif
-
+@import CoreData;
 #import "KGManagedObject.h"
 
-NS_ASSUME_NONNULL_BEGIN
+extern const struct KGTeamAttributes {
+	__unsafe_unretained NSString *currentTeam;
+	__unsafe_unretained NSString *displayName;
+	__unsafe_unretained NSString *identifier;
+	__unsafe_unretained NSString *name;
+} KGTeamAttributes;
 
 @interface KGTeamID : NSManagedObjectID {}
 @end
 
-@interface _KGTeam : KGManagedObject
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
+@interface _KGTeam : KGManagedObject {}
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGTeamID *objectID;
+@property (nonatomic, readonly, strong) KGTeamID* objectID;
 
-@property (nonatomic, strong, nullable) NSNumber* currentTeam;
+@property (nonatomic, strong) NSNumber* currentTeam;
 
 @property (atomic) BOOL currentTeamValue;
 - (BOOL)currentTeamValue;
 - (void)setCurrentTeamValue:(BOOL)value_;
 
-@property (nonatomic, strong, nullable) NSString* displayName;
+//- (BOOL)validateCurrentTeam:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong, nullable) NSNumber* identifier;
+@property (nonatomic, strong) NSString* displayName;
+
+//- (BOOL)validateDisplayName:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* identifier;
 
 @property (atomic) int64_t identifierValue;
 - (int64_t)identifierValue;
 - (void)setIdentifierValue:(int64_t)value_;
 
-@property (nonatomic, strong, nullable) NSString* name;
+//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* name;
+
+//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
 @end
 
@@ -61,12 +67,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setPrimitiveName:(NSString*)value;
 
 @end
-
-@interface KGTeamAttributes: NSObject 
-+ (NSString *)currentTeam;
-+ (NSString *)displayName;
-+ (NSString *)identifier;
-+ (NSString *)name;
-@end
-
-NS_ASSUME_NONNULL_END

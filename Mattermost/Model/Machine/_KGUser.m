@@ -3,12 +3,21 @@
 
 #import "_KGUser.h"
 
+const struct KGUserAttributes KGUserAttributes = {
+	.currentUser = @"currentUser",
+	.email = @"email",
+	.firstName = @"firstName",
+	.identifier = @"identifier",
+	.lastName = @"lastName",
+	.username = @"username",
+};
+
 @implementation KGUserID
 @end
 
 @implementation _KGUser
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:moc_];
 }
@@ -91,26 +100,5 @@
 
 @dynamic username;
 
-@end
-
-@implementation KGUserAttributes 
-+ (NSString *)currentUser {
-	return @"currentUser";
-}
-+ (NSString *)email {
-	return @"email";
-}
-+ (NSString *)firstName {
-	return @"firstName";
-}
-+ (NSString *)identifier {
-	return @"identifier";
-}
-+ (NSString *)lastName {
-	return @"lastName";
-}
-+ (NSString *)username {
-	return @"username";
-}
 @end
 

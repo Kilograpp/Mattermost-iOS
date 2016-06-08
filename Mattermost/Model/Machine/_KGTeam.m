@@ -3,12 +3,19 @@
 
 #import "_KGTeam.h"
 
+const struct KGTeamAttributes KGTeamAttributes = {
+	.currentTeam = @"currentTeam",
+	.displayName = @"displayName",
+	.identifier = @"identifier",
+	.name = @"name",
+};
+
 @implementation KGTeamID
 @end
 
 @implementation _KGTeam
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Team" inManagedObjectContext:moc_];
 }
@@ -87,20 +94,5 @@
 
 @dynamic name;
 
-@end
-
-@implementation KGTeamAttributes 
-+ (NSString *)currentTeam {
-	return @"currentTeam";
-}
-+ (NSString *)displayName {
-	return @"displayName";
-}
-+ (NSString *)identifier {
-	return @"identifier";
-}
-+ (NSString *)name {
-	return @"name";
-}
 @end
 
