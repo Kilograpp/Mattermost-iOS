@@ -9,15 +9,16 @@
 #import "KGBusinessLogic.h"
 #import "KGCurrency.h"
 #import <MagicalRecord/MagicalRecord.h>
+#import <RKObjectManager.h>
 #import <RestKit/RestKit.h>
-#import <Objc/Runtime.h>
+#import "KGConstants.h"
 #import "RKResponseDescriptor+Runtime.h"
 #import "RKRequestDescriptor+Runtime.h"
-
-static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/";
+#import "KGPreferences.h"
 
 @interface KGBusinessLogic ()
 
+@property (assign) BOOL shouldReloadDefaultManager;
 @property (strong, nonatomic, readwrite) RKObjectManager *defaultObjectManager;
 @property (strong, nonatomic, readwrite) RKManagedObjectStore *managedObjectStore;
 
@@ -32,6 +33,7 @@ static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/
 
 @implementation KGBusinessLogic
 
+
 + (instancetype)sharedInstance {
     static dispatch_once_t once;
     static id sharedInstance;
@@ -45,14 +47,23 @@ static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/
         [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
         [self setupManagedObjectStore];
         [self setupMagicalRecord];
+        [self subscribeForNotifications];
+        [self subscribeForServerBaseUrlChanges];
+
     }
     
     return self;
 }
+- (void)dealloc {
+    [self unsubscribeFromNotifications];
+    [self unsubscribeFromServerBaseUrlChanges];
+}
+
 - (RKObjectManager *)defaultObjectManager {
-    if (!_defaultObjectManager) {
-        NSURL *serverAddressUrl = [NSURL URLWithString:KGAPIURL_DEV];
-        RKObjectManager *manager = [RKObjectManager managerWithBaseURL:serverAddressUrl];
+    if (!_defaultObjectManager || _shouldReloadDefaultManager) {
+        NSURL *serverBaseUrl = [NSURL URLWithString:[[KGPreferences sharedInstance] serverBaseUrl]];
+        NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
+        RKObjectManager *manager = [RKObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
         
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
@@ -62,14 +73,14 @@ static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/
         
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
-        
-        [self configureAuthorizationHeaderForManager:manager];
-        
+
         _defaultObjectManager = manager;
+        _shouldReloadDefaultManager = NO;
     }
     
     return _defaultObjectManager;
 }
+
 
 
 #pragma mark - Configuration
@@ -86,41 +97,79 @@ static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/
     
     [self.managedObjectStore createManagedObjectContexts];
 }
+
 - (void)setupMagicalRecord {
     [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:self.managedObjectStore.persistentStoreCoordinator];
     [NSManagedObjectContext MR_setRootSavingContext:self.managedObjectStore.persistentStoreManagedObjectContext];
     [NSManagedObjectContext MR_setDefaultContext:self.managedObjectStore.mainQueueManagedObjectContext];
 }
 
-- (void)configureAuthorizationHeaderForDefaultManager {
-    [self configureAuthorizationHeaderForManager:self.defaultObjectManager];
-}
-
-- (void)configureAuthorizationHeaderForManager:(RKObjectManager *)manager {
-//    [manager.HTTPClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [KGSettings settings].token]];
-}
-
-
-
 #pragma mark - Private
 
 - (NSString *)currentLocale {
-    return [[NSLocale preferredLanguages] objectAtIndex:0];
+    return [[NSLocale preferredLanguages] firstObject];
+}
+
+#pragma mark - Notifications & Observers
+
+- (void)unsubscribeFromNotifications {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)subscribeForNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidEnterBackground)
+                                                 name: UIApplicationDidEnterBackgroundNotification
+                                               object: nil];
+}
+
+- (void)subscribeForServerBaseUrlChanges {
+    [[KGPreferences sharedInstance] addObserver:self
+                                     forKeyPath:@"serverBaseUrl"
+                                        options:NSKeyValueObservingOptionOld
+                                        context:nil];
+}
+
+- (void)unsubscribeFromServerBaseUrlChanges {
+    [[KGPreferences sharedInstance] removeObserver:self forKeyPath:@"serverBaseUrl"];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"serverBaseUrl"]) {
+        self.shouldReloadDefaultManager = YES;
+    }
+}
+
+#pragma mark - Background
+
+- (void)applicationDidEnterBackground {
+    UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
+
+    [self savePreferences];
+
+    [self endBackgroundTaskWithId:taskId];
+}
+
+- (void)savePreferences {
+    [[KGPreferences sharedInstance] save];
+}
+
+- (UIBackgroundTaskIdentifier)beginBackgroundTask {
+    return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^(void) {
+        // Uh-oh - we took too long. Stop task.
+    }];
 }
 
 
-#pragma mark - DELETE
-
-- (void)loadCurrenciesWithCompletion:(void (^)(NSArray *currencies, KGError *error))completion {
-    [self.defaultObjectManager getObjectsAtPath:@"expenses/currencies" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        if (completion) {
-            completion(mappingResult.array.copy, nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if (completion) {
-            completion(nil, [KGError errorWithNSError:error]);
-        }
-    }];
+- (void)endBackgroundTaskWithId:(UIBackgroundTaskIdentifier) taskId {
+    if (taskId != UIBackgroundTaskInvalid) {
+        [[UIApplication sharedApplication] endBackgroundTask:taskId];
+    }
 }
 
 
