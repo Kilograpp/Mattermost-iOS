@@ -8,27 +8,30 @@
 
 #import "KGBusinessLogic+Team.h"
 #import <RestKit.h>
-#import <MagicalRecord/MagicalRecord/NSManagedObjectContext+MagicalRecord.h>
-#import <MagicalRecord/MagicalRecord/NSManagedObjectContext+MagicalSaves.h>
-#import <MagicalRecord/MagicalRecord/NSManagedObject+MagicalFinders.h>
+#import <MagicalRecord.h>
 #import "KGTeam.h"
 
 @implementation KGBusinessLogic (Team)
 
 - (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion {
-    [self.defaultObjectManager getObjectsAtPath:[KGTeam initialLoadPathPattern] parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    
+    
+    NSString* path = [KGTeam initialLoadPathPattern];
+    
+    [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        BOOL hasSingleTeam = mappingResult.array.count == 1;
+        
+        [mappingResult.array.firstObject setValue:@(hasSingleTeam) forKey:@"currentTeam"];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        
         if (completion) {
-
-            if (mappingResult.array.count == 1) {
-                [mappingResult.array.firstObject setValue:@YES forKey:@"currentTeam"];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-            }
-
-            completion(mappingResult.array.count == 1, nil);
+            completion(hasSingleTeam, nil);
         }
+        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         if(completion) {
-            completion(YES, [error kg_error]);
+            completion(YES, [KGError errorWithNSError:error]);
         }
     }];
 }

@@ -1,58 +1,46 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGUser.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGUserAttributes {
-	__unsafe_unretained NSString *currentUser;
-	__unsafe_unretained NSString *email;
-	__unsafe_unretained NSString *firstName;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *lastName;
-	__unsafe_unretained NSString *username;
-} KGUserAttributes;
+NS_ASSUME_NONNULL_BEGIN
 
 @interface KGUserID : NSManagedObjectID {}
 @end
 
-@interface _KGUser : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGUser : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGUserID* objectID;
+@property (nonatomic, readonly, strong) KGUserID *objectID;
 
-@property (nonatomic, strong) NSNumber* currentUser;
+@property (nonatomic, strong, nullable) NSNumber* currentUser;
 
 @property (atomic) BOOL currentUserValue;
 - (BOOL)currentUserValue;
 - (void)setCurrentUserValue:(BOOL)value_;
 
-//- (BOOL)validateCurrentUser:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* email;
 
-@property (nonatomic, strong) NSString* email;
+@property (nonatomic, strong, nullable) NSString* firstName;
 
-//- (BOOL)validateEmail:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* firstName;
-
-//- (BOOL)validateFirstName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* identifier;
+@property (nonatomic, strong, nullable) NSNumber* identifier;
 
 @property (atomic) int64_t identifierValue;
 - (int64_t)identifierValue;
 - (void)setIdentifierValue:(int64_t)value_;
 
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* lastName;
 
-@property (nonatomic, strong) NSString* lastName;
-
-//- (BOOL)validateLastName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* username;
-
-//- (BOOL)validateUsername:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* username;
 
 @end
 
@@ -83,3 +71,14 @@ extern const struct KGUserAttributes {
 - (void)setPrimitiveUsername:(NSString*)value;
 
 @end
+
+@interface KGUserAttributes: NSObject 
++ (NSString *)currentUser;
++ (NSString *)email;
++ (NSString *)firstName;
++ (NSString *)identifier;
++ (NSString *)lastName;
++ (NSString *)username;
+@end
+
+NS_ASSUME_NONNULL_END

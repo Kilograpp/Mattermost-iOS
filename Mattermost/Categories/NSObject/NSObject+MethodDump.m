@@ -27,15 +27,14 @@
                 [invocation setSelector:selector];
                 [invocation setTarget:clazz];
                 [invocation invoke];
-                id value;
+                id __unsafe_unretained value;
                 [invocation getReturnValue:&value];
                 [values addObject:value];
             }
-            
         }
     }
     
-    return [values copy];
+    return [NSArray arrayWithArray: values];
 }
 
 + (NSArray*)dumpMethodsFromClass:(Class)clz prefixToTrim:(NSString*)prefixToTrim {

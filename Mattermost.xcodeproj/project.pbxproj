@@ -25,7 +25,6 @@
 		D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F7851D060FDD008341AF /* LaunchScreen.storyboard */; };
 		D696F7951D0612E4008341AF /* KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7941D0612E4008341AF /* KGCurrency.m */; };
 		D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7971D0612F2008341AF /* _KGCurrency.m */; };
-		D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79B1D061331008341AF /* KGBusinessLogic.m */; };
 		D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79F1D0614EF008341AF /* KGManagedObject.m */; };
 		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
 		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
@@ -45,6 +44,7 @@
 		D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */; };
 		D8B429161D071969008BF955 /* KGConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429151D071969008BF955 /* KGConstants.m */; };
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
+		D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291C1D083259008BF955 /* KGBusinessLogic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +81,6 @@
 		D696F7961D0612EA008341AF /* _KGCurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _KGCurrency.h; sourceTree = "<group>"; };
 		D696F7971D0612F2008341AF /* _KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGCurrency.m; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
-		D696F79B1D061331008341AF /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
 		D696F79F1D0614EF008341AF /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
 		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
@@ -119,6 +118,7 @@
 		D8B429151D071969008BF955 /* KGConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGConstants.m; sourceTree = "<group>"; };
 		D8B429191D073740008BF955 /* KGBusinessLogic+Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Team.h"; sourceTree = "<group>"; };
 		D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Team.m"; sourceTree = "<group>"; };
+		D8B4291C1D083259008BF955 /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,7 +260,6 @@
 				D8B429121D071846008BF955 /* Utils */,
 				41FC94B11D07FA6C009E1090 /* View */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
-				D696F79B1D061331008341AF /* KGBusinessLogic.m */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -329,6 +328,7 @@
 				D8B429171D07330D008BF955 /* Session */,
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
+				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -632,6 +632,7 @@
 				41FC94B51D07FA87009E1090 /* KGButton.m in Sources */,
 				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
 				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
+				D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */,
 				D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */,
 				D696F7951D0612E4008341AF /* KGCurrency.m in Sources */,
 				D6C154D21D07560900B053CE /* UIColor+KGPreparedColor.m in Sources */,
@@ -641,7 +642,6 @@
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
-				D696F79C1D061331008341AF /* KGBusinessLogic.m in Sources */,
 				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
