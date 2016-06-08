@@ -11,14 +11,22 @@
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
 		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
+		9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */; };
 		9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B82276635BE51FB6CAFF1A9 /* Preferences.plist */; };
+		9B8223A1506518E1117BB72D /* KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822BE95D060B2A944203CA /* KGChannel.m */; };
 		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
 		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
+		9B822478B94669140F45CB09 /* _KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82210DA8457DEE5157685D /* _KGPost.m */; };
+		9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */; };
 		9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */; };
 		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
 		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
+		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
+		9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228762344686CE2207B8C /* KGManagedObject.m */; };
 		9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C6FC588149134FF2451 /* Login.storyboard */; };
-		9B822BDCA6EA4620FAAE34D6 /* NSObject+ListProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */; };
+		9B822BDCA6EA4620FAAE34D6 /* NSObject+EnumerateProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */; };
+		9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8226FF7B005D985E9C9B4C /* KGPost.m */; };
+		9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -26,9 +34,6 @@
 		D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */; };
 		D696F7841D060FDD008341AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D696F7831D060FDD008341AF /* Assets.xcassets */; };
 		D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F7851D060FDD008341AF /* LaunchScreen.storyboard */; };
-		D696F7951D0612E4008341AF /* KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7941D0612E4008341AF /* KGCurrency.m */; };
-		D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7971D0612F2008341AF /* _KGCurrency.m */; };
-		D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F79F1D0614EF008341AF /* KGManagedObject.m */; };
 		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
 		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
 		D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */; };
@@ -42,7 +47,7 @@
 		D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F51D06DFED008BF955 /* _KGUser.m */; };
 		D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */; };
 		D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429031D0712B5008BF955 /* RKResponseDescriptor+Runtime.m */; };
-		D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */; };
+		D8B4290C1D0713F1008BF955 /* NSObject+DumpValues.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290B1D0713F1008BF955 /* NSObject+DumpValues.m */; };
 		D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */; };
 		D8B429161D071969008BF955 /* KGConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429151D071969008BF955 /* KGConstants.m */; };
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
@@ -58,21 +63,37 @@
 		41FC94BB1D081F1F009E1090 /* KGLoginBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginBaseViewController.h; sourceTree = "<group>"; };
 		41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginBaseViewController.m; sourceTree = "<group>"; };
 		544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
+		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
+		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
+		9B8223CA8B69CED7D59257FD /* _KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGChannel.m; sourceTree = "<group>"; };
+		9B82259DAEA11B42D97AA516 /* _KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGPost.h; sourceTree = "<group>"; };
+		9B8226090FAC37951F756F11 /* KGBusinessLogic+Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Channel.h"; sourceTree = "<group>"; };
+		9B8226FF7B005D985E9C9B4C /* KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPost.m; sourceTree = "<group>"; };
+		9B8227136A03D68E83AC0C8E /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		9B82276635BE51FB6CAFF1A9 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Preferences.plist; sourceTree = "<group>"; };
+		9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Channel.m"; sourceTree = "<group>"; };
 		9B82282B314DA6557A5AA0DD /* KGPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPreferences.h; sourceTree = "<group>"; };
 		9B822841FBC403ADD0E34F6B /* UIFont+KGPreparedFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+KGPreparedFont.h"; sourceTree = "<group>"; };
-		9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ListProperties.m"; sourceTree = "<group>"; };
+		9B8228762344686CE2207B8C /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
+		9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EnumerateProperties.m"; sourceTree = "<group>"; };
 		9B8229629554C9C159E8BC63 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
+		9B8229EC418A60EDCE8AC9EF /* KGBusinessLogic+Posts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Posts.h"; sourceTree = "<group>"; };
 		9B822A262E677040DD4EF48D /* KGPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPreferences.m; sourceTree = "<group>"; };
+		9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Posts.m"; sourceTree = "<group>"; };
+		9B822BE95D060B2A944203CA /* KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannel.m; sourceTree = "<group>"; };
 		9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelPostsWrapper.h; sourceTree = "<group>"; };
+		9B822D047156786CF9AA400F /* _KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGChannel.h; sourceTree = "<group>"; };
 		9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		9B822DE7BEDDF6462930AE3B /* KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPost.h; sourceTree = "<group>"; };
 		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
-		9B822E4DC3786A5C93FF79EC /* NSObject+ListProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ListProperties.h"; sourceTree = "<group>"; };
+		9B822E4DC3786A5C93FF79EC /* NSObject+EnumerateProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumerateProperties.h"; sourceTree = "<group>"; };
+		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -82,13 +103,7 @@
 		D696F7831D060FDD008341AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D696F7861D060FDD008341AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D696F7881D060FDD008341AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D696F7931D0612E4008341AF /* KGCurrency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGCurrency.h; sourceTree = "<group>"; };
-		D696F7941D0612E4008341AF /* KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGCurrency.m; sourceTree = "<group>"; };
-		D696F7961D0612EA008341AF /* _KGCurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _KGCurrency.h; sourceTree = "<group>"; };
-		D696F7971D0612F2008341AF /* _KGCurrency.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGCurrency.m; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
-		D696F79F1D0614EF008341AF /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
-		D696F7A01D0614EF008341AF /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		D696F7A41D0615D5008341AF /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
 		D6C154C41D07557600B053CE /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
@@ -115,8 +130,8 @@
 		D8B428F91D06E09F008BF955 /* KGBusinessLogic+Session.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Session.m"; sourceTree = "<group>"; };
 		D8B429021D0712B5008BF955 /* RKResponseDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKResponseDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		D8B429031D0712B5008BF955 /* RKResponseDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKResponseDescriptor+Runtime.m"; sourceTree = "<group>"; };
-		D8B4290A1D0713F1008BF955 /* NSObject+MethodDump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MethodDump.h"; sourceTree = "<group>"; };
-		D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MethodDump.m"; sourceTree = "<group>"; };
+		D8B4290A1D0713F1008BF955 /* NSObject+DumpValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DumpValues.h"; sourceTree = "<group>"; };
+		D8B4290B1D0713F1008BF955 /* NSObject+DumpValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DumpValues.m"; sourceTree = "<group>"; };
 		D8B4290E1D071776008BF955 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		D8B4290F1D071776008BF955 /* RKRequestDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKRequestDescriptor+Runtime.m"; sourceTree = "<group>"; };
 		D8B429141D071969008BF955 /* KGConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGConstants.h; sourceTree = "<group>"; };
@@ -191,6 +206,15 @@
 			path = UIFont;
 			sourceTree = "<group>";
 		};
+		9B82284E71F48B04182627A6 /* Posts */ = {
+			isa = PBXGroup;
+			children = (
+				9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */,
+				9B8229EC418A60EDCE8AC9EF /* KGBusinessLogic+Posts.h */,
+			);
+			path = Posts;
+			sourceTree = "<group>";
+		};
 		9B8229E81C4A960156D4C50F /* NSError */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,6 +246,24 @@
 				9B82261E84449FAA9ABDE609 /* UIFont */,
 			);
 			path = Categories;
+			sourceTree = "<group>";
+		};
+		9B822CC0DBF584A499DB8335 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				9B8228762344686CE2207B8C /* KGManagedObject.m */,
+				9B8227136A03D68E83AC0C8E /* KGManagedObject.h */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		9B822D190D7E79A75E3533DE /* Channels */ = {
+			isa = PBXGroup;
+			children = (
+				9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */,
+				9B8226090FAC37951F756F11 /* KGBusinessLogic+Channel.h */,
+			);
+			path = Channels;
 			sourceTree = "<group>";
 		};
 		BA14FEE23A0344239A72E444 /* Pods */ = {
@@ -283,6 +325,7 @@
 				D696F7911D06121D008341AF /* Human */,
 				D696F7921D061226008341AF /* Machine */,
 				D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */,
+				9B822CC0DBF584A499DB8335 /* Common */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -299,14 +342,16 @@
 		D696F7911D06121D008341AF /* Human */ = {
 			isa = PBXGroup;
 			children = (
-				D696F7931D0612E4008341AF /* KGCurrency.h */,
-				D696F7941D0612E4008341AF /* KGCurrency.m */,
-				D696F7A01D0614EF008341AF /* KGManagedObject.h */,
-				D696F79F1D0614EF008341AF /* KGManagedObject.m */,
 				D8B428EC1D06DFE6008BF955 /* KGTeam.h */,
 				D8B428ED1D06DFE6008BF955 /* KGTeam.m */,
 				D8B428EE1D06DFE6008BF955 /* KGUser.h */,
 				D8B428EF1D06DFE6008BF955 /* KGUser.m */,
+				9B822BE95D060B2A944203CA /* KGChannel.m */,
+				9B822FEE7032FD6461D8CEF3 /* KGChannel.h */,
+				9B822DE7BEDDF6462930AE3B /* KGPost.h */,
+				9B8226FF7B005D985E9C9B4C /* KGPost.m */,
+				9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */,
+				9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */,
 			);
 			path = Human;
 			sourceTree = "<group>";
@@ -314,12 +359,14 @@
 		D696F7921D061226008341AF /* Machine */ = {
 			isa = PBXGroup;
 			children = (
-				D696F7961D0612EA008341AF /* _KGCurrency.h */,
-				D696F7971D0612F2008341AF /* _KGCurrency.m */,
 				D8B428F21D06DFED008BF955 /* _KGTeam.h */,
 				D8B428F31D06DFED008BF955 /* _KGTeam.m */,
 				D8B428F41D06DFED008BF955 /* _KGUser.h */,
 				D8B428F51D06DFED008BF955 /* _KGUser.m */,
+				9B822D047156786CF9AA400F /* _KGChannel.h */,
+				9B8223CA8B69CED7D59257FD /* _KGChannel.m */,
+				9B82210DA8457DEE5157685D /* _KGPost.m */,
+				9B82259DAEA11B42D97AA516 /* _KGPost.h */,
 			);
 			path = Machine;
 			sourceTree = "<group>";
@@ -332,6 +379,8 @@
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
+				9B822D190D7E79A75E3533DE /* Channels */,
+				9B82284E71F48B04182627A6 /* Posts */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -468,10 +517,10 @@
 		D8B429111D0717FB008BF955 /* NSObject */ = {
 			isa = PBXGroup;
 			children = (
-				D8B4290A1D0713F1008BF955 /* NSObject+MethodDump.h */,
-				D8B4290B1D0713F1008BF955 /* NSObject+MethodDump.m */,
-				9B8228D7559E83E1D2C801D6 /* NSObject+ListProperties.m */,
-				9B822E4DC3786A5C93FF79EC /* NSObject+ListProperties.h */,
+				D8B4290A1D0713F1008BF955 /* NSObject+DumpValues.h */,
+				D8B4290B1D0713F1008BF955 /* NSObject+DumpValues.m */,
+				9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */,
+				9B822E4DC3786A5C93FF79EC /* NSObject+EnumerateProperties.h */,
 			);
 			path = NSObject;
 			sourceTree = "<group>";
@@ -640,10 +689,8 @@
 				D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */,
 				41FC94B51D07FA87009E1090 /* KGButton.m in Sources */,
 				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
-				D696F7A11D0614EF008341AF /* KGManagedObject.m in Sources */,
 				D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */,
 				D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */,
-				D696F7951D0612E4008341AF /* KGCurrency.m in Sources */,
 				D6C154D21D07560900B053CE /* UIColor+KGPreparedColor.m in Sources */,
 				D6C154C61D07557600B053CE /* KGViewController.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
@@ -651,17 +698,24 @@
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
-				D696F7981D0612F2008341AF /* _KGCurrency.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
 				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
-				D8B4290C1D0713F1008BF955 /* NSObject+MethodDump.m in Sources */,
+				D8B4290C1D0713F1008BF955 /* NSObject+DumpValues.m in Sources */,
 				9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
-				9B822BDCA6EA4620FAAE34D6 /* NSObject+ListProperties.m in Sources */,
+				9B822BDCA6EA4620FAAE34D6 /* NSObject+EnumerateProperties.m in Sources */,
+				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
+				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
+				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,
+				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
+				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
+				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
+				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
+				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

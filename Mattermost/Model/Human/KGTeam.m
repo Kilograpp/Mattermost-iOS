@@ -1,5 +1,4 @@
 #import "KGTeam.h"
-#import "RKEntityMapping.h"
 #import <RestKit.h>
 
 @interface KGTeam ()

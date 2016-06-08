@@ -5,6 +5,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSObject (ListProperties)
-- (void)listPropertiesWithBlock:(void(^)(NSString* propertyName))handler;
+@interface NSObject (EnumerateProperties)
+- (void)enumeratePropertiesWithBlock:(void(^)(NSString* propertyName))handler;
 @end

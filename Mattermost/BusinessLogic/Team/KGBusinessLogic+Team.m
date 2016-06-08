@@ -20,9 +20,9 @@
     
     [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
-        BOOL hasSingleTeam = mappingResult.array.count == 1;
-        
-        [mappingResult.array.firstObject setValue:@(hasSingleTeam) forKey:@"currentTeam"];
+        BOOL hasSingleTeam = [mappingResult.dictionary[@"teams"] count] == 1;
+
+        [[mappingResult.dictionary[@"teams"] firstObject] setValue:@(hasSingleTeam) forKey:@"currentTeam"];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
         if (completion) {

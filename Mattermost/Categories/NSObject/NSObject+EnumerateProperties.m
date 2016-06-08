@@ -3,12 +3,12 @@
 // Copyright (c) 2016 Kilograpp. All rights reserved.
 //
 
-#import "NSObject+ListProperties.h"
+#import "NSObject+EnumerateProperties.h"
 #import <objc/runtime.h>
 
-@implementation NSObject (ListProperties)
+@implementation NSObject (EnumerateProperties)
 
-- (void)listPropertiesWithBlock:(void(^)(NSString* propertyName))handler {
+- (void)enumeratePropertiesWithBlock:(void(^)(NSString* propertyName))handler {
     unsigned int outCount, i;
     objc_property_t *properties = class_copyPropertyList([self class], &outCount);
     for(i = 0; i < outCount; i++) {
