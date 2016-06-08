@@ -11,6 +11,8 @@
 extern NSString * const KGRestKitClassPrefix;
 extern float      const KGStandartCornerRadius;
 
-@interface KGConstants : NSObject
 
-@end
+#pragma mark - HTTP Constants
+
+extern NSString * const KGContentTypeHeader;
+extern NSString * const KGAcceptLanguageHeader;

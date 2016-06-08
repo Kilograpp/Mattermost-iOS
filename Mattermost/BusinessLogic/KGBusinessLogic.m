@@ -56,8 +56,8 @@ static NSString *const KGAPIURL_DEV = @"https://mattermost.kilograpp.com/api/v3/
         [manager setManagedObjectStore:self.managedObjectStore];
         
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
-        [manager.HTTPClient setDefaultHeader:@"Content-Type" value:@"application/json"];
-        [manager.HTTPClient setDefaultHeader:@"Accept-Language" value:[self currentLocale]];
+        [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
+        [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
         
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];

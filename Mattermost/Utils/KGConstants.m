@@ -12,6 +12,5 @@ NSString * const KGRestKitClassPrefix = @"RK";
 NSString * const KGAuthTokenHeaderName = @"MMAUTHTOKEN";
 float      const KGStandartCornerRadius = 2.f;
 
-@implementation KGConstants
-
-@end
+NSString * const KGContentTypeHeader = @"Content-Type";
+NSString * const KGAcceptLanguageHeader = @"Accept-Language";
