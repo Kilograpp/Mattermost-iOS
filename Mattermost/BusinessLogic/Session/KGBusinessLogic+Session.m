@@ -17,8 +17,9 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
+    NSString *path = [KGUser authPathPattern];
 
-    [self.defaultObjectManager postObject:nil path:[KGUser authPathPattern] parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [self.defaultObjectManager postObject:nil path:path parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         KGUser *currentUser = mappingResult.firstObject;
         [currentUser setCurrentUserValue:YES];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
@@ -32,7 +33,7 @@ extern NSString * const KGAuthTokenHeaderName;
     }];
 }
 
-- (KGUser*)currentUser {
+- (KGUser *)currentUser {
     return [KGUser MR_findFirstByAttribute:@"currentUser" withValue:@YES];
 }
 
