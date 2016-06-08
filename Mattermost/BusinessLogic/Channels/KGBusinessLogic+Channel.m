@@ -16,12 +16,6 @@
     NSString * path = SOCStringFromStringWithObject([KGChannel listPathPattern], [self currentTeam]);
     [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
 
-        for (KGChannel * channel in mappingResult.dictionary[@"channels"]) {
-            [channel setTeam:[self currentTeam]];
-        }
-
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-
         if (completion) {
             completion(nil);
         }

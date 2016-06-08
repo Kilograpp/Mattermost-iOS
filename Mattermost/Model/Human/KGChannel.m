@@ -1,4 +1,7 @@
 #import "KGChannel.h"
+#import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Team.h"
+#import "KGTeam.h"
 #import <RestKit.h>
 @interface KGChannel ()
 
@@ -37,5 +40,13 @@
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
+
+- (void)willSave{
+    [super willSave];
+
+    if (!self.team) {
+        self.team = [[KGBusinessLogic sharedInstance] currentTeamInContext:self.managedObjectContext];
+    }
+}
 
 @end

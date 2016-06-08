@@ -14,5 +14,6 @@ extern float      const KGStandartCornerRadius;
 
 #pragma mark - HTTP Constants
 
+extern NSString * const KGXRequestedWithHeader;
 extern NSString * const KGContentTypeHeader;
 extern NSString * const KGAcceptLanguageHeader;

@@ -10,6 +10,7 @@
 #import <RestKit.h>
 #import <MagicalRecord.h>
 #import "KGTeam.h"
+#import "KGPreferences.h"
 
 @implementation KGBusinessLogic (Team)
 
@@ -22,8 +23,9 @@
         
         BOOL hasSingleTeam = [mappingResult.dictionary[@"teams"] count] == 1;
 
-        [[mappingResult.dictionary[@"teams"] firstObject] setValue:@(hasSingleTeam) forKey:@"currentTeam"];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        if (hasSingleTeam) {
+            [[KGPreferences sharedInstance] setCurrentTeamId:[[mappingResult.dictionary[@"teams"] firstObject] identifier]];
+        }
         
         if (completion) {
             completion(hasSingleTeam, nil);
@@ -36,8 +38,16 @@
     }];
 }
 
+- (NSString*)currentTeamId {
+    return [[KGPreferences sharedInstance] currentTeamId];
+}
+
 - (KGTeam *)currentTeam {
-    return [KGTeam MR_findFirstByAttribute:@"currentTeam" withValue:@YES];
+    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId]];
+}
+
+- (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context{
+    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId] inContext:context];
 }
 
 @end

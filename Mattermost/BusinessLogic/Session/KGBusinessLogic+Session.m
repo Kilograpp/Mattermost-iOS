@@ -11,6 +11,7 @@
 #import <RKManagedObjectStore.h>
 #import <MagicalRecord.h>
 #import "KGUser.h"
+#import "KGPreferences.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -21,9 +22,9 @@ extern NSString * const KGAuthTokenHeaderName;
     NSString *path = [KGUser authPathPattern];
 
     [self.defaultObjectManager postObject:nil path:path parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        KGUser *currentUser = mappingResult.firstObject;
-        [currentUser setCurrentUserValue:YES];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+
+        [[KGPreferences sharedInstance] setCurrentUserId:[mappingResult.firstObject identifier]];
+
         if(completion) {
             completion(nil);
         }
@@ -34,8 +35,13 @@ extern NSString * const KGAuthTokenHeaderName;
     }];
 }
 
+
+- (NSString *)currentUserId {
+    return [[KGPreferences sharedInstance] currentUserId];
+}
+
 - (KGUser *)currentUser {
-    return [KGUser MR_findFirstByAttribute:@"currentUser" withValue:@YES];
+    return [KGUser MR_findFirstByAttribute:@"identifier" withValue:[self currentUserId]];
 }
 
 - (BOOL)isSignedIn {

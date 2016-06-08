@@ -80,5 +80,4 @@
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
-
 @end
