@@ -13,6 +13,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class KGPost;
+
 @interface KGUserID : NSManagedObjectID {}
 @end
 
@@ -42,6 +44,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* username;
 
+@property (nonatomic, strong, nullable) NSSet<KGPost*> *posts;
+- (nullable NSMutableSet<KGPost*>*)postsSet;
+
+@end
+
+@interface _KGUser (PostsCoreDataGeneratedAccessors)
+- (void)addPosts:(NSSet<KGPost*>*)value_;
+- (void)removePosts:(NSSet<KGPost*>*)value_;
+- (void)addPostsObject:(KGPost*)value_;
+- (void)removePostsObject:(KGPost*)value_;
+
 @end
 
 @interface _KGUser (CoreDataGeneratedPrimitiveAccessors)
@@ -70,6 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveUsername;
 - (void)setPrimitiveUsername:(NSString*)value;
 
+- (NSMutableSet<KGPost*>*)primitivePosts;
+- (void)setPrimitivePosts:(NSMutableSet<KGPost*>*)value;
+
 @end
 
 @interface KGUserAttributes: NSObject 
@@ -79,6 +95,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)identifier;
 + (NSString *)lastName;
 + (NSString *)username;
+@end
+
+@interface KGUserRelationships: NSObject
++ (NSString *)posts;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -91,6 +91,17 @@
 
 @dynamic username;
 
+@dynamic posts;
+
+- (NSMutableSet<KGPost*>*)postsSet {
+	[self willAccessValueForKey:@"posts"];
+
+	NSMutableSet<KGPost*> *result = (NSMutableSet<KGPost*>*)[self mutableSetValueForKey:@"posts"];
+
+	[self didAccessValueForKey:@"posts"];
+	return result;
+}
+
 @end
 
 @implementation KGUserAttributes 
@@ -111,6 +122,12 @@
 }
 + (NSString *)username {
 	return @"username";
+}
+@end
+
+@implementation KGUserRelationships 
++ (NSString *)posts {
+	return @"posts";
 }
 @end
 
