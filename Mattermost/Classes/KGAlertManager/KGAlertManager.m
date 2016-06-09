@@ -10,9 +10,8 @@
 #import "UIWindow+KGAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
-static CGFloat const kHUDDimViewAlpha = 0.4;
-static CGFloat const kHUDDismissDelay = 1.2;
-static CGFloat const kStandartHudDismissDelay = 3.0f;
+static CGFloat const kHUDDimViewAlpha = 0.4f;
+static CGFloat const kHUDDismissDelay = 1.2f;
 
 @interface KGAlertManager ()
 @property (nonatomic, strong) MBProgressHUD *hud;
@@ -68,12 +67,24 @@ static CGFloat const kStandartHudDismissDelay = 3.0f;
 }
 
 - (void)showError:(KGError *)error {
+    self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
 }
 
 - (void)showSuccessWithTitle:(NSString*)title message:(NSString *)message {
 }
 
 - (void)showErrorWithTitle:(NSString*)title message:(NSString *)message {
+    [self.hud hide:YES];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
+    self.hud.removeFromSuperViewOnHide = YES;
+    self.hudHidden = NO;
+    self.hud.mode = MBProgressHUDModeText;
+//    UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//    self.hud.customView = [[UIImageView alloc] initWithImage:image];
+//    self.hud.customView.backgroundColor = [UIColor lightGrayColor];
+    self.hud.labelText = title;
+    self.hud.detailsLabelText = message;
+    [self hideHudAnimated:YES afterDelay:kHUDDismissDelay];
 }
 
 - (void)showSuccessWithMessage:(NSString *)message {
