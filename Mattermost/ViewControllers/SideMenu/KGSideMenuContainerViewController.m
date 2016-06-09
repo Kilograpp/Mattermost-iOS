@@ -27,9 +27,9 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    if ([self.centerViewController respondsToSelector:@selector(preferredStatusBarStyle)]) {
-        return ((UIViewController *)self.centerViewController).preferredStatusBarStyle;
-    }
+//    if ([self.centerViewController respondsToSelector:@selector(preferredStatusBarStyle)]) {
+//        return ((UIViewController *)self.centerViewController).preferredStatusBarStyle;
+//    }
     return UIStatusBarStyleLightContent;
 }
 
@@ -37,8 +37,8 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
     UINavigationController *navController = [sb instantiateInitialViewController];
     KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController containerWithCenterViewController:navController
-                                                                                                         leftMenuViewController:[UITableViewController new]
-                                                                                                        rightMenuViewController:[UITableViewController new]];
+                                                                                                         leftMenuViewController:[UITabBarController new]
+                                                                                                        rightMenuViewController:[UITabBarController new]];
     sideMenuContainer.leftMenuWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - KGLeftMenuOffset;
     sideMenuContainer.menuAnimationDefaultDuration = KGStandartAnimationDuration;
     sideMenuContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

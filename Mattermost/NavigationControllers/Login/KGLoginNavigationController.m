@@ -31,10 +31,13 @@
     navBar.shadowImage = [UIImage new];
     navBar.tintColor = [UIColor kg_blueColor];
     navBar.backgroundColor = [UIColor clearColor];
-//    [self.navigationBar setTitleTextAttributes: @{ NSFontAttributeName : [UIFont kg_regular18Font] }];
         [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                       NSFontAttributeName : [UIFont kg_regular18Font] }];
+                                                       NSFontAttributeName : [UIFont kg_semibold18Font] }];
 
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
 }
 
 @end
