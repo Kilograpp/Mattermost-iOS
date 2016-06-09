@@ -116,7 +116,10 @@
 #pragma mark - NSFetchedResultsController
 
 - (void)setupFetchedResultsController {
-    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:NSStringFromSelector(@selector(displayName))
+
+    NSString* sortBy = [NSString stringWithFormat:@"%@,%@", NSStringFromSelector(@selector(backendType)), NSStringFromSelector(@selector(displayName))];
+
+    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:sortBy
                                                          ascending:YES
                                                      withPredicate:nil
                                                            groupBy:NSStringFromSelector(@selector(backendType))
