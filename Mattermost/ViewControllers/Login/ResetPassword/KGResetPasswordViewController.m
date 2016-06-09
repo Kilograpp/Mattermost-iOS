@@ -72,7 +72,7 @@
 - (void)configureLabels {
     self.titleLabel.text = @"Password Reset";
     self.subtitleLabel.text = @"To reset your password, enter the email address you used to sign in";
-}
+}//FIXME: Pragma mark
 - (IBAction)textChange:(id)sender {
     if (self.emailTextField.text.length > 0 ){
         self.resetButton.enabled = YES;
@@ -80,6 +80,7 @@
         self.resetButton.enabled = NO;
     }
 }
+//FIXME: название
 - (IBAction)resetButton:(id)sender {
     if (![self.emailTextField.text kg_isValidEmail]){
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"incorrect email" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
