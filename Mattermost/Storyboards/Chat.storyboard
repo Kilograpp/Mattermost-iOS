@@ -68,7 +68,7 @@
                                 <rect key="frame" x="0.0" y="90" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="NzJ-3t-xhb" customClass="KGChannelTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelCell" id="NzJ-3t-xhb" customClass="KGChannelTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NzJ-3t-xhb" id="8zy-c8-VQJ">
@@ -89,7 +89,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="channelNameLabel" destination="5ph-nu-QZz" id="IZC-TO-poy"/>
+                                            <outlet property="channelNameLabel" destination="5ph-nu-QZz" id="a6A-le-6tG"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

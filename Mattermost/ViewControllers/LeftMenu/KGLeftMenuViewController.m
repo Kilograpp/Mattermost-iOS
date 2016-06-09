@@ -83,14 +83,22 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return 3;
+//}
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.fetchedResultsController.sections[section] numberOfObjects];
 }
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    //KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-//
-//}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+   // NSString *identifier = [NSString stringWithFormat:@"%@Identifier", NSStringFromClass([KGChannelTableViewCell class])];
+    KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChannelCell" ];
+    KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [cell configureWitChannelName:channel.displayName];
+    return cell;
+}
 
 #pragma mark - Requests
 
