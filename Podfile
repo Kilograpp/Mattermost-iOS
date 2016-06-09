@@ -7,6 +7,8 @@ target 'Mattermost' do
   pod 'RestKit'
   pod 'IQKeyboardManager', :git => 'http://git.kilograpp.com/iOS/IQKeyboardManager.git'
   pod 'Masonry'
+  pod 'MBProgressHUD', '~> 0.9.2'
+  pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
 end
 
 post_install do |installer_representation|

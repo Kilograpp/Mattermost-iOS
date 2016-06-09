@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KGError.h"
+#import "KGAlertManager.h"
 
 @interface KGViewController : UIViewController
+
+- (void)showProgressHud;
+- (void)hideProgressHud;
+
+- (void)processError:(KGError *)error;
+- (void)processErrorWithTitle:(NSString *)title message:(NSString *)message;
+
+- (void)test;
 
 @end

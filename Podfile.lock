@@ -7,6 +7,8 @@ PODS:
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
   - Masonry (1.0.1)
+  - MBProgressHUD (0.9.2)
+  - MFSideMenu (0.5.5.1)
   - RestKit (0.26.0):
     - RestKit/Core (= 0.26.0)
   - RestKit/Core (0.26.0):
@@ -34,16 +36,23 @@ DEPENDENCIES:
   - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
   - MagicalRecord
   - Masonry
+  - MBProgressHUD (~> 0.9.2)
+  - MFSideMenu (from `http://git.kilograpp.com/iOS/MFSideMenu.git`)
   - RestKit
 
 EXTERNAL SOURCES:
   IQKeyboardManager:
     :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
+  MFSideMenu:
+    :git: http://git.kilograpp.com/iOS/MFSideMenu.git
 
 CHECKOUT OPTIONS:
   IQKeyboardManager:
     :commit: 437a15e8e906e1e5ad3fb27bfd08f1a610da5078
     :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
+  MFSideMenu:
+    :commit: 28d5d3e065a1b52b94143df1859af5272415ebe5
+    :git: http://git.kilograpp.com/iOS/MFSideMenu.git
 
 SPEC CHECKSUMS:
   AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
@@ -51,6 +60,8 @@ SPEC CHECKSUMS:
   ISO8601DateFormatterValueTransformer: 52da467d6ec899d6aedda8e48280ac92e8ee97e6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  MFSideMenu: 8d504bcd6d4dc97a51da11a2a7c9011a4e08feb5
   RestKit: 112fba5bd1f97598aac0db7981863d5fdc0263a2
   RKValueTransformers: e5ed67e3811229b616fe01bddeeafe3bb337b1b9
   SOCKit: c7376ac262bea9115b8f749358f762522a47d392

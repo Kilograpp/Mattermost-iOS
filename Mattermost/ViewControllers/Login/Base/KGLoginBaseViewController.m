@@ -30,7 +30,7 @@
 - (void)highlightTextFieldsForError {
     for (UIView *v in self.view.subviews){
         if ([v isKindOfClass:[KGTextField class]]){
-            KGTextField *textField = v;
+            KGTextField *textField = (KGTextField *)v;
             textField.underlineView.backgroundColor = [UIColor kg_redColor];
         }
     }
@@ -41,15 +41,30 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     if ([textField isKindOfClass:[KGTextField class]]){
-        KGTextField *customTextField = textField;
+        KGTextField *customTextField = (KGTextField *)textField;
         customTextField.underlineView.backgroundColor = [UIColor kg_blueColor];
     }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField isKindOfClass:[KGTextField class]]){
-        KGTextField *customTextField = textField;
+        KGTextField *customTextField = (KGTextField *)textField;
         customTextField.underlineView.backgroundColor = [UIColor kg_lightGrayColor];
     }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    if ([textField isKindOfClass:[KGTextField class]]){
+        for (UIView *v in self.view.subviews){
+            if ([v isKindOfClass:[KGTextField class]]){
+                KGTextField *textField = (KGTextField *)v;
+                textField.underlineView.backgroundColor = [UIColor kg_lightGrayColor];
+            }
+        }
+        KGTextField *customTextField = (KGTextField *)textField;
+        customTextField.underlineView.backgroundColor = [UIColor kg_blueColor];
+        
+    }
+    return YES;
 }
 @end

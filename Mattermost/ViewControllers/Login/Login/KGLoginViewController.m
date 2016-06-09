@@ -13,17 +13,20 @@
 #import "KGButton.h"
 #import "KGTextField.h"
 #import "KGBusinessLogic+Session.h"
+#import "NSString+Validation.h"
+#import "KGBusinessLogic+Team.h"
+
+static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
+static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *loginPromtLabel;
 @property (weak, nonatomic) IBOutlet UILabel *passwordPromtLabel;
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
-
 
 @end
 
@@ -35,15 +38,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setup];
     [self setupTitleLabel];
-    [self setupSubtitleLabel];
     [self setupPromtLabels];
     [self setupLoginButton];
     [self setupRecoveryButton];
     [self setupLoginTextfield];
-    [self setupPasswordTextField];
+    [self setupPasswordTextField];   
     [self configureLabels];
+}
+
+- (void)test {
+    self.loginTextField.text = @"getmaxx@kilograpp.com";
+    self.passwordTextField.text = @"102Aky5i";
+    self.loginButton.enabled = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -55,18 +62,9 @@
 
 #pragma mark - Setup
 
-- (void)setup {
-    self.title = @"Sign in";
-}
-
 - (void)setupTitleLabel {
     self.titleLabel.font = [UIFont kg_semibold30Font];
     self.titleLabel.textColor = [UIColor kg_blackColor];
-}
-
-- (void)setupSubtitleLabel {
-    self.subtitleLabel.font = [UIFont kg_light18Font];
-    self.subtitleLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupPromtLabels {
@@ -84,6 +82,7 @@
     [self.loginButton setTintColor:[UIColor whiteColor]];
     self.loginButton.titleLabel.font = [UIFont kg_regular16Font];
     self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.loginButton.enabled = NO;
 }
 
 - (void)setupRecoveryButton {
@@ -97,15 +96,17 @@
 
 - (void)setupLoginTextfield {
 
+    self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
-    self.loginTextField.placeholder = @"your_name@example.com";
+    self.loginTextField.placeholder = @"address@example.com";
     self.loginTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.loginTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
 - (void)setupPasswordTextField {
 
+    self.passwordTextField.delegate = self;
     self.passwordTextField.textColor = [UIColor kg_blackColor];
     self.passwordTextField.font = [UIFont kg_regular16Font];
     self.passwordTextField.placeholder = @"password";
@@ -113,15 +114,11 @@
     self.passwordTextField.secureTextEntry = YES;
 }
 
-- (IBAction)logOutAction:(id)sender {
-    [[KGBusinessLogic sharedInstance] signOut];
-}
 
 #pragma mark - Configuration
 
 - (void)configureLabels {
-    self.titleLabel.text = @"Mattermost";
-    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere";
+    self.titleLabel.text = @"Team name";
     self.loginPromtLabel.text = @"Email";
     self.passwordPromtLabel.text = @"Password";
 }
@@ -130,27 +127,55 @@
 #pragma mark - Actions
 
 - (IBAction)loginAction:(id)sender {
-    [self login];
+    if ([self.loginTextField.text kg_isValidEmail]){
+        [self login];
+    } else {
+        [self processErrorWithTitle:@"Error" message:@"Incorrect email address format"];
+    }
 }
 
 - (IBAction)recoveryAction:(id)sender {
 }
 
+- (IBAction)loginChangeAction:(id)sender {
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0) {
+        self.loginButton.enabled = YES;
+    } else {
+        self.loginButton.enabled = NO;
+    }
+}
+- (IBAction)passwordChangeAction:(id)sender {
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0) {
+        self.loginButton.enabled = YES;
+    } else {
+        self.loginButton.enabled = NO;
+    }
+}
 
 #pragma mark - Requests
 
 - (void)login {
-    NSString * login = self.loginTextField.text;
-    NSString * password = self.passwordTextField.text;
+    NSString *login = self.loginTextField.text;
+    NSString *password = self.passwordTextField.text;
+    [self showProgressHud];
+    
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
-        NSString *title = error ? @"Error" : @"Success";
-        if (error){
-//            [self.loginTextField highlightForError];
-//            [self.passwordTextField highlightForError];
+        [self hideProgressHud];
+        if (error) {
+            [self processError:error];
             [self highlightTextFieldsForError];
         }
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
-        [alert show];
+        else {
+            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                if (error) {
+                    [self processError:error];
+                } else if (userShouldSelectTeam) {
+                    [self performSegueWithIdentifier:kPresentChatSegueIdentifier sender:nil];
+                } else {
+                    [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+                }
+            }];
+        }
     }];
 }
 

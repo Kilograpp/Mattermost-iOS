@@ -31,4 +31,6 @@ _Pragma("clang diagnostic pop") \
 #define SWITCH(s)                       for (NSString *__s__ = (s); ; )
 #define DEFAULT
 
+#define KGLog(fmt, ...) NSLog(@"KGLog [%@]: %@", NSStringFromSelector(_cmd), ##__VA_ARGS__)
+
 #endif /* KGUtils_h */

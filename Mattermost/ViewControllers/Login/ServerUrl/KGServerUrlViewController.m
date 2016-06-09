@@ -13,11 +13,13 @@
 #import "KGButton.h"
 #import "KGTextField.h"
 #import "KGPreferences.h"
+#import "KGUtils.h"
+#import "NSString+Validation.h"
 
+static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *promtLabel;
 @property (weak, nonatomic) IBOutlet KGTextField *textField;
 
@@ -32,8 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    
     [self setupTitleLabel];
-    [self setupSubtitleLabel];
     [self setupPromtLabel];
     [self setupNextButton];
     [self setupTextfield];
@@ -44,6 +46,12 @@
     [super viewDidAppear:animated];
     
     [self.textField becomeFirstResponder];
+
+}
+
+- (void)test {
+    self.textField.text = @"https://mattermost.kilograpp.com";
+    self.nextButton.enabled = YES;
 }
 
 
@@ -52,11 +60,6 @@
 - (void)setupTitleLabel {
     self.titleLabel.font = [UIFont kg_semibold30Font];
     self.titleLabel.textColor = [UIColor kg_blackColor];
-}
-
-- (void)setupSubtitleLabel {
-    self.subtitleLabel.font = [UIFont kg_light18Font];
-    self.subtitleLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupPromtLabel {
@@ -70,17 +73,16 @@
     [self.nextButton setTitle:NSLocalizedString(@"Next", nil) forState:UIControlStateNormal];
     [self.nextButton setTintColor:[UIColor whiteColor]];
     self.nextButton.titleLabel.font = [UIFont kg_regular16Font];
+    self.nextButton.enabled = NO;
 }
 
 - (void)setupTextfield {
 
+    self.textField.delegate = self;
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
     self.textField.placeholder = @"https://matttermost.example.com";
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-//    UIView * subView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.textField.frame.size.width, 1.f)];
-//    subView.backgroundColor = [UIColor grayColor];
-//    [self.textField addSubview:subView];
 }
 
 
@@ -88,14 +90,47 @@
 
 - (void)configureLabels {
     self.titleLabel.text = @"Mattermost";
-    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere";
     self.promtLabel.text = @"Team server URL";
 }
 
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
+    [self nextActionHandler];
+}
+
+- (IBAction)textChangeAction:(id)sender {
+    self.nextButton.enabled = (self.textField.text.length > 0) ? YES : NO;
+}
+
+
+#pragma mark - Private
+
+- (void)setServerBaseUrl {
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
+    KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
+}
+
+- (void)nextActionHandler {
+    if ([self.textField.text kg_isValidUrl]) {
+        [self setServerBaseUrl];
+        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+    } else {
+        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
+    }
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.textField]) {
+        [self nextActionHandler];
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
 

@@ -10,6 +10,7 @@
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Notifications.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
+#import "KGBusinessLogic+Session.h"
 
 @interface KGAppDelegate ()
 
@@ -57,11 +58,20 @@
 #pragma mark - Private
 
 - (void)loadInitialScreen {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    [[KGBusinessLogic sharedInstance] signOut];
     
-    UINavigationController *navController = [sb instantiateInitialViewController];
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
+    if ([[KGBusinessLogic sharedInstance] isSignedIn]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
+        UINavigationController *navController = [sb instantiateInitialViewController];
+        self.window.rootViewController = navController;
+        [self.window makeKeyAndVisible];
+
+    } else {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UINavigationController *navController = [sb instantiateInitialViewController];
+        self.window.rootViewController = navController;
+        [self.window makeKeyAndVisible];
+    }
 }
 
 - (void)setupKeyboardManager {

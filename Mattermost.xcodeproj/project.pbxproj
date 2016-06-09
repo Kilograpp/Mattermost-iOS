@@ -32,11 +32,17 @@
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
+		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
+		D67923F61D0943D000481694 /* NSString+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F51D0943D000481694 /* NSString+Validation.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
 		D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */; };
 		D696F7841D060FDD008341AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D696F7831D060FDD008341AF /* Assets.xcassets */; };
 		D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F7851D060FDD008341AF /* LaunchScreen.storyboard */; };
+		D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D69FB1721D097B2700043C2D /* Chat.storyboard */; };
+		D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D69FB1761D097F4200043C2D /* KGAlertManager.m */; };
+		D69FB17B1D097FA000043C2D /* UIWindow+KGAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D69FB17A1D097FA000043C2D /* UIWindow+KGAdditions.m */; };
+		D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D69FB17E1D0992B200043C2D /* KGTeamsViewController.m */; };
 		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
 		D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */; };
 		D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CD1D0755A800B053CE /* KGLoginViewController.m */; };
@@ -103,6 +109,10 @@
 		9B822E4DC3786A5C93FF79EC /* NSObject+EnumerateProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumerateProperties.h"; sourceTree = "<group>"; };
 		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
+		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
+		D67923F41D0943D000481694 /* NSString+Validation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Validation.h"; sourceTree = "<group>"; };
+		D67923F51D0943D000481694 /* NSString+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Validation.m"; sourceTree = "<group>"; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D696F7771D060FDD008341AF /* KGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KGAppDelegate.h; sourceTree = "<group>"; };
@@ -112,6 +122,13 @@
 		D696F7861D060FDD008341AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D696F7881D060FDD008341AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
+		D69FB1721D097B2700043C2D /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		D69FB1751D097F4200043C2D /* KGAlertManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertManager.h; sourceTree = "<group>"; };
+		D69FB1761D097F4200043C2D /* KGAlertManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertManager.m; sourceTree = "<group>"; };
+		D69FB1791D097FA000043C2D /* UIWindow+KGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+KGAdditions.h"; sourceTree = "<group>"; };
+		D69FB17A1D097FA000043C2D /* UIWindow+KGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+KGAdditions.m"; sourceTree = "<group>"; };
+		D69FB17D1D0992B200043C2D /* KGTeamsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamsViewController.h; path = Teams/KGTeamsViewController.h; sourceTree = "<group>"; };
+		D69FB17E1D0992B200043C2D /* KGTeamsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamsViewController.m; path = Teams/KGTeamsViewController.m; sourceTree = "<group>"; };
 		D6C154C41D07557600B053CE /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
 		D6C154C51D07557600B053CE /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGViewController.m; sourceTree = "<group>"; };
 		D6C154C91D07559E00B053CE /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGServerUrlViewController.h; sourceTree = "<group>"; };
@@ -206,8 +223,9 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9B822F9BC10946A08F87993F /* KGObjectManager */,
+				D69FB1741D097F3200043C2D /* KGAlertManager */,
 				9B822755ADDFDC7B4B9D5F05 /* KGError */,
+				9B822F9BC10946A08F87993F /* KGObjectManager */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -242,8 +260,8 @@
 		9B82284E71F48B04182627A6 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
-				9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */,
 				9B8229EC418A60EDCE8AC9EF /* KGBusinessLogic+Posts.h */,
+				9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -273,10 +291,12 @@
 			children = (
 				9B8229E81C4A960156D4C50F /* NSError */,
 				D8B429111D0717FB008BF955 /* NSObject */,
+				D67923F21D0943B100481694 /* NSString */,
 				D8B4290D1D071764008BF955 /* RKRequestDescriptor */,
 				D8B429011D071290008BF955 /* RKResponseDescriptor */,
 				D6C154CF1D0755EB00B053CE /* UIColor */,
 				9B82261E84449FAA9ABDE609 /* UIFont */,
+				D69FB1781D097F5800043C2D /* UIWindow */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -284,8 +304,8 @@
 		9B822CC0DBF584A499DB8335 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				9B8228762344686CE2207B8C /* KGManagedObject.m */,
 				9B8227136A03D68E83AC0C8E /* KGManagedObject.h */,
+				9B8228762344686CE2207B8C /* KGManagedObject.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -293,8 +313,8 @@
 		9B822D190D7E79A75E3533DE /* Channels */ = {
 			isa = PBXGroup;
 			children = (
-				9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */,
 				9B8226090FAC37951F756F11 /* KGBusinessLogic+Channel.h */,
+				9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */,
 			);
 			path = Channels;
 			sourceTree = "<group>";
@@ -302,8 +322,8 @@
 		9B822F9BC10946A08F87993F /* KGObjectManager */ = {
 			isa = PBXGroup;
 			children = (
-				9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */,
 				9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */,
+				9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */,
 			);
 			path = KGObjectManager;
 			sourceTree = "<group>";
@@ -315,6 +335,32 @@
 				544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D67923EE1D09439200481694 /* ResetPassword */ = {
+			isa = PBXGroup;
+			children = (
+				D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */,
+				D67923F01D09439E00481694 /* KGResetPasswordViewController.m */,
+			);
+			path = ResetPassword;
+			sourceTree = "<group>";
+		};
+		D67923F21D0943B100481694 /* NSString */ = {
+			isa = PBXGroup;
+			children = (
+				D67923F31D0943B600481694 /* Validation */,
+			);
+			path = NSString;
+			sourceTree = "<group>";
+		};
+		D67923F31D0943B600481694 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				D67923F41D0943D000481694 /* NSString+Validation.h */,
+				D67923F51D0943D000481694 /* NSString+Validation.m */,
+			);
+			path = Validation;
 			sourceTree = "<group>";
 		};
 		D696F7681D060FDD008341AF = {
@@ -341,6 +387,7 @@
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
 				9B822B986A41E5765DB8CD58 /* Categories */,
+				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
 				D696F78F1D061099008341AF /* Model */,
 				D6C154D31D0756DC00B053CE /* NavigationControllers */,
 				D696F79E1D061368008341AF /* Resources */,
@@ -349,7 +396,6 @@
 				D8B429121D071846008BF955 /* Utils */,
 				41FC94B11D07FA6C009E1090 /* View */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
-				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -365,10 +411,10 @@
 		D696F78F1D061099008341AF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9B822CC0DBF584A499DB8335 /* Common */,
 				D696F7911D06121D008341AF /* Human */,
 				D696F7921D061226008341AF /* Machine */,
 				D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */,
-				9B822CC0DBF584A499DB8335 /* Common */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -385,16 +431,16 @@
 		D696F7911D06121D008341AF /* Human */ = {
 			isa = PBXGroup;
 			children = (
+				9B822FEE7032FD6461D8CEF3 /* KGChannel.h */,
+				9B822BE95D060B2A944203CA /* KGChannel.m */,
+				9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */,
+				9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */,
+				9B822DE7BEDDF6462930AE3B /* KGPost.h */,
+				9B8226FF7B005D985E9C9B4C /* KGPost.m */,
 				D8B428EC1D06DFE6008BF955 /* KGTeam.h */,
 				D8B428ED1D06DFE6008BF955 /* KGTeam.m */,
 				D8B428EE1D06DFE6008BF955 /* KGUser.h */,
 				D8B428EF1D06DFE6008BF955 /* KGUser.m */,
-				9B822BE95D060B2A944203CA /* KGChannel.m */,
-				9B822FEE7032FD6461D8CEF3 /* KGChannel.h */,
-				9B822DE7BEDDF6462930AE3B /* KGPost.h */,
-				9B8226FF7B005D985E9C9B4C /* KGPost.m */,
-				9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */,
-				9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */,
 			);
 			path = Human;
 			sourceTree = "<group>";
@@ -402,14 +448,14 @@
 		D696F7921D061226008341AF /* Machine */ = {
 			isa = PBXGroup;
 			children = (
+				9B822D047156786CF9AA400F /* _KGChannel.h */,
+				9B8223CA8B69CED7D59257FD /* _KGChannel.m */,
+				9B82259DAEA11B42D97AA516 /* _KGPost.h */,
+				9B82210DA8457DEE5157685D /* _KGPost.m */,
 				D8B428F21D06DFED008BF955 /* _KGTeam.h */,
 				D8B428F31D06DFED008BF955 /* _KGTeam.m */,
 				D8B428F41D06DFED008BF955 /* _KGUser.h */,
 				D8B428F51D06DFED008BF955 /* _KGUser.m */,
-				9B822D047156786CF9AA400F /* _KGChannel.h */,
-				9B8223CA8B69CED7D59257FD /* _KGChannel.m */,
-				9B82210DA8457DEE5157685D /* _KGPost.m */,
-				9B82259DAEA11B42D97AA516 /* _KGPost.h */,
 			);
 			path = Machine;
 			sourceTree = "<group>";
@@ -417,13 +463,13 @@
 		D696F7991D061301008341AF /* BusinessLogic */ = {
 			isa = PBXGroup;
 			children = (
+				9B822D190D7E79A75E3533DE /* Channels */,
+				9B82284E71F48B04182627A6 /* Posts */,
+				9B82279F2329C139228A2068 /* Notifications */,
 				D8B429171D07330D008BF955 /* Session */,
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
-				9B822D190D7E79A75E3533DE /* Channels */,
-				9B82284E71F48B04182627A6 /* Posts */,
-				9B82279F2329C139228A2068 /* Notifications */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -431,6 +477,7 @@
 		D696F79D1D061340008341AF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				D69FB1721D097B2700043C2D /* Chat.storyboard */,
 				9B822C6FC588149134FF2451 /* Login.storyboard */,
 			);
 			path = Storyboards;
@@ -446,6 +493,33 @@
 				9B82276635BE51FB6CAFF1A9 /* Preferences.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		D69FB1741D097F3200043C2D /* KGAlertManager */ = {
+			isa = PBXGroup;
+			children = (
+				D69FB1751D097F4200043C2D /* KGAlertManager.h */,
+				D69FB1761D097F4200043C2D /* KGAlertManager.m */,
+			);
+			path = KGAlertManager;
+			sourceTree = "<group>";
+		};
+		D69FB1781D097F5800043C2D /* UIWindow */ = {
+			isa = PBXGroup;
+			children = (
+				D69FB1791D097FA000043C2D /* UIWindow+KGAdditions.h */,
+				D69FB17A1D097FA000043C2D /* UIWindow+KGAdditions.m */,
+			);
+			path = UIWindow;
+			sourceTree = "<group>";
+		};
+		D69FB17C1D09923700043C2D /* Teams */ = {
+			isa = PBXGroup;
+			children = (
+				D69FB17D1D0992B200043C2D /* KGTeamsViewController.h */,
+				D69FB17E1D0992B200043C2D /* KGTeamsViewController.m */,
+			);
+			name = Teams;
 			sourceTree = "<group>";
 		};
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
@@ -469,8 +543,10 @@
 		D6C154C31D07556600B053CE /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				D69FB17C1D09923700043C2D /* Teams */,
 				41FC94BA1D081EC8009E1090 /* Base */,
 				D6C154C81D07558F00B053CE /* Login */,
+				D67923EE1D09439200481694 /* ResetPassword */,
 				D6C154C71D07558600B053CE /* ServerUrl */,
 			);
 			path = Login;
@@ -553,8 +629,8 @@
 			children = (
 				D8B4290A1D0713F1008BF955 /* NSObject+DumpValues.h */,
 				D8B4290B1D0713F1008BF955 /* NSObject+DumpValues.m */,
-				9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */,
 				9B822E4DC3786A5C93FF79EC /* NSObject+EnumerateProperties.h */,
+				9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */,
 			);
 			path = NSObject;
 			sourceTree = "<group>";
@@ -564,9 +640,9 @@
 			children = (
 				D8B429141D071969008BF955 /* KGConstants.h */,
 				D8B429151D071969008BF955 /* KGConstants.m */,
-				9B822E068632C717861972A7 /* KGUtils.h */,
-				9B822A262E677040DD4EF48D /* KGPreferences.m */,
 				9B82282B314DA6557A5AA0DD /* KGPreferences.h */,
+				9B822A262E677040DD4EF48D /* KGPreferences.m */,
+				9B822E068632C717861972A7 /* KGUtils.h */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -650,6 +726,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
 				9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */,
@@ -730,13 +807,18 @@
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
+				D69FB17B1D097FA000043C2D /* UIWindow+KGAdditions.m in Sources */,
+				D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */,
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
+				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
 				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
 				D8B4290C1D0713F1008BF955 /* NSObject+DumpValues.m in Sources */,
+				D67923F61D0943D000481694 /* NSString+Validation.m in Sources */,
+				D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */,
 				9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
