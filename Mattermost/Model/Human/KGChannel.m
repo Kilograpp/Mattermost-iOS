@@ -6,6 +6,7 @@
 #import "KGUser.h"
 #import "KGUtils.h"
 #import "NSStringUtils.h"
+#import "KGBusinessLogic+Session.h"
 
 @interface KGChannel ()
 
@@ -81,8 +82,14 @@
 
 - (void)configureDisplayName {
     if (self.type == KGChannelTypePrivate && [NSStringUtils isStringEmpty:self.displayName]) {
-        NSString *companionIdentifier = [[self.name componentsSeparatedByString:@"__"] lastObject];
-        NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username] ;
+        NSArray *ids = [self.name componentsSeparatedByString:@"__"];
+        NSString *companionIdentifier;
+        for (NSString *str in ids) {
+            if (![str isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) {
+                companionIdentifier = str;
+            }
+        }
+        NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username];
         self.displayName = futureName;
     }
 }
