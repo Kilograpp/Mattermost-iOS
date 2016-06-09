@@ -2,7 +2,8 @@
 
 typedef NS_ENUM(NSInteger, KGChannelType) {
     KGChannelTypePrivate,
-    KGChannelTypePublic
+    KGChannelTypePublic,
+    KGChannelTypeUnknown
 };
 
 @interface KGChannel : _KGChannel
@@ -10,4 +11,7 @@ typedef NS_ENUM(NSInteger, KGChannelType) {
 - (KGChannelType)type;
 
 + (NSString*)listPathPattern;
+
++ (NSString *)titleForChannelBackendType:(NSString *)backendType;
+
 @end

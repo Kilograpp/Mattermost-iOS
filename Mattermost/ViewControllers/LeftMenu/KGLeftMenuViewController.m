@@ -18,6 +18,7 @@
 #import "KGChannel.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import "KGChannelTableViewCell.h"
+#import "KGUtils.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -35,13 +36,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   [self loadChannels];
+   
     self.tableView.delegate = self;
     [self setup];
     [self setupAvatarImageView];
     [self setupNicknameLabel];
     [self setupTeamLabel];
     [self configureHeaderView];
+    [self setupFetchedResultsController];
 }
 
 
@@ -85,29 +87,40 @@
 
 #pragma mark - UITableViewDataSource
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 3;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.fetchedResultsController.sections.count;
+}
 
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.fetchedResultsController.sections[section] numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-   // NSString *identifier = [NSString stringWithFormat:@"%@Identifier", NSStringFromClass([KGChannelTableViewCell class])];
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChannelCell" ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSLog(@"%d %@ %@", channel.type, channel.backendType, channel.displayName);
     [cell configureWitChannelName:channel.displayName];
     return cell;
 }
 
-#pragma mark - Requests
 
-- (void)loadChannels {
-    [self showProgressHud];
+#pragma mark - UITableViewDelegate
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSString *sectionHeaderTitle = [KGChannel titleForChannelBackendType:[sectionInfo name]];
     
-    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:nil ascending:NO withPredicate:nil groupBy:nil delegate:self];
+    return sectionHeaderTitle;
+}
+
+#pragma mark - NSFetchedResultsController
+
+- (void)setupFetchedResultsController {
+    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:NSStringFromSelector(@selector(displayName))
+                                                         ascending:YES
+                                                     withPredicate:nil
+                                                           groupBy:NSStringFromSelector(@selector(backendType))
+                                                          delegate:nil];
 }
 
 @end

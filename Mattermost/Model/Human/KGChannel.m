@@ -66,7 +66,7 @@
 
 #pragma mark - Core Data
 
-- (void)willSave{
+- (void)willSave {
     [super willSave];
     [self configureTeam];
     [self configureDisplayName];
@@ -91,6 +91,20 @@
         }
         NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username];
         self.displayName = futureName;
+    }
+}
+
+
+#pragma mark - Public
+
++ (NSString *)titleForChannelBackendType:(NSString *)backendType {
+    SWITCH(backendType) {
+        CASE(@"D")
+        return @"Private messages";
+        CASE(@"O")
+        return @"Channels";
+        DEFAULT
+        return @"Unknown";
     }
 }
 

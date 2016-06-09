@@ -162,7 +162,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     [self showProgressHud];
     
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
-        [self hideProgressHud];
         if (error) {
             [self processError:error];
             [self highlightTextFieldsForError];
@@ -173,6 +172,7 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
                     [self processError:error];
                 } else if (!userShouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+                        [self hideProgressHud];
                         if (error) {
                             [self processError:error];
                         } else {
@@ -182,6 +182,7 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
                     }];
                     
                 } else {
+                    [self hideProgressHud];
                     KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
                     [self presentViewController:vc animated:YES completion:nil];
                 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -21,6 +21,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nil-Qf-8cS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdx-ee-mvJ">
+                                        <rect key="frame" x="290" y="30" width="55" height="30"/>
+                                        <state key="normal" title="sign out">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signOutAction:" destination="hdD-Ic-QsO" eventType="touchUpInside" id="bnD-tx-yZB"/>
+                                        </connections>
+                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jau-ck-h5Z">
                                         <rect key="frame" x="8" y="28" width="55" height="55"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10145474140000001" colorSpace="calibratedRGB"/>
@@ -44,28 +53,21 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.10980392160000001" green="0.4549019608" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="Qdx-ee-mvJ" firstAttribute="top" secondItem="Nil-Qf-8cS" secondAttribute="top" constant="30" id="5Bp-Hf-QWm"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="trailing" secondItem="EDl-Ww-PLV" secondAttribute="trailing" id="5Zo-Hm-Bl5"/>
                                     <constraint firstItem="Jau-ck-h5Z" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="10" id="66p-eZ-DP4"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="20" id="Lfj-RC-GuT"/>
                                     <constraint firstAttribute="height" constant="90" id="OcH-i8-Mp3"/>
                                     <constraint firstItem="EDl-Ww-PLV" firstAttribute="leading" secondItem="Jau-ck-h5Z" secondAttribute="trailing" constant="8" id="S7Z-GN-hy6"/>
                                     <constraint firstItem="Jau-ck-h5Z" firstAttribute="leading" secondItem="Nil-Qf-8cS" secondAttribute="leading" constant="8" id="SH2-DH-EHf"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qdx-ee-mvJ" secondAttribute="trailing" constant="30" id="XOE-8m-gBx"/>
                                     <constraint firstItem="EDl-Ww-PLV" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="-5" id="de7-Av-eg0"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="leading" secondItem="EDl-Ww-PLV" secondAttribute="leading" id="xyH-pp-vHX"/>
                                     <constraint firstAttribute="trailing" secondItem="EDl-Ww-PLV" secondAttribute="trailing" constant="10" id="ySs-Cz-dWl"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdx-ee-mvJ">
-                                <rect key="frame" x="160" y="105" width="55" height="30"/>
-                                <state key="normal" title="sign out">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="signOutAction:" destination="hdD-Ic-QsO" eventType="touchUpInside" id="bnD-tx-yZB"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1nH-oV-yz2">
-                                <rect key="frame" x="0.0" y="90" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChannelCell" id="NzJ-3t-xhb" customClass="KGChannelTableViewCell">
@@ -101,16 +103,26 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="1nH-oV-yz2" firstAttribute="leading" secondItem="kJa-ZG-fXB" secondAttribute="leading" id="2Yz-jU-Yvi"/>
                             <constraint firstItem="1nH-oV-yz2" firstAttribute="top" secondItem="Nil-Qf-8cS" secondAttribute="bottom" id="JS0-0R-BT3"/>
-                            <constraint firstItem="Qdx-ee-mvJ" firstAttribute="top" secondItem="Nil-Qf-8cS" secondAttribute="bottom" constant="15" id="NAj-Rt-fck"/>
                             <constraint firstAttribute="trailing" secondItem="Nil-Qf-8cS" secondAttribute="trailing" id="P0a-6S-RG7"/>
                             <constraint firstItem="1nH-oV-yz2" firstAttribute="trailing" secondItem="Nil-Qf-8cS" secondAttribute="trailing" id="b3H-d3-kCe"/>
                             <constraint firstItem="1nH-oV-yz2" firstAttribute="height" secondItem="kJa-ZG-fXB" secondAttribute="height" constant="-64" id="kF5-gO-xpy"/>
                             <constraint firstItem="Nil-Qf-8cS" firstAttribute="leading" secondItem="kJa-ZG-fXB" secondAttribute="leading" id="l0u-Ny-nyS"/>
                             <constraint firstItem="Nil-Qf-8cS" firstAttribute="top" secondItem="kJa-ZG-fXB" secondAttribute="top" id="lgY-y0-F8T"/>
                             <constraint firstItem="1nH-oV-yz2" firstAttribute="leading" secondItem="Nil-Qf-8cS" secondAttribute="leading" id="r9X-W9-RI1"/>
-                            <constraint firstItem="Qdx-ee-mvJ" firstAttribute="centerX" secondItem="kJa-ZG-fXB" secondAttribute="centerX" id="sva-Ac-Y2R"/>
+                            <constraint firstAttribute="bottom" secondItem="1nH-oV-yz2" secondAttribute="bottom" id="uw3-O2-5D9"/>
+                            <constraint firstItem="1nH-oV-yz2" firstAttribute="top" secondItem="Nil-Qf-8cS" secondAttribute="bottom" id="vgR-Kz-xdV"/>
+                            <constraint firstAttribute="trailing" secondItem="1nH-oV-yz2" secondAttribute="trailing" id="zaS-Dv-luO"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="JS0-0R-BT3"/>
+                                <exclude reference="b3H-d3-kCe"/>
+                                <exclude reference="kF5-gO-xpy"/>
+                                <exclude reference="r9X-W9-RI1"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -123,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WzY-CC-Jtx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="502.5" y="-217.5"/>
+            <point key="canvasLocation" x="552.5" y="-219.5"/>
         </scene>
         <!--Chat Navigation Controller-->
         <scene sceneID="GMN-R0-Mnt">
@@ -142,7 +154,7 @@
             </objects>
             <point key="canvasLocation" x="503" y="506"/>
         </scene>
-        <!--Test-->
+        <!--Kilograpp-->
         <scene sceneID="cWP-WO-cIe">
             <objects>
                 <viewController id="uKV-ME-BHi" customClass="KGViewController" sceneMemberID="viewController">
@@ -155,7 +167,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Test" id="GGU-Yz-pO3"/>
+                    <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
