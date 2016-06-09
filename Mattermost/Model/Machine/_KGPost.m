@@ -3,12 +3,28 @@
 
 #import "_KGPost.h"
 
+const struct KGPostAttributes KGPostAttributes = {
+	.channelId = @"channelId",
+	.createdAt = @"createdAt",
+	.deletedAt = @"deletedAt",
+	.identifier = @"identifier",
+	.message = @"message",
+	.type = @"type",
+	.updatedAt = @"updatedAt",
+	.userId = @"userId",
+};
+
+const struct KGPostRelationships KGPostRelationships = {
+	.author = @"author",
+	.channel = @"channel",
+};
+
 @implementation KGPostID
 @end
 
 @implementation _KGPost
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:moc_];
 }
@@ -52,41 +68,5 @@
 
 @dynamic channel;
 
-@end
-
-@implementation KGPostAttributes 
-+ (NSString *)channelId {
-	return @"channelId";
-}
-+ (NSString *)createdAt {
-	return @"createdAt";
-}
-+ (NSString *)deletedAt {
-	return @"deletedAt";
-}
-+ (NSString *)identifier {
-	return @"identifier";
-}
-+ (NSString *)message {
-	return @"message";
-}
-+ (NSString *)type {
-	return @"type";
-}
-+ (NSString *)updatedAt {
-	return @"updatedAt";
-}
-+ (NSString *)userId {
-	return @"userId";
-}
-@end
-
-@implementation KGPostRelationships 
-+ (NSString *)author {
-	return @"author";
-}
-+ (NSString *)channel {
-	return @"channel";
-}
 @end
 

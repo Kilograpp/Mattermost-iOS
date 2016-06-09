@@ -3,12 +3,32 @@
 
 #import "_KGChannel.h"
 
+const struct KGChannelAttributes KGChannelAttributes = {
+	.backendType = @"backendType",
+	.createdAt = @"createdAt",
+	.displayName = @"displayName",
+	.header = @"header",
+	.identifier = @"identifier",
+	.lastPostDate = @"lastPostDate",
+	.messagesCount = @"messagesCount",
+	.name = @"name",
+	.purpose = @"purpose",
+	.shouldUpdateAt = @"shouldUpdateAt",
+	.teamId = @"teamId",
+	.updatedAt = @"updatedAt",
+};
+
+const struct KGChannelRelationships KGChannelRelationships = {
+	.posts = @"posts",
+	.team = @"team",
+};
+
 @implementation KGChannelID
 @end
 
 @implementation _KGChannel
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
++ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Channel" inManagedObjectContext:moc_];
 }
@@ -82,10 +102,10 @@
 
 @dynamic posts;
 
-- (NSMutableSet<KGPost*>*)postsSet {
+- (NSMutableSet*)postsSet {
 	[self willAccessValueForKey:@"posts"];
 
-	NSMutableSet<KGPost*> *result = (NSMutableSet<KGPost*>*)[self mutableSetValueForKey:@"posts"];
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"posts"];
 
 	[self didAccessValueForKey:@"posts"];
 	return result;
@@ -93,53 +113,5 @@
 
 @dynamic team;
 
-@end
-
-@implementation KGChannelAttributes 
-+ (NSString *)backendType {
-	return @"backendType";
-}
-+ (NSString *)createdAt {
-	return @"createdAt";
-}
-+ (NSString *)displayName {
-	return @"displayName";
-}
-+ (NSString *)header {
-	return @"header";
-}
-+ (NSString *)identifier {
-	return @"identifier";
-}
-+ (NSString *)lastPostDate {
-	return @"lastPostDate";
-}
-+ (NSString *)messagesCount {
-	return @"messagesCount";
-}
-+ (NSString *)name {
-	return @"name";
-}
-+ (NSString *)purpose {
-	return @"purpose";
-}
-+ (NSString *)shouldUpdateAt {
-	return @"shouldUpdateAt";
-}
-+ (NSString *)teamId {
-	return @"teamId";
-}
-+ (NSString *)updatedAt {
-	return @"updatedAt";
-}
-@end
-
-@implementation KGChannelRelationships 
-+ (NSString *)posts {
-	return @"posts";
-}
-+ (NSString *)team {
-	return @"team";
-}
 @end
 
