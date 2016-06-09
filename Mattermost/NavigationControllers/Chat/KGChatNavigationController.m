@@ -10,17 +10,21 @@
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
 
-@interface KGChatNavigationController ()
+@interface KGChatNavigationController () <UINavigationControllerDelegate>
 
 @end
 
-@implementation KGChatNavigationController
+@implementation KGChatNavigationController 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    self.delegate = self;
     [self setupNavigationBar];
 }
+
+
+#pragma mark - Setup
 
 - (void)setupNavigationBar {
     UINavigationBar *navBar = self.navigationBar;
@@ -33,8 +37,18 @@
     
 }
 
+
+#pragma mark - Status Bar
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+
+#pragma mark - Orientations
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

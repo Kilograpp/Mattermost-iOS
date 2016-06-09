@@ -9,6 +9,7 @@
 #import "KGSideMenuContainerViewController.h"
 #import "KGNavigationController.h"
 #import "KGConstants.h"
+#import "KGLeftMenuViewController.h"
 
 @interface KGSideMenuContainerViewController ()
 @property (nonatomic, assign) CGFloat *oldX;
@@ -27,17 +28,15 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-//    if ([self.centerViewController respondsToSelector:@selector(preferredStatusBarStyle)]) {
-//        return ((UIViewController *)self.centerViewController).preferredStatusBarStyle;
-//    }
     return UIStatusBarStyleLightContent;
 }
 
 + (instancetype)configuredContainerViewController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
     UINavigationController *navController = [sb instantiateInitialViewController];
+    KGLeftMenuViewController *leftMenuViewController = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([KGLeftMenuViewController class])];
     KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController containerWithCenterViewController:navController
-                                                                                                         leftMenuViewController:[UITabBarController new]
+                                                                                                         leftMenuViewController:leftMenuViewController
                                                                                                         rightMenuViewController:[UITabBarController new]];
     sideMenuContainer.leftMenuWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - KGLeftMenuOffset;
     sideMenuContainer.menuAnimationDefaultDuration = KGStandartAnimationDuration;
@@ -46,30 +45,11 @@
     return sideMenuContainer;
 }
 
-//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-//    BOOL shouldAllowPan = NO;
-//    
-//    if ([self.centerViewController isKindOfClass:[KGNavigationController class]]) {
-//        KGNavigationController *navControler = self.centerViewController;
-//        KGViewController *topVc = (KGViewController *)navControler.topViewController;
-//        if ([topVc isKindOfClass:[KGMapViewController class]]) {
-//            shouldAllowPan = YES;
-//        }
-//    }
-//    
-//    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-//        CGPoint velocity = [(UIPanGestureRecognizer *)gestureRecognizer velocityInView:gestureRecognizer.view];
-//        BOOL isHorizontalPanning = fabsf(velocity.x) > fabsf(velocity.y);
-//        BOOL isPanDirectionLeft = self.menuState == MFSideMenuStateClosed && velocity.x < 0;
-//        if (isPanDirectionLeft) {
-//            return shouldAllowPan;
-//        }
-//        return isHorizontalPanning;
-//    }
-//    return YES;
-//}
 
+#pragma mark - Orientations
 
-
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

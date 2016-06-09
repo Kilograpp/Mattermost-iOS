@@ -53,8 +53,6 @@
 #pragma mark - Private
 
 - (void)loadInitialScreen {
-    [[KGBusinessLogic sharedInstance] signOut];
-    
     if ([[KGBusinessLogic sharedInstance] isSignedIn]) {
         KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController configuredContainerViewController];
         self.window.rootViewController = sideMenuContainer;
