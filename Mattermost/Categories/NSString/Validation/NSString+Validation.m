@@ -24,4 +24,11 @@
     return [emailTest evaluateWithObject:self];
 }
 
+- (BOOL)kg_isValidUrl {
+    NSString *urlRegEx = @"(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*))+";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+    
+    return [urlTest evaluateWithObject:self];
+}
+
 @end

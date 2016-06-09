@@ -11,5 +11,6 @@
 @interface NSString (Validation)
 
 - (BOOL)kg_isValidEmail;
+- (BOOL)kg_isValidUrl;
 
 @end
