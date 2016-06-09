@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const KGRestKitClassPrefix;
-extern float      const KGStandartCornerRadius;
+extern NSString             *const KGRestKitClassPrefix;
+extern float                 const KGStandartCornerRadius;
+extern NSTimeInterval        const KGStandartAnimationDuration;
 
 
 #pragma mark - HTTP Constants

@@ -208,20 +208,11 @@
                         <outlet property="recoveryButton" destination="moc-K2-dbE" id="rxp-Zy-Oeh"/>
                         <outlet property="titleLabel" destination="PPM-Op-0Zd" id="viN-cL-9Nz"/>
                         <segue destination="86j-1I-OET" kind="show" identifier="showTeams" id="IrV-ZA-GuU"/>
-                        <segue destination="94p-Tp-hYn" kind="presentation" identifier="presentChat" modalTransitionStyle="crossDissolve" id="ZLn-sN-O7h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xcr-N1-Vbq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="820.5" y="403.5"/>
-        </scene>
-        <!--Chat-->
-        <scene sceneID="JiY-pH-cTb">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" id="94p-Tp-hYn" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3N4-DU-WTf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1376.5" y="475"/>
         </scene>
         <!--Teams View Controller-->
         <scene sceneID="qNp-fJ-9aj">

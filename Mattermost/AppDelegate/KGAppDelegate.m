@@ -9,6 +9,7 @@
 #import "KGAppDelegate.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "KGBusinessLogic+Session.h"
+#import "KGSideMenuContainerViewController.h"
 
 @interface KGAppDelegate ()
 
@@ -55,11 +56,9 @@
     [[KGBusinessLogic sharedInstance] signOut];
     
     if ([[KGBusinessLogic sharedInstance] isSignedIn]) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
-        UINavigationController *navController = [sb instantiateInitialViewController];
-        self.window.rootViewController = navController;
+        KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController configuredContainerViewController];
+        self.window.rootViewController = sideMenuContainer;
         [self.window makeKeyAndVisible];
-
     } else {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
         UINavigationController *navController = [sb instantiateInitialViewController];

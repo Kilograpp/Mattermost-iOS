@@ -8,9 +8,11 @@
 
 #import "KGConstants.h"
 
-NSString * const KGRestKitClassPrefix = @"RK";
-NSString * const KGAuthTokenHeaderName = @"MMAUTHTOKEN";
-float      const KGStandartCornerRadius = 2.f;
+NSString                * const KGRestKitClassPrefix = @"RK";
+NSString                * const KGAuthTokenHeaderName = @"MMAUTHTOKEN";
+float                   const KGStandartCornerRadius = 2.f;
+NSTimeInterval          const KGStandartAnimationDuration = 0.3f;
+float                   const KGLeftMenuOffset = 52.f;
 
 NSString * const KGXRequestedWithHeader = @"X-Requested-With";
 NSString * const KGContentTypeHeader = @"Content-Type";
