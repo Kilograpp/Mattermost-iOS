@@ -15,16 +15,6 @@ NSString *const KGPreparedSemiboldFontName = @"OpenSans-Semibold";
 NSString *const KGPreparedLightFontName = @"OpenSans-Light";
 
 @implementation UIFont (CustomFonts)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
-
-//+ (UIFont *)boldSystemFontOfSize:(CGFloat)fontSize {
-//    return [UIFont fontWithName:KGPreparedBoldFontName size:fontSize];
-//}
-//
-//+ (UIFont *)systemFontOfSize:(CGFloat)fontSize {
-//    return [UIFont fontWithName:KGPreparedRegularFontName size:fontSize];
-//}
 
 + (UIFont *)kg_semibold30Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedSemiboldFontName size:30.f])
@@ -49,10 +39,6 @@ NSString *const KGPreparedLightFontName = @"OpenSans-Light";
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedLightFontName size:18.f])
     return font;
 }
-//+ (UIFont *)semiBoldSystemFontOfSize:(CGFloat)fontSize {
-//    return [UIFont fontWithName:KGPreparedSemiboldFontName size:fontSize];
-//}
-#pragma clang diagnostic pop
 
 @end
 

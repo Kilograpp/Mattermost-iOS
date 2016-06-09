@@ -90,12 +90,18 @@
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
-    
-    [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
+    [self setServerBaseUrl];
 }
 
 - (IBAction)textChangeAction:(id)sender {
     self.nextButton.enabled = (self.textField.text.length > 0) ? YES : NO;
+}
+
+
+#pragma mark - Private
+
+- (void)setServerBaseUrl {
+    [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
 }
 
 
