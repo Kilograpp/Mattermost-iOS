@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jau-ck-h5Z">
-                                        <rect key="frame" x="8" y="23" width="55" height="55"/>
+                                        <rect key="frame" x="8" y="28" width="55" height="55"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10145474140000001" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="LDR-uG-u9y"/>
@@ -45,7 +45,7 @@
                                 <color key="backgroundColor" red="0.10980392160000001" green="0.4549019608" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="trailing" secondItem="EDl-Ww-PLV" secondAttribute="trailing" id="5Zo-Hm-Bl5"/>
-                                    <constraint firstItem="Jau-ck-h5Z" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="5" id="66p-eZ-DP4"/>
+                                    <constraint firstItem="Jau-ck-h5Z" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="10" id="66p-eZ-DP4"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="20" id="Lfj-RC-GuT"/>
                                     <constraint firstAttribute="height" constant="90" id="OcH-i8-Mp3"/>
                                     <constraint firstItem="EDl-Ww-PLV" firstAttribute="leading" secondItem="Jau-ck-h5Z" secondAttribute="trailing" constant="8" id="S7Z-GN-hy6"/>
