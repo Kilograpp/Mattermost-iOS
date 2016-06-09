@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic,strong)NSFetchedResultsController *fetchedResultsController;
 - (IBAction)signOutAction:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -34,7 +35,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadChannels];
+   [self loadChannels];
+    self.tableView.delegate = self;
     [self setup];
     [self setupAvatarImageView];
     [self setupNicknameLabel];

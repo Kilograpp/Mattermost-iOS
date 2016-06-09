@@ -19,6 +19,7 @@
 #import "KGSideMenuContainerViewController.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
+static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -175,7 +176,8 @@ static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
                         if (error) {
                             [self processError:error];
                         } else {
-                            [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+                            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
+                            [self presentViewController:vc animated:YES completion:nil];
                         }
                     }];
                     

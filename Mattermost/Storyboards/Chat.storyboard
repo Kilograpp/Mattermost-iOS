@@ -93,6 +93,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="hdD-Ic-QsO" id="sNF-nW-rhk"/>
+                                    <outlet property="delegate" destination="hdD-Ic-QsO" id="ZAp-2u-EUJ"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -113,6 +117,7 @@
                         <outlet property="avatarImageView" destination="Jau-ck-h5Z" id="QNP-NI-LhV"/>
                         <outlet property="headerView" destination="Nil-Qf-8cS" id="dBD-T1-BjY"/>
                         <outlet property="nicknameLabel" destination="EDl-Ww-PLV" id="QXp-jO-z3Z"/>
+                        <outlet property="tableView" destination="1nH-oV-yz2" id="pUS-Qv-OjG"/>
                         <outlet property="teamLabel" destination="z9W-zI-NNk" id="Nuq-Gr-Zh9"/>
                     </connections>
                 </viewController>
