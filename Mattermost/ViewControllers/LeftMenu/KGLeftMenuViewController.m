@@ -19,6 +19,7 @@
 #import <MagicalRecord/MagicalRecord.h>
 #import "KGChannelTableViewCell.h"
 #import "KGUtils.h"
+#import "NSManagedObject+CustomFinder.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -117,13 +118,22 @@
 
 - (void)setupFetchedResultsController {
 
-    NSString* sortBy = [NSString stringWithFormat:@"%@,%@", NSStringFromSelector(@selector(backendType)), NSStringFromSelector(@selector(displayName))];
+    NSSortDescriptor *backendTypeSort = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(backendType))
+                                                                      ascending:NO ];
+    NSSortDescriptor *displayNameSort = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(displayName))
+                                                                      ascending:YES
+                                                                       selector:@selector(caseInsensitiveCompare:)];
 
-    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:sortBy
-                                                         ascending:YES
-                                                     withPredicate:nil
-                                                           groupBy:NSStringFromSelector(@selector(backendType))
-                                                          delegate:nil];
+    NSFetchRequest *fetchRequest = [KGChannel MR_requestAll];
+    [fetchRequest setFetchLimit:100];
+    [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setSortDescriptors:@[backendTypeSort, displayNameSort]];
+
+
+    self.fetchedResultsController = [KGChannel MR_fetchController:fetchRequest
+                                                         delegate:nil
+                                                        groupedBy:NSStringFromSelector(@selector(backendType))];
+
 }
 
 @end
