@@ -4,26 +4,21 @@
 //
 
 #import "KGBusinessLogic+Channel.h"
-#import "RestKit.h"
+#import <RestKit.h>
 #import <MagicalRecord.h>
-#import "SOCKit.h"
+#import <SOCKit.h>
 #import "KGChannel.h"
 #import "KGBusinessLogic+Team.h"
+#import "KGObjectManager.h"
+#import "KGUtils.h"
 
 @implementation KGBusinessLogic (Channel)
 
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion {
     NSString * path = SOCStringFromStringWithObject([KGChannel listPathPattern], [self currentTeam]);
-    [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-
-        if (completion) {
-            completion(nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if(completion) {
-            completion([KGError errorWithNSError:error]);
-        }
-    }];
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
 }
 
 @end

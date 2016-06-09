@@ -12,29 +12,26 @@
 #import <MagicalRecord.h>
 #import "KGUser.h"
 #import "KGPreferences.h"
+#import "KGObjectManager.h"
+#import "KGUtils.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
 @implementation KGBusinessLogic (Session)
 
+#pragma mark - Network
+
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
     NSString *path = [KGUser authPathPattern];
 
-    [self.defaultObjectManager postObject:nil path:path parameters:params success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-
-        [[KGPreferences sharedInstance] setCurrentUserId:[mappingResult.firstObject identifier]];
-
-        if(completion) {
-            completion(nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if(completion) {
-            completion([KGError errorWithNSError:error]);
-        }
-    }];
+    [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
+        [self updateCurrentUserWithObject:mappingResult.firstObject];
+        safetyCall(completion, nil);
+    } failure:completion];
 }
 
+#pragma mark - Current User
 
 - (NSString *)currentUserId {
     return [[KGPreferences sharedInstance] currentUserId];
@@ -43,6 +40,12 @@ extern NSString * const KGAuthTokenHeaderName;
 - (KGUser *)currentUser {
     return [KGUser MR_findFirstByAttribute:@"identifier" withValue:[self currentUserId]];
 }
+
+- (void)updateCurrentUserWithObject:(KGUser*)user {
+    [[KGPreferences sharedInstance] setCurrentUserId:user.identifier];
+}
+
+#pragma mark - Sign In & Out
 
 - (BOOL)isSignedIn {
     NSHTTPCookie *cookie;
@@ -59,6 +62,8 @@ extern NSString * const KGAuthTokenHeaderName;
     [self resetPersistentStore];
     [self clearCookies];
 }
+
+#pragma mark - Resetters
 
 - (void)resetPersistentStore {
     [self.managedObjectStore.mainQueueManagedObjectContext reset];

@@ -10,12 +10,12 @@
 
 @implementation KGChannelPostsWrapper
 
-+ (instancetype)wrapperWithChannel:(KGChannel*)channel page:(NSNumber*)page size:(NSNumber*)size {
++ (instancetype)wrapperForChannel:(KGChannel *)channel page:(NSNumber *)page size:(NSNumber*)size {
     KGChannelPostsWrapper * wrapper = [[self alloc] init];
+    [wrapper setIdentifier:channel.identifier];
     [wrapper setTeam:channel.team];
     [wrapper setPage:page];
     [wrapper setSize:size];
-    [wrapper setIdentifier:channel.identifier];
     return wrapper;
 }
 

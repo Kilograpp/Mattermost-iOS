@@ -15,6 +15,7 @@
 		9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B82276635BE51FB6CAFF1A9 /* Preferences.plist */; };
 		9B8223A1506518E1117BB72D /* KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822BE95D060B2A944203CA /* KGChannel.m */; };
 		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
+		9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C4F7D940BF446AE9219 /* KGError.m */; };
 		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
 		9B822478B94669140F45CB09 /* _KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82210DA8457DEE5157685D /* _KGPost.m */; };
 		9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */; };
@@ -28,13 +29,13 @@
 		9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8226FF7B005D985E9C9B4C /* KGPost.m */; };
 		9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
+		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
 		D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D696F7801D060FDD008341AF /* Mattermost.xcdatamodeld */; };
 		D696F7841D060FDD008341AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D696F7831D060FDD008341AF /* Assets.xcassets */; };
 		D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D696F7851D060FDD008341AF /* LaunchScreen.storyboard */; };
-		D696F7A51D0615D5008341AF /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7A41D0615D5008341AF /* KGError.m */; };
 		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
 		D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */; };
 		D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CD1D0755A800B053CE /* KGLoginViewController.m */; };
@@ -80,11 +81,15 @@
 		9B8228762344686CE2207B8C /* KGManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGManagedObject.m; sourceTree = "<group>"; };
 		9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+EnumerateProperties.m"; sourceTree = "<group>"; };
 		9B8229629554C9C159E8BC63 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
+		9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGObjectManager.m; sourceTree = "<group>"; };
 		9B8229EC418A60EDCE8AC9EF /* KGBusinessLogic+Posts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Posts.h"; sourceTree = "<group>"; };
+		9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGObjectManager.h; sourceTree = "<group>"; };
 		9B822A262E677040DD4EF48D /* KGPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPreferences.m; sourceTree = "<group>"; };
 		9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Posts.m"; sourceTree = "<group>"; };
+		9B822BA2F5E3E10B3F0DAD90 /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		9B822BE95D060B2A944203CA /* KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannel.m; sourceTree = "<group>"; };
 		9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		9B822C4F7D940BF446AE9219 /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
 		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelPostsWrapper.h; sourceTree = "<group>"; };
@@ -104,8 +109,6 @@
 		D696F7861D060FDD008341AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D696F7881D060FDD008341AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D696F79A1D061331008341AF /* KGBusinessLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGBusinessLogic.h; sourceTree = "<group>"; };
-		D696F7A31D0615D5008341AF /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
-		D696F7A41D0615D5008341AF /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
 		D6C154C41D07557600B053CE /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
 		D6C154C51D07557600B053CE /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGViewController.m; sourceTree = "<group>"; };
 		D6C154C91D07559E00B053CE /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGServerUrlViewController.h; sourceTree = "<group>"; };
@@ -197,6 +200,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9B822F9BC10946A08F87993F /* KGObjectManager */,
+				9B822755ADDFDC7B4B9D5F05 /* KGError */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		9B82261E84449FAA9ABDE609 /* UIFont */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +216,15 @@
 				9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */,
 			);
 			path = UIFont;
+			sourceTree = "<group>";
+		};
+		9B822755ADDFDC7B4B9D5F05 /* KGError */ = {
+			isa = PBXGroup;
+			children = (
+				9B822BA2F5E3E10B3F0DAD90 /* KGError.h */,
+				9B822C4F7D940BF446AE9219 /* KGError.m */,
+			);
+			path = KGError;
 			sourceTree = "<group>";
 		};
 		9B82284E71F48B04182627A6 /* Posts */ = {
@@ -266,6 +287,15 @@
 			path = Channels;
 			sourceTree = "<group>";
 		};
+		9B822F9BC10946A08F87993F /* KGObjectManager */ = {
+			isa = PBXGroup;
+			children = (
+				9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */,
+				9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */,
+			);
+			path = KGObjectManager;
+			sourceTree = "<group>";
+		};
 		BA14FEE23A0344239A72E444 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +337,7 @@
 				D8B429121D071846008BF955 /* Utils */,
 				41FC94B11D07FA6C009E1090 /* View */,
 				D6AA86491D0693D9003DF669 /* ViewControllers */,
+				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
 			);
 			path = Mattermost;
 			sourceTree = "<group>";
@@ -374,7 +405,6 @@
 		D696F7991D061301008341AF /* BusinessLogic */ = {
 			isa = PBXGroup;
 			children = (
-				D696F7A21D0615C2008341AF /* Error */,
 				D8B429171D07330D008BF955 /* Session */,
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
@@ -403,15 +433,6 @@
 				9B82276635BE51FB6CAFF1A9 /* Preferences.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		D696F7A21D0615C2008341AF /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				D696F7A31D0615D5008341AF /* KGError.h */,
-				D696F7A41D0615D5008341AF /* KGError.m */,
-			);
-			path = Error;
 			sourceTree = "<group>";
 		};
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
@@ -682,7 +703,6 @@
 			files = (
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
-				D696F7A51D0615D5008341AF /* KGError.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
 				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
@@ -716,6 +736,8 @@
 				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
+				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
+				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

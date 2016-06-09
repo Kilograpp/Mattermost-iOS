@@ -14,11 +14,12 @@
 #import "RKResponseDescriptor+Runtime.h"
 #import "RKRequestDescriptor+Runtime.h"
 #import "KGPreferences.h"
+#import "KGObjectManager.h"
 
 @interface KGBusinessLogic ()
 
 @property (assign) BOOL shouldReloadDefaultManager;
-@property (strong, nonatomic, readwrite) RKObjectManager *defaultObjectManager;
+@property (strong, nonatomic, readwrite) KGObjectManager *defaultObjectManager;
 @property (strong, nonatomic, readwrite) RKManagedObjectStore *managedObjectStore;
 
 @end
@@ -58,11 +59,11 @@
     [self unsubscribeFromServerBaseUrlChanges];
 }
 
-- (RKObjectManager *)defaultObjectManager {
+- (KGObjectManager *)defaultObjectManager {
     if (!_defaultObjectManager || _shouldReloadDefaultManager) {
         NSURL *serverBaseUrl = [NSURL URLWithString:[[KGPreferences sharedInstance] serverBaseUrl]];
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
-        RKObjectManager *manager = [RKObjectManager managerWithBaseURL:apiBaseUrl];
+        KGObjectManager *manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
 
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];

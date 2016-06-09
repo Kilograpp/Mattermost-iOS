@@ -11,32 +11,29 @@
 #import <MagicalRecord.h>
 #import "KGTeam.h"
 #import "KGPreferences.h"
+#import "KGUtils.h"
+#import "KGObjectManager.h"
 
 @implementation KGBusinessLogic (Team)
 
+#pragma mark - Network
+
 - (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion {
-    
-    
     NSString* path = [KGTeam initialLoadPathPattern];
-    
-    [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        BOOL hasSingleTeam = [mappingResult.dictionary[@"teams"] count] == 1;
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        BOOL hasSingleTeam = [self isMappingResultContainsOnlyOneTeam:mappingResult];
 
         if (hasSingleTeam) {
-            [[KGPreferences sharedInstance] setCurrentTeamId:[[mappingResult.dictionary[@"teams"] firstObject] identifier]];
+            [self setFirstTeamAsCurrentFromMappingResult:mappingResult];
         }
-        
-        if (completion) {
-            completion(hasSingleTeam, nil);
-        }
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if(completion) {
-            completion(YES, [KGError errorWithNSError:error]);
-        }
+
+        safetyCall(completion, hasSingleTeam, nil);
+    } failure:^(KGError *error) {
+        safetyCall(completion, YES, error);
     }];
 }
+
+#pragma mark - Current Team
 
 - (NSString*)currentTeamId {
     return [[KGPreferences sharedInstance] currentTeamId];
@@ -48,6 +45,16 @@
 
 - (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context{
     return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId] inContext:context];
+}
+
+#pragma mark - Mapping Result Helpers
+
+- (void)setFirstTeamAsCurrentFromMappingResult:(RKMappingResult*)mappingResult {
+    [[KGPreferences sharedInstance] setCurrentTeamId:[[mappingResult.dictionary[@"teams"] firstObject] identifier]];
+}
+
+- (BOOL)isMappingResultContainsOnlyOneTeam:(RKMappingResult *)mappingResult {
+    return [mappingResult.dictionary[@"teams"] count] == 1;
 }
 
 @end

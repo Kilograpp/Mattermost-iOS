@@ -9,25 +9,22 @@
 #import "KGChannel.h"
 #import "KGPost.h"
 #import "KGChannelPostsWrapper.h"
+#import "KGObjectManager.h"
+#import "KGUtils.h"
 
 @implementation KGBusinessLogic (Posts)
+
+#pragma mark - Network
 
 - (void)loadPostsForChannel:(KGChannel*)channel
                        page:(NSNumber *)page
                        size:(NSNumber *)size
                  completion:(void(^)(KGError *error))completion {
-
-    KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperWithChannel:channel page:page size:size];
+    KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel page:page size:size];
     NSString * path = SOCStringFromStringWithObject([KGPost postsPathPattern], wrapper);
-    [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        if (completion) {
-            completion(nil);
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if(completion) {
-            completion([KGError errorWithNSError:error]);
-        }
-    }];
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
 }
 
 @end
