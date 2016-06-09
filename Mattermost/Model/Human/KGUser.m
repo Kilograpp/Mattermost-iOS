@@ -1,6 +1,9 @@
 #import "KGUser.h"
 #import "KGTeam.h"
 #import "KGChannel.h"
+#import "KGBusinessLogic.h"
+#import "KGObjectManager.h"
+#import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
 
 @interface KGUser ()
@@ -10,6 +13,10 @@
 @end
 
 @implementation KGUser
+
+- (NSURL*)imageUrl {
+    return [[KGBusinessLogic sharedInstance] imageUrlForUser:self];
+}
 
 #pragma mark - Mappings
 

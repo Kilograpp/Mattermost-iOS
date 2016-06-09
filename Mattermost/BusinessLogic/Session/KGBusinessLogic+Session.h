@@ -14,7 +14,7 @@
 - (void)loginWithEmail:(NSString *)login
               password:(NSString *)password
             completion:(void(^)(KGError *error))completion;
-
+- (NSURL *)imageUrlForUser:(KGUser *)user;
 
 - (NSString*)currentUserId;
 - (KGUser*)currentUser;

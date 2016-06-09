@@ -3,12 +3,28 @@
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Team.h"
 #import "KGTeam.h"
+#import "KGUser.h"
+#import "KGUtils.h"
+#import "NSStringUtils.h"
 
 @interface KGChannel ()
 
 @end
 
 @implementation KGChannel
+
+#pragma mark - Properties
+
+- (KGChannelType)type {
+    SWITCH(self.backendType) {
+        CASE(@"D")
+            return KGChannelTypePrivate;
+        CASE(@"O")
+            return KGChannelTypePublic;
+        DEFAULT
+            return KGChannelTypePublic;
+    }
+}
 
 #pragma mark - Mappings
 
@@ -51,9 +67,23 @@
 
 - (void)willSave{
     [super willSave];
+    [self configureTeam];
+    [self configureDisplayName];
+}
 
+#pragma mark - Support
+
+- (void)configureTeam {
     if (!self.team) {
         self.team = [[KGBusinessLogic sharedInstance] currentTeamInContext:self.managedObjectContext];
+    }
+}
+
+- (void)configureDisplayName {
+    if (self.type == KGChannelTypePrivate && [NSStringUtils isStringEmpty:self.displayName]) {
+        NSString *companionIdentifier = [[self.name componentsSeparatedByString:@"__"] lastObject];
+        NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username] ;
+        self.displayName = futureName;
     }
 }
 
