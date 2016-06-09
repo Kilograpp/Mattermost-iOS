@@ -21,8 +21,16 @@
                        size:(NSNumber *)size
                  completion:(void(^)(KGError *error))completion {
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel page:page size:size];
-    NSString * path = SOCStringFromStringWithObject([KGPost postsPathPattern], wrapper);
+    NSString * path = SOCStringFromStringWithObject([KGPost listPathPattern], wrapper);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
+}
+
+- (void)sendPost:(KGPost *)post
+      completion:(void(^)(KGError *error))completion {
+    NSString* path = SOCStringFromStringWithObject([KGPost creationPathPattern], post);
+    [self.defaultObjectManager postObject:post path:path success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }

@@ -25,6 +25,11 @@
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure;
 
+- (void)postObject:(id)object
+              path:(NSString *)path
+           success:(void (^)(RKMappingResult *mappingResult))success
+           failure:(void (^)(KGError *error))failure;
+
 - (void)postObjectAtPath:(NSString *)path
               parameters:(NSDictionary *)parameters
                  success:(void (^)(RKMappingResult *mappingResult))success
