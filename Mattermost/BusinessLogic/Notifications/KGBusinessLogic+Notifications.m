@@ -48,6 +48,7 @@
 
 - (void)saveNotificationsToken:(NSData *)token {
     NSString *tokenString = [token.description stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    tokenString = [tokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
     [[KGPreferences sharedInstance] setDeviceUuid:tokenString];
 }
 
