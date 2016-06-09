@@ -40,11 +40,11 @@
 }
 
 - (KGTeam *)currentTeam {
-    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId]];
+    return [KGTeam managedObjectById:[self currentTeamId]];
 }
 
 - (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context{
-    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId] inContext:context];
+    return [KGTeam managedObjectById:[self currentTeamId] inContext:context];
 }
 
 #pragma mark - Mapping Result Helpers

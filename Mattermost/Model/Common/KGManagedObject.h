@@ -20,11 +20,14 @@
 
 @interface KGManagedObject : NSManagedObject
 
-+ (instancetype)managedObjectById:(NSNumber *)objectId;
++ (instancetype)managedObjectById:(NSString *)objectId;
++ (instancetype)managedObjectById:(NSString *)objectId inContext:(NSManagedObjectContext *)context;
+
 + (NSString *)entityName;
 + (RKEntityMapping *)entityMapping;
 + (NSArray *)responseDescriptors;
 + (RKObjectMapping *)requestMapping;
++ (RKObjectMapping *)emptyResponseMapping;
 + (RKEntityMapping *)emptyEntityMapping;
 
 @end

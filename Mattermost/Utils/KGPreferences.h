@@ -8,6 +8,7 @@
 
 @interface KGPreferences : NSObject
 
+@property (copy, nonatomic) NSString * deviceUuid;
 @property (copy, nonatomic) NSString * serverBaseUrl;
 @property (copy, nonatomic) NSString * currentUserId;
 @property (copy, nonatomic) NSString * currentTeamId;
