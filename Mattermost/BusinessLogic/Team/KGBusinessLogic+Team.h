@@ -9,9 +9,13 @@
 #import "KGBusinessLogic.h"
 
 @class KGTeam;
+@class NSManagedObjectContext;
 
 @interface KGBusinessLogic (Team)
 
 - (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion;
 - (KGTeam *)currentTeam;
+- (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context;
+- (NSString*)currentTeamId;
+
 @end

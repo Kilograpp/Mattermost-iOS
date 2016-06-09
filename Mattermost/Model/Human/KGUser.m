@@ -11,17 +11,15 @@
 
 @implementation KGUser
 
-#pragma mark - Entity Mappings
+#pragma mark - Mappings
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super entityMapping];
     [mapping addAttributeMappingsFromDictionary:@{
             @"first_name" : @"firstName",
-            @"last_name"  : @"lastName",
-            
+            @"last_name"  : @"lastName"
     }];
     [mapping addAttributeMappingsFromArray:@[@"username", @"email"]];
-    
     return mapping;
 }
 
@@ -39,7 +37,7 @@
     return mapping;
 }
 
-#pragma mark - Path patterns
+#pragma mark - Path Patterns
 
 + (NSString*)authPathPattern {
     return @"users/login";
@@ -79,6 +77,5 @@
                                                        keyPath:@"members"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
-
 
 @end

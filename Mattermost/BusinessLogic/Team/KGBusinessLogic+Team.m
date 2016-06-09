@@ -10,34 +10,51 @@
 #import <RestKit.h>
 #import <MagicalRecord.h>
 #import "KGTeam.h"
+#import "KGPreferences.h"
+#import "KGUtils.h"
+#import "KGObjectManager.h"
 
 @implementation KGBusinessLogic (Team)
 
-- (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion {
-    
-    
-    NSString* path = [KGTeam initialLoadPathPattern];
-    
-    [self.defaultObjectManager getObjectsAtPath:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        BOOL hasSingleTeam = [mappingResult.dictionary[@"teams"] count] == 1;
+#pragma mark - Network
 
-        [[mappingResult.dictionary[@"teams"] firstObject] setValue:@(hasSingleTeam) forKey:@"currentTeam"];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
-        if (completion) {
-            completion(hasSingleTeam, nil);
+- (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion {
+    NSString* path = [KGTeam initialLoadPathPattern];
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        BOOL hasSingleTeam = [self isMappingResultContainsOnlyOneTeam:mappingResult];
+
+        if (hasSingleTeam) {
+            [self setFirstTeamAsCurrentFromMappingResult:mappingResult];
         }
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        if(completion) {
-            completion(YES, [KGError errorWithNSError:error]);
-        }
+
+        safetyCall(completion, hasSingleTeam, nil);
+    } failure:^(KGError *error) {
+        safetyCall(completion, YES, error);
     }];
 }
 
+#pragma mark - Current Team
+
+- (NSString*)currentTeamId {
+    return [[KGPreferences sharedInstance] currentTeamId];
+}
+
 - (KGTeam *)currentTeam {
-    return [KGTeam MR_findFirstByAttribute:@"currentTeam" withValue:@YES];
+    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId]];
+}
+
+- (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context{
+    return [KGTeam MR_findFirstByAttribute:@"identifier" withValue:[self currentTeamId] inContext:context];
+}
+
+#pragma mark - Mapping Result Helpers
+
+- (void)setFirstTeamAsCurrentFromMappingResult:(RKMappingResult*)mappingResult {
+    [[KGPreferences sharedInstance] setCurrentTeamId:[[mappingResult.dictionary[@"teams"] firstObject] identifier]];
+}
+
+- (BOOL)isMappingResultContainsOnlyOneTeam:(RKMappingResult *)mappingResult {
+    return [mappingResult.dictionary[@"teams"] count] == 1;
 }
 
 @end

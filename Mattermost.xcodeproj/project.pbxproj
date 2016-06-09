@@ -333,6 +333,20 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>9B822306C2CC8C4F7F4B8DD9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9B822755ADDFDC7B4B9D5F05</string>
+				<string>9B822F9BC10946A08F87993F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>Classes</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>9B8223A1506518E1117BB72D</key>
 		<dict>
 			<key>fileRef</key>
@@ -357,6 +371,13 @@ fi
 		<dict>
 			<key>fileRef</key>
 			<string>9B82223CF63DAA5663D2DAEE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>9B822464818CF17B8A1F2DE9</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9B822C4F7D940BF446AE9219</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -479,6 +500,20 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>9B822755ADDFDC7B4B9D5F05</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9B822BA2F5E3E10B3F0DAD90</string>
+				<string>9B822C4F7D940BF446AE9219</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>KGError</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>9B82276635BE51FB6CAFF1A9</key>
 		<dict>
 			<key>fileEncoding</key>
@@ -598,6 +633,19 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
+		<key>9B8229BCCC1CA21A588969C5</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>KGObjectManager.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
 		<key>9B8229E81C4A960156D4C50F</key>
 		<dict>
 			<key>children</key>
@@ -622,6 +670,19 @@ fi
 			<string>sourcecode.c.h</string>
 			<key>path</key>
 			<string>KGBusinessLogic+Posts.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9B822A042E5ADA26CD0A0EA2</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>KGObjectManager.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -680,7 +741,7 @@ fi
 			<array>
 				<string>9B8229E81C4A960156D4C50F</string>
 				<string>D8B429111D0717FB008BF955</string>
-				<string>D67923E91D08C5F500481694</string>
+				<string>D67923F21D0943B100481694</string>
 				<string>D8B4290D1D071764008BF955</string>
 				<string>D8B429011D071290008BF955</string>
 				<string>D6C154CF1D0755EB00B053CE</string>
@@ -690,6 +751,19 @@ fi
 			<string>PBXGroup</string>
 			<key>path</key>
 			<string>Categories</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9B822BA2F5E3E10B3F0DAD90</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>KGError.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -728,6 +802,19 @@ fi
 			<string>file.ttf</string>
 			<key>path</key>
 			<string>OpenSans-Bold.ttf</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9B822C4F7D940BF446AE9219</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>KGError.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -873,12 +960,33 @@ fi
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>9B822F620A497CBB234F4DEC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9B8229BCCC1CA21A588969C5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>9B822F7AAD38800C5E462DE5</key>
 		<dict>
 			<key>fileRef</key>
 			<string>9B822C537DAEB1629E36B183</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
+		</dict>
+		<key>9B822F9BC10946A08F87993F</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>9B822A042E5ADA26CD0A0EA2</string>
+				<string>9B8229BCCC1CA21A588969C5</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>KGObjectManager</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
 		<key>9B822FEE7032FD6461D8CEF3</key>
 		<dict>
@@ -920,12 +1028,12 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923E51D08C55400481694</key>
+		<key>D67923EE1D09439200481694</key>
 		<dict>
 			<key>children</key>
 			<array>
-				<string>D67923E61D08C56000481694</string>
-				<string>D67923E71D08C56800481694</string>
+				<string>D67923EF1D09439E00481694</string>
+				<string>D67923F01D09439E00481694</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -936,8 +1044,10 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923E61D08C56000481694</key>
+		<key>D67923EF1D09439E00481694</key>
 		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
@@ -949,7 +1059,7 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923E71D08C56800481694</key>
+		<key>D67923F01D09439E00481694</key>
 		<dict>
 			<key>fileEncoding</key>
 			<string>4</string>
@@ -964,18 +1074,18 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923E81D08C56800481694</key>
+		<key>D67923F11D09439E00481694</key>
 		<dict>
 			<key>fileRef</key>
-			<string>D67923E71D08C56800481694</string>
+			<string>D67923F01D09439E00481694</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>D67923E91D08C5F500481694</key>
+		<key>D67923F21D0943B100481694</key>
 		<dict>
 			<key>children</key>
 			<array>
-				<string>D67923EA1D08C60700481694</string>
+				<string>D67923F31D0943B600481694</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -986,23 +1096,23 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923EA1D08C60700481694</key>
+		<key>D67923F31D0943B600481694</key>
 		<dict>
 			<key>children</key>
 			<array>
-				<string>D67923EB1D08C61400481694</string>
-				<string>D67923EC1D08C61400481694</string>
+				<string>D67923F41D0943D000481694</string>
+				<string>D67923F51D0943D000481694</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
 			<key>name</key>
-			<string>Valudation</string>
+			<string>Validation</string>
 			<key>path</key>
-			<string>Valudation</string>
+			<string>Validation</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923EB1D08C61400481694</key>
+		<key>D67923F41D0943D000481694</key>
 		<dict>
 			<key>fileEncoding</key>
 			<string>4</string>
@@ -1017,7 +1127,7 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923EC1D08C61400481694</key>
+		<key>D67923F51D0943D000481694</key>
 		<dict>
 			<key>fileEncoding</key>
 			<string>4</string>
@@ -1032,10 +1142,10 @@ fi
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D67923ED1D08C61400481694</key>
+		<key>D67923F61D0943D000481694</key>
 		<dict>
 			<key>fileRef</key>
-			<string>D67923EC1D08C61400481694</string>
+			<string>D67923F51D0943D000481694</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
@@ -1124,7 +1234,6 @@ fi
 			<array>
 				<string>D8B428F01D06DFE6008BF955</string>
 				<string>D8B4291B1D073740008BF955</string>
-				<string>D696F7A51D0615D5008341AF</string>
 				<string>D8B429161D071969008BF955</string>
 				<string>D696F7791D060FDD008341AF</string>
 				<string>D6C154D81D07570B00B053CE</string>
@@ -1144,22 +1253,24 @@ fi
 				<string>D8B428F11D06DFE6008BF955</string>
 				<string>D696F7821D060FDD008341AF</string>
 				<string>D8B429101D071776008BF955</string>
+				<string>D67923F11D09439E00481694</string>
 				<string>9B822F7AAD38800C5E462DE5</string>
 				<string>D8B4290C1D0713F1008BF955</string>
+				<string>D67923F61D0943D000481694</string>
 				<string>9B822470293C9B033F47A1E4</string>
 				<string>41FC94BD1D081F1F009E1090</string>
-				<string>D67923ED1D08C61400481694</string>
 				<string>9B822F35B53BFD3636FFD704</string>
 				<string>9B822BDCA6EA4620FAAE34D6</string>
 				<string>9B8223A1506518E1117BB72D</string>
 				<string>9B82285ACCAFC44B1963E1B4</string>
 				<string>9B82287272B8C039D6218B76</string>
 				<string>9B822C77EA713DF67DD890E5</string>
-				<string>D67923E81D08C56800481694</string>
 				<string>9B82204F6BE59AF0784385F8</string>
 				<string>9B822478B94669140F45CB09</string>
 				<string>9B822BF177323AA55B7E70B4</string>
 				<string>9B8224A33F374766CDAE2E96</string>
+				<string>9B822F620A497CBB234F4DEC</string>
+				<string>9B822464818CF17B8A1F2DE9</string>
 			</array>
 			<key>isa</key>
 			<string>PBXSourcesBuildPhase</string>
@@ -1260,6 +1371,7 @@ fi
 				<string>D696F7901D061107008341AF</string>
 				<string>D696F7991D061301008341AF</string>
 				<string>9B822B986A41E5765DB8CD58</string>
+				<string>9B822306C2CC8C4F7F4B8DD9</string>
 				<string>D696F78F1D061099008341AF</string>
 				<string>D6C154D31D0756DC00B053CE</string>
 				<string>D696F79E1D061368008341AF</string>
@@ -1757,7 +1869,6 @@ MACHINE_DIR="$PROJECT_DIR/$PROJECT_NAME/Model/Machine"
 			<key>children</key>
 			<array>
 				<string>9B822D190D7E79A75E3533DE</string>
-				<string>D696F7A21D0615C2008341AF</string>
 				<string>9B82284E71F48B04182627A6</string>
 				<string>D8B429171D07330D008BF955</string>
 				<string>D8B429181D073729008BF955</string>
@@ -1814,53 +1925,6 @@ MACHINE_DIR="$PROJECT_DIR/$PROJECT_NAME/Model/Machine"
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D696F7A21D0615C2008341AF</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>D696F7A31D0615D5008341AF</string>
-				<string>D696F7A41D0615D5008341AF</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Error</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D696F7A31D0615D5008341AF</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>KGError.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D696F7A41D0615D5008341AF</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>KGError.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D696F7A51D0615D5008341AF</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D696F7A41D0615D5008341AF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
 		<key>D6AA86491D0693D9003DF669</key>
 		<dict>
 			<key>children</key>
@@ -1895,7 +1959,7 @@ MACHINE_DIR="$PROJECT_DIR/$PROJECT_NAME/Model/Machine"
 			<array>
 				<string>41FC94BA1D081EC8009E1090</string>
 				<string>D6C154C81D07558F00B053CE</string>
-				<string>D67923E51D08C55400481694</string>
+				<string>D67923EE1D09439200481694</string>
 				<string>D6C154C71D07558600B053CE</string>
 			</array>
 			<key>isa</key>

@@ -16,7 +16,10 @@
               password:(NSString *)password
             completion:(void(^)(KGError *error))completion;
 
+
+- (NSString*)currentUserId;
 - (KGUser*)currentUser;
+
 - (BOOL)isSignedIn;
 - (void)signOut;
 

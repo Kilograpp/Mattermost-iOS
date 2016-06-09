@@ -29,33 +29,7 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
-	if ([key isEqualToString:@"currentTeamValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"currentTeam"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-
 	return keyPaths;
-}
-
-@dynamic currentTeam;
-
-- (BOOL)currentTeamValue {
-	NSNumber *result = [self currentTeam];
-	return [result boolValue];
-}
-
-- (void)setCurrentTeamValue:(BOOL)value_ {
-	[self setCurrentTeam:@(value_)];
-}
-
-- (BOOL)primitiveCurrentTeamValue {
-	NSNumber *result = [self primitiveCurrentTeam];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveCurrentTeamValue:(BOOL)value_ {
-	[self setPrimitiveCurrentTeam:@(value_)];
 }
 
 @dynamic displayName;
@@ -78,9 +52,6 @@
 @end
 
 @implementation KGTeamAttributes 
-+ (NSString *)currentTeam {
-	return @"currentTeam";
-}
 + (NSString *)displayName {
 	return @"displayName";
 }

@@ -15,6 +15,6 @@
 @property (strong, nonatomic) KGTeam* team;
 @property (strong, nonatomic) NSString* identifier;
 
-+ (instancetype)wrapperWithChannel:(KGChannel*)channel page:(NSNumber*)page size:(NSNumber*)size;
++ (instancetype)wrapperForChannel:(KGChannel *)channel page:(NSNumber *)page size:(NSNumber*)size;
 
 @end

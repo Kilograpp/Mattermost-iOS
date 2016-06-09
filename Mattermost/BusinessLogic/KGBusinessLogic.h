@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "KGError.h"
-@class RKObjectManager, RKMappingResult, RKManagedObjectStore;
+@class KGObjectManager, RKMappingResult, RKManagedObjectStore;
 
 @interface KGBusinessLogic : NSObject
 
 + (instancetype)sharedInstance;
 
-@property (strong, nonatomic, readonly) RKObjectManager *defaultObjectManager;
+@property (strong, nonatomic, readonly) KGObjectManager *defaultObjectManager;
 @property (nonatomic, strong, readonly) RKManagedObjectStore *managedObjectStore;
 
 @end
