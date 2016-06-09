@@ -1,24 +1,17 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGPost.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGPostAttributes {
-	__unsafe_unretained NSString *channelId;
-	__unsafe_unretained NSString *createdAt;
-	__unsafe_unretained NSString *deletedAt;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *message;
-	__unsafe_unretained NSString *type;
-	__unsafe_unretained NSString *updatedAt;
-	__unsafe_unretained NSString *userId;
-} KGPostAttributes;
-
-extern const struct KGPostRelationships {
-	__unsafe_unretained NSString *author;
-	__unsafe_unretained NSString *channel;
-} KGPostRelationships;
+NS_ASSUME_NONNULL_BEGIN
 
 @class KGUser;
 @class KGChannel;
@@ -26,51 +19,31 @@ extern const struct KGPostRelationships {
 @interface KGPostID : NSManagedObjectID {}
 @end
 
-@interface _KGPost : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGPost : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGPostID* objectID;
+@property (nonatomic, readonly, strong) KGPostID *objectID;
 
-@property (nonatomic, strong) NSString* channelId;
+@property (nonatomic, strong, nullable) NSString* channelId;
 
-//- (BOOL)validateChannelId:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSDate* createdAt;
 
-@property (nonatomic, strong) NSDate* createdAt;
+@property (nonatomic, strong, nullable) NSDate* deletedAt;
 
-//- (BOOL)validateCreatedAt:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* identifier;
 
-@property (nonatomic, strong) NSDate* deletedAt;
+@property (nonatomic, strong, nullable) NSString* message;
 
-//- (BOOL)validateDeletedAt:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* type;
 
-@property (nonatomic, strong) NSString* identifier;
+@property (nonatomic, strong, nullable) NSDate* updatedAt;
 
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* userId;
 
-@property (nonatomic, strong) NSString* message;
+@property (nonatomic, strong, nullable) KGUser *author;
 
-//- (BOOL)validateMessage:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* type;
-
-//- (BOOL)validateType:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSDate* updatedAt;
-
-//- (BOOL)validateUpdatedAt:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* userId;
-
-//- (BOOL)validateUserId:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) KGUser *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) KGChannel *channel;
-
-//- (BOOL)validateChannel:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) KGChannel *channel;
 
 @end
 
@@ -104,3 +77,21 @@ extern const struct KGPostRelationships {
 - (void)setPrimitiveChannel:(KGChannel*)value;
 
 @end
+
+@interface KGPostAttributes: NSObject 
++ (NSString *)channelId;
++ (NSString *)createdAt;
++ (NSString *)deletedAt;
++ (NSString *)identifier;
++ (NSString *)message;
++ (NSString *)type;
++ (NSString *)updatedAt;
++ (NSString *)userId;
+@end
+
+@interface KGPostRelationships: NSObject
++ (NSString *)author;
++ (NSString *)channel;
+@end
+
+NS_ASSUME_NONNULL_END

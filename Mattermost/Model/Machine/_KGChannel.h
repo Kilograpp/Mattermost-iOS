@@ -1,28 +1,17 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGChannel.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGChannelAttributes {
-	__unsafe_unretained NSString *backendType;
-	__unsafe_unretained NSString *createdAt;
-	__unsafe_unretained NSString *displayName;
-	__unsafe_unretained NSString *header;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *lastPostDate;
-	__unsafe_unretained NSString *messagesCount;
-	__unsafe_unretained NSString *name;
-	__unsafe_unretained NSString *purpose;
-	__unsafe_unretained NSString *shouldUpdateAt;
-	__unsafe_unretained NSString *teamId;
-	__unsafe_unretained NSString *updatedAt;
-} KGChannelAttributes;
-
-extern const struct KGChannelRelationships {
-	__unsafe_unretained NSString *posts;
-	__unsafe_unretained NSString *team;
-} KGChannelRelationships;
+NS_ASSUME_NONNULL_BEGIN
 
 @class KGPost;
 @class KGTeam;
@@ -30,77 +19,50 @@ extern const struct KGChannelRelationships {
 @interface KGChannelID : NSManagedObjectID {}
 @end
 
-@interface _KGChannel : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGChannel : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGChannelID* objectID;
+@property (nonatomic, readonly, strong) KGChannelID *objectID;
 
-@property (nonatomic, strong) NSString* backendType;
+@property (nonatomic, strong, nullable) NSString* backendType;
 
-//- (BOOL)validateBackendType:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSDate* createdAt;
 
-@property (nonatomic, strong) NSDate* createdAt;
+@property (nonatomic, strong, nullable) NSString* displayName;
 
-//- (BOOL)validateCreatedAt:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* header;
 
-@property (nonatomic, strong) NSString* displayName;
+@property (nonatomic, strong, nullable) NSString* identifier;
 
-//- (BOOL)validateDisplayName:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSDate* lastPostDate;
 
-@property (nonatomic, strong) NSString* header;
-
-//- (BOOL)validateHeader:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* identifier;
-
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSDate* lastPostDate;
-
-//- (BOOL)validateLastPostDate:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* messagesCount;
+@property (nonatomic, strong, nullable) NSNumber* messagesCount;
 
 @property (atomic) int64_t messagesCountValue;
 - (int64_t)messagesCountValue;
 - (void)setMessagesCountValue:(int64_t)value_;
 
-//- (BOOL)validateMessagesCount:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* name;
 
-@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong, nullable) NSString* purpose;
 
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSDate* shouldUpdateAt;
 
-@property (nonatomic, strong) NSString* purpose;
+@property (nonatomic, strong, nullable) NSString* teamId;
 
-//- (BOOL)validatePurpose:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSDate* updatedAt;
 
-@property (nonatomic, strong) NSDate* shouldUpdateAt;
+@property (nonatomic, strong, nullable) NSSet<KGPost*> *posts;
+- (nullable NSMutableSet<KGPost*>*)postsSet;
 
-//- (BOOL)validateShouldUpdateAt:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* teamId;
-
-//- (BOOL)validateTeamId:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSDate* updatedAt;
-
-//- (BOOL)validateUpdatedAt:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSSet *posts;
-
-- (NSMutableSet*)postsSet;
-
-@property (nonatomic, strong) KGTeam *team;
-
-//- (BOOL)validateTeam:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) KGTeam *team;
 
 @end
 
 @interface _KGChannel (PostsCoreDataGeneratedAccessors)
-- (void)addPosts:(NSSet*)value_;
-- (void)removePosts:(NSSet*)value_;
+- (void)addPosts:(NSSet<KGPost*>*)value_;
+- (void)removePosts:(NSSet<KGPost*>*)value_;
 - (void)addPostsObject:(KGPost*)value_;
 - (void)removePostsObject:(KGPost*)value_;
 
@@ -147,10 +109,32 @@ extern const struct KGChannelRelationships {
 - (NSDate*)primitiveUpdatedAt;
 - (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
-- (NSMutableSet*)primitivePosts;
-- (void)setPrimitivePosts:(NSMutableSet*)value;
+- (NSMutableSet<KGPost*>*)primitivePosts;
+- (void)setPrimitivePosts:(NSMutableSet<KGPost*>*)value;
 
 - (KGTeam*)primitiveTeam;
 - (void)setPrimitiveTeam:(KGTeam*)value;
 
 @end
+
+@interface KGChannelAttributes: NSObject 
++ (NSString *)backendType;
++ (NSString *)createdAt;
++ (NSString *)displayName;
++ (NSString *)header;
++ (NSString *)identifier;
++ (NSString *)lastPostDate;
++ (NSString *)messagesCount;
++ (NSString *)name;
++ (NSString *)purpose;
++ (NSString *)shouldUpdateAt;
++ (NSString *)teamId;
++ (NSString *)updatedAt;
+@end
+
+@interface KGChannelRelationships: NSObject
++ (NSString *)posts;
++ (NSString *)team;
+@end
+
+NS_ASSUME_NONNULL_END

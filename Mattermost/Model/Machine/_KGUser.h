@@ -1,61 +1,47 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
 // Make changes to KGUser.h instead.
 
-@import CoreData;
+#if __has_feature(modules)
+    @import Foundation;
+    @import CoreData;
+#else
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
 #import "KGManagedObject.h"
 
-extern const struct KGUserAttributes {
-	__unsafe_unretained NSString *email;
-	__unsafe_unretained NSString *firstName;
-	__unsafe_unretained NSString *identifier;
-	__unsafe_unretained NSString *lastName;
-	__unsafe_unretained NSString *username;
-} KGUserAttributes;
-
-extern const struct KGUserRelationships {
-	__unsafe_unretained NSString *posts;
-} KGUserRelationships;
+NS_ASSUME_NONNULL_BEGIN
 
 @class KGPost;
 
 @interface KGUserID : NSManagedObjectID {}
 @end
 
-@interface _KGUser : KGManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+@interface _KGUser : KGManagedObject
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-@property (nonatomic, readonly, strong) KGUserID* objectID;
+@property (nonatomic, readonly, strong) KGUserID *objectID;
 
-@property (nonatomic, strong) NSString* email;
+@property (nonatomic, strong, nullable) NSString* email;
 
-//- (BOOL)validateEmail:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* firstName;
 
-@property (nonatomic, strong) NSString* firstName;
+@property (nonatomic, strong, nullable) NSString* identifier;
 
-//- (BOOL)validateFirstName:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, strong, nullable) NSString* lastName;
 
-@property (nonatomic, strong) NSString* identifier;
+@property (nonatomic, strong, nullable) NSString* username;
 
-//- (BOOL)validateIdentifier:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* lastName;
-
-//- (BOOL)validateLastName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSString* username;
-
-//- (BOOL)validateUsername:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSSet *posts;
-
-- (NSMutableSet*)postsSet;
+@property (nonatomic, strong, nullable) NSSet<KGPost*> *posts;
+- (nullable NSMutableSet<KGPost*>*)postsSet;
 
 @end
 
 @interface _KGUser (PostsCoreDataGeneratedAccessors)
-- (void)addPosts:(NSSet*)value_;
-- (void)removePosts:(NSSet*)value_;
+- (void)addPosts:(NSSet<KGPost*>*)value_;
+- (void)removePosts:(NSSet<KGPost*>*)value_;
 - (void)addPostsObject:(KGPost*)value_;
 - (void)removePostsObject:(KGPost*)value_;
 
@@ -78,7 +64,21 @@ extern const struct KGUserRelationships {
 - (NSString*)primitiveUsername;
 - (void)setPrimitiveUsername:(NSString*)value;
 
-- (NSMutableSet*)primitivePosts;
-- (void)setPrimitivePosts:(NSMutableSet*)value;
+- (NSMutableSet<KGPost*>*)primitivePosts;
+- (void)setPrimitivePosts:(NSMutableSet<KGPost*>*)value;
 
 @end
+
+@interface KGUserAttributes: NSObject 
++ (NSString *)email;
++ (NSString *)firstName;
++ (NSString *)identifier;
++ (NSString *)lastName;
++ (NSString *)username;
+@end
+
+@interface KGUserRelationships: NSObject
++ (NSString *)posts;
+@end
+
+NS_ASSUME_NONNULL_END

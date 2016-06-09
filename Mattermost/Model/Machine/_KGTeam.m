@@ -3,22 +3,12 @@
 
 #import "_KGTeam.h"
 
-const struct KGTeamAttributes KGTeamAttributes = {
-	.displayName = @"displayName",
-	.identifier = @"identifier",
-	.name = @"name",
-};
-
-const struct KGTeamRelationships KGTeamRelationships = {
-	.channels = @"channels",
-};
-
 @implementation KGTeamID
 @end
 
 @implementation _KGTeam
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Team" inManagedObjectContext:moc_];
 }
@@ -50,14 +40,32 @@ const struct KGTeamRelationships KGTeamRelationships = {
 
 @dynamic channels;
 
-- (NSMutableSet*)channelsSet {
+- (NSMutableSet<KGChannel*>*)channelsSet {
 	[self willAccessValueForKey:@"channels"];
 
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"channels"];
+	NSMutableSet<KGChannel*> *result = (NSMutableSet<KGChannel*>*)[self mutableSetValueForKey:@"channels"];
 
 	[self didAccessValueForKey:@"channels"];
 	return result;
 }
 
+@end
+
+@implementation KGTeamAttributes 
++ (NSString *)displayName {
+	return @"displayName";
+}
++ (NSString *)identifier {
+	return @"identifier";
+}
++ (NSString *)name {
+	return @"name";
+}
+@end
+
+@implementation KGTeamRelationships 
++ (NSString *)channels {
+	return @"channels";
+}
 @end
 

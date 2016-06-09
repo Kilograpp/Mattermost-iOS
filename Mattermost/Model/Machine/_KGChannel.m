@@ -3,32 +3,12 @@
 
 #import "_KGChannel.h"
 
-const struct KGChannelAttributes KGChannelAttributes = {
-	.backendType = @"backendType",
-	.createdAt = @"createdAt",
-	.displayName = @"displayName",
-	.header = @"header",
-	.identifier = @"identifier",
-	.lastPostDate = @"lastPostDate",
-	.messagesCount = @"messagesCount",
-	.name = @"name",
-	.purpose = @"purpose",
-	.shouldUpdateAt = @"shouldUpdateAt",
-	.teamId = @"teamId",
-	.updatedAt = @"updatedAt",
-};
-
-const struct KGChannelRelationships KGChannelRelationships = {
-	.posts = @"posts",
-	.team = @"team",
-};
-
 @implementation KGChannelID
 @end
 
 @implementation _KGChannel
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Channel" inManagedObjectContext:moc_];
 }
@@ -102,10 +82,10 @@ const struct KGChannelRelationships KGChannelRelationships = {
 
 @dynamic posts;
 
-- (NSMutableSet*)postsSet {
+- (NSMutableSet<KGPost*>*)postsSet {
 	[self willAccessValueForKey:@"posts"];
 
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"posts"];
+	NSMutableSet<KGPost*> *result = (NSMutableSet<KGPost*>*)[self mutableSetValueForKey:@"posts"];
 
 	[self didAccessValueForKey:@"posts"];
 	return result;
@@ -113,5 +93,53 @@ const struct KGChannelRelationships KGChannelRelationships = {
 
 @dynamic team;
 
+@end
+
+@implementation KGChannelAttributes 
++ (NSString *)backendType {
+	return @"backendType";
+}
++ (NSString *)createdAt {
+	return @"createdAt";
+}
++ (NSString *)displayName {
+	return @"displayName";
+}
++ (NSString *)header {
+	return @"header";
+}
++ (NSString *)identifier {
+	return @"identifier";
+}
++ (NSString *)lastPostDate {
+	return @"lastPostDate";
+}
++ (NSString *)messagesCount {
+	return @"messagesCount";
+}
++ (NSString *)name {
+	return @"name";
+}
++ (NSString *)purpose {
+	return @"purpose";
+}
++ (NSString *)shouldUpdateAt {
+	return @"shouldUpdateAt";
+}
++ (NSString *)teamId {
+	return @"teamId";
+}
++ (NSString *)updatedAt {
+	return @"updatedAt";
+}
+@end
+
+@implementation KGChannelRelationships 
++ (NSString *)posts {
+	return @"posts";
+}
++ (NSString *)team {
+	return @"team";
+}
 @end
 

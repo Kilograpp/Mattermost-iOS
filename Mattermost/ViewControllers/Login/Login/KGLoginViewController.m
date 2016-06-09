@@ -15,6 +15,7 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSString+Validation.h"
 #import "KGBusinessLogic+Team.h"
+#import "KGBusinessLogic+Channel.h"
 #import "KGSideMenuContainerViewController.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
@@ -170,7 +171,14 @@ static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
                 if (error) {
                     [self processError:error];
                 } else if (!userShouldSelectTeam) {
-                    [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+                    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+                        if (error) {
+                            [self processError:error];
+                        } else {
+                            [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+                        }
+                    }];
+                    
                 } else {
                     KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
                     [self presentViewController:vc animated:YES completion:nil];

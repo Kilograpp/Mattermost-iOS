@@ -3,24 +3,12 @@
 
 #import "_KGUser.h"
 
-const struct KGUserAttributes KGUserAttributes = {
-	.email = @"email",
-	.firstName = @"firstName",
-	.identifier = @"identifier",
-	.lastName = @"lastName",
-	.username = @"username",
-};
-
-const struct KGUserRelationships KGUserRelationships = {
-	.posts = @"posts",
-};
-
 @implementation KGUserID
 @end
 
 @implementation _KGUser
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:moc_];
 }
@@ -56,14 +44,38 @@ const struct KGUserRelationships KGUserRelationships = {
 
 @dynamic posts;
 
-- (NSMutableSet*)postsSet {
+- (NSMutableSet<KGPost*>*)postsSet {
 	[self willAccessValueForKey:@"posts"];
 
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"posts"];
+	NSMutableSet<KGPost*> *result = (NSMutableSet<KGPost*>*)[self mutableSetValueForKey:@"posts"];
 
 	[self didAccessValueForKey:@"posts"];
 	return result;
 }
 
+@end
+
+@implementation KGUserAttributes 
++ (NSString *)email {
+	return @"email";
+}
++ (NSString *)firstName {
+	return @"firstName";
+}
++ (NSString *)identifier {
+	return @"identifier";
+}
++ (NSString *)lastName {
+	return @"lastName";
+}
++ (NSString *)username {
+	return @"username";
+}
+@end
+
+@implementation KGUserRelationships 
++ (NSString *)posts {
+	return @"posts";
+}
 @end
 

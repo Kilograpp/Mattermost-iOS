@@ -13,13 +13,18 @@
 #import "KGUser.h"
 #import "KGBusinessLogic+Team.h"
 #import "KGBusinessLogic+Session.h"
+#import "KGBusinessLogic+Session.h"
 #import "KGAppDelegate.h"
+#import "KGChannel.h"
+#import <MagicalRecord/MagicalRecord.h>
+#import "KGChannelTableViewCell.h"
 
-@interface KGLeftMenuViewController ()
+@interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (nonatomic,strong)NSFetchedResultsController *fetchedResultsController;
 - (IBAction)signOutAction:(id)sender;
 
 @end
@@ -29,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadChannels];
     [self setup];
     [self setupAvatarImageView];
     [self setupNicknameLabel];
@@ -75,5 +81,23 @@
 }
 
 
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    //KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//
+//}
+
+#pragma mark - Requests
+
+- (void)loadChannels {
+    [self showProgressHud];
+    
+    self.fetchedResultsController = [KGChannel MR_fetchAllSortedBy:nil ascending:NO withPredicate:nil groupBy:nil delegate:self];
+}
 
 @end
