@@ -51,12 +51,25 @@
     return [KGChannel listPathPattern];
 }
 
++ (NSString*)attachDevicePathPattern {
+    return @"users/attach_device";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self authPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
++ (RKResponseDescriptor*)attachDeviceResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self attachDevicePathPattern]
                                                        keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
@@ -77,5 +90,10 @@
                                                        keyPath:@"members"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
+#pragma mark - Request Descriptors
+
+
+
 
 @end

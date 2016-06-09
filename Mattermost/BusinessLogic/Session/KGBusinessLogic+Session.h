@@ -11,7 +11,6 @@
 @class KGUser;
 @interface KGBusinessLogic (Session)
 
-
 - (void)loginWithEmail:(NSString *)login
               password:(NSString *)password
             completion:(void(^)(KGError *error))completion;

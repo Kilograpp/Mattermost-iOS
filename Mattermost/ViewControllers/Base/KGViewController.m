@@ -7,9 +7,10 @@
 //
 
 #import "KGViewController.h"
+#import "KGChatNavigationController.h"
+#import <MFSideMenu/MFSideMenu.h>
 
-
-@interface KGViewController ()
+@interface KGViewController () <UINavigationControllerDelegate>
 
 @end
 
@@ -18,6 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -25,6 +27,15 @@
     
     [self test];
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ([self isMovingFromParentViewController]) {
+        self.navigationController.delegate = nil;
+    }
+}
+
 
 
 #pragma mark - Progress
@@ -57,5 +68,35 @@
 - (void)test {
     
 }
+
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
+        //        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Back", nil)
+        //                                                                                 style:UIBarButtonItemStylePlain
+        //                                                                                target:nil
+        //                                                                                action:nil];
+        
+        if (navigationController.viewControllers.count == 1 /*&& ![self isModal]*/) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleLeftSideMenuAction)];
+        }
+        
+    }
+}
+
+
+#pragma mark - Actions
+
+- (void)toggleLeftSideMenuAction {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
 
 @end

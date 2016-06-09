@@ -13,19 +13,27 @@
 
 @implementation KGManagedObject
 
-+ (instancetype)managedObjectById:(NSNumber *)objectId {
++ (instancetype)managedObjectById:(NSString *)objectId {
     return [self MR_findFirstByAttribute:NSStringFromSelector(@selector(identifier)) withValue:objectId];
 }
+
++ (instancetype)managedObjectById:(NSString *)objectId inContext:(NSManagedObjectContext *)context{
+    return [self MR_findFirstByAttribute:NSStringFromSelector(@selector(identifier)) withValue:objectId inContext:context];
+}
+
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [RKEntityMapping mappingForEntityForName:[self entityName]
                                                    inManagedObjectStore:[KGBusinessLogic sharedInstance].managedObjectStore];
 
     [mapping setIdentificationAttributes:@[@"identifier"]];
-
     [mapping addAttributeMappingsFromDictionary:@{ @"id" : @"identifier" }];
 
     return mapping;
+}
+
++ (RKObjectMapping *)emptyResponseMapping {
+    return [RKObjectMapping mappingForClass:[NSNull class]];
 }
 
 + (RKEntityMapping *)emptyEntityMapping {

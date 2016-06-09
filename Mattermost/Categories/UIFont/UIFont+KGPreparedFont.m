@@ -27,6 +27,11 @@ NSString *const KGPreparedLightFontName = @"OpenSans-Light";
     return font;
 }
 
++ (UIFont *)kg_semibold20Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedSemiboldFontName size:20.f])
+    return font;
+}
+
 + (UIFont *)kg_semibold18Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedSemiboldFontName size:18.f])
     return font;
