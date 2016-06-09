@@ -27,7 +27,7 @@
             [self setFirstTeamAsCurrentFromMappingResult:mappingResult];
         }
 
-        safetyCall(completion, hasSingleTeam, nil);
+        safetyCall(completion, !hasSingleTeam, nil);
     } failure:^(KGError *error) {
         safetyCall(completion, YES, error);
     }];

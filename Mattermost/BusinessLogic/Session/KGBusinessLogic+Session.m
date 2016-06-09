@@ -31,7 +31,7 @@ extern NSString * const KGAuthTokenHeaderName;
 }
 
 
-#pragma mark - Current User
+#pragma mark - User
 
 - (NSString *)currentUserId {
     return [[KGPreferences sharedInstance] currentUserId];
@@ -45,6 +45,10 @@ extern NSString * const KGAuthTokenHeaderName;
     [[KGPreferences sharedInstance] setCurrentUserId:user.identifier];
 }
 
+
+- (NSURL *)imageUrlForUser:(KGUser *)user {
+    return [[self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:user.identifier] URLByAppendingPathComponent:@"image"];
+}
 
 #pragma mark - Sign In & Out
 

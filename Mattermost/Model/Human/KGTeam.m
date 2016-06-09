@@ -9,6 +9,7 @@
 
 @implementation KGTeam
 
+
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super entityMapping];
     [mapping addAttributeMappingsFromDictionary:@{
