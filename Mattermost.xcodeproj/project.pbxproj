@@ -28,6 +28,7 @@
 		9B822BDCA6EA4620FAAE34D6 /* NSObject+EnumerateProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228D7559E83E1D2C801D6 /* NSObject+EnumerateProperties.m */; };
 		9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8226FF7B005D985E9C9B4C /* KGPost.m */; };
 		9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */; };
+		9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
@@ -68,6 +69,8 @@
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
+		9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Notifications.m"; sourceTree = "<group>"; };
+		9B8223AB0BB9A9CEBC59143D /* KGBusinessLogic+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Notifications.h"; sourceTree = "<group>"; };
 		9B8223CA8B69CED7D59257FD /* _KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGChannel.m; sourceTree = "<group>"; };
 		9B82259DAEA11B42D97AA516 /* _KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGPost.h; sourceTree = "<group>"; };
 		9B8226090FAC37951F756F11 /* KGBusinessLogic+Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Channel.h"; sourceTree = "<group>"; };
@@ -225,6 +228,15 @@
 				9B822C4F7D940BF446AE9219 /* KGError.m */,
 			);
 			path = KGError;
+			sourceTree = "<group>";
+		};
+		9B82279F2329C139228A2068 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */,
+				9B8223AB0BB9A9CEBC59143D /* KGBusinessLogic+Notifications.h */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		9B82284E71F48B04182627A6 /* Posts */ = {
@@ -411,6 +423,7 @@
 				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
 				9B822D190D7E79A75E3533DE /* Channels */,
 				9B82284E71F48B04182627A6 /* Posts */,
+				9B82279F2329C139228A2068 /* Notifications */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -738,6 +751,7 @@
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
+				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

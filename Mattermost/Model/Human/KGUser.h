@@ -2,4 +2,5 @@
 
 @interface KGUser : _KGUser
 + (NSString*) authPathPattern;
++ (NSString*) attachDevicePathPattern;
 @end

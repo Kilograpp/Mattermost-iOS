@@ -7,6 +7,8 @@
 //
 
 #import "KGAppDelegate.h"
+#import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Notifications.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 
 @interface KGAppDelegate ()
@@ -19,7 +21,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self loadInitialScreen];
     [self setupKeyboardManager];
-    
+    [self registerForRemoteNotifications];
+
     return YES;
 }
 
@@ -48,6 +51,9 @@
 }
 
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[KGBusinessLogic sharedInstance] saveNotificationsToken:deviceToken];
+}
 #pragma mark - Private
 
 - (void)loadInitialScreen {
@@ -60,6 +66,10 @@
 
 - (void)setupKeyboardManager {
     [[IQKeyboardManager sharedManager] disableToolbarInViewControllerClass:[UIViewController class]];
+}
+
+- (void)registerForRemoteNotifications {
+    [[KGBusinessLogic sharedInstance] registerForRemoteNotifications];
 }
 
 @end

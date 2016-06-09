@@ -13,7 +13,7 @@
 #import "KGUser.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
-#import "KGUtils.h"
+#import "KGBusinessLogic+Notifications.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -24,12 +24,12 @@ extern NSString * const KGAuthTokenHeaderName;
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
     NSString *path = [KGUser authPathPattern];
-
     [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
         [self updateCurrentUserWithObject:mappingResult.firstObject];
-        safetyCall(completion, nil);
+        [self subscribeToRemoteNotificationsIfNeededWithCompletion:completion];
     } failure:completion];
 }
+
 
 #pragma mark - Current User
 
@@ -38,12 +38,13 @@ extern NSString * const KGAuthTokenHeaderName;
 }
 
 - (KGUser *)currentUser {
-    return [KGUser MR_findFirstByAttribute:@"identifier" withValue:[self currentUserId]];
+    return [KGUser managedObjectById:[self currentUserId]];
 }
 
 - (void)updateCurrentUserWithObject:(KGUser*)user {
     [[KGPreferences sharedInstance] setCurrentUserId:user.identifier];
 }
+
 
 #pragma mark - Sign In & Out
 
