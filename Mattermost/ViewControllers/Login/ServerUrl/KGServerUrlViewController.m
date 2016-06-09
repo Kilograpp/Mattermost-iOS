@@ -13,7 +13,10 @@
 #import "KGButton.h"
 #import "KGTextField.h"
 #import "KGPreferences.h"
+#import "KGUtils.h"
+#import "NSString+Validation.h"
 
+static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -43,6 +46,12 @@
     [super viewDidAppear:animated];
     
     [self.textField becomeFirstResponder];
+
+}
+
+- (void)test {
+    self.textField.text = @"https://mattermost.kilograpp.com";
+    self.nextButton.enabled = YES;
 }
 
 
@@ -74,9 +83,6 @@
     self.textField.font = [UIFont kg_regular16Font];
     self.textField.placeholder = @"https://matttermost.example.com";
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-//    UIView * subView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.textField.frame.size.width, 1.f)];
-//    subView.backgroundColor = [UIColor grayColor];
-//    [self.textField addSubview:subView];
 }
 
 
@@ -90,7 +96,7 @@
 #pragma mark - Actions
 
 - (IBAction)nextAction:(id)sender {
-    [self setServerBaseUrl];
+    [self nextActionHandler];
 }
 
 - (IBAction)textChangeAction:(id)sender {
@@ -102,6 +108,29 @@
 
 - (void)setServerBaseUrl {
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
+    KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
+}
+
+- (void)nextActionHandler {
+    if ([self.textField.text kg_isValidUrl]) {
+        [self setServerBaseUrl];
+        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+    } else {
+        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
+    }
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.textField]) {
+        [self nextActionHandler];
+        
+        return YES;
+    }
+    
+    return NO;
 }
 
 

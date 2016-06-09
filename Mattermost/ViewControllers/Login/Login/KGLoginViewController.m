@@ -14,6 +14,10 @@
 #import "KGTextField.h"
 #import "KGBusinessLogic+Session.h"
 #import "NSString+Validation.h"
+#import "KGBusinessLogic+Team.h"
+
+static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
+static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -34,14 +38,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setup];
     [self setupTitleLabel];
     [self setupPromtLabels];
     [self setupLoginButton];
     [self setupRecoveryButton];
     [self setupLoginTextfield];
-    [self setupPasswordTextField];
+    [self setupPasswordTextField];   
     [self configureLabels];
+}
+
+- (void)test {
+    self.loginTextField.text = @"getmaxx@kilograpp.com";
+    self.passwordTextField.text = @"102Aky5i";
+    self.loginButton.enabled = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -52,10 +61,6 @@
 
 
 #pragma mark - Setup
-
-- (void)setup {
-    self.title = @"Sign in";
-}
 
 - (void)setupTitleLabel {
     self.titleLabel.font = [UIFont kg_semibold30Font];
@@ -94,7 +99,7 @@
     self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
-    self.loginTextField.placeholder = @"your_name@example.com";
+    self.loginTextField.placeholder = @"address@example.com";
     self.loginTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.loginTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
@@ -109,14 +114,11 @@
     self.passwordTextField.secureTextEntry = YES;
 }
 
-- (IBAction)logOutAction:(id)sender {
-    [[KGBusinessLogic sharedInstance] signOut];
-}
 
 #pragma mark - Configuration
 
 - (void)configureLabels {
-    self.titleLabel.text = @"Mattermost";
+    self.titleLabel.text = @"Team name";
     self.loginPromtLabel.text = @"Email";
     self.passwordPromtLabel.text = @"Password";
 }
@@ -127,10 +129,8 @@
 - (IBAction)loginAction:(id)sender {
     if ([self.loginTextField.text kg_isValidEmail]){
         [self login];
-        
-    } else{
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"incorrect email" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
-        [alert show];
+    } else {
+        [self processErrorWithTitle:@"Error" message:@"Incorrect email address format"];
     }
 }
 
@@ -138,14 +138,14 @@
 }
 
 - (IBAction)loginChangeAction:(id)sender {
-    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0){
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0) {
         self.loginButton.enabled = YES;
     } else {
         self.loginButton.enabled = NO;
     }
 }
 - (IBAction)passwordChangeAction:(id)sender {
-    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0){
+    if (self.loginTextField.text.length > 0 & self.passwordTextField.text.length > 0) {
         self.loginButton.enabled = YES;
     } else {
         self.loginButton.enabled = NO;
@@ -155,17 +155,26 @@
 #pragma mark - Requests
 
 - (void)login {
-    NSString * login = self.loginTextField.text;
-    NSString * password = self.passwordTextField.text;
+    NSString *login = self.loginTextField.text;
+    NSString *password = self.passwordTextField.text;
+    [self showProgressHud];
+    
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
-        NSString *title = error ? @"Error" : @"Success";
-        if (error){
+        [self hideProgressHud];
+        if (error) {
             [self processError:error];
             [self highlightTextFieldsForError];
         }
         else {
-        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
-        [alert show];
+            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                if (error) {
+                    [self processError:error];
+                } else if (userShouldSelectTeam) {
+                    [self performSegueWithIdentifier:kPresentChatSegueIdentifier sender:nil];
+                } else {
+                    [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+                }
+            }];
         }
     }];
 }
