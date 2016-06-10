@@ -16,6 +16,8 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "KGChatNavigationController.h"
+#import <MFSideMenu/MFSideMenu.h>
 
 @interface KGChatViewController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -35,6 +37,7 @@
     }];
     [self setupTableView];
     [self setupKeyboardToolbar];
+    [self setupLeftBarButtonItem];
 
 }
 
@@ -42,6 +45,14 @@
     [super viewWillAppear:animated];
     
     [IQKeyboardManager sharedManager].enable = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ([self isMovingFromParentViewController]) {
+        self.navigationController.delegate = nil;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -72,6 +83,13 @@
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
 }
 
+- (void)setupLeftBarButtonItem {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(toggleLeftSideMenuAction)];
+
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -108,5 +126,28 @@
                                                        delegate:nil];
 }
 
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
+        if (navigationController.viewControllers.count == 1) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleLeftSideMenuAction)];
+        }
+        
+    }
+}
+
+
+#pragma mark - Actions
+
+- (void)toggleLeftSideMenuAction {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
 
 @end
