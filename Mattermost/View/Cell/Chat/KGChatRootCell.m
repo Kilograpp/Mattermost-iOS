@@ -12,6 +12,7 @@
 #import "UIFont+KGPreparedFont.h"
 #import "KGPost.h"
 #import "KGUser.h"
+#import "NSDate+DateFormatter.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface KGChatRootCell ()
@@ -37,8 +38,10 @@
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
     self.nameLabel.text = post.author.username;
+    self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
     [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }
+
 
 + (NSString*)reuseIdentifier{
     return NSStringFromClass(self);
@@ -55,7 +58,7 @@
     
     CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(messageLabelWidth, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     
-    return rect.size.height + 22 + 2;
+    return rect.size.height + 22 + 2 + 2;
 
 }
 

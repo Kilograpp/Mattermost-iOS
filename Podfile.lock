@@ -1,6 +1,7 @@
 PODS:
   - AFNetworking (1.3.4)
   - BOString (0.10.1)
+  - DateTools (1.7.0)
   - IQKeyboardManager (3.3.6)
   - ISO8601DateFormatterValueTransformer (0.6.1):
     - RKValueTransformers (~> 1.1.0)
@@ -40,6 +41,7 @@ PODS:
 
 DEPENDENCIES:
   - BOString
+  - DateTools
   - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
   - MagicalRecord
   - Masonry
@@ -66,6 +68,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
   BOString: dd7bab05eac29080daecdf2d8fa7556fa24099b8
+  DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   IQKeyboardManager: 7d0926d5391b99b842ccc6367b849dd1975c8bf9
   ISO8601DateFormatterValueTransformer: 52da467d6ec899d6aedda8e48280ac92e8ee97e6
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
