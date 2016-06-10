@@ -15,7 +15,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface KGChatRootCell ()
-@property (weak, nonatomic) IBOutlet ActiveLabel *contentLabel;
+@property (weak, nonatomic) IBOutlet ActiveLabel* messageLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *dateTimeLabel;
@@ -29,11 +29,13 @@
 }
 
 - (void)configure {
-    [self.contentLabel setFont:[UIFont kg_regular15Font]];
+    [self.messageLabel setFont:[UIFont kg_regular15Font]];
+    [self.messageLabel setMentionColor:[UIColor blueColor]];
+
 }
 
 - (void)configureWithObject:(KGPost*)post {
-    self.contentLabel.text = post.message;
+    self.messageLabel.text = post.message;
     self.nameLabel.text = post.author.username;
     [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }

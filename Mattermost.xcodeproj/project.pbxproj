@@ -25,6 +25,7 @@
 		9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */; };
 		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
 		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
+		9B822756B999171069E9FC83 /* KGFollowUpChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8225B13818AB9C1234C129 /* KGFollowUpChatCell.m */; };
 		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
 		9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228762344686CE2207B8C /* KGManagedObject.m */; };
 		9B8229DB50DE653A9A02D556 /* NSString+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822EEF9FF0746ACAD33507 /* NSString+Validation.m */; };
@@ -90,11 +91,13 @@
 		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
 		9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Notifications.m"; sourceTree = "<group>"; };
+		9B82228013E69E7768C53EF2 /* KGFollowUpChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFollowUpChatCell.h; sourceTree = "<group>"; };
 		9B82238547742F610B40AF2A /* NSStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtils.m; sourceTree = "<group>"; };
 		9B8223AB0BB9A9CEBC59143D /* KGBusinessLogic+Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Notifications.h"; sourceTree = "<group>"; };
 		9B8223C349621194E4D6AEA8 /* NSString+Validation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Validation.h"; sourceTree = "<group>"; };
 		9B8223CA8B69CED7D59257FD /* _KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGChannel.m; sourceTree = "<group>"; };
 		9B82259DAEA11B42D97AA516 /* _KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGPost.h; sourceTree = "<group>"; };
+		9B8225B13818AB9C1234C129 /* KGFollowUpChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGFollowUpChatCell.m; sourceTree = "<group>"; };
 		9B8226090FAC37951F756F11 /* KGBusinessLogic+Channel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Channel.h"; sourceTree = "<group>"; };
 		9B8226FF7B005D985E9C9B4C /* KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPost.m; sourceTree = "<group>"; };
 		9B8227136A03D68E83AC0C8E /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
@@ -711,6 +714,8 @@
 				D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */,
 				D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */,
 				D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */,
+				9B8225B13818AB9C1234C129 /* KGFollowUpChatCell.m */,
+				9B82228013E69E7768C53EF2 /* KGFollowUpChatCell.h */,
 			);
 			name = Chat;
 			sourceTree = "<group>";
@@ -980,6 +985,7 @@
 				D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */,
 				9B8229DB50DE653A9A02D556 /* NSString+Validation.m in Sources */,
 				9B82223003DD82D9EB7A9635 /* NSManagedObject+CustomFinder.m in Sources */,
+				9B822756B999171069E9FC83 /* KGFollowUpChatCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

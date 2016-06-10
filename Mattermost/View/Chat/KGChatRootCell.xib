@@ -68,14 +68,15 @@
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="SJ7-xU-Zkt"/>
+                        <exclude reference="fAc-OT-MKo"/>
                         <exclude reference="5qi-wT-tjf"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatarImageView" destination="imG-zB-can" id="nAV-cE-ZOV"/>
-                <outlet property="contentLabel" destination="G8U-JR-i9K" id="laO-9C-DcA"/>
                 <outlet property="dateTimeLabel" destination="Y83-hO-DpO" id="kUT-Be-nT8"/>
+                <outlet property="messageLabel" destination="G8U-JR-i9K" id="laO-9C-DcA"/>
                 <outlet property="nameLabel" destination="ysk-Dl-ooh" id="csb-aM-bFr"/>
             </connections>
             <point key="canvasLocation" x="-346" y="241"/>
