@@ -13,12 +13,12 @@
 #import "KGBusinessLogic+Posts.h"
 #import "KGChannel.h"
 #import <MagicalRecord.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "UIFont+KGPreparedFont.h"
+#import "UIColor+KGPreparedColor.h"
 
-
-@interface KGChatViewController ()
+@interface KGChatViewController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-//@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
 
 @implementation KGChatViewController
@@ -34,14 +34,14 @@
         [self.tableView reloadData];
     }];
     [self setupTableView];
+    [self setupKeyboardToolbar];
 
 }
 
-- (void)setupTableView {
-
-
-    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -51,6 +51,29 @@
     [self.tableView reloadData];
 }
 
+
+#pragma mark - Setup
+
+- (void)setup {
+    self.navigationController.delegate = self;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+}
+
+- (void)setupTableView {
+    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
+}
+
+- (void)setupKeyboardToolbar {
+    [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
+    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
+
+    self.textInputbar.autoHideRightButton = NO;
+    self.textInputbar.textView.placeholder = @"Написать сообщение";
+    self.textInputbar.textView.font = [UIFont kg_regular15Font];
+}
+
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.fetchedResultsController.sections.count;
