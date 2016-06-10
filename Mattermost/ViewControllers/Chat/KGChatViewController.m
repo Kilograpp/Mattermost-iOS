@@ -25,9 +25,9 @@
 
 - (void)viewDidLoad {
 
-//    [[KGBusinessLogic sharedInstance] loadPostsForChannel:[KGChannel MR_findFirst] page:@0 size:@60 completion:^(KGError *error) {
-//
-//    }];
+    [[KGBusinessLogic sharedInstance] loadPostsForChannel:[KGChannel MR_findFirst] page:@0 size:@60 completion:^(KGError *error) {
+        [self.tableView reloadData];
+    }];
     [self setupTableView];
 
 }
