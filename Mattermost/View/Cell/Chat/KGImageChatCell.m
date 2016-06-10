@@ -24,6 +24,7 @@ static CGFloat const verticalPadding = 8.0f;
 static CGFloat const avatarImageHeight = 40.f;
 static CGFloat const horizontalPadding = 8.f;
 static CGFloat const aspectRatioImage = 1.5;
+static CGFloat const heightNameLabel = 22.f;
 
 @interface KGImageChatCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -79,11 +80,10 @@ static CGFloat const aspectRatioImage = 1.5;
     NSString *pastedImageAt = NSLocalizedString(@"Pasted image at", nil);
     NSString *subtitleText = [NSString stringWithFormat:@"%@", pastedImageAt];
     
-    CGFloat heightnameLabel = 22.f;
     CGFloat heightSubtitleText = [subtitleText heightForTextWithWidth:labelWidht withFont:[UIFont kg_semibold16Font]];
     CGFloat heightImage = labelWidht/aspectRatioImage;
     
-    heightCell = topPadding + heightnameLabel + verticalPadding + heightSubtitleText + verticalPadding + heightImage + verticalPadding;
+    heightCell = topPadding + heightNameLabel + verticalPadding + heightSubtitleText + verticalPadding + heightImage + verticalPadding;
     return heightCell;
 }
 
