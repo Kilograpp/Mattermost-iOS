@@ -1451,6 +1451,7 @@ fi
 				<string>D8B4290C1D0713F1008BF955</string>
 				<string>D69FB17F1D0992B200043C2D</string>
 				<string>9B822470293C9B033F47A1E4</string>
+				<string>D844A7011D0B2D4B00B53BB3</string>
 				<string>41FC94BD1D081F1F009E1090</string>
 				<string>9B822F35B53BFD3636FFD704</string>
 				<string>9B822BDCA6EA4620FAAE34D6</string>
@@ -2850,6 +2851,8 @@ MACHINE_DIR="$PROJECT_DIR/$PROJECT_NAME/Model/Machine"
 				<string>D844A6E71D0AE3A700B53BB3</string>
 				<string>D844A6E81D0AE3A700B53BB3</string>
 				<string>D844A6EA1D0AE3B600B53BB3</string>
+				<string>D844A6FF1D0B2D4B00B53BB3</string>
+				<string>D844A7001D0B2D4B00B53BB3</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -3022,6 +3025,43 @@ MACHINE_DIR="$PROJECT_DIR/$PROJECT_NAME/Model/Machine"
 			<string>Mattermost-Swift.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D844A6FF1D0B2D4B00B53BB3</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>KGFollowUpChatCell.h</string>
+			<key>path</key>
+			<string>KGFollowUpChatCell.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D844A7001D0B2D4B00B53BB3</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>KGFollowUpChatCell.m</string>
+			<key>path</key>
+			<string>KGFollowUpChatCell.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D844A7011D0B2D4B00B53BB3</key>
+		<dict>
+			<key>fileRef</key>
+			<string>D844A7001D0B2D4B00B53BB3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>D8B428EC1D06DFE6008BF955</key>
 		<dict>
