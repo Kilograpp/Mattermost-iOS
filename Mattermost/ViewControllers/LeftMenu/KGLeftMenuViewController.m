@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+   [self.tableView registerNib:[KGChannelTableViewCell nib] forCellReuseIdentifier:[KGChannelTableViewCell reuseIdentifier]];
     self.tableView.delegate = self;
     [self setup];
     [self setupAvatarImageView];
@@ -45,13 +45,16 @@
     [self setupTeamLabel];
     [self configureHeaderView];
     [self setupFetchedResultsController];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
 }
 
 
 #pragma mark - Setup
 
 - (void)setup {
-    self.view.backgroundColor = [UIColor kg_blueColor];
+    self.view.backgroundColor = [UIColor kg_blueColor] ;
+    //self.tableView.backgroundColor = [UIColor kg_blueColor];
 }
 
 - (void)setupAvatarImageView {
@@ -97,10 +100,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ChannelCell" ];
+    KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSLog(@"%d %@ %@", channel.type, channel.backendType, channel.displayName);
-    [cell configureWitChannelName:channel.displayName];
+    [cell configureWithObject:channel];
     return cell;
 }
 
@@ -109,9 +111,24 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSString *sectionHeaderTitle = [KGChannel titleForChannelBackendType:[sectionInfo name]];
+    NSString *sectionHeaderTitle = [[KGChannel titleForChannelBackendType:[sectionInfo name]] uppercaseString];
     
     return sectionHeaderTitle;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor kg_whiteColor]];
+    [header.textLabel setFont:[UIFont kg_regular18Font]];
+    
+    header.contentView.backgroundColor = [[UIColor kg_blueColor] colorWithAlphaComponent:0.8];
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    //return tableView.sectionFooterHeight;
+    return 40.f;
 }
 
 #pragma mark - NSFetchedResultsController

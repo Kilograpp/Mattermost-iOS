@@ -6,8 +6,9 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface KGChannelTableViewCell : UITableViewCell
-
+#import "KGTableViewCell.h"
+#import "KGChannel.h"
+@interface KGChannelTableViewCell : KGTableViewCell
+- (void)configureWitChannelName:(NSString *)channelName;
+- (void)configurateWithChannel:(KGChannel *)channel;
 @end
