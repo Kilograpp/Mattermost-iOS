@@ -102,9 +102,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    NSLog(@"%d %@ %@", channel.type, channel.backendType, channel.displayName);
-    //[cell configureWitChannelName:channel.displayName];
-    [cell configurateWithChannel:channel];
+    [cell configureWithObject:channel];
     return cell;
 }
 
@@ -113,7 +111,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSString *sectionHeaderTitle = [KGChannel titleForChannelBackendType:[sectionInfo name]];
+    NSString *sectionHeaderTitle = [[KGChannel titleForChannelBackendType:[sectionInfo name]] uppercaseString];
     
     return sectionHeaderTitle;
 }
