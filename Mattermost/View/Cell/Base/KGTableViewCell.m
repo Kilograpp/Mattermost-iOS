@@ -12,7 +12,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -27,6 +28,14 @@
 
 + (UINib *)nib {
     return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:nil];
+}
+
+- (void)configureWithObject:(id)object {
+    
+}
+
++ (CGFloat)heightWithObject:(id)object {
+    return 51.f;
 }
 
 @end

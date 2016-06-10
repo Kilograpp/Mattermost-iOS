@@ -9,6 +9,7 @@
 #import "KGChannelTableViewCell.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
+#import "KGChannel.h"
 
 @interface KGChannelTableViewCell()
 
@@ -31,7 +32,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     [self setupDeleteButton];
     [self setupChannelNameLabel];
@@ -45,11 +45,11 @@
     if (selected) {
         self.selectedView.backgroundColor = [UIColor kg_lightBlueColor];
         self.channelNameLabel.textColor = [UIColor kg_whiteColor];
-        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:0.8];
+        self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
     } else {
-        self.selectedView.backgroundColor = [UIColor kg_blueColor];
+        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
         self.channelNameLabel.textColor = [UIColor kg_lightBlueColor];
-        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:1.f];
+        self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     }
 }
 
@@ -62,7 +62,7 @@
 }
 
 - (void)setupBachground {
-    self.backgroundColor = [UIColor kg_blueColor];
+    self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
 - (void)setupChannelNameLabel {
@@ -73,19 +73,20 @@
 - (void)setupTypeImageView {
     // self.typeImageView.image = [UIImage imageNamed:@"map_close_icon"];
 }
-#pragma mark - Configurate
 
-- (void)configureWitChannelName:(NSString *)channelName {
-    self.channelNameLabel.text = channelName;
-}
 
-- (void)configurateWithChannel:(KGChannel *)channel {
-    self.channelNameLabel.text = channel.displayName;
-    if (channel.type == KGChannelTypePrivate){
-        NSLog(@"%@", channel.backendType);
-        self.deleteButton.hidden = NO;
-    } else {
-        self.deleteButton.hidden = YES;
+#pragma mark - Configuration
+
+- (void)configureWithObject:(id)object {
+    if ([object isKindOfClass:[KGChannel class]]) {
+        KGChannel *channel = object;
+        
+        self.channelNameLabel.text = channel.displayName;
+        if (channel.type == KGChannelTypePrivate){
+            self.deleteButton.hidden = NO;
+        } else {
+            self.deleteButton.hidden = YES;
+        }
     }
 }
 

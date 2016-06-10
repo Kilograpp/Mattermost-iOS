@@ -17,4 +17,8 @@
 + (UIColor *)kg_lightGrayColor;
 + (UIColor *)kg_redColor;
 + (UIColor *)kg_lightBlueColor;
+
++ (UIColor *)kg_leftMenuBackgroundColor;
++ (UIColor *)kg_leftMenuHighlightColor;
++ (UIColor *)kg_leftMenuHeaderColor;
 @end

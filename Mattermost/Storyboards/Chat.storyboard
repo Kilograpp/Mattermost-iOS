@@ -30,7 +30,7 @@
                                             <action selector="signOutAction:" destination="hdD-Ic-QsO" eventType="touchUpInside" id="bnD-tx-yZB"/>
                                         </connections>
                                     </button>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jau-ck-h5Z">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jau-ck-h5Z">
                                         <rect key="frame" x="8" y="28" width="55" height="55"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10145474140000001" colorSpace="calibratedRGB"/>
                                         <constraints>

@@ -20,15 +20,17 @@
 #import "KGChannelTableViewCell.h"
 #import "KGUtils.h"
 #import "NSManagedObject+CustomFinder.h"
+#import <UIImageView+UIActivityIndicatorForSDWebImage.h>
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
-@property (nonatomic,strong)NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+
 - (IBAction)signOutAction:(id)sender;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -36,29 +38,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-   [self.tableView registerNib:[KGChannelTableViewCell nib] forCellReuseIdentifier:[KGChannelTableViewCell reuseIdentifier]];
-    self.tableView.delegate = self;
+   
     [self setup];
+    [self setupTableView];
     [self setupAvatarImageView];
     [self setupNicknameLabel];
     [self setupTeamLabel];
     [self configureHeaderView];
     [self setupFetchedResultsController];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
 }
 
 
 #pragma mark - Setup
 
+- (void)setupTableView {
+    self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerNib:[KGChannelTableViewCell nib] forCellReuseIdentifier:[KGChannelTableViewCell reuseIdentifier]];
+}
+
 - (void)setup {
-    self.view.backgroundColor = [UIColor kg_blueColor] ;
-    //self.tableView.backgroundColor = [UIColor kg_blueColor];
+    self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
 }
 
 - (void)setupAvatarImageView {
-    self.avatarImageView.layer.cornerRadius = 30.f;
+    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+    self.avatarImageView.clipsToBounds = YES;
 }
 
 - (void)setupNicknameLabel {
@@ -80,6 +86,10 @@
     
     KGUser *currentUser = [[KGBusinessLogic sharedInstance] currentUser];
     self.nicknameLabel.text = [@"@" stringByAppendingString:currentUser.username];
+    
+    [self.avatarImageView setImageWithURL:currentUser.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [self.avatarImageView removeActivityIndicator];
 }
 
 - (IBAction)signOutAction:(id)sender {
@@ -116,27 +126,23 @@
     return sectionHeaderTitle;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
-{
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor kg_whiteColor]];
-    [header.textLabel setFont:[UIFont kg_regular18Font]];
+    [header.textLabel setFont:[UIFont kg_regular16Font]];
     
-    header.contentView.backgroundColor = [[UIColor kg_blueColor] colorWithAlphaComponent:0.8];
+    header.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    //return tableView.sectionFooterHeight;
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 40.f;
 }
 
 #pragma mark - NSFetchedResultsController
 
 - (void)setupFetchedResultsController {
-
     NSSortDescriptor *backendTypeSort = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(backendType))
-                                                                      ascending:NO ];
+                                                                      ascending:NO];
     NSSortDescriptor *displayNameSort = [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(displayName))
                                                                       ascending:YES
                                                                        selector:@selector(caseInsensitiveCompare:)];
