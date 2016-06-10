@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -131,7 +131,7 @@
         <!--Kilograpp-->
         <scene sceneID="cWP-WO-cIe">
             <objects>
-                <viewController id="uKV-ME-BHi" customClass="KGViewController" sceneMemberID="viewController">
+                <viewController id="uKV-ME-BHi" customClass="KGChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Esv-ff-JFz"/>
                         <viewControllerLayoutGuide type="bottom" id="mgZ-Ji-IMU"/>
@@ -139,9 +139,28 @@
                     <view key="view" contentMode="scaleToFill" id="d2q-N3-pwb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="M8n-vv-Nwq">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="uKV-ME-BHi" id="fwS-Fi-ybo"/>
+                                    <outlet property="delegate" destination="uKV-ME-BHi" id="9xa-Nl-Mgq"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="M8n-vv-Nwq" firstAttribute="top" secondItem="Esv-ff-JFz" secondAttribute="bottom" id="0t6-zR-Kjc"/>
+                            <constraint firstItem="M8n-vv-Nwq" firstAttribute="leading" secondItem="d2q-N3-pwb" secondAttribute="leading" id="Mhb-hQ-cNH"/>
+                            <constraint firstItem="mgZ-Ji-IMU" firstAttribute="top" secondItem="M8n-vv-Nwq" secondAttribute="bottom" id="SK3-aD-hLx"/>
+                            <constraint firstAttribute="trailing" secondItem="M8n-vv-Nwq" secondAttribute="trailing" id="qrC-Sj-nz2"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3"/>
+                    <connections>
+                        <outlet property="tableView" destination="M8n-vv-Nwq" id="9Y8-Sg-QOC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

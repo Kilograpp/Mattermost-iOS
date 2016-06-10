@@ -18,11 +18,12 @@
     [mapping setIdentificationAttributes:@[@"identifier"]];
     [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
     [mapping addAttributeMappingsFromDictionary:@{
-            @"(identifier).create_at" : @"createdAt",
-            @"(identifier).update_at" : @"updatedAt",
-            @"(identifier).message"   : @"message",
-            @"(identifier).type"      : @"type",
-            @"(identifier).userId"    : @"userId"
+            @"(identifier).create_at"  : @"createdAt",
+            @"(identifier).update_at"  : @"updatedAt",
+            @"(identifier).message"    : @"message",
+            @"(identifier).type"       : @"type",
+            @"(identifier).user_id"    : @"userId",
+            @"(identifier).channel_id" : @"channelId"
     }];
     [mapping addConnectionForRelationship:@"author"  connectedBy:@{@"userId"    : @"identifier"}];
     [mapping addConnectionForRelationship:@"channel" connectedBy:@{@"channelId" : @"identifier"}];

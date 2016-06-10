@@ -82,13 +82,15 @@
 
 - (void)configureDisplayName {
     if (self.type == KGChannelTypePrivate && [NSStringUtils isStringEmpty:self.displayName]) {
-        NSArray *ids = [self.name componentsSeparatedByString:@"__"];
+        NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
         NSString *companionIdentifier;
-        for (NSString *str in ids) {
-            if (![str isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) {
-                companionIdentifier = str;
-            }
+
+        if ([sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) {
+            companionIdentifier = sideIds.firstObject;
+        } else {
+            companionIdentifier = sideIds.lastObject;
         }
+
         NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username];
         self.displayName = futureName;
     }
@@ -98,13 +100,14 @@
 #pragma mark - Public
 
 + (NSString *)titleForChannelBackendType:(NSString *)backendType {
+
     SWITCH(backendType) {
         CASE(@"D")
-        return @"Private messages";
+            return @"Private messages";
         CASE(@"O")
-        return @"Channels";
+            return @"Channels";
         DEFAULT
-        return @"Unknown";
+            return @"Unknown";
     }
 }
 

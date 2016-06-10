@@ -5,8 +5,11 @@ inhibit_all_warnings!
 target 'Mattermost' do
   pod 'MagicalRecord'
   pod 'RestKit'
+  pod 'BOString'
   pod 'IQKeyboardManager', :git => 'http://git.kilograpp.com/iOS/IQKeyboardManager.git'
   pod 'Masonry'
+  pod 'UIActivityIndicator-for-SDWebImage'
+  pod 'SDWebImage'
   pod 'MBProgressHUD', '~> 0.9.2'
   pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
 end

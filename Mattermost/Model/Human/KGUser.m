@@ -58,6 +58,10 @@
     return [KGChannel listPathPattern];
 }
 
++ (NSString*)avatarPathPattern {
+    return @"users/:identifier/image";
+}
+
 + (NSString*)attachDevicePathPattern {
     return @"users/attach_device";
 }
