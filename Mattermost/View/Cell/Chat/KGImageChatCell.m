@@ -38,9 +38,16 @@ static CGFloat const aspectRatioImage = 1.5;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    [self configure];
 }
 
 - (void)configure {
+    self.nameLabel.font = [UIFont kg_semibold16Font];
+    self.nameLabel.textColor = [UIColor kg_blackColor];
+    
+    self.timeLabel.font = [UIFont kg_light16Font];
+    self.timeLabel.textColor = [UIColor kg_grayColor];
+    
     self.subtitleLabel.font = [UIFont kg_semibold16Font];
     self.subtitleLabel.textColor = [UIColor kg_blueColor];
 }
