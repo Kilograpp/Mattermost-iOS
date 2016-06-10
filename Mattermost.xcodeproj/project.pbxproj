@@ -55,6 +55,12 @@
 		D6C154D21D07560900B053CE /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154D11D07560900B053CE /* UIColor+KGPreparedColor.m */; };
 		D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154D71D07570B00B053CE /* KGNavigationController.m */; };
 		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
+		D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */; };
+		D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */; };
+		D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */; };
+		D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6F11D0AFA0000B53BB3 /* KGTableViewCell.m */; };
+		D844A6F31D0AFE3700B53BB3 /* ActiveLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */; };
+		D844A6F41D0AFE3700B53BB3 /* ActiveLabel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428ED1D06DFE6008BF955 /* KGTeam.m */; };
 		D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428EF1D06DFE6008BF955 /* KGUser.m */; };
 		D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F31D06DFED008BF955 /* _KGTeam.m */; };
@@ -67,6 +73,20 @@
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
 		D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291C1D083259008BF955 /* KGBusinessLogic.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D844A6F51D0AFE3700B53BB3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D844A6F41D0AFE3700B53BB3 /* ActiveLabel.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +179,14 @@
 		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNavigationController.m; sourceTree = "<group>"; };
 		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginNavigationController.h; sourceTree = "<group>"; };
 		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginNavigationController.m; sourceTree = "<group>"; };
+		D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatViewController.h; path = Chat/KGChatViewController.h; sourceTree = "<group>"; };
+		D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatViewController.m; path = Chat/KGChatViewController.m; sourceTree = "<group>"; };
+		D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatRootCell.h; path = Chat/KGChatRootCell.h; sourceTree = "<group>"; };
+		D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatRootCell.m; path = Chat/KGChatRootCell.m; sourceTree = "<group>"; };
+		D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGChatRootCell.xib; path = Chat/KGChatRootCell.xib; sourceTree = "<group>"; };
+		D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActiveLabel.framework; path = Carthage/Build/iOS/ActiveLabel.framework; sourceTree = "<group>"; };
+		D844A6F01D0AFA0000B53BB3 /* KGTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTableViewCell.h; path = Cell/Base/KGTableViewCell.h; sourceTree = "<group>"; };
+		D844A6F11D0AFA0000B53BB3 /* KGTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTableViewCell.m; path = Cell/Base/KGTableViewCell.m; sourceTree = "<group>"; };
 		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
 		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
 		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
@@ -187,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D844A6F31D0AFE3700B53BB3 /* ActiveLabel.framework in Frameworks */,
 				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,6 +226,7 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
 				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
 			);
 			name = Frameworks;
@@ -205,6 +235,8 @@
 		411169EC1D09DDD800448145 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				D844A6EF1D0AF9DC00B53BB3 /* Base */,
+				D844A6E61D0AE35200B53BB3 /* Chat */,
 				411169ED1D09DDDD00448145 /* Channel */,
 			);
 			name = Cell;
@@ -590,6 +622,7 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
 				D6C154C31D07556600B053CE /* Login */,
@@ -674,6 +707,34 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */,
+				D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
+		D844A6E61D0AE35200B53BB3 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */,
+				D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */,
+				D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
+		D844A6EF1D0AF9DC00B53BB3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				D844A6F01D0AFA0000B53BB3 /* KGTableViewCell.h */,
+				D844A6F11D0AFA0000B53BB3 /* KGTableViewCell.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
 		D8B429011D071290008BF955 /* RKResponseDescriptor */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +809,8 @@
 				D696F76E1D060FDD008341AF /* Frameworks */,
 				D696F76F1D060FDD008341AF /* Resources */,
 				49D577B336C5381128546E9E /* Copy Pods Resources */,
+				D844A6EE1D0AE77800B53BB3 /* Carthage Copy Frameworks */,
+				D844A6F51D0AFE3700B53BB3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -803,6 +866,7 @@
 				9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */,
 				9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */,
 				9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */,
+				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
 			);
@@ -854,6 +918,21 @@
 			shellPath = /bin/sh;
 			shellScript = "MODEL_PATH=\"$PROJECT_DIR/$PROJECT_NAME/Model/$PROJECT_NAME.xcdatamodeld\"\nHUMAN_DIR=\"$PROJECT_DIR/$PROJECT_NAME/Model/Human\"\nMACHINE_DIR=\"$PROJECT_DIR/$PROJECT_NAME/Model/Machine\"\n/usr/local/bin/mogenerator --v2 --model $MODEL_PATH --human-dir $HUMAN_DIR --machine-dir $MACHINE_DIR --base-class KGManagedObject";
 		};
+		D844A6EE1D0AE77800B53BB3 /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/ActiveLabel.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -867,6 +946,7 @@
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
 				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
 				D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */,
+				D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */,
 				41FC94B51D07FA87009E1090 /* KGButton.m in Sources */,
 				D8B429041D0712B5008BF955 /* RKResponseDescriptor+Runtime.m in Sources */,
 				D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */,
@@ -901,6 +981,7 @@
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
 				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
+				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
@@ -908,6 +989,7 @@
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
+				D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */,
 				9B8229DB50DE653A9A02D556 /* NSString+Validation.m in Sources */,
 				9B82223003DD82D9EB7A9635 /* NSManagedObject+CustomFinder.m in Sources */,
 			);
@@ -1015,6 +1097,11 @@
 			baseConfigurationReference = 2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Mattermost/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1029,6 +1116,11 @@
 			baseConfigurationReference = 544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Mattermost/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

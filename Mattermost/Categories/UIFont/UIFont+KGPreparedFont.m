@@ -40,8 +40,15 @@ NSString *const KGPreparedLightFontName = @"OpenSans-Light";
 
 #pragma mark - Regular
 
+
+
 + (UIFont *)kg_regular14Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedRegularFontName size:14.f])
+    return font;
+}
+
++ (UIFont *)kg_regular15Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedRegularFontName size:15.f])
     return font;
 }
 
