@@ -37,6 +37,11 @@ NSString *const KGPreparedLightFontName = @"OpenSans-Light";
     return font;
 }
 
++ (UIFont *)kg_semibold16Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedSemiboldFontName size:16.f])
+    return font;
+}
+
 
 #pragma mark - Regular
 
@@ -63,6 +68,11 @@ NSString *const KGPreparedLightFontName = @"OpenSans-Light";
 
 
 #pragma mark - Light
+
++ (UIFont *)kg_light16Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedLightFontName size:16.f])
+    return font;
+}
 
 + (UIFont *)kg_light18Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedLightFontName size:18.f])

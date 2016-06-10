@@ -10,6 +10,7 @@
 
 @interface NSDate (DateFormatter)
 
-- (NSString*)timeFormatForMessages;
+- (NSString *)timeFormatForMessages;
+- (NSString *)dateFormatForMassage;
 
 @end
