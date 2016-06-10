@@ -12,6 +12,7 @@
 #import "UIFont+KGPreparedFont.h"
 #import "KGPost.h"
 #import "KGUser.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface KGChatRootCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel *contentLabel;
@@ -22,9 +23,19 @@
 
 @implementation KGChatRootCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    [self configure];
+}
+
+- (void)configure {
+    [self.contentLabel setFont:[UIFont kg_regular15Font]];
+}
+
 - (void)configureWithObject:(KGPost*)post {
     self.contentLabel.text = post.message;
     self.nameLabel.text = post.author.username;
+    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }
 
 + (NSString*)reuseIdentifier{

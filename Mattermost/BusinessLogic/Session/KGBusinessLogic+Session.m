@@ -10,6 +10,7 @@
 #import <RestKit.h>
 #import <RKManagedObjectStore.h>
 #import <MagicalRecord.h>
+#import <SOCKit/SOCKit.h>
 #import "KGUser.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
@@ -45,9 +46,9 @@ extern NSString * const KGAuthTokenHeaderName;
     [[KGPreferences sharedInstance] setCurrentUserId:user.identifier];
 }
 
-
 - (NSURL *)imageUrlForUser:(KGUser *)user {
-    return [[self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:user.identifier] URLByAppendingPathComponent:@"image"];
+    NSString* pathPattern = SOCStringFromStringWithObject([KGUser avatarPathPattern], user);
+    return [self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:pathPattern];
 }
 
 #pragma mark - Sign In & Out
