@@ -30,16 +30,35 @@
     STATIC_ONCE(color, [UIColor grayColor])
     return color;
 }
+
 + (UIColor *)kg_lightGrayColor {
     STATIC_ONCE(color, [UIColor lightGrayColor])
     return color;
 }
+
 + (UIColor *)kg_redColor {
     STATIC_ONCE(color, [UIColor colorWithRed:226/255.f green:61/255.f blue:61/255.f alpha:1.f]);
     return color;
 }
+
 + (UIColor *)kg_lightBlueColor {
     STATIC_ONCE(color, [UIColor colorWithRed:189/255.f green:212/255.f blue:288/255.f alpha:1.f])
     return color;
 }
+
++ (UIColor *)kg_leftMenuBackgroundColor {
+    STATIC_ONCE(color, [UIColor colorWithRed:32/255.f green:113/255.f blue:167/255.f alpha:1.f])
+    return color;
+}
+
++ (UIColor *)kg_leftMenuHighlightColor {
+    STATIC_ONCE(color, [UIColor colorWithRed:54/255.f green:127/255.f blue:176/255.f alpha:1.f])
+    return color;
+}
+
++ (UIColor *)kg_leftMenuHeaderColor {
+    STATIC_ONCE(color, [UIColor colorWithRed:47/255.f green:129/255.f blue:173/255.f alpha:1.f])
+    return color;
+}
+
 @end

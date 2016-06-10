@@ -7,8 +7,6 @@
 //
 
 #import "KGTableViewCell.h"
-#import "KGChannel.h"
+
 @interface KGChannelTableViewCell : KGTableViewCell
-- (void)configureWitChannelName:(NSString *)channelName;
-- (void)configurateWithChannel:(KGChannel *)channel;
 @end
