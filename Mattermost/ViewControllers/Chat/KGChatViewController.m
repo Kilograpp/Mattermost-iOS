@@ -17,14 +17,19 @@
 
 @interface KGChatViewController ()
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+//@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation KGChatViewController
 
-- (void)viewDidLoad {
++ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
+{
+    return UITableViewStyleGrouped;
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:[KGChannel MR_findFirst] page:@0 size:@60 completion:^(KGError *error) {
         [self.tableView reloadData];
     }];
@@ -40,6 +45,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     [self setupFetchedResultsController];
     [self.tableView reloadData];
 }
@@ -58,6 +65,7 @@
     KGChatRootCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChatRootCell reuseIdentifier] forIndexPath:indexPath];
 
     [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    cell.transform = self.tableView.transform;
 
     return cell;
 }
