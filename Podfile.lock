@@ -33,6 +33,7 @@ PODS:
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
+  - SlackTextViewController (1.9.3)
   - SOCKit (1.1)
   - TransitionKit (2.2.1)
   - UIActivityIndicator-for-SDWebImage (1.2):
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - MFSideMenu (from `http://git.kilograpp.com/iOS/MFSideMenu.git`)
   - RestKit
   - SDWebImage
+  - SlackTextViewController
   - UIActivityIndicator-for-SDWebImage
 
 EXTERNAL SOURCES:
@@ -75,6 +77,7 @@ SPEC CHECKSUMS:
   RestKit: 112fba5bd1f97598aac0db7981863d5fdc0263a2
   RKValueTransformers: e5ed67e3811229b616fe01bddeeafe3bb337b1b9
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+  SlackTextViewController: bd2a34c188d4f7dec93cf42388f38551263fac82
   SOCKit: c7376ac262bea9115b8f749358f762522a47d392
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
