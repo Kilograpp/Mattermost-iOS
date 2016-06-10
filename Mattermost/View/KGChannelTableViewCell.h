@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "KGChannel.h" 
 @interface KGChannelTableViewCell : UITableViewCell
 - (void)configureWitChannelName:(NSString *)channelName;
+- (void)configurateWithChannel:(KGChannel *)channel;
++ (UINib *)nib;
++ (NSString *)reuseIdentifier;
 @end

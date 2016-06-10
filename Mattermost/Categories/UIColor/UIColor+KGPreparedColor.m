@@ -38,5 +38,8 @@
     STATIC_ONCE(color, [UIColor colorWithRed:226/255.f green:61/255.f blue:61/255.f alpha:1.f]);
     return color;
 }
-
++ (UIColor *)kg_lightBlueColor {
+    STATIC_ONCE(color, [UIColor colorWithRed:189/255.f green:212/255.f blue:288/255.f alpha:1.f])
+    return color;
+}
 @end
