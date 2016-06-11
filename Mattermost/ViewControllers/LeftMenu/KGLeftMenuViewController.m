@@ -13,7 +13,6 @@
 #import "KGUser.h"
 #import "KGBusinessLogic+Team.h"
 #import "KGBusinessLogic+Session.h"
-#import "KGBusinessLogic+Session.h"
 #import "KGAppDelegate.h"
 #import "KGChannel.h"
 #import <MagicalRecord/MagicalRecord.h>
