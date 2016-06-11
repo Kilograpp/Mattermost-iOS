@@ -12,6 +12,8 @@ target 'Mattermost' do
   pod 'SocketRocket'
   pod 'SDWebImage'
   pod 'DateTools'
+  pod 'Fabric'
+  pod 'Crashlytics'
   pod 'MBProgressHUD', '~> 0.9.2'
   pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
   pod 'SlackTextViewController'
