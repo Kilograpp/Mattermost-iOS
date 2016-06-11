@@ -11,8 +11,10 @@
 #import <RKObjectManager.h>
 #import <RestKit/RestKit.h>
 #import "KGConstants.h"
+#import "KGBusinessLogic+Socket.h"
 #import "RKResponseDescriptor+Runtime.h"
 #import "RKRequestDescriptor+Runtime.h"
+#import "SRWebSocket.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
 
@@ -32,7 +34,6 @@
 @end
 
 @implementation KGBusinessLogic
-
 
 + (instancetype)sharedInstance {
     static dispatch_once_t once;
@@ -71,7 +72,10 @@
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
-        
+
+        RKValueTransformer* transformer = [self millisecondsSince1970ToDateValueTransformer];
+        [[RKValueTransformer defaultValueTransformer] insertValueTransformer:transformer atIndex:0];
+
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
 
@@ -82,6 +86,17 @@
     return _defaultObjectManager;
 }
 
+- (RKValueTransformer*)millisecondsSince1970ToDateValueTransformer
+{
+    return [RKBlockValueTransformer valueTransformerWithValidationBlock:^BOOL(__unsafe_unretained Class sourceClass, __unsafe_unretained Class destinationClass) {
+        return [sourceClass isSubclassOfClass:[NSNumber class]] && [destinationClass isSubclassOfClass:[NSDate class]];
+    } transformationBlock:^BOOL(id inputValue, __autoreleasing id *outputValue, __unsafe_unretained Class outputValueClass, NSError *__autoreleasing *error) {
+        RKValueTransformerTestInputValueIsKindOfClass(inputValue, (@[ [NSNumber class] ]), error);
+        RKValueTransformerTestOutputValueClassIsSubclassOfClass(outputValueClass, (@[ [NSDate class] ]), error);
+        *outputValue = [NSDate dateWithTimeIntervalSince1970:[inputValue doubleValue] / 1000];
+        return YES;
+    }];
+}
 
 
 #pragma mark - Configuration
