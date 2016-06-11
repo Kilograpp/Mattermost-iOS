@@ -19,6 +19,8 @@
 #import "KGChatNavigationController.h"
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
+#import "KGBusinessLogic+Socket.h"
+#import "KGBusinessLogic+Channel.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -54,6 +56,8 @@
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
     }
+
+
 }
 
 
@@ -143,13 +147,15 @@
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     self.channel = [KGChannel managedObjectById:idetnfifier];
-    
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-        if (error) {
-    
-        }
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
+        [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+            if (error) {
+
+            }
+            [self setupFetchedResultsController];
+            [self.tableView reloadData];
+        }];
+
     }];
 }
 

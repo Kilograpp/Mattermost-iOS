@@ -4,6 +4,7 @@
 #import "KGBusinessLogic.h"
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Session.h"
+#import "NSStringUtils.h"
 #import <RestKit.h>
 
 @interface KGUser ()
@@ -26,7 +27,7 @@
             @"first_name" : @"firstName",
             @"last_name"  : @"lastName"
     }];
-    [mapping addAttributeMappingsFromArray:@[@"username", @"email"]];
+    [mapping addAttributeMappingsFromArray:@[@"username", @"email", @"nickname"]];
     return mapping;
 }
 
@@ -43,6 +44,7 @@
     }];
     return mapping;
 }
+
 
 #pragma mark - Path Patterns
 
@@ -106,7 +108,13 @@
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
-#pragma mark - Request Descriptors
+#pragma mark - Core Data
+
+- (void)willSave {
+    if ([NSStringUtils isStringEmpty:self.nickname]) {
+        self.nickname = self.username;
+    }
+}
 
 
 

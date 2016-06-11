@@ -40,7 +40,11 @@
 
 @dynamic lastName;
 
+@dynamic nickname;
+
 @dynamic username;
+
+@dynamic channels;
 
 @dynamic posts;
 
@@ -68,12 +72,18 @@
 + (NSString *)lastName {
 	return @"lastName";
 }
++ (NSString *)nickname {
+	return @"nickname";
+}
 + (NSString *)username {
 	return @"username";
 }
 @end
 
 @implementation KGUserRelationships 
++ (NSString *)channels {
+	return @"channels";
+}
 + (NSString *)posts {
 	return @"posts";
 }

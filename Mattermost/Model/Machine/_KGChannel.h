@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class KGUser;
 @class KGPost;
 @class KGTeam;
 
@@ -53,10 +54,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* updatedAt;
 
+@property (nonatomic, strong, nullable) NSSet<KGUser*> *members;
+- (nullable NSMutableSet<KGUser*>*)membersSet;
+
 @property (nonatomic, strong, nullable) NSSet<KGPost*> *posts;
 - (nullable NSMutableSet<KGPost*>*)postsSet;
 
 @property (nonatomic, strong, nullable) KGTeam *team;
+
+@end
+
+@interface _KGChannel (MembersCoreDataGeneratedAccessors)
+- (void)addMembers:(NSSet<KGUser*>*)value_;
+- (void)removeMembers:(NSSet<KGUser*>*)value_;
+- (void)addMembersObject:(KGUser*)value_;
+- (void)removeMembersObject:(KGUser*)value_;
 
 @end
 
@@ -109,6 +121,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveUpdatedAt;
 - (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
+- (NSMutableSet<KGUser*>*)primitiveMembers;
+- (void)setPrimitiveMembers:(NSMutableSet<KGUser*>*)value;
+
 - (NSMutableSet<KGPost*>*)primitivePosts;
 - (void)setPrimitivePosts:(NSMutableSet<KGPost*>*)value;
 
@@ -133,6 +148,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGChannelRelationships: NSObject
++ (NSString *)members;
 + (NSString *)posts;
 + (NSString *)team;
 @end
