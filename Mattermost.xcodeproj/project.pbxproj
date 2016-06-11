@@ -23,6 +23,7 @@
 		9B822478B94669140F45CB09 /* _KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82210DA8457DEE5157685D /* _KGPost.m */; };
 		9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */; };
 		9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */; };
+		9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */; };
 		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
 		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
 		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
@@ -79,6 +80,7 @@
 		D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */; };
 		D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */; };
 		D844A70C1D0B37BF00B53BB3 /* NSDate+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A70B1D0B37BF00B53BB3 /* NSDate+DateFormatter.m */; };
+		D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */; };
 		D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428ED1D06DFE6008BF955 /* KGTeam.m */; };
 		D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428EF1D06DFE6008BF955 /* KGUser.m */; };
 		D8B428F61D06DFED008BF955 /* _KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428F31D06DFED008BF955 /* _KGTeam.m */; };
@@ -146,10 +148,12 @@
 		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelPostsWrapper.h; sourceTree = "<group>"; };
+		9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelNotification.m; sourceTree = "<group>"; };
 		9B822D047156786CF9AA400F /* _KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGChannel.h; sourceTree = "<group>"; };
 		9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		9B822DE7BEDDF6462930AE3B /* KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPost.h; sourceTree = "<group>"; };
 		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
+		9B822E38B0AEFE3B1C079CB1 /* KGChannelNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelNotification.h; sourceTree = "<group>"; };
 		9B822E4DC3786A5C93FF79EC /* NSObject+EnumerateProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumerateProperties.h"; sourceTree = "<group>"; };
 		9B822EEF9FF0746ACAD33507 /* NSString+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Validation.m"; sourceTree = "<group>"; };
 		9B822FA5DE660473F9598FBA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtils.h; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 		D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAvatarImageView.m; sourceTree = "<group>"; };
 		D844A70A1D0B37BF00B53BB3 /* NSDate+DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateFormatter.h"; sourceTree = "<group>"; };
 		D844A70B1D0B37BF00B53BB3 /* NSDate+DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateFormatter.m"; sourceTree = "<group>"; };
+		D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
 		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
 		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
@@ -255,6 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */,
 				D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */,
 				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
 			);
@@ -266,6 +272,7 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
 				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
 			);
@@ -338,6 +345,7 @@
 				D844A7051D0B348A00B53BB3 /* KGAvatarImageView */,
 				9B822755ADDFDC7B4B9D5F05 /* KGError */,
 				9B822F9BC10946A08F87993F /* KGObjectManager */,
+				9B822AF8F1E38A1254268D42 /* KGChannelNotification */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -405,6 +413,15 @@
 				9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		9B822AF8F1E38A1254268D42 /* KGChannelNotification */ = {
+			isa = PBXGroup;
+			children = (
+				9B822E38B0AEFE3B1C079CB1 /* KGChannelNotification.h */,
+				9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */,
+			);
+			path = KGChannelNotification;
 			sourceTree = "<group>";
 		};
 		9B822B986A41E5765DB8CD58 /* Categories */ = {
@@ -1182,6 +1199,7 @@
 				9B8229555967AD0C8D3320E3 /* _KGFile.m in Sources */,
 				9B822B929C3581984CF62D54 /* KGBusinessLogic+File.m in Sources */,
 				9B822BF0DBC6C73D268F3B4E /* KGBusinessLogic+Socket.m in Sources */,
+				9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

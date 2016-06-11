@@ -21,8 +21,12 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
+#import <CTAssetsPickerController/CTAssetsPickerController.h>
+@import CoreText;
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @end
@@ -76,11 +80,34 @@
     [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
+    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
+    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
 
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.placeholder = @"Написать сообщение";
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
+    
+    NSString *text = @"before after\n\n\n\n";
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    textAttachment.image = [UIImage imageNamed:@"icn_upload"];
+    
+    CGFloat oldWidth = textAttachment.image.size.width;
+    
+    //I'm subtracting 10px to make the image display nicely, accounting
+    //for the padding inside the textView
+    CGFloat scaleFactor = oldWidth / (self.textView.frame.size.width - 10);
+    textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:1.f orientation:UIImageOrientationUp];
+    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    [attributedString replaceCharactersInRange:NSMakeRange(text.length - 1, 1) withAttributedString:attrStringWithImage];
+    self.textView.attributedText = attributedString;
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icn_upload"]];
+//    UIBezierPath *exclusionPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
+//    
+//    self.textView.textContainer.exclusionPaths  = @[exclusionPath];
+//
+//    [self.textView addSubview:imageView];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -170,6 +197,7 @@
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     self.channel = [KGChannel managedObjectById:idetnfifier];
+    self.title = self.channel.displayName;
     [self loadLastPosts];
 }
 
@@ -247,6 +275,31 @@
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
     cell.transform = self.tableView.transform;
+}
+
+- (void)assignPhotos {
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // init picker
+            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+            
+            // set delegate
+            picker.delegate = self;
+            
+            // Optionally present picker as a form sheet on iPad
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+            
+            // present picker
+            [self presentViewController:picker animated:YES completion:nil];
+        });
+    }];
+}
+
+- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
+{
+    // assets contains PHAsset objects.
 }
 
 

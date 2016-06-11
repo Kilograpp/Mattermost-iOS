@@ -10,7 +10,6 @@
 #import <BOString.h>
 #import <ActiveLabel/ActiveLabel-Swift.h>
 #import "UIFont+KGPreparedFont.h"
-#import "UIColor+KGPreparedColor.h"
 #import "KGPost.h"
 #import "KGUser.h"
 #import "NSDate+DateFormatter.h"
@@ -32,7 +31,7 @@
 
 - (void)configure {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
-    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+    [self.messageLabel setMentionColor:[UIColor blueColor]];
 
 }
 
@@ -40,7 +39,9 @@
     self.messageLabel.text = post.message;
     self.nameLabel.text = post.author.username;
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
-    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+    [self.avatarImageView setImageWithURL:post.author.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }
 
@@ -63,9 +64,7 @@
         make.font([UIFont kg_regular15Font]);
     }];
 
-    CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(messageLabelWidth, CGFLOAT_MAX)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                        context:nil];
+    CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(messageLabelWidth, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
 
     return rect.size.height + kNameHeight + kTopPadding + kNameToMessagePadding + kBottomPadding;
 

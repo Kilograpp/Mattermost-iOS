@@ -15,6 +15,7 @@ target 'Mattermost' do
   pod 'MBProgressHUD', '~> 0.9.2'
   pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
   pod 'SlackTextViewController'
+  pod 'CTAssetsPickerController',  '~> 3.3.0'
 end
 
 post_install do |installer_representation|

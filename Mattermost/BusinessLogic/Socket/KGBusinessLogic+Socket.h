@@ -7,9 +7,21 @@
 #import "KGBusinessLogic.h"
 
 @class SRWebSocket;
+@class KGChannel;
 
+typedef NS_ENUM(NSInteger, KGChannelAction) {
+    KGActionTyping,
+    KGActionView,
+    KGActionUnknown
+};
 @interface KGBusinessLogic (Socket)
 
+- (void)sendNotificationWithAction:(KGChannelAction)action forChannel:(KGChannel *)channel;
+- (void)sendNotificationWithAction:(KGChannelAction)action forChannelIdentifier:(NSString *)identifier;
+
+- (BOOL)shouldOpenSocket;
 - (void)rocketFuckingSocket;
+- (void)openSocket;
+- (void)closeSocket;
 
 @end

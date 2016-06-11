@@ -8,15 +8,16 @@
 
 #import "KGBusinessLogic.h"
 #import <MagicalRecord/MagicalRecord.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import <RKObjectManager.h>
 #import <RestKit/RestKit.h>
 #import "KGConstants.h"
 #import "KGBusinessLogic+Socket.h"
 #import "RKResponseDescriptor+Runtime.h"
 #import "RKRequestDescriptor+Runtime.h"
-#import "SRWebSocket.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
+
 
 @interface KGBusinessLogic ()
 
@@ -71,6 +72,13 @@
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
+        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+            if (status == AFNetworkReachabilityStatusNotReachable) {
+                [self closeSocket];
+            } else {
+                [self openSocket];
+            }
+        }];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
         RKValueTransformer* transformer = [self millisecondsSince1970ToDateValueTransformer];
@@ -137,6 +145,10 @@
                                              selector: @selector(applicationDidEnterBackground)
                                                  name: UIApplicationDidEnterBackgroundNotification
                                                object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(applicationDidBecomeActive)
+                                                 name: UIApplicationDidBecomeActiveNotification
+                                               object: nil];
 }
 
 - (void)subscribeForServerBaseUrlChanges {
@@ -161,12 +173,19 @@
     }
 }
 
-#pragma mark - Background
+#pragma mark - Application States
+
+- (void)applicationDidBecomeActive {
+    NSLog(@"Yup");
+    [self openSocket];
+}
+
 
 - (void)applicationDidEnterBackground {
     UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
 
     [self savePreferences];
+    [self closeSocket];
 
     [self endBackgroundTaskWithId:taskId];
 }
@@ -174,6 +193,7 @@
 - (void)savePreferences {
     [[KGPreferences sharedInstance] save];
 }
+
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTask {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^(void) {
