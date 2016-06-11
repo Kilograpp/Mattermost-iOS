@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Channel" representedClassName="KGChannel" syncable="YES">
         <attribute name="backendType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -16,6 +16,15 @@
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Post" inverseName="channel" inverseEntity="Post" syncable="YES"/>
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="channels" inverseEntity="Team" syncable="YES"/>
     </entity>
+    <entity name="File" representedClassName="KGFile" syncable="YES">
+        <attribute name="backendLink" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="backendMimeType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="extension" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hasPreviewImage" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="size" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="files" inverseEntity="Post" syncable="YES"/>
+    </entity>
     <entity name="Post" representedClassName="KGPost" syncable="YES">
         <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -27,6 +36,7 @@
         <attribute name="userId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User" syncable="YES"/>
         <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="posts" inverseEntity="Channel" syncable="YES"/>
+        <relationship name="files" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" inverseName="post" inverseEntity="File" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName="KGTeam" syncable="YES">
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
@@ -44,8 +54,9 @@
     </entity>
     <elements>
         <element name="Channel" positionX="25" positionY="-108" width="128" height="253"/>
-        <element name="Post" positionX="-173" positionY="128" width="128" height="193"/>
+        <element name="File" positionX="169" positionY="207" width="128" height="148"/>
+        <element name="Post" positionX="-173" positionY="128" width="128" height="208"/>
+        <element name="Team" positionX="-180" positionY="-18" width="128" height="103"/>
         <element name="User" positionX="-389" positionY="128" width="128" height="133"/>
-        <element name="Team" positionX="-180" positionY="45" width="128" height="103"/>
     </elements>
 </model>

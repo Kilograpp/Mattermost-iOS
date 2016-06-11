@@ -63,6 +63,33 @@
     [self postObject:nil path:path parameters:nil success:success failure:failure];
 }
 
+- (void)postImage:(UIImage*)image atPath:(NSString*)path success:(void (^)(RKMappingResult *mappingResult))success failure:(void (^)(KGError *error))failure {
+
+    void (^constructingBodyWithBlock)(id <AFMultipartFormData> formData) = ^void(id <AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:@"image" fileName:@"file.png" mimeType:@"image/png"];
+    };
+
+    NSMutableURLRequest *request = [self multipartFormRequestWithObject:nil
+                                                                 method:RKRequestMethodPOST
+                                                                   path:path
+                                                             parameters:nil
+                                              constructingBodyWithBlock:constructingBodyWithBlock];
+
+    void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        safetyCall(success, mappingResult);
+    };
+
+    void (^failureHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, NSError *error) {
+        safetyCall(failure, [self handleOperation:operation withError:error]);
+    };
+
+    RKObjectRequestOperation *operation = [self objectRequestOperationWithRequest:request
+                                                                          success:successHandlerBlock
+                                                                          failure:failureHandlerBlock];
+
+    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];
+}
+
 #pragma mark - Support
 
 - (KGError*)handleOperation:(RKObjectRequestOperation *)operation withError:(NSError *)error{

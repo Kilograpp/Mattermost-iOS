@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class KGUser;
 @class KGChannel;
+@class KGFile;
 
 @interface KGPostID : NSManagedObjectID {}
 @end
@@ -44,6 +45,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) KGUser *author;
 
 @property (nonatomic, strong, nullable) KGChannel *channel;
+
+@property (nonatomic, strong, nullable) NSSet<KGFile*> *files;
+- (nullable NSMutableSet<KGFile*>*)filesSet;
+
+@end
+
+@interface _KGPost (FilesCoreDataGeneratedAccessors)
+- (void)addFiles:(NSSet<KGFile*>*)value_;
+- (void)removeFiles:(NSSet<KGFile*>*)value_;
+- (void)addFilesObject:(KGFile*)value_;
+- (void)removeFilesObject:(KGFile*)value_;
 
 @end
 
@@ -76,6 +88,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (KGChannel*)primitiveChannel;
 - (void)setPrimitiveChannel:(KGChannel*)value;
 
+- (NSMutableSet<KGFile*>*)primitiveFiles;
+- (void)setPrimitiveFiles:(NSMutableSet<KGFile*>*)value;
+
 @end
 
 @interface KGPostAttributes: NSObject 
@@ -92,6 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface KGPostRelationships: NSObject
 + (NSString *)author;
 + (NSString *)channel;
++ (NSString *)files;
 @end
 
 NS_ASSUME_NONNULL_END
