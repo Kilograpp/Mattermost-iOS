@@ -15,6 +15,7 @@
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Notifications.h"
+#import "KGUtils.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -31,6 +32,12 @@ extern NSString * const KGAuthTokenHeaderName;
     } failure:completion];
 }
 
+- (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
+    NSString* path = [KGUser uploadAvatarPathPattern];
+    [self.defaultObjectManager postImage:image atPath:path success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
+}
 
 #pragma mark - User
 

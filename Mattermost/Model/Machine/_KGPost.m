@@ -52,6 +52,17 @@
 
 @dynamic channel;
 
+@dynamic files;
+
+- (NSMutableSet<KGFile*>*)filesSet {
+	[self willAccessValueForKey:@"files"];
+
+	NSMutableSet<KGFile*> *result = (NSMutableSet<KGFile*>*)[self mutableSetValueForKey:@"files"];
+
+	[self didAccessValueForKey:@"files"];
+	return result;
+}
+
 @end
 
 @implementation KGPostAttributes 
@@ -87,6 +98,9 @@
 }
 + (NSString *)channel {
 	return @"channel";
+}
++ (NSString *)files {
+	return @"files";
 }
 @end
 

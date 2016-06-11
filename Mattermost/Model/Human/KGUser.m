@@ -66,6 +66,10 @@
     return @"users/attach_device";
 }
 
++ (NSString*)uploadAvatarPathPattern {
+    return @"users/newimage";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {

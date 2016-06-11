@@ -45,7 +45,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We should definitely write our mobile applications natively" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G8U-JR-i9K" customClass="ActiveLabel" customModule="ActiveLabel">
-                        <rect key="frame" x="56" y="28" width="214" height="41"/>
+                        <rect key="frame" x="56" y="28" width="260" height="41"/>
                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -57,7 +57,7 @@
                     <constraint firstItem="Y83-hO-DpO" firstAttribute="leading" secondItem="ysk-Dl-ooh" secondAttribute="trailing" constant="8" id="Bde-aq-D1s"/>
                     <constraint firstItem="G8U-JR-i9K" firstAttribute="leading" secondItem="ysk-Dl-ooh" secondAttribute="leading" id="DcI-ed-Pqx"/>
                     <constraint firstItem="ysk-Dl-ooh" firstAttribute="top" secondItem="DFn-aY-lS1" secondAttribute="top" id="KHO-d5-Rho"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="G8U-JR-i9K" secondAttribute="trailing" constant="8" id="Lzc-B6-gHh"/>
+                    <constraint firstAttribute="trailing" secondItem="G8U-JR-i9K" secondAttribute="trailing" constant="8" id="Lzc-B6-gHh"/>
                     <constraint firstAttribute="bottomMargin" secondItem="G8U-JR-i9K" secondAttribute="bottom" id="SJ7-xU-Zkt"/>
                     <constraint firstItem="ysk-Dl-ooh" firstAttribute="leading" secondItem="imG-zB-can" secondAttribute="trailing" constant="8" id="SuQ-Ji-RK7"/>
                     <constraint firstItem="ysk-Dl-ooh" firstAttribute="top" secondItem="imG-zB-can" secondAttribute="top" id="VlS-2h-wFK"/>
