@@ -25,8 +25,6 @@
 }
 
 - (void)setupTitleLabel {
-    self.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    self.titleMenuLabel.textColor = [UIColor kg_lightBlueColor];
     self.titleMenuLabel.font = [UIFont kg_regular16Font];
 }
 
@@ -40,9 +38,10 @@
 
 #pragma mark - Override
 
--(void)configureWithObject:(id)object {
+-(void)configureWithObject:(id)object{
     if ([object isKindOfClass: [KGRightMenuDataSourceEntry class]]) {
         KGRightMenuDataSourceEntry *dataSourse = object;
+        self.titleMenuLabel.textColor = dataSourse.titleColor;
         [self configureWithImageName:dataSourse.iconName title:dataSourse.title];
     }
 
@@ -50,7 +49,7 @@
 
 + (CGFloat)heightWithObject:(id)object {
     CGFloat heightScreen =  [[UIScreen mainScreen] bounds].size.height;
-    return (heightScreen - 20) / 7 ;
+    return (heightScreen - 20) / 8 ;
 }
 
 
@@ -58,12 +57,12 @@
     [super setSelected:selected animated:animated];
     
     if (selected) {
-     //   self.contentView.backgroundColor = [UIColor kg_lightBlueColor];
-        self.titleMenuLabel.textColor = [UIColor kg_whiteColor];
+        self.contentView.backgroundColor = [UIColor kg_lightBlueColor];
+       // self.titleMenuLabel.textColor = [UIColor kg_whiteColor];
        // self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
     } else {
-       // self.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.titleMenuLabel.textColor = [UIColor kg_lightBlueColor];
+        self.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+      //  self.titleMenuLabel.textColor = [UIColor kg_lightBlueColor];
       //  self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     }
 }

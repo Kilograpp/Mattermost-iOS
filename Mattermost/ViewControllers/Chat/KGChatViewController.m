@@ -21,6 +21,8 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
+#import "KGPresentNavigationController.h"
+#import "KGProfilViewController.h"
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import "Bostring.h"
 @import CoreText;
@@ -72,8 +74,10 @@
 - (void)setup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    KGLeftMenuViewController *vc = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
-    vc.delegate = self;
+    KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
+    KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
+    leftVC.delegate = self;
+    rightVC.delegate = self;
 }
 
 - (void)setupTableView {
@@ -200,6 +204,18 @@
     self.channel = [KGChannel managedObjectById:idetnfifier];
     self.title = self.channel.displayName;
     [self loadLastPosts];
+}
+
+#pragma mark = KGRightMenuDelegate
+
+-(void)navigationToProfil {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
+        KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
+        presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:presentNC animated:YES completion:nil];
+        });
+    
 }
 
 #pragma mark - UINavigationControllerDelegate

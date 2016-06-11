@@ -48,6 +48,8 @@
 		CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */; };
 		CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */; };
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
+		CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */; };
+		CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */; };
 		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
@@ -171,6 +173,9 @@
 		CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGRightMenuCell.xib; path = RightMenu/KGRightMenuCell.xib; sourceTree = "<group>"; };
 		CD7D11811D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGRightMenuDataSourceEntry.h; path = DataSource/RightMenuDataSource/KGRightMenuDataSourceEntry.h; sourceTree = "<group>"; };
 		CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGRightMenuDataSourceEntry.m; path = DataSource/RightMenuDataSource/KGRightMenuDataSourceEntry.m; sourceTree = "<group>"; };
+		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
+		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPresentNavigationController.h; path = PresentNavigation/KGPresentNavigationController.h; sourceTree = "<group>"; };
+		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPresentNavigationController.m; path = PresentNavigation/KGPresentNavigationController.m; sourceTree = "<group>"; };
 		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGSettingsViewController.h; path = Settings/KGSettingsViewController.h; sourceTree = "<group>"; };
 		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSettingsViewController.m; path = Settings/KGSettingsViewController.m; sourceTree = "<group>"; };
 		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfilViewController.h; path = Profile/KGProfilViewController.h; sourceTree = "<group>"; };
@@ -711,6 +716,7 @@
 			children = (
 				D69FB1721D097B2700043C2D /* Chat.storyboard */,
 				9B822C6FC588149134FF2451 /* Login.storyboard */,
+				CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -792,6 +798,8 @@
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
 				D6C154C31D07556600B053CE /* Login */,
 				D69FB19A1D09C62200043C2D /* SideMenu */,
+				CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */,
+				CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1061,6 +1069,7 @@
 				CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
+				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1172,6 +1181,7 @@
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
 				9B822BDCA6EA4620FAAE34D6 /* NSObject+EnumerateProperties.m in Sources */,
 				411169F01D09DE0D00448145 /* KGChannelTableViewCell.m in Sources */,
+				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
 				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
