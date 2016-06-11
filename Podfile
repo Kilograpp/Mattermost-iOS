@@ -9,6 +9,7 @@ target 'Mattermost' do
   pod 'IQKeyboardManager', :git => 'http://git.kilograpp.com/iOS/IQKeyboardManager.git'
   pod 'Masonry'
   pod 'UIActivityIndicator-for-SDWebImage'
+  pod 'SocketRocket'
   pod 'SDWebImage'
   pod 'DateTools'
   pod 'MBProgressHUD', '~> 0.9.2'

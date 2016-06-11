@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "KGError.h"
 @class KGObjectManager, RKMappingResult, RKManagedObjectStore;
+@class SRWebSocket;
 
 @interface KGBusinessLogic : NSObject
 
 + (instancetype)sharedInstance;
 
+@property (strong, nonatomic) SRWebSocket *socket;
 @property (strong, nonatomic, readonly) KGObjectManager *defaultObjectManager;
 @property (nonatomic, strong, readonly) RKManagedObjectStore *managedObjectStore;
 

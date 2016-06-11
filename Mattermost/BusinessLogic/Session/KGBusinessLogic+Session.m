@@ -94,6 +94,16 @@ extern NSString * const KGAuthTokenHeaderName;
     }
 }
 
+- (NSHTTPCookie*)authCookie {
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [cookieJar cookies]) {
+        if ([cookie.name isEqualToString:KGAuthTokenHeaderName]) {
+            return cookie;
+        }
+    }
+    return nil;
+}
 
 - (void)clearCookies {
     NSHTTPCookie *cookie;
