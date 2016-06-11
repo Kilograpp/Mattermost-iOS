@@ -21,15 +21,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nil-Qf-8cS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qdx-ee-mvJ">
-                                        <rect key="frame" x="290" y="30" width="55" height="30"/>
-                                        <state key="normal" title="sign out">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="signOutAction:" destination="hdD-Ic-QsO" eventType="touchUpInside" id="bnD-tx-yZB"/>
-                                        </connections>
-                                    </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jau-ck-h5Z">
                                         <rect key="frame" x="8" y="28" width="55" height="55"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10145474140000001" colorSpace="calibratedRGB"/>
@@ -53,14 +44,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.10980392160000001" green="0.4549019608" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="Qdx-ee-mvJ" firstAttribute="top" secondItem="Nil-Qf-8cS" secondAttribute="top" constant="30" id="5Bp-Hf-QWm"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="trailing" secondItem="EDl-Ww-PLV" secondAttribute="trailing" id="5Zo-Hm-Bl5"/>
                                     <constraint firstItem="Jau-ck-h5Z" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="10" id="66p-eZ-DP4"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="20" id="Lfj-RC-GuT"/>
                                     <constraint firstAttribute="height" constant="90" id="OcH-i8-Mp3"/>
                                     <constraint firstItem="EDl-Ww-PLV" firstAttribute="leading" secondItem="Jau-ck-h5Z" secondAttribute="trailing" constant="8" id="S7Z-GN-hy6"/>
                                     <constraint firstItem="Jau-ck-h5Z" firstAttribute="leading" secondItem="Nil-Qf-8cS" secondAttribute="leading" constant="8" id="SH2-DH-EHf"/>
-                                    <constraint firstAttribute="trailing" secondItem="Qdx-ee-mvJ" secondAttribute="trailing" constant="30" id="XOE-8m-gBx"/>
                                     <constraint firstItem="EDl-Ww-PLV" firstAttribute="centerY" secondItem="Nil-Qf-8cS" secondAttribute="centerY" constant="-5" id="de7-Av-eg0"/>
                                     <constraint firstItem="z9W-zI-NNk" firstAttribute="leading" secondItem="EDl-Ww-PLV" secondAttribute="leading" id="xyH-pp-vHX"/>
                                     <constraint firstAttribute="trailing" secondItem="EDl-Ww-PLV" secondAttribute="trailing" constant="10" id="ySs-Cz-dWl"/>

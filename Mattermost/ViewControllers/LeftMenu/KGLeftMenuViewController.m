@@ -30,8 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
-- (IBAction)signOutAction:(id)sender;
-
 @end
 
 @implementation KGLeftMenuViewController
@@ -90,12 +88,6 @@
     [self.avatarImageView setImageWithURL:currentUser.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self.avatarImageView removeActivityIndicator];
-}
-
-- (IBAction)signOutAction:(id)sender {
-    [[KGBusinessLogic sharedInstance] signOut];
-    KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate loadInitialScreen];
 }
 
 
