@@ -48,18 +48,24 @@
 }
 
 + (CGFloat)heightWithObject:(KGPost*)post {
-    
-    NSInteger screenWidth = [[UIScreen mainScreen] bounds].size.width;
+
+    NSInteger kTopPadding = 5;
+    NSInteger kNameToMessagePadding = 2;
+    NSInteger kNameHeight = 22;
+    NSInteger kBottomPadding = 2;
+
+    NSInteger screenWidth = (NSInteger) [[UIScreen mainScreen] bounds].size.width;
     NSInteger messageLabelWidth = screenWidth - 45 - 8 - 8 - 8;
-    
+
     NSAttributedString* messageAttributedString = [post.message bos_makeString:^(BOStringMaker *make) {
         make.font([UIFont kg_regular15Font]);
     }];
-    
+
     CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(messageLabelWidth, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-    
-    return rect.size.height + 22 + 2 + 2;
+
+    return rect.size.height + kNameHeight + kTopPadding + kNameToMessagePadding + kBottomPadding;
 
 }
+
 
 @end

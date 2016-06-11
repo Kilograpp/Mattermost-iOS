@@ -1,6 +1,7 @@
 #import "KGPost.h"
 #import "KGUser.h"
 #import "KGChannel.h"
+#import "KGFile.h"
 #import <RestKit.h>
 
 @interface KGPost ()
@@ -28,6 +29,12 @@
     }];
     [mapping addConnectionForRelationship:@"author"  connectedBy:@{@"userId"    : @"identifier"}];
     [mapping addConnectionForRelationship:@"channel" connectedBy:@{@"channelId" : @"identifier"}];
+
+    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"(identifier).filenames"
+                                                                            toKeyPath:@"files"
+                                                                          withMapping:[KGFile simpleEntityMapping]]];
+
+
     return mapping;
 }
 

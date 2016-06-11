@@ -3,6 +3,7 @@
 @interface KGUser : _KGUser
 - (NSURL*) imageUrl;
 + (NSString*) authPathPattern;
-+ (NSString*)avatarPathPattern;
++ (NSString*) avatarPathPattern;
++ (NSString*) uploadAvatarPathPattern;
 + (NSString*) attachDevicePathPattern;
 @end

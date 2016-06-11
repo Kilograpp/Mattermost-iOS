@@ -11,8 +11,12 @@
 
 @implementation NSDate (DateFormatter)
 
-- (NSString*)timeFormatForMessages {
+- (NSString *)timeFormatForMessages {
     return [self formattedDateWithFormat:@"HH:mm a"];
+}
+
+- (NSString *)dateFormatForMassage {
+    return [self formattedDateWithFormat:@"dd.MM.yyyy"];
 }
 
 @end

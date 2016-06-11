@@ -26,7 +26,7 @@
 }
 
 - (void)roundCorners {
-    [[self layer] setCornerRadius:2.0f];
+    [[self layer] setCornerRadius:3.0f];
     [[self layer] setMasksToBounds:YES];
 }
 
