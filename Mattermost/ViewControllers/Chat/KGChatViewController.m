@@ -23,11 +23,16 @@
 #import "KGBusinessLogic+Channel.h"
 #import "KGRightMenuViewController.h"
 #import "KGPresentNavigationController.h"
+#import <Masonry/Masonry.h>
+#import "KGConstants.h"
+
 
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, KGRightMenuDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
+@property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @end
 
 @implementation KGChatViewController
@@ -159,14 +164,16 @@
 #pragma mark - KGLeftMenuDelegate
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+    [self showLoadingView];
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
         [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
             if (error) {
-
+                [self hideLoadingViewAnimated:YES];
             }
             [self setupFetchedResultsController];
             [self.tableView reloadData];
+            [self hideLoadingViewAnimated:YES];
         }];
 
     }];
@@ -193,6 +200,42 @@
 
 - (void)toggleRightSideMenuAction {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+}
+
+#pragma mark - Loading View
+
+- (UIActivityIndicatorView *)loadingActivityIndicator {
+    if (!_loadingActivityIndicator) {
+        _loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _loadingActivityIndicator.hidesWhenStopped = YES;
+    }
+    
+    return _loadingActivityIndicator;
+}
+
+- (void)showLoadingView {
+    self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.loadingView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.loadingView];
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [self.loadingView addSubview:self.loadingActivityIndicator];
+    [self.loadingActivityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.loadingView);
+    }];
+    [self.loadingActivityIndicator startAnimating];
+}
+
+- (void)hideLoadingViewAnimated:(BOOL)animated {
+    CGFloat duration = animated ? KGStandartAnimationDuration : 0;
+    [UIView animateWithDuration:duration animations:^{
+        self.loadingView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.loadingActivityIndicator stopAnimating];
+        [self.loadingView removeFromSuperview];
+    }];
 }
 
 @end

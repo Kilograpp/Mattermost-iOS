@@ -17,3 +17,4 @@ float                   const KGLeftMenuOffset = 52.f;
 NSString * const KGXRequestedWithHeader = @"X-Requested-With";
 NSString * const KGContentTypeHeader = @"Content-Type";
 NSString * const KGAcceptLanguageHeader = @"Accept-Language";
+

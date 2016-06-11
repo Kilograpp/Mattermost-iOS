@@ -12,6 +12,12 @@
 
 @interface KGViewController : UIViewController
 
+@property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
+
+- (void)showLoadingView;
+- (void)hideLoadingViewAnimated:(BOOL)animated;
+
 - (void)showProgressHud;
 - (void)hideProgressHud;
 
