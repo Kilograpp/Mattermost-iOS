@@ -8,6 +8,13 @@
 
 #import "KGViewController.h"
 
-@interface KGLeftMenuViewController : KGViewController
+@protocol KGLeftMenuDelegate <NSObject>
 
+@required
+- (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier;
+
+@end
+
+@interface KGLeftMenuViewController : KGViewController
+@property (nonatomic, weak) id<KGLeftMenuDelegate> delegate;
 @end

@@ -16,6 +16,7 @@
     RKEntityMapping *mapping = [super emptyEntityMapping];
     [mapping setForceCollectionMapping:YES];
     [mapping setAssignsNilForMissingRelationships:NO];
+    //FIXME: идентификационный атрибут устанавливатеся в KGManagedObject
     [mapping setIdentificationAttributes:@[@"identifier"]];
     [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
     [mapping addAttributeMappingsFromDictionary:@{
@@ -85,5 +86,10 @@
                                                  rootKeyPath:nil
                                                       method:RKRequestMethodPOST];
 }
+
+
+#pragma mark - Public Getters
+
+
 
 @end

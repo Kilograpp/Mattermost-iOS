@@ -21,6 +21,7 @@
 #import "KGUtils.h"
 #import "NSManagedObject+CustomFinder.h"
 #import <UIImageView+UIActivityIndicatorForSDWebImage.h>
+#import <MFSideMenu/MFSideMenu.h>
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -138,6 +139,11 @@
     return 40.f;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self selectChannelAtIntexPath:indexPath];
+    [self toggleLeftSideMenuAction];
+}
+
 #pragma mark - NSFetchedResultsController
 
 - (void)setupFetchedResultsController {
@@ -152,11 +158,38 @@
     [fetchRequest setFetchBatchSize:20];
     [fetchRequest setSortDescriptors:@[backendTypeSort, displayNameSort]];
 
-
     self.fetchedResultsController = [KGChannel MR_fetchController:fetchRequest
                                                          delegate:nil
                                                         groupedBy:NSStringFromSelector(@selector(backendType))];
 
+}
+
+
+#pragma mark - Private
+
+- (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
+    KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+}
+
+- (void)setInitialSelectedChannel {
+    NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView selectRowAtIndexPath:firstChannelPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    [self selectChannelAtIntexPath:firstChannelPath];
+}
+
+#pragma mark - Actions
+
+- (void)toggleLeftSideMenuAction {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+
+#pragma mark - Private Setters {
+
+- (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
+    _delegate = delegate;
+    [self setInitialSelectedChannel];
 }
 
 @end
