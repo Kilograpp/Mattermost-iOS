@@ -292,6 +292,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D65E4E211D0C03290012BA7E /* KGDateFormatter */,
 				D844A7051D0B348A00B53BB3 /* KGAvatarImageView */,
 				D69FB1741D097F3200043C2D /* KGAlertManager */,
 				9B822755ADDFDC7B4B9D5F05 /* KGError */,
@@ -416,6 +417,13 @@
 				544CBF06C8ECB7748DDA6E2B /* Pods-Mattermost.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D65E4E211D0C03290012BA7E /* KGDateFormatter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = KGDateFormatter;
 			sourceTree = "<group>";
 		};
 		D67923EE1D09439200481694 /* ResetPassword */ = {

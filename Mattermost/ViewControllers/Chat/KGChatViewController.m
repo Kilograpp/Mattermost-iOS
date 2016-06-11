@@ -18,9 +18,11 @@
 #import "UIColor+KGPreparedColor.h"
 #import "KGChatNavigationController.h"
 #import <MFSideMenu/MFSideMenu.h>
+#import "KGLeftMenuViewController.h"
 
-@interface KGChatViewController () <UINavigationControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, strong) KGChannel *channel;
 @end
 
 @implementation KGChatViewController
@@ -32,9 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[KGBusinessLogic sharedInstance] loadPostsForChannel:[KGChannel MR_findFirst] page:@0 size:@60 completion:^(KGError *error) {
-        [self.tableView reloadData];
-    }];
+    
+    [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
@@ -55,19 +56,14 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self setupFetchedResultsController];
-    [self.tableView reloadData];
-}
-
 
 #pragma mark - Setup
 
 - (void)setup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    KGLeftMenuViewController *vc = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
+    vc.delegate = self;
 }
 
 - (void)setupTableView {
@@ -117,11 +113,10 @@
 
 
 - (void)setupFetchedResultsController {
-
-
-    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:nil
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
+    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
                                                       ascending:YES
-                                                  withPredicate:nil
+                                                  withPredicate:predicate
                                                         groupBy:nil
                                                        delegate:nil];
 }
@@ -143,6 +138,20 @@
     }
 }
 
+
+#pragma mark - KGLeftMenuDelegate
+
+- (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+    self.channel = [KGChannel managedObjectById:idetnfifier];
+    
+    [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+        if (error) {
+    
+        }
+        [self setupFetchedResultsController];
+        [self.tableView reloadData];
+    }];
+}
 
 #pragma mark - Actions
 
