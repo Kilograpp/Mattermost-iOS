@@ -6,8 +6,11 @@
 #import <Foundation/Foundation.h>
 #import "KGBusinessLogic.h"
 
+@class KGChannel;
+
 @interface KGBusinessLogic (Channel)
 
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion;
-
+- (NSString*)notificationNameForChannelWithIdentifier:(NSString*)identifier;
+- (NSString*)notificationNameForChannel:(KGChannel*)channel;
 @end

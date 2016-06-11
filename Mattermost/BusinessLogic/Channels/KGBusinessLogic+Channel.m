@@ -21,4 +21,13 @@
     } failure:completion];
 }
 
+- (NSString*)notificationNameForChannel:(KGChannel *)channel {
+    return [self notificationNameForChannelWithIdentifier:channel.identifier];
+}
+
+- (NSString *)notificationNameForChannelWithIdentifier:(NSString *)identifier {
+    return [NSString stringWithFormat:@"%@_%@", NSStringFromClass([self class]), [identifier uppercaseString]];
+
+}
+
 @end

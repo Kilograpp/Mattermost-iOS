@@ -7,6 +7,7 @@
 #import "KGUtils.h"
 #import "NSStringUtils.h"
 #import "KGBusinessLogic+Session.h"
+#import "KGBusinessLogic+Channel.h"
 
 @interface KGChannel ()
 
@@ -23,8 +24,12 @@
         CASE(@"O")
             return KGChannelTypePublic;
         DEFAULT
-            return KGChannelTypePublic;
+            return KGChannelTypeUnknown;
     }
+}
+
+- (NSString*)notificationsName {
+    return [[KGBusinessLogic sharedInstance] notificationNameForChannel:self];
 }
 
 #pragma mark - Mappings
