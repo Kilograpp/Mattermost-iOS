@@ -11,15 +11,12 @@
 @end
 
 @implementation KGFile
-
-#pragma mark - Response Mapping
+#pragma mark - Interface Methods
 
 - (BOOL)isImage {
-    return [self.backendMimeType hasPrefix:@"image/"];
-}
-
-- (NSString*)noExtensionBackendLink {
-    return [self.backendLink stringByDeletingPathExtension];
+    return  [self.backendMimeType hasPrefix:@"image/"] ||
+            [[self.name pathExtension] caseInsensitiveCompare:@"png"] == NSOrderedSame ||
+            [[self.name pathExtension] caseInsensitiveCompare:@"jpg"] == NSOrderedSame;
 }
 
 - (NSURL *)downloadLink {
@@ -32,9 +29,10 @@
     } else {
         return nil;
     }
-
 }
 
+
+#pragma mark - Response Mapping
 
 + (RKEntityMapping *)simpleEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
@@ -42,6 +40,7 @@
     [mapping setIdentificationAttributes:@[@"backendLink"]];
     return mapping;
 }
+
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
@@ -57,8 +56,12 @@
 
 #pragma mark - Path Patterns
 
-+ (NSString*)simplifiedUpdatePathPattern {
-    return @"teams/:a/files/get_info/:b/:c/:d/:e";
++ (NSString*)uploadFilePathPattern {
+    return @"teams/:identifier/files/upload";
+}
+
++ (NSString*)unifiedUpdatePathPattern {
+    return @"teams/:path/files/get_info/:path/:path/:path/:path";
 }
 
 + (NSString*)updatePathPattern {
@@ -78,8 +81,17 @@
 + (RKResponseDescriptor*)updateResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
                                                         method:RKRequestMethodGET
-                                                   pathPattern:[self simplifiedUpdatePathPattern]
+                                                   pathPattern:[self unifiedUpdatePathPattern]
                                                        keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
++ (RKResponseDescriptor*)uploadResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self simpleEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self uploadFilePathPattern]
+                                                       keyPath:@"filenames"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
@@ -95,17 +107,22 @@
     return [self.noExtensionBackendLink stringByAppendingString:@"preview"];
 }
 
+- (NSString*)noExtensionBackendLink {
+    return [self.backendLink stringByDeletingPathExtension];
+}
+
+- (void)fillNameFromBackendLink {
+    NSArray *fileComponents = [self.backendLink componentsSeparatedByString:@"/"];
+    NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
+    NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
+    self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+}
+
 #pragma mark - Core Data
 
-
-
-#warning Kostyl Detected
 - (void)willSave {
     if ([NSStringUtils isStringEmpty:self.name]) {
-        NSArray *fileComponents = [self.backendLink componentsSeparatedByString:@"/"];
-        NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
-        NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
-        self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+        [self fillNameFromBackendLink];
     }
 };
 
