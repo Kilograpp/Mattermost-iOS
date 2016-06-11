@@ -28,10 +28,10 @@
 
 - (void)setupNavigationBar {
     UINavigationBar *navBar = self.navigationBar;
-    navBar.translucent = YES;
+    navBar.translucent = NO;
     
     navBar.tintColor = [UIColor kg_whiteColor];
-    navBar.barTintColor = [UIColor kg_blueColor];
+    navBar.barTintColor = [UIColor kg_leftMenuHeaderColor];
     [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                    NSFontAttributeName : [UIFont kg_semibold18Font] }];
     
