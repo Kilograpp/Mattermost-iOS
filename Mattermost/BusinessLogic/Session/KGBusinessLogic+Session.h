@@ -26,4 +26,6 @@
 - (BOOL)isSignedIn;
 - (void)signOut;
 
+- (NSHTTPCookie*)authCookie;
+
 @end
