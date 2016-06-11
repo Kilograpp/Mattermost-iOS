@@ -16,6 +16,7 @@
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Notifications.h"
 #import "KGUtils.h"
+#import "KGBusinessLogic+Socket.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -29,6 +30,7 @@ extern NSString * const KGAuthTokenHeaderName;
     [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
         [self updateCurrentUserWithObject:mappingResult.firstObject];
         [self subscribeToRemoteNotificationsIfNeededWithCompletion:completion];
+        [self openSocket];
     } failure:completion];
 }
 
@@ -74,6 +76,7 @@ extern NSString * const KGAuthTokenHeaderName;
 - (void)signOut {
     [self resetPersistentStore];
     [self clearCookies];
+    [self closeSocket];
 }
 
 #pragma mark - Resetters

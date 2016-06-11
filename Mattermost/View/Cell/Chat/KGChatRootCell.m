@@ -39,7 +39,10 @@
     self.messageLabel.text = post.message;
     self.nameLabel.text = post.author.username;
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
-    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+    [self.avatarImageView setImageWithURL:post.author.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies completed:nil
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }
 
 

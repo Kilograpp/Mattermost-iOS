@@ -9,6 +9,7 @@ typedef NS_ENUM(NSInteger, KGChannelType) {
 @interface KGChannel : _KGChannel
 
 - (KGChannelType)type;
+- (NSString*)notificationsName;
 
 + (NSString*)listPathPattern;
 
