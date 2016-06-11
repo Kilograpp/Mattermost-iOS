@@ -12,6 +12,9 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "KGBusinessLogic+Session.h"
 #import "KGSideMenuContainerViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 
 @interface KGAppDelegate ()
 
@@ -24,7 +27,7 @@
     [self loadInitialScreen];
     [self setupKeyboardManager];
     [self registerForRemoteNotifications];
-
+    [self setupFabric];
     return YES;
 }
 
@@ -79,4 +82,7 @@
     [[KGBusinessLogic sharedInstance] registerForRemoteNotifications];
 }
 
+- (void)setupFabric {
+    [Fabric with:@[[Crashlytics class]]];
+}
 @end
