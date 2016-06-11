@@ -44,6 +44,8 @@
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD05D7471D0B471300675EAC /* NSAttributedString+FormattedTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */; };
 		CD05D7511D0B5E1500675EAC /* NSString+HeightCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7501D0B5E1500675EAC /* NSString+HeightCalculation.m */; };
+		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
+		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -152,10 +154,14 @@
 		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
 		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
-		CD05D7451D0B471300675EAC /* NSAttributedString+FormattedTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+FormattedTitle.h"; path = "NSAttributedString+FormattedTitle.h"; sourceTree = "<group>"; };
-		CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+FormattedTitle.m"; path = "NSAttributedString+FormattedTitle.m"; sourceTree = "<group>"; };
+		CD05D7451D0B471300675EAC /* NSAttributedString+FormattedTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+FormattedTitle.h"; sourceTree = "<group>"; };
+		CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+FormattedTitle.m"; sourceTree = "<group>"; };
 		CD05D74F1D0B5E1500675EAC /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
 		CD05D7501D0B5E1500675EAC /* NSString+HeightCalculation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HeightCalculation.m"; sourceTree = "<group>"; };
+		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGSettingsViewController.h; path = Settings/KGSettingsViewController.h; sourceTree = "<group>"; };
+		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSettingsViewController.m; path = Settings/KGSettingsViewController.m; sourceTree = "<group>"; };
+		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfilViewController.h; path = Profile/KGProfilViewController.h; sourceTree = "<group>"; };
+		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfilViewController.m; path = Profile/KGProfilViewController.m; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
 		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
@@ -206,10 +212,10 @@
 		D844A6FF1D0B2D4B00B53BB3 /* KGFollowUpChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFollowUpChatCell.h; sourceTree = "<group>"; };
 		D844A7001D0B2D4B00B53BB3 /* KGFollowUpChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGFollowUpChatCell.m; sourceTree = "<group>"; };
 		D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGFollowUpChatCell.xib; sourceTree = "<group>"; };
-		D844A7061D0B34A900B53BB3 /* KGAvatarImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAvatarImageView.h; path = KGAvatarImageView.h; sourceTree = "<group>"; };
-		D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAvatarImageView.m; path = KGAvatarImageView.m; sourceTree = "<group>"; };
-		D844A70A1D0B37BF00B53BB3 /* NSDate+DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+DateFormatter.h"; path = "NSDate+DateFormatter.h"; sourceTree = "<group>"; };
-		D844A70B1D0B37BF00B53BB3 /* NSDate+DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+DateFormatter.m"; path = "NSDate+DateFormatter.m"; sourceTree = "<group>"; };
+		D844A7061D0B34A900B53BB3 /* KGAvatarImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAvatarImageView.h; sourceTree = "<group>"; };
+		D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAvatarImageView.m; sourceTree = "<group>"; };
+		D844A70A1D0B37BF00B53BB3 /* NSDate+DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateFormatter.h"; sourceTree = "<group>"; };
+		D844A70B1D0B37BF00B53BB3 /* NSDate+DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateFormatter.m"; sourceTree = "<group>"; };
 		D8B428EC1D06DFE6008BF955 /* KGTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeam.h; sourceTree = "<group>"; };
 		D8B428ED1D06DFE6008BF955 /* KGTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeam.m; sourceTree = "<group>"; };
 		D8B428EE1D06DFE6008BF955 /* KGUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUser.h; sourceTree = "<group>"; };
@@ -466,8 +472,25 @@
 				CD05D7451D0B471300675EAC /* NSAttributedString+FormattedTitle.h */,
 				CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */,
 			);
-			name = NSAttributedString;
 			path = NSAttributedString;
+			sourceTree = "<group>";
+		};
+		CD8D69041D0C50D600AFA198 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */,
+				CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		CD8D69081D0C511600AFA198 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CD8D69091D0C514800AFA198 /* KGProfilViewController.h */,
+				CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		D67923EE1D09439200481694 /* ResetPassword */ = {
@@ -687,6 +710,8 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD8D69081D0C511600AFA198 /* Profile */,
+				CD8D69041D0C50D600AFA198 /* Settings */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
@@ -812,7 +837,6 @@
 				D844A7061D0B34A900B53BB3 /* KGAvatarImageView.h */,
 				D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */,
 			);
-			name = KGAvatarImageView;
 			path = KGAvatarImageView;
 			sourceTree = "<group>";
 		};
@@ -822,7 +846,6 @@
 				D844A70A1D0B37BF00B53BB3 /* NSDate+DateFormatter.h */,
 				D844A70B1D0B37BF00B53BB3 /* NSDate+DateFormatter.m */,
 			);
-			name = NSDate;
 			path = NSDate;
 			sourceTree = "<group>";
 		};
@@ -937,8 +960,6 @@
 			mainGroup = D696F7681D060FDD008341AF;
 			productRefGroup = D696F7721D060FDD008341AF /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				D696F7701D060FDD008341AF /* Mattermost */,
@@ -1035,6 +1056,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
@@ -1082,6 +1104,7 @@
 				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
+				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,

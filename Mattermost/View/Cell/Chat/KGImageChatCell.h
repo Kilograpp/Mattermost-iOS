@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "KGTableViewCell.h"
 
-@interface KGImageChatCell :KGTableViewCell
+@interface KGImageMessageCell :KGTableViewCell
 
 @end

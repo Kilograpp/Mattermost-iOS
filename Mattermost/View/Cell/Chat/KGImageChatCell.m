@@ -6,7 +6,7 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "KGImageChatCell.h"
+#import "KGImageMessageCell.h"
 #import <BOString.h>
 #import <ActiveLabel/ActiveLabel-Swift.h>
 #import "UIFont+KGPreparedFont.h"
@@ -27,7 +27,7 @@ static CGFloat const horizontalPadding = 8.f;
 static CGFloat const aspectRatioImage = 1.5;
 static CGFloat const heightNameLabel = 22.f;
 
-@interface KGImageChatCell ()
+@interface KGImageMessageCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
@@ -36,7 +36,7 @@ static CGFloat const heightNameLabel = 22.f;
 
 @end
 
-@implementation KGImageChatCell
+@implementation KGImageMessageCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -87,6 +87,7 @@ static CGFloat const heightNameLabel = 22.f;
     NSString *subtitleText = [NSString stringWithFormat:@"%@", pastedImageAt];
     
     CGFloat heightSubtitleText = [subtitleText heightForTextWithWidth:labelWidht withFont:[UIFont kg_semibold16Font]];
+    
     CGFloat heightImage = labelWidht/aspectRatioImage;
     
     heightCell = topPadding + heightNameLabel + verticalPadding + heightSubtitleText + verticalPadding + heightImage + verticalPadding;
