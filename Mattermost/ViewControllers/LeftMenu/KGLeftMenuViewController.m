@@ -13,7 +13,6 @@
 #import "KGUser.h"
 #import "KGBusinessLogic+Team.h"
 #import "KGBusinessLogic+Session.h"
-#import "KGBusinessLogic+Session.h"
 #import "KGAppDelegate.h"
 #import "KGChannel.h"
 #import <MagicalRecord/MagicalRecord.h>
@@ -30,8 +29,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-
-- (IBAction)signOutAction:(id)sender;
 
 @end
 
@@ -91,12 +88,6 @@
     [self.avatarImageView setImageWithURL:currentUser.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self.avatarImageView removeActivityIndicator];
-}
-
-- (IBAction)signOutAction:(id)sender {
-    [[KGBusinessLogic sharedInstance] signOut];
-    KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate loadInitialScreen];
 }
 
 

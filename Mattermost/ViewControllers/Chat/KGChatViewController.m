@@ -20,11 +20,14 @@
 #import "KGChatNavigationController.h"
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
+#import "KGRightMenuViewController.h"
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import "Bostring.h"
 @import CoreText;
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, CTAssetsPickerControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
@@ -187,6 +190,9 @@
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
+- (void)toggleRightSideMenuAction {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+}
 
 #pragma mark - KGLeftMenuDelegate
 
@@ -195,7 +201,6 @@
     self.title = self.channel.displayName;
     [self loadLastPosts];
 }
-
 
 #pragma mark - UINavigationControllerDelegate
 
@@ -211,6 +216,17 @@
         }
         
     }
+    
+    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
+        if (navigationController.viewControllers.count == 1) {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleRightSideMenuAction)];
+        }
+        
+    }
+
 }
 
 

@@ -88,6 +88,13 @@
                                                                                     action:@selector(toggleLeftSideMenuAction)];
         }
         
+        if (navigationController.viewControllers.count == 1 /*&& ![self isModal]*/) {
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleRightSideMenuAction)];
+        }
+        
     }
 }
 
@@ -96,6 +103,10 @@
 
 - (void)toggleLeftSideMenuAction {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+- (void)toggleRightSideMenuAction {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
 

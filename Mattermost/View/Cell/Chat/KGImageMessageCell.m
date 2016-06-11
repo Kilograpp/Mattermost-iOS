@@ -67,14 +67,12 @@ static CGFloat const heightNameLabel = 22.f;
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
     
     for (KGFile *file in post.files) {
-        if (file.isImage) {
-            [self.imageChatView setImageWithURL:file.thumbLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                    usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        }
-        
+                if (file.isImage) {
+                    [self.imageChatView setImageWithURL:file.thumbLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+                            usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                }
+
     }
-    
-    
 }
 
 + (CGFloat)heightWithObject:(KGPost *)post {
@@ -87,7 +85,6 @@ static CGFloat const heightNameLabel = 22.f;
     NSString *subtitleText = [NSString stringWithFormat:@"%@", pastedImageAt];
     
     CGFloat heightSubtitleText = [subtitleText heightForTextWithWidth:labelWidht withFont:[UIFont kg_semibold16Font]];
-    
     CGFloat heightImage = labelWidht/aspectRatioImage;
     
     heightCell = topPadding + heightNameLabel + verticalPadding + heightSubtitleText + verticalPadding + heightImage + verticalPadding;
