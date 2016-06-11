@@ -21,8 +21,11 @@
 #import "KGLeftMenuViewController.h"
 #import "KGBusinessLogic+Socket.h"
 #import "KGBusinessLogic+Channel.h"
+#import "KGRightMenuViewController.h"
+#import "KGPresentNavigationController.h"
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate>
+
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, KGRightMenuDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @end
@@ -66,12 +69,17 @@
 - (void)setup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    KGLeftMenuViewController *vc = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
-    vc.delegate = self;
+    KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
+    KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
+    leftVC.delegate = self;
+    rightVC.delegate = self;
+
 }
 
 - (void)setupTableView {
     [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
 }
 
 - (void)setupKeyboardToolbar {
@@ -119,7 +127,7 @@
 - (void)setupFetchedResultsController {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
     self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
-                                                      ascending:YES
+                                                      ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:nil
                                                        delegate:nil];
@@ -137,6 +145,11 @@
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];
+            
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleRightSideMenuAction)];
         }
         
     }
@@ -159,10 +172,27 @@
     }];
 }
 
+#pragma mark = KGRightMenuDelegate
+
+-(void)navigationToProfil {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
+    KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
+    presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:presentNC animated:YES completion:nil];
+    });
+    
+}
+
+
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+- (void)toggleRightSideMenuAction {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
 @end

@@ -40,7 +40,7 @@
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
-    self.nameLabel.text = (!post.author.username) ? @" ": post.author.username;
+    self.nameLabel.text = post.author.nickname;
     //KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     //self.messageLabel.backgroundColor = (post.author.identifier == user.identifier) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
