@@ -39,8 +39,8 @@
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
 		9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C537DAEB1629E36B183 /* NSError+KGError.m */; };
-		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
-		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
+		CD05D7421D0B3F4500675EAC /* KGImageMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageMessageCell.m */; };
+		CD05D7431D0B3F4500675EAC /* KGImageMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageMessageCell.xib */; };
 		CD05D7471D0B471300675EAC /* NSAttributedString+FormattedTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */; };
 		CD05D7511D0B5E1500675EAC /* NSString+HeightCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7501D0B5E1500675EAC /* NSString+HeightCalculation.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
@@ -146,9 +146,9 @@
 		9B822FA5DE660473F9598FBA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtils.h; sourceTree = "<group>"; };
 		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
 		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
-		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
-		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
+		CD05D73F1D0B3F4500675EAC /* KGImageMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageMessageCell.h; sourceTree = "<group>"; };
+		CD05D7401D0B3F4500675EAC /* KGImageMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageMessageCell.m; sourceTree = "<group>"; };
+		CD05D7411D0B3F4500675EAC /* KGImageMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageMessageCell.xib; sourceTree = "<group>"; };
 		CD05D7451D0B471300675EAC /* NSAttributedString+FormattedTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSAttributedString+FormattedTitle.h"; path = "NSAttributedString/NSAttributedString+FormattedTitle.h"; sourceTree = "<group>"; };
 		CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSAttributedString+FormattedTitle.m"; path = "NSAttributedString/NSAttributedString+FormattedTitle.m"; sourceTree = "<group>"; };
 		CD05D74F1D0B5E1500675EAC /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
@@ -776,9 +776,9 @@
 				D844A6FF1D0B2D4B00B53BB3 /* KGFollowUpChatCell.h */,
 				D844A7001D0B2D4B00B53BB3 /* KGFollowUpChatCell.m */,
 				D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */,
-				CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */,
-				CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */,
-				CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */,
+				CD05D73F1D0B3F4500675EAC /* KGImageMessageCell.h */,
+				CD05D7401D0B3F4500675EAC /* KGImageMessageCell.m */,
+				CD05D7411D0B3F4500675EAC /* KGImageMessageCell.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -934,7 +934,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */,
-				CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */,
+				CD05D7431D0B3F4500675EAC /* KGImageMessageCell.xib in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
 				9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */,
@@ -1067,7 +1067,7 @@
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
-				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
+				CD05D7421D0B3F4500675EAC /* KGImageMessageCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,

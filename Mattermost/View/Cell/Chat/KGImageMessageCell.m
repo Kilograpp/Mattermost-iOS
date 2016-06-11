@@ -6,12 +6,13 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "KGImageChatCell.h"
+#import "KGImageMessageCell.h"
 #import <BOString.h>
 #import <ActiveLabel/ActiveLabel-Swift.h>
 #import "UIFont+KGPreparedFont.h"
 #import "KGPost.h"
 #import "KGUser.h"
+#import "KGFile.h"
 #import "NSDate+DateFormatter.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSAttributedString+FormattedTitle.h"
@@ -26,7 +27,7 @@ static CGFloat const horizontalPadding = 8.f;
 static CGFloat const aspectRatioImage = 1.5;
 static CGFloat const heightNameLabel = 22.f;
 
-@interface KGImageChatCell ()
+@interface KGImageMessageCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
@@ -35,7 +36,7 @@ static CGFloat const heightNameLabel = 22.f;
 
 @end
 
-@implementation KGImageChatCell
+@implementation KGImageMessageCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -65,10 +66,13 @@ static CGFloat const heightNameLabel = 22.f;
     [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
     
-    //временно ссылка на картинку автора, пока нет картинки:
-    [self.imageChatView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-            usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
+    for (KGFile *file in post.files) {
+                if (file.isImage) {
+                    [self.imageChatView setImageWithURL:file.thumbLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+                            usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                }
+
+    }
 }
 
 + (CGFloat)heightWithObject:(KGPost *)post {
