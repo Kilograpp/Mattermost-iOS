@@ -96,23 +96,23 @@
     self.textInputbar.textView.placeholder = @"Написать сообщение";
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     
-    NSString *text = @"before after\n\n";
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName : [UIFont kg_regular15Font]}];
-    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-    textAttachment.image = [UIImage imageNamed:@"icn_upload"];
-    
-    textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:1.f orientation:UIImageOrientationUp];
-    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-    [attributedString replaceCharactersInRange:NSMakeRange(text.length - 1, 1) withAttributedString:attrStringWithImage];
-    self.textView.attributedText = attributedString;
-//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icn_upload"]];
-//    CGRect imgRect = CGRectMake(30, 30, imageView.frame.size.width, imageView.frame.size.height);
-//    imageView.frame = imgRect;
-//    UIBezierPath *exclusionPath = [UIBezierPath bezierPathWithRect:imgRect];
+//    NSString *text = @"before after\n\n";
+//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName : [UIFont kg_regular15Font]}];
+//    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+//    textAttachment.image = [UIImage imageNamed:@"icn_upload"];
 //    
-//    self.textView.textContainer.exclusionPaths  = @[exclusionPath];
-//
-//    [self.textView addSubview:imageView];
+//    textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:1.f orientation:UIImageOrientationUp];
+//    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+//    [attributedString replaceCharactersInRange:NSMakeRange(text.length - 1, 1) withAttributedString:attrStringWithImage];
+//    self.textView.attributedText = attributedString;
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icn_upload"]];
+    CGRect imgRect = CGRectMake(30, 30, imageView.frame.size.width, imageView.frame.size.height);
+    imageView.frame = imgRect;
+    UIBezierPath *exclusionPath = [UIBezierPath bezierPathWithRect:imgRect];
+    
+    self.textView.textContainer.exclusionPaths  = @[exclusionPath];
+
+    [self.textView addSubview:imageView];
 }
 
 - (void)setupLeftBarButtonItem {
