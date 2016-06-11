@@ -11,6 +11,13 @@
 #import "KGObjectManager.h"
 #import "KGChannel.h"
 #import "KGBusinessLogic+Team.h"
+#import "RKMapperOperation_Private.h"
+#import "KGPost.h"
+#import "RKResponseMapperOperation.h"
+#import "NSManagedObject+MagicalRecord.h"
+#import "KGUser.h"
+#import "KGBusinessLogic+Posts.h"
+#import "NSStringUtils.h"
 #import <SRWebSocket.h>
 
 
@@ -99,10 +106,29 @@ static NSString * const KGActionNameKey = @"action";
     NSString* channelId = dictionary[KGChannelIdentifierKey];
     NSString* userId = dictionary[KGUserIdentifierKey];
     NSString* action = dictionary[KGActionNameKey];
+    NSString *postString = dictionary[@"props"][@"post"];
 
-    NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
-    KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action] userInfo:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
+    if (![NSStringUtils isStringEmpty:postString]) {
+
+        NSDictionary *postDict = [NSJSONSerialization JSONObjectWithData:[postString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+
+        KGPost *post = [KGPost MR_createEntity];
+        [post setIdentifier:postDict[@"id"]];
+        [post setChannel:[KGChannel managedObjectById:channelId]];
+        [self updatePost:post completion:^(KGError *error) {
+            NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
+            KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
+        }];
+    } else {
+        NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
+        KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
+    }
+
+
+
+
 }
 
 #pragma mark - KGChannelAction
@@ -126,7 +152,8 @@ static NSString * const KGActionNameKey = @"action";
 + (NSDictionary *)dictionaryOfActionsForString {
     return @{
             @"typing" : @(KGActionTyping),
-            @"channel_view" : @(KGActionView)
+            @"channel_view" : @(KGActionView),
+            @"posted" : @(KGActionPosted)
     };
 }
 

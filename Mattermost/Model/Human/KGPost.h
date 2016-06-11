@@ -6,4 +6,5 @@
 
 + (NSString*)listPathPattern;
 + (NSString*)creationPathPattern;
++ (NSString*)updatePathPattern;
 @end

@@ -15,6 +15,7 @@
                        size:(NSNumber *)size // Recommended - 60
                  completion:(void(^)(KGError *error))completion;
 
+- (void)updatePost:(KGPost*)post completion:(void(^)(KGError *error))completion;
 - (void)sendPost:(KGPost *)post
       completion:(void(^)(KGError *error))completion;
 
