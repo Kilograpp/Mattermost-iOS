@@ -67,17 +67,6 @@ static NSString * const KGActionNameKey = @"action";
     [self postNotificationWithDictionary:message];
 }
 
-
-- (void)webSocketDidOpen:(SRWebSocket *)webSocket {
-    NSLog(@"DidOpen");
-}
-- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {
-    NSLog(@"DidFail: %@", error.localizedDescription);
-}
-- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-    NSLog(@"DidClose: %@ ", reason);
-}
-
 - (BOOL)webSocketShouldConvertTextFrameToString:(SRWebSocket *)webSocket {
     return NO;
 }
