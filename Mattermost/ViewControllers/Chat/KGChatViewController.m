@@ -166,16 +166,17 @@
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self showLoadingView];
     self.channel = [KGChannel managedObjectById:idetnfifier];
-    [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-        [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+   
+    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+        [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
             if (error) {
                 [self hideLoadingViewAnimated:YES];
             }
             [self setupFetchedResultsController];
             [self.tableView reloadData];
             [self hideLoadingViewAnimated:YES];
+            
         }];
-
     }];
 }
 
