@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSInteger, KGChannelAction) {
     KGActionTyping,
     KGActionView,
+    KGActionPosted,
     KGActionUnknown
 };
 @interface KGBusinessLogic (Socket)
