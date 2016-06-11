@@ -41,7 +41,9 @@
                  failure:(void (^)(KGError *error))failure;
 
 - (void)postImage:(UIImage*)image
+         withName:(NSString*)name
            atPath:(NSString*)path
+       parameters:(NSDictionary*)parameters
           success:(void (^)(RKMappingResult *mappingResult))success
           failure:(void (^)(KGError *error))failure;
 

@@ -63,16 +63,20 @@
     [self postObject:nil path:path parameters:nil success:success failure:failure];
 }
 
-- (void)postImage:(UIImage*)image atPath:(NSString*)path success:(void (^)(RKMappingResult *mappingResult))success failure:(void (^)(KGError *error))failure {
-
+- (void)postImage:(UIImage*)image
+         withName:(NSString*)name
+           atPath:(NSString*)path
+       parameters:(NSDictionary*)parameters
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure {
     void (^constructingBodyWithBlock)(id <AFMultipartFormData> formData) = ^void(id <AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:@"image" fileName:@"file.png" mimeType:@"image/png"];
+        [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:name fileName:@"file.png" mimeType:@"image/png"];
     };
 
     NSMutableURLRequest *request = [self multipartFormRequestWithObject:nil
                                                                  method:RKRequestMethodPOST
                                                                    path:path
-                                                             parameters:nil
+                                                             parameters:parameters
                                               constructingBodyWithBlock:constructingBodyWithBlock];
 
     void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

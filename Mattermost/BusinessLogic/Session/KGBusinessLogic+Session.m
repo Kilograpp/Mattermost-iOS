@@ -34,7 +34,7 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
     NSString* path = [KGUser uploadAvatarPathPattern];
-    [self.defaultObjectManager postImage:image atPath:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager postImage:image withName:@"image" atPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }

@@ -9,5 +9,7 @@
 @interface NSStringUtils : NSObject
 
 + (BOOL)isStringEmpty:(NSString*)string;
++ (NSString*)randomAlphanumericStringWithLength:(NSUInteger) length;
++ (NSString *)randomUUID;
 
 @end
