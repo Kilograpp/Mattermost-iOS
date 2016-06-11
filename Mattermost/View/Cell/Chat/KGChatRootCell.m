@@ -7,13 +7,15 @@
 //
 
 #import "KGChatRootCell.h"
-#import <BOString.h>
 #import <ActiveLabel/ActiveLabel-Swift.h>
-#import "UIFont+KGPreparedFont.h"
+//#import "KGBusinessLogic+Session.h"
 #import "KGPost.h"
 #import "KGUser.h"
+#import "UIFont+KGPreparedFont.h"
 #import "NSDate+DateFormatter.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "NSString+HeightCalculation.h"
+#import "UIColor+KGPreparedColor.h"
 
 @interface KGChatRootCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel* messageLabel;
@@ -32,15 +34,18 @@
 - (void)configure {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
     [self.messageLabel setMentionColor:[UIColor blueColor]];
+    self.nameLabel.font = [UIFont kg_semibold16Font];
 
 }
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
-    self.nameLabel.text = post.author.username;
+    self.nameLabel.text = (!post.author.username) ? @" ": post.author.username;
+    //KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    //self.messageLabel.backgroundColor = (post.author.identifier == user.identifier) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
     [self.avatarImageView setImageWithURL:post.author.imageUrl
-                         placeholderImage:nil
+                         placeholderImage:[UIImage imageNamed:@"Icon-Small"]
                                   options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }
@@ -51,23 +56,21 @@
 }
 
 + (CGFloat)heightWithObject:(KGPost*)post {
+    CGFloat kAvatarUser = 40;
+    CGFloat kGorizontalPadding = 8;
+    CGFloat kVerticalPadding = 8;
+    CGFloat kTopPadding = 3;
+    CGFloat kNameToMessagePadding = 2;
+    CGFloat kNameHeight = 22;
+    CGFloat kBottomPadding = 2;
+    CGFloat kMinHeightCell = kAvatarUser + kVerticalPadding*2;
 
-    NSInteger kTopPadding = 5;
-    NSInteger kNameToMessagePadding = 2;
-    NSInteger kNameHeight = 22;
-    NSInteger kBottomPadding = 2;
-
-    NSInteger screenWidth = (NSInteger) [[UIScreen mainScreen] bounds].size.width;
-    NSInteger messageLabelWidth = screenWidth - 45 - 8 - 8 - 8;
-
-    NSAttributedString* messageAttributedString = [post.message bos_makeString:^(BOStringMaker *make) {
-        make.font([UIFont kg_regular15Font]);
-    }];
-
-    CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(messageLabelWidth, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-
-    return rect.size.height + kNameHeight + kTopPadding + kNameToMessagePadding + kBottomPadding;
-
+    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat messageLabelWidth = screenWidth - kAvatarUser - kGorizontalPadding*3;
+    CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
+    CGFloat heightCell = kTopPadding + kNameHeight + kNameToMessagePadding + heightMessage + kBottomPadding;
+    
+    return MAX(kMinHeightCell, heightCell);
 }
 
 
