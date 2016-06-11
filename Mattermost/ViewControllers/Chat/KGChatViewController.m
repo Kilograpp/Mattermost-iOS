@@ -21,11 +21,15 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
+#import "Bostring.h"
 @import CoreText;
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
+@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
+@property (nonatomic, strong) NSMutableArray *assignedPhotos;
+
 @end
 
 @implementation KGChatViewController
@@ -85,22 +89,19 @@
     self.textInputbar.textView.placeholder = @"Написать сообщение";
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     
-    NSString *text = @"before after\n\n\n\n";
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+    NSString *text = @"before after\n\n";
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{NSFontAttributeName : [UIFont kg_regular15Font]}];
     NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
     textAttachment.image = [UIImage imageNamed:@"icn_upload"];
     
-    CGFloat oldWidth = textAttachment.image.size.width;
-    
-    //I'm subtracting 10px to make the image display nicely, accounting
-    //for the padding inside the textView
-    CGFloat scaleFactor = oldWidth / (self.textView.frame.size.width - 10);
     textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:1.f orientation:UIImageOrientationUp];
     NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
     [attributedString replaceCharactersInRange:NSMakeRange(text.length - 1, 1) withAttributedString:attrStringWithImage];
     self.textView.attributedText = attributedString;
 //    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icn_upload"]];
-//    UIBezierPath *exclusionPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, imageView.frame.size.width, imageView.frame.size.height)];
+//    CGRect imgRect = CGRectMake(30, 30, imageView.frame.size.width, imageView.frame.size.height);
+//    imageView.frame = imgRect;
+//    UIBezierPath *exclusionPath = [UIBezierPath bezierPathWithRect:imgRect];
 //    
 //    self.textView.textContainer.exclusionPaths  = @[exclusionPath];
 //
@@ -281,9 +282,25 @@
     }];
 }
 
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets
-{
-    // assets contains PHAsset objects.
+- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
+    PHImageManager *manager = [PHImageManager defaultManager];
+    self.requestOptions = [[PHImageRequestOptions alloc] init];
+    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
+    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    
+    __block UIImage *img;
+    __weak typeof(self) wSelf = self;
+    
+    for (PHAsset *asset in assets) {
+        [manager requestImageForAsset:asset
+                           targetSize:PHImageManagerMaximumSize
+                          contentMode:PHImageContentModeAspectFill
+                              options:self.requestOptions
+                        resultHandler:^(UIImage *image, NSDictionary *info) {
+                            img = image;
+                            [wSelf.assignedPhotos addObject:img];
+                        }];
+    }
 }
 
 

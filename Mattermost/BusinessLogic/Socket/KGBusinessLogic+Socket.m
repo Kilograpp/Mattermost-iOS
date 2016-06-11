@@ -101,7 +101,7 @@ static NSString * const KGActionNameKey = @"action";
     NSString* action = dictionary[KGActionNameKey];
 
     NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
-    KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
+    KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action] userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
 }
 

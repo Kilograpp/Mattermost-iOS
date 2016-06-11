@@ -8,14 +8,15 @@
 
 @implementation KGChannelNotification
 
-+ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action{
-    return [[self alloc] initWithUserIdentifier:identifier action:action];
++ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action userInfo:(NSDictionary *)userInfo {
+    return [[self alloc] initWithUserIdentifier:identifier action:action userInfo:(NSDictionary *)userInfo];
 }
 
-- (instancetype)initWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action {
+- (instancetype)initWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action userInfo:(NSDictionary *)userInfo {
     if (self = [super init]) {
         _action = action;
         _userIdentifier = identifier;
+        _userInfo = userInfo;
     }
     return self;
 }
