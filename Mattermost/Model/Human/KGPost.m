@@ -34,7 +34,6 @@
                                                                             toKeyPath:@"files"
                                                                           withMapping:[KGFile simpleEntityMapping]]];
 
-
     return mapping;
 }
 
@@ -56,6 +55,11 @@
     return @"teams/:team.identifier/channels/:identifier/posts/page/:page/:size";
 }
 
++ (NSString*)updatePathPattern {
+    return @"teams/:channel.team.identifier/posts/:identifier";
+}
+
+
 + (NSString*)creationPathPattern {
     return @"teams/:channel.team.identifier/channels/:channel.identifier/posts/create";
 }
@@ -75,6 +79,14 @@
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self creationPathPattern]
                                                        keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)singleEntityResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self listEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self updatePathPattern]
+                                                       keyPath:@"posts"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 

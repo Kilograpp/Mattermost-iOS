@@ -11,8 +11,7 @@
 
 @property (copy, nonatomic, readonly) NSString* userIdentifier;
 @property (assign, readonly) KGChannelAction action;
-@property (nonatomic, copy) NSDictionary *userInfo;
 
-+ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action userInfo:(NSDictionary *)userInfo;
++ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action;
 
 @end
