@@ -170,7 +170,9 @@
                        context:(void *)context {
     if ([keyPath isEqualToString:@"serverBaseUrl"]) {
         self.shouldReloadDefaultManager = YES;
+        [self savePreferences];
     }
+
 }
 
 #pragma mark - Application States
