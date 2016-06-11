@@ -13,37 +13,85 @@
 #import "KGBusinessLogic+Posts.h"
 #import "KGChannel.h"
 #import <MagicalRecord.h>
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "UIFont+KGPreparedFont.h"
+#import "UIColor+KGPreparedColor.h"
+#import "KGChatNavigationController.h"
+#import <MFSideMenu/MFSideMenu.h>
 
-
-@interface KGChatViewController ()
+@interface KGChatViewController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
 
 @implementation KGChatViewController
 
-- (void)viewDidLoad {
++ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
+{
+    return UITableViewStyleGrouped;
+}
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:[KGChannel MR_findFirst] page:@0 size:@60 completion:^(KGError *error) {
         [self.tableView reloadData];
     }];
     [self setupTableView];
+    [self setupKeyboardToolbar];
+    [self setupLeftBarButtonItem];
 
 }
 
-- (void)setupTableView {
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [IQKeyboardManager sharedManager].enable = NO;
+}
 
-
-    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
-
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if ([self isMovingFromParentViewController]) {
+        self.navigationController.delegate = nil;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     [self setupFetchedResultsController];
     [self.tableView reloadData];
 }
 
+
+#pragma mark - Setup
+
+- (void)setup {
+    self.navigationController.delegate = self;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+}
+
+- (void)setupTableView {
+    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
+}
+
+- (void)setupKeyboardToolbar {
+    [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
+    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
+
+    self.textInputbar.autoHideRightButton = NO;
+    self.textInputbar.textView.placeholder = @"Написать сообщение";
+    self.textInputbar.textView.font = [UIFont kg_regular15Font];
+}
+
+- (void)setupLeftBarButtonItem {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(toggleLeftSideMenuAction)];
+
+}
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.fetchedResultsController.sections.count;
@@ -58,6 +106,7 @@
     KGChatRootCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChatRootCell reuseIdentifier] forIndexPath:indexPath];
 
     [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    cell.transform = self.tableView.transform;
 
     return cell;
 }
@@ -77,5 +126,28 @@
                                                        delegate:nil];
 }
 
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
+        if (navigationController.viewControllers.count == 1) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleLeftSideMenuAction)];
+        }
+        
+    }
+}
+
+
+#pragma mark - Actions
+
+- (void)toggleLeftSideMenuAction {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
 
 @end
