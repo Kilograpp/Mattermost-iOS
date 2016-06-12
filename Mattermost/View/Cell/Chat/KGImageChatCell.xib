@@ -25,32 +25,32 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1wv-qu-kN0" customClass="KGAvatarImageView">
-                        <rect key="frame" x="8" y="5" width="40" height="40"/>
+                        <rect key="frame" x="8" y="8" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="inh-NB-G6c"/>
                             <constraint firstAttribute="height" constant="40" id="vj1-aL-xcF"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" misplaced="YES" text="Очень длинный длинный текс куда уж еще длиннее" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqz-nC-Cks">
-                        <rect key="frame" x="56" y="5" width="189" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Очень длинный длинный текс куда уж еще длиннее" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqz-nC-Cks">
+                        <rect key="frame" x="56" y="8" width="189" height="22"/>
                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJ0-Hv-hp4">
-                        <rect key="frame" x="56" y="35" width="256" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJ0-Hv-hp4">
+                        <rect key="frame" x="56" y="38" width="256" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ccv-8b-0Uq">
-                        <rect key="frame" x="56" y="63" width="256" height="171"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ccv-8b-0Uq">
+                        <rect key="frame" x="56" y="66" width="256" height="171"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="ccv-8b-0Uq" secondAttribute="height" multiplier="75:50" id="FKa-oe-vjK"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="8:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVE-Hg-Qkn">
-                        <rect key="frame" x="253" y="5" width="59" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="8:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVE-Hg-Qkn">
+                        <rect key="frame" x="253" y="8" width="59" height="22"/>
                         <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -62,7 +62,7 @@
                     <constraint firstItem="lJ0-Hv-hp4" firstAttribute="top" secondItem="Wqz-nC-Cks" secondAttribute="bottom" constant="8" id="9lr-EL-jA6"/>
                     <constraint firstItem="Wqz-nC-Cks" firstAttribute="top" secondItem="1wv-qu-kN0" secondAttribute="top" id="DfQ-zX-DBq"/>
                     <constraint firstItem="ccv-8b-0Uq" firstAttribute="top" secondItem="lJ0-Hv-hp4" secondAttribute="bottom" constant="8" id="H0F-Tl-weM"/>
-                    <constraint firstItem="1wv-qu-kN0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="aPY-Cw-Tec"/>
+                    <constraint firstItem="1wv-qu-kN0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="aPY-Cw-Tec"/>
                     <constraint firstAttribute="trailingMargin" secondItem="lJ0-Hv-hp4" secondAttribute="trailing" id="b3S-jW-f3e"/>
                     <constraint firstItem="ccv-8b-0Uq" firstAttribute="leading" secondItem="lJ0-Hv-hp4" secondAttribute="leading" id="cEL-v6-zhz"/>
                     <constraint firstItem="Wqz-nC-Cks" firstAttribute="leading" secondItem="1wv-qu-kN0" secondAttribute="trailing" constant="8" id="gEs-aM-kxa"/>
