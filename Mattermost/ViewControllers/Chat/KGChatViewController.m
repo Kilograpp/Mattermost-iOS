@@ -25,14 +25,18 @@
 #import "KGPresentNavigationController.h"
 #import <Masonry/Masonry.h>
 #import "KGConstants.h"
+#import <CTAssetsPickerController/CTAssetsPickerController.h>
+#import "KGBusinessLogic+Session.h"
+@import CoreText;
 
 
-
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, KGRightMenuDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
+@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
+@property (nonatomic, strong) NSMutableArray *assignedPhotos;
 @end
 
 @implementation KGChatViewController
@@ -90,8 +94,12 @@
 - (void)setupKeyboardToolbar {
     [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
-
+    [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
+    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
+    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
+    
     self.textInputbar.autoHideRightButton = NO;
+    self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.placeholder = @"Написать сообщение";
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
 }
@@ -135,7 +143,7 @@
                                                       ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:nil
-                                                       delegate:nil];
+                                                       delegate:self];
 }
 
 
@@ -193,6 +201,39 @@
 }
 
 
+#pragma mark - Requests
+
+- (void)loadLastPosts {
+    [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+        if (error) {
+            
+        }
+        [self setupFetchedResultsController];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)sendPost {
+    KGPost *post = [KGPost MR_createEntity];
+    
+    post.message = self.textInputbar.textView.text;
+    post.author = [[KGBusinessLogic sharedInstance] currentUser];
+    post.channel = self.channel;
+    post.createdAt = [NSDate distantFuture];
+    
+    [[KGBusinessLogic sharedInstance] sendPost:post completion:^(KGError *error) {
+        if (error) {
+            NSLog(@"(((((((((((((((((");
+        }
+        
+        self.textView.text = @"";
+        //        [self setupFetchedResultsController];
+        //        [self.tableView reloadData];
+    }];
+}
+
+
+
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
@@ -237,6 +278,96 @@
         [self.loadingActivityIndicator stopAnimating];
         [self.loadingView removeFromSuperview];
     }];
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    if (self.fetchedResultsController.fetchedObjects.count > 0) {
+        [self.tableView endUpdates];
+    }
+}
+
+
+#pragma mark - Private
+
+- (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    cell.transform = self.tableView.transform;
+}
+
+- (void)assignPhotos {
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            // init picker
+            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+            
+            // set delegate
+            picker.delegate = self;
+            
+            // Optionally present picker as a form sheet on iPad
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+            
+            // present picker
+            [self presentViewController:picker animated:YES completion:nil];
+        });
+    }];
+}
+
+- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
+    PHImageManager *manager = [PHImageManager defaultManager];
+    self.requestOptions = [[PHImageRequestOptions alloc] init];
+    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
+    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    
+    __block UIImage *img;
+    __weak typeof(self) wSelf = self;
+    
+    for (PHAsset *asset in assets) {
+        [manager requestImageForAsset:asset
+                           targetSize:PHImageManagerMaximumSize
+                          contentMode:PHImageContentModeAspectFill
+                              options:self.requestOptions
+                        resultHandler:^(UIImage *image, NSDictionary *info) {
+                            img = image;
+                            [wSelf.assignedPhotos addObject:img];
+                        }];
+    }
 }
 
 @end
