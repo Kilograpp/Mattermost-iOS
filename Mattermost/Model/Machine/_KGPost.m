@@ -32,6 +32,8 @@
 	return keyPaths;
 }
 
+@dynamic backendPendingId;
+
 @dynamic channelId;
 
 @dynamic createdAt;
@@ -66,6 +68,9 @@
 @end
 
 @implementation KGPostAttributes 
++ (NSString *)backendPendingId {
+	return @"backendPendingId";
+}
 + (NSString *)channelId {
 	return @"channelId";
 }

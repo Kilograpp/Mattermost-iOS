@@ -178,7 +178,6 @@
 #pragma mark - Application States
 
 - (void)applicationDidBecomeActive {
-    NSLog(@"Yup");
     [self openSocket];
 }
 

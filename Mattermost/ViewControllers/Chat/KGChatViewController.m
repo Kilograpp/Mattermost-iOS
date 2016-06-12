@@ -27,6 +27,7 @@
 #import "KGConstants.h"
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import "KGBusinessLogic+Session.h"
+#import "NSStringUtils.h"
 @import CoreText;
 
 
@@ -219,7 +220,8 @@
     post.message = self.textInputbar.textView.text;
     post.author = [[KGBusinessLogic sharedInstance] currentUser];
     post.channel = self.channel;
-    post.createdAt = [NSDate distantFuture];
+    post.createdAt = [NSDate date];
+    [post setBackendPendingId:[NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [post.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:post completion:^(KGError *error) {
         if (error) {
