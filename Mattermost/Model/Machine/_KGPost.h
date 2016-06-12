@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGPostID *objectID;
 
+@property (nonatomic, strong, nullable) NSString* backendPendingId;
+
 @property (nonatomic, strong, nullable) NSString* channelId;
 
 @property (nonatomic, strong, nullable) NSDate* createdAt;
@@ -61,6 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface _KGPost (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSString*)primitiveBackendPendingId;
+- (void)setPrimitiveBackendPendingId:(NSString*)value;
+
 - (NSString*)primitiveChannelId;
 - (void)setPrimitiveChannelId:(NSString*)value;
 
@@ -94,6 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGPostAttributes: NSObject 
++ (NSString *)backendPendingId;
 + (NSString *)channelId;
 + (NSString *)createdAt;
 + (NSString *)deletedAt;

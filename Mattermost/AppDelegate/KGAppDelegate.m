@@ -7,6 +7,8 @@
 //
 
 #import "KGAppDelegate.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Notifications.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -24,6 +26,7 @@
     [self loadInitialScreen];
     [self setupKeyboardManager];
     [self registerForRemoteNotifications];
+    [self setupFabric];
 
     return YES;
 }
@@ -69,6 +72,10 @@
         self.window.rootViewController = navController;
         [self.window makeKeyAndVisible];
     }
+}
+
+- (void)setupFabric {
+    [Fabric with:@[[Crashlytics class]]];
 }
 
 - (void)setupKeyboardManager {

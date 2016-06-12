@@ -112,10 +112,14 @@ static NSString * const KGActionNameKey = @"action";
 
         NSDictionary *postDict = [NSJSONSerialization JSONObjectWithData:[postString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        KGPost *post = [KGPost MR_createEntity];
+        KGPost *post = [KGPost managedObjectById:postDict[@"id"]];
+        if (post) {
+            return;
+        } else {
+            post = [KGPost MR_createEntity];
+        }
         [post setIdentifier:postDict[@"id"]];
         [post setChannel:[KGChannel managedObjectById:channelId]];
-        [post setCreatedAt:[NSDate date]];
         [self updatePost:post completion:^(KGError *error) {
             NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
             KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];

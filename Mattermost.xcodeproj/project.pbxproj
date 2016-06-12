@@ -1001,12 +1001,13 @@
 			buildConfigurationList = D696F78B1D060FDD008341AF /* Build configuration list for PBXNativeTarget "Mattermost" */;
 			buildPhases = (
 				60473A4FCBD49FB229750F91 /* Check Pods Manifest.lock */,
-				D696F78E1D06107D008341AF /* ShellScript */,
+				D696F78E1D06107D008341AF /* Mogenerator */,
 				D696F76D1D060FDD008341AF /* Sources */,
 				D696F76E1D060FDD008341AF /* Frameworks */,
 				D696F76F1D060FDD008341AF /* Resources */,
 				49D577B336C5381128546E9E /* Copy Pods Resources */,
 				D844A6EE1D0AE77800B53BB3 /* Carthage Copy Frameworks */,
+				D8AF336C1D0DA9D900B3717F /* Fabric */,
 			);
 			buildRules = (
 			);
@@ -1106,13 +1107,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		D696F78E1D06107D008341AF /* ShellScript */ = {
+		D696F78E1D06107D008341AF /* Mogenerator */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Mogenerator;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1133,6 +1135,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		D8AF336C1D0DA9D900B3717F /* Fabric */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Fabric;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1373df4a388cbef38f2feb69c126b74abc82a69e 9f621d40452e483343b6d9c0150f1a7422c9b5619252363ae1be1a0ec37ad468";
 		};
 /* End PBXShellScriptBuildPhase section */
 

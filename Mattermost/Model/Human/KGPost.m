@@ -12,6 +12,16 @@
 
 #pragma mark - Mappings
 
++ (RKEntityMapping *)creationEntityMapping {
+    RKEntityMapping *mapping = [super emptyEntityMapping];
+    [mapping setIdentificationAttributes:@[@"backendPendingId"]];
+    [mapping addAttributeMappingsFromDictionary:@{
+            @"pending_post_id" : @"backendPendingId",
+            @"id" : @"identifier"
+    }];
+    return mapping;
+}
+
 + (RKEntityMapping*)listEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
     [mapping setForceCollectionMapping:YES];
@@ -43,7 +53,8 @@
     [mapping addAttributeMappingsFromArray:@[@"message"]];
     [mapping addAttributeMappingsFromDictionary:@{
             @"channel.identifier" : @"channel_id",
-            @"author.identifier" : @"user_id"
+            @"author.identifier" : @"user_id",
+            @"backendPendingId" : @"pending_post_id"
     }];
 
     return mapping;
@@ -75,14 +86,14 @@
 }
 
 + (RKResponseDescriptor*)creationResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self creationEntityMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self creationPathPattern]
                                                        keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
-+ (RKResponseDescriptor*)singleEntityResponseDescriptor {
++ (RKResponseDescriptor*)updateResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self listEntityMapping]
                                                         method:RKRequestMethodGET
                                                    pathPattern:[self updatePathPattern]
