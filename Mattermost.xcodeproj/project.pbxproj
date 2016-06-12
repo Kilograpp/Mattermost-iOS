@@ -45,6 +45,14 @@
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD05D7471D0B471300675EAC /* NSAttributedString+FormattedTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */; };
 		CD05D7511D0B5E1500675EAC /* NSString+HeightCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7501D0B5E1500675EAC /* NSString+HeightCalculation.m */; };
+		CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */; };
+		CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */; };
+		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
+		CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */; };
+		CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */; };
+		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
+		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
+		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -160,6 +168,20 @@
 		CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+FormattedTitle.m"; sourceTree = "<group>"; };
 		CD05D74F1D0B5E1500675EAC /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
 		CD05D7501D0B5E1500675EAC /* NSString+HeightCalculation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HeightCalculation.m"; sourceTree = "<group>"; };
+		CD7D117B1D0C648B002EED4E /* KGRightMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGRightMenuCell.h; path = RightMenu/KGRightMenuCell.h; sourceTree = "<group>"; };
+		CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGRightMenuCell.m; path = RightMenu/KGRightMenuCell.m; sourceTree = "<group>"; };
+		CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGRightMenuCell.xib; path = RightMenu/KGRightMenuCell.xib; sourceTree = "<group>"; };
+		CD7D11811D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGRightMenuDataSourceEntry.h; path = DataSource/RightMenuDataSource/KGRightMenuDataSourceEntry.h; sourceTree = "<group>"; };
+		CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGRightMenuDataSourceEntry.m; path = DataSource/RightMenuDataSource/KGRightMenuDataSourceEntry.m; sourceTree = "<group>"; };
+		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
+		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPresentNavigationController.h; path = PresentNavigation/KGPresentNavigationController.h; sourceTree = "<group>"; };
+		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPresentNavigationController.m; path = PresentNavigation/KGPresentNavigationController.m; sourceTree = "<group>"; };
+		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGSettingsViewController.h; path = Settings/KGSettingsViewController.h; sourceTree = "<group>"; };
+		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSettingsViewController.m; path = Settings/KGSettingsViewController.m; sourceTree = "<group>"; };
+		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfilViewController.h; path = Profile/KGProfilViewController.h; sourceTree = "<group>"; };
+		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfilViewController.m; path = Profile/KGProfilViewController.m; sourceTree = "<group>"; };
+		CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGRightMenuViewController.h; path = RightMenu/KGRightMenuViewController.h; sourceTree = "<group>"; };
+		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGRightMenuViewController.m; path = RightMenu/KGRightMenuViewController.m; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
 		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
@@ -265,6 +287,8 @@
 		411169EC1D09DDD800448145 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				CD7D117A1D0C643D002EED4E /* RightMenu */,
+				CD7D11791D0C6421002EED4E /* Settings */,
 				D844A6EF1D0AF9DC00B53BB3 /* Base */,
 				411169ED1D09DDDD00448145 /* Channel */,
 				D844A6E61D0AE35200B53BB3 /* Chat */,
@@ -462,6 +486,7 @@
 		9B822F9BC10946A08F87993F /* KGObjectManager */ = {
 			isa = PBXGroup;
 			children = (
+				CD7D11841D0C6BBD002EED4E /* DataSource */,
 				9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */,
 				9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */,
 			);
@@ -484,6 +509,67 @@
 				CD05D7461D0B471300675EAC /* NSAttributedString+FormattedTitle.m */,
 			);
 			path = NSAttributedString;
+			sourceTree = "<group>";
+		};
+		CD7D11791D0C6421002EED4E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		CD7D117A1D0C643D002EED4E /* RightMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D117B1D0C648B002EED4E /* KGRightMenuCell.h */,
+				CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */,
+				CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */,
+			);
+			name = RightMenu;
+			sourceTree = "<group>";
+		};
+		CD7D11801D0C6B33002EED4E /* RightMenuDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D11811D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.h */,
+				CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */,
+			);
+			name = RightMenuDataSource;
+			sourceTree = "<group>";
+		};
+		CD7D11841D0C6BBD002EED4E /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D11801D0C6B33002EED4E /* RightMenuDataSource */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
+		CD8D69041D0C50D600AFA198 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */,
+				CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		CD8D69081D0C511600AFA198 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CD8D69091D0C514800AFA198 /* KGProfilViewController.h */,
+				CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		CD8D690C1D0C51D600AFA198 /* RightMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */,
+				CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */,
+			);
+			name = RightMenu;
 			sourceTree = "<group>";
 		};
 		D67923EE1D09439200481694 /* ResetPassword */ = {
@@ -630,6 +716,7 @@
 			children = (
 				D69FB1721D097B2700043C2D /* Chat.storyboard */,
 				9B822C6FC588149134FF2451 /* Login.storyboard */,
+				CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -703,11 +790,16 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				CD8D690C1D0C51D600AFA198 /* RightMenu */,
+				CD8D69081D0C511600AFA198 /* Profile */,
+				CD8D69041D0C50D600AFA198 /* Settings */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
 				D6C154C31D07556600B053CE /* Login */,
 				D69FB19A1D09C62200043C2D /* SideMenu */,
+				CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */,
+				CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -975,8 +1067,10 @@
 				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
 				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
+				CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
+				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1063,6 +1157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
@@ -1089,6 +1184,7 @@
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
+				CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
 				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
@@ -1101,8 +1197,10 @@
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
 				9B822BDCA6EA4620FAAE34D6 /* NSObject+EnumerateProperties.m in Sources */,
 				411169F01D09DE0D00448145 /* KGChannelTableViewCell.m in Sources */,
+				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
+				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
 				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
@@ -1110,6 +1208,7 @@
 				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
+				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
@@ -1117,6 +1216,7 @@
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
+				CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */,
 				D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */,
 				9B8229DB50DE653A9A02D556 /* NSString+Validation.m in Sources */,
 				CD05D7511D0B5E1500675EAC /* NSString+HeightCalculation.m in Sources */,

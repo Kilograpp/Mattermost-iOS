@@ -8,7 +8,7 @@
 
 @implementation KGChannelNotification
 
-+ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action{
++ (instancetype)notificationWithUserIdentifier:(NSString *)identifier action:(KGChannelAction)action {
     return [[self alloc] initWithUserIdentifier:identifier action:action];
 }
 

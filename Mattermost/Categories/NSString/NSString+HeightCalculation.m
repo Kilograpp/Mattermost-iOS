@@ -7,31 +7,38 @@
 //
 
 #import "NSString+HeightCalculation.h"
+#import <BOString.h>
 
 @implementation NSString (HeightCalculation)
 
 - (CGFloat)heightForTextWithWidth:(CGFloat)textWidth withFont:(UIFont *)fontType {
     //метод расчета размера текстового поля
-    NSAttributedString* attributedString = nil;
+//    NSAttributedString* attributedString = nil;
+//    
+//    UIFont* font = fontType;
+//    
+//    NSMutableParagraphStyle* paragraph = [[NSMutableParagraphStyle alloc] init];
+//    [paragraph setLineBreakMode:NSLineBreakByWordWrapping];
+//    [paragraph setAlignment:NSTextAlignmentLeft];
+//    [paragraph setLineSpacing:fontType.pointSize];
+//    
+//    NSDictionary* attributes =
+//    [NSDictionary dictionaryWithObjectsAndKeys:
+//     font, NSFontAttributeName,
+//     paragraph, NSParagraphStyleAttributeName, nil];
+//    
+//    
+//    attributedString = [[NSAttributedString alloc] initWithString:self attributes:attributes];
+//    
+//    CGRect rect = CGRectIntegral([attributedString boundingRectWithSize:CGSizeMake(textWidth , CGFLOAT_MAX)
+//                                                                options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+//                                                                context:nil]);
+    NSAttributedString* messageAttributedString = [self bos_makeString:^(BOStringMaker *make) {
+        make.font(fontType);
+    }];
     
-    UIFont* font = fontType;
-    
-    NSMutableParagraphStyle* paragraph = [[NSMutableParagraphStyle alloc] init];
-    [paragraph setLineBreakMode:NSLineBreakByWordWrapping];
-    [paragraph setAlignment:NSTextAlignmentLeft];
-    [paragraph setLineSpacing:fontType.pointSize];
-    
-    NSDictionary* attributes =
-    [NSDictionary dictionaryWithObjectsAndKeys:
-     font, NSFontAttributeName,
-     paragraph, NSParagraphStyleAttributeName, nil];
-    
-    
-    attributedString = [[NSAttributedString alloc] initWithString:self attributes:attributes];
-    
-    CGRect rect = CGRectIntegral([attributedString boundingRectWithSize:CGSizeMake(textWidth , CGFLOAT_MAX)
-                                                                options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                                context:nil]);
+    CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     return CGRectGetHeight(rect);
 }
 

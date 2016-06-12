@@ -3,6 +3,8 @@ PODS:
   - BOString (0.10.1)
   - Crashlytics (3.7.1):
     - Fabric (~> 1.6.3)
+  - CTAssetsPickerController (3.3.1):
+    - PureLayout (~> 3.0.0)
   - DateTools (1.7.0)
   - Fabric (1.6.7)
   - IQKeyboardManager (3.3.6)
@@ -14,6 +16,7 @@ PODS:
   - Masonry (1.0.1)
   - MBProgressHUD (0.9.2)
   - MFSideMenu (0.5.5.1)
+  - PureLayout (3.0.2)
   - RestKit (0.26.0):
     - RestKit/Core (= 0.26.0)
   - RestKit/Core (0.26.0):
@@ -47,6 +50,7 @@ PODS:
 DEPENDENCIES:
   - BOString
   - Crashlytics
+  - CTAssetsPickerController (~> 3.3.0)
   - DateTools
   - Fabric
   - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
@@ -78,6 +82,7 @@ SPEC CHECKSUMS:
   AFNetworking: cf8e418e16f0c9c7e5c3150d019a3c679d015018
   BOString: dd7bab05eac29080daecdf2d8fa7556fa24099b8
   Crashlytics: 3cdd4c9655be68032a0cf0379e0fb5ef6af22cad
+  CTAssetsPickerController: b1d1d50ab87cf6b8b13531de5f4530482e7e53ed
   DateTools: 53288ee8b905fdc75897a1e6b5cc0144b14cba60
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   IQKeyboardManager: 7d0926d5391b99b842ccc6367b849dd1975c8bf9
@@ -86,6 +91,7 @@ SPEC CHECKSUMS:
   Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
   MFSideMenu: 8d504bcd6d4dc97a51da11a2a7c9011a4e08feb5
+  PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd
   RestKit: 112fba5bd1f97598aac0db7981863d5fdc0263a2
   RKValueTransformers: e5ed67e3811229b616fe01bddeeafe3bb337b1b9
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91

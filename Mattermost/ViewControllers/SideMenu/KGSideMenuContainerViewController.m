@@ -10,6 +10,7 @@
 #import "KGNavigationController.h"
 #import "KGConstants.h"
 #import "KGLeftMenuViewController.h"
+#import "KGRightMenuViewController.h"
 
 @interface KGSideMenuContainerViewController ()
 @property (nonatomic, assign) CGFloat *oldX;
@@ -35,9 +36,10 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
     UINavigationController *navController = [sb instantiateInitialViewController];
     KGLeftMenuViewController *leftMenuViewController = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([KGLeftMenuViewController class])];
+    KGRightMenuViewController *rightMenuViewController = [sb instantiateViewControllerWithIdentifier:NSStringFromClass([KGRightMenuViewController class])];
     KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController containerWithCenterViewController:navController
                                                                                                          leftMenuViewController:leftMenuViewController
-                                                                                                        rightMenuViewController:[UITabBarController new]];
+                                                                                                        rightMenuViewController:rightMenuViewController];
     sideMenuContainer.leftMenuWidth = CGRectGetWidth([UIScreen mainScreen].bounds) - KGLeftMenuOffset;
     sideMenuContainer.menuAnimationDefaultDuration = KGStandartAnimationDuration;
     sideMenuContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;

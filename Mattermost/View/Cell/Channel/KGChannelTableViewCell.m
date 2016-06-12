@@ -53,6 +53,20 @@
     }
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    
+    if (highlighted) {
+        self.selectedView.backgroundColor = [UIColor kg_lightBlueColor];
+        self.channelNameLabel.textColor = [UIColor kg_whiteColor];
+        self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
+    } else {
+        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+        self.channelNameLabel.textColor = [UIColor kg_lightBlueColor];
+        self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+    }
+}
+
 
 #pragma mark - Setup
 
