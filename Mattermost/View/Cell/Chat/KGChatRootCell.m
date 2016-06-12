@@ -29,6 +29,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self configure];
+    
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.drawsAsynchronously = YES;
 }
 
 - (void)configure {
