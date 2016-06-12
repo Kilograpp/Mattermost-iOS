@@ -29,8 +29,9 @@
     
     [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     navBar.shadowImage = [UIImage new];
-    navBar.tintColor = [UIColor kg_blueColor];
+    navBar.tintColor = [UIColor kg_blackColor];
     navBar.backgroundColor = [UIColor clearColor];
+    navBar.topItem.title = @"";
         [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
 
