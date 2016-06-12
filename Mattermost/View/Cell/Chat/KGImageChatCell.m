@@ -59,12 +59,13 @@ static CGFloat const heightNameLabel = 22.f;
     self.nameLabel.text = post.author.username;
     self.timeLabel.text = [post.createdAt timeFormatForMessages];
     
-    //вместо pastedImageAt - поставить название картинки
-    NSString *pastedImageAt = NSLocalizedString(@"Pasted image at", nil);
-    self.subtitleLabel.text = pastedImageAt;
+//    //вместо pastedImageAt - поставить название картинки
+//    NSString *pastedImageAt = NSLocalizedString(@"Pasted image at", nil);
+//    self.subtitleLabel.text = pastedImageAt;
     
     [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+    self.subtitleLabel.text = post.message;
     
     for (KGFile *file in post.files) {
         if (file.isImage) {
@@ -82,10 +83,7 @@ static CGFloat const heightNameLabel = 22.f;
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     CGFloat labelWidht = screenWidth - horizontalPadding - avatarImageHeight - horizontalPadding - horizontalPadding;
     
-    //вместо pastedImageAt - поставить название картинки
-    NSString *pastedImageAt = NSLocalizedString(@"Pasted image at", nil);
-    NSString *subtitleText = [NSString stringWithFormat:@"%@", pastedImageAt];
-    
+    NSString *subtitleText = post.message;
     CGFloat heightSubtitleText = [subtitleText heightForTextWithWidth:labelWidht withFont:[UIFont kg_semibold16Font]];
     
     CGFloat heightImage = labelWidht/aspectRatioImage;

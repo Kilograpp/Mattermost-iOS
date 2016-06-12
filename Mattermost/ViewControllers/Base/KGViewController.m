@@ -9,6 +9,8 @@
 #import "KGViewController.h"
 #import "KGChatNavigationController.h"
 #import <MFSideMenu/MFSideMenu.h>
+#import <Masonry/Masonry.h>
+#import "KGConstants.h"
 
 @interface KGViewController () <UINavigationControllerDelegate>
 
@@ -69,6 +71,43 @@
     
 }
 
+#pragma mark - Loading View
+
+- (UIActivityIndicatorView *)loadingActivityIndicator {
+    if (!_loadingActivityIndicator) {
+        _loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _loadingActivityIndicator.hidesWhenStopped = YES;
+    }
+    
+    return _loadingActivityIndicator;
+}
+
+- (void)showLoadingView {
+    self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.loadingView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.loadingView];
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [self.loadingView addSubview:self.loadingActivityIndicator];
+    [self.loadingActivityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.loadingView);
+    }];
+    [self.loadingActivityIndicator startAnimating];
+}
+
+- (void)hideLoadingViewAnimated:(BOOL)animated {
+    CGFloat duration = animated ? KGStandartAnimationDuration : 0;
+    [UIView animateWithDuration:duration animations:^{
+        self.loadingView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.loadingActivityIndicator stopAnimating];
+        [self.loadingView removeFromSuperview];
+    }];
+}
+
+
 
 #pragma mark - UINavigationControllerDelegate
 
@@ -97,6 +136,8 @@
         
     }
 }
+
+
 
 
 #pragma mark - Actions

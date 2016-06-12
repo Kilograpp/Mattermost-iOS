@@ -111,7 +111,7 @@
 #pragma mark - Core Data
 
 - (void)willSave {
-    if ([NSStringUtils isStringEmpty:self.nickname]) {
+    if ([NSStringUtils isStringEmpty:self.nickname] && ![NSStringUtils isStringEmpty:self.username]) {
         self.nickname = self.username;
     }
 }
