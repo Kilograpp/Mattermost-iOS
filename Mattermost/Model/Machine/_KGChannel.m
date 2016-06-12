@@ -80,6 +80,17 @@
 
 @dynamic updatedAt;
 
+@dynamic members;
+
+- (NSMutableSet<KGUser*>*)membersSet {
+	[self willAccessValueForKey:@"members"];
+
+	NSMutableSet<KGUser*> *result = (NSMutableSet<KGUser*>*)[self mutableSetValueForKey:@"members"];
+
+	[self didAccessValueForKey:@"members"];
+	return result;
+}
+
 @dynamic posts;
 
 - (NSMutableSet<KGPost*>*)postsSet {
@@ -135,6 +146,9 @@
 @end
 
 @implementation KGChannelRelationships 
++ (NSString *)members {
+	return @"members";
+}
 + (NSString *)posts {
 	return @"posts";
 }

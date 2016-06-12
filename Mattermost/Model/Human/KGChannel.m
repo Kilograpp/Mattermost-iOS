@@ -47,15 +47,22 @@
             @"extra_update_at" : @"shouldUpdateAt"
     }];
     [mapping addAttributeMappingsFromArray:@[@"name", @"purpose", @"header"]];
+    [mapping addRelationshipMappingWithSourceKeyPath:@"members" mapping:[KGUser entityMapping]];
     [mapping addConnectionForRelationship:@"team" connectedBy:@{@"teamId" : @"identifier"}];
 
     return mapping;
 }
 
+
+
 #pragma mark - Path Patterns
 
 + (NSString*)listPathPattern {
     return @"teams/:identifier/channels/";
+}
+
++ (NSString*)extraInfoPathPattern {
+    return @"teams/:team.identifier/channels/:identifier/extra_info";
 }
 
 #pragma mark - Response Descriptors
@@ -67,6 +74,16 @@
                                                        keyPath:@"channels"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
+
++ (RKResponseDescriptor*)extraInfoResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self extraInfoPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 
 
 #pragma mark - Core Data

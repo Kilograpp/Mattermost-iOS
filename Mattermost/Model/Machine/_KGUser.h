@@ -13,6 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class KGChannel;
 @class KGPost;
 
 @interface KGUserID : NSManagedObjectID {}
@@ -32,7 +33,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* lastName;
 
+@property (nonatomic, strong, nullable) NSString* nickname;
+
 @property (nonatomic, strong, nullable) NSString* username;
+
+@property (nonatomic, strong, nullable) KGChannel *channels;
 
 @property (nonatomic, strong, nullable) NSSet<KGPost*> *posts;
 - (nullable NSMutableSet<KGPost*>*)postsSet;
@@ -61,8 +66,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveLastName;
 - (void)setPrimitiveLastName:(NSString*)value;
 
+- (NSString*)primitiveNickname;
+- (void)setPrimitiveNickname:(NSString*)value;
+
 - (NSString*)primitiveUsername;
 - (void)setPrimitiveUsername:(NSString*)value;
+
+- (KGChannel*)primitiveChannels;
+- (void)setPrimitiveChannels:(KGChannel*)value;
 
 - (NSMutableSet<KGPost*>*)primitivePosts;
 - (void)setPrimitivePosts:(NSMutableSet<KGPost*>*)value;
@@ -74,10 +85,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)firstName;
 + (NSString *)identifier;
 + (NSString *)lastName;
++ (NSString *)nickname;
 + (NSString *)username;
 @end
 
 @interface KGUserRelationships: NSObject
++ (NSString *)channels;
 + (NSString *)posts;
 @end
 

@@ -29,23 +29,31 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self configure];
+    
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.drawsAsynchronously = YES;
 }
 
 - (void)configure {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
     [self.messageLabel setMentionColor:[UIColor blueColor]];
     self.nameLabel.font = [UIFont kg_semibold16Font];
-
+    self.nameLabel.backgroundColor = [UIColor kg_whiteColor];
+    self.dateTimeLabel.backgroundColor = [UIColor kg_whiteColor];
+    [self.messageLabel setBackgroundColor:[UIColor kg_whiteColor]];
+    self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
+    
 }
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
-    self.nameLabel.text = (!post.author.username) ? @" ": post.author.username;
+    self.nameLabel.text = post.author.nickname;
     //KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     //self.messageLabel.backgroundColor = (post.author.identifier == user.identifier) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
     [self.avatarImageView setImageWithURL:post.author.imageUrl
-                         placeholderImage:[UIImage imageNamed:@"Icon-Small"]
+                         placeholderImage:nil
                                   options:SDWebImageHandleCookies completed:nil
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
 }

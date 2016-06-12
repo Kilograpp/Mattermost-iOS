@@ -11,6 +11,7 @@ typedef NS_ENUM(NSInteger, KGChannelType) {
 - (KGChannelType)type;
 - (NSString*)notificationsName;
 
++ (NSString*)extraInfoPathPattern;
 + (NSString*)listPathPattern;
 
 + (NSString *)titleForChannelBackendType:(NSString *)backendType;

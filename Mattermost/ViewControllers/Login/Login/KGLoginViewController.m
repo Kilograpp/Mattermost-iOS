@@ -50,8 +50,8 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 }
 
 - (void)test {
-    self.loginTextField.text = @"getmaxx@kilograpp.com";
-    self.passwordTextField.text = @"102Aky5i";
+    self.loginTextField.text = @"maxim@kilograpp.com";
+    self.passwordTextField.text = @"loladin";
     self.loginButton.enabled = YES;
 }
 

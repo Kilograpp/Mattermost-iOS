@@ -11,6 +11,8 @@
 @interface KGBusinessLogic (Channel)
 
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion;
+- (void)loadExtraInfoForChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion;
+
 - (NSString*)notificationNameForChannelWithIdentifier:(NSString*)identifier;
 - (NSString*)notificationNameForChannel:(KGChannel*)channel;
 @end

@@ -29,6 +29,17 @@
     [self getObjectsAtPath:path parameters:nil success:success failure:failure];
 }
 
+- (void)getObject:(id)object
+             path:(NSString*)path
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure{
+    [self getObject:object path:path parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        safetyCall(success, mappingResult);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        safetyCall(failure, [self handleOperation:operation withError:error]);
+    }];
+}
+
 #pragma mark - POST
 
 - (void)postObject:(id)object

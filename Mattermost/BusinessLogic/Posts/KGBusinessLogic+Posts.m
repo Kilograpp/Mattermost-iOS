@@ -29,7 +29,7 @@
 
 - (void)updatePost:(KGPost*)post completion:(void(^)(KGError *error))completion{
     NSString * path = SOCStringFromStringWithObject([KGPost updatePathPattern], post);
-    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager getObject:post path:path success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }
