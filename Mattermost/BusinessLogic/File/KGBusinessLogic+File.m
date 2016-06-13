@@ -19,13 +19,13 @@
 
 - (NSURL *)downloadLinkForFile:(KGFile *)file {
     NSString* pathPattern = SOCStringFromStringWithObject([KGFile downloadLinkPathPattern], file);
-    return [self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:pathPattern];
+    return [self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:[pathPattern stringByRemovingPercentEncoding]];
 }
 
 
 - (NSURL *)thumbLinkForFile:(KGFile*)file {
     NSString* pathPattern = SOCStringFromStringWithObject([KGFile thumbLinkPathPattern], file);
-    return [self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:pathPattern];
+    return [self.defaultObjectManager.HTTPClient.baseURL URLByAppendingPathComponent:[pathPattern stringByRemovingPercentEncoding]];
 }
 
 - (void)updateFileInfo:(KGFile*)file withCompletion:(void(^)(KGError *error))completion {
