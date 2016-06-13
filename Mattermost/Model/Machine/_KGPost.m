@@ -38,6 +38,8 @@
 
 @dynamic createdAt;
 
+@dynamic creationDay;
+
 @dynamic deletedAt;
 
 @dynamic identifier;
@@ -76,6 +78,9 @@
 }
 + (NSString *)createdAt {
 	return @"createdAt";
+}
++ (NSString *)creationDay {
+	return @"creationDay";
 }
 + (NSString *)deletedAt {
 	return @"deletedAt";

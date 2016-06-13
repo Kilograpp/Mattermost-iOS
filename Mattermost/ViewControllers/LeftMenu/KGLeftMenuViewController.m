@@ -62,6 +62,7 @@
 
 - (void)setupAvatarImageView {
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+    self.avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.clipsToBounds = YES;
 }
 

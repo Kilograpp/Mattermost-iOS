@@ -9,7 +9,7 @@
 #import "KGLoginNavigationController.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
-
+#import "KGLoginViewController.h"
 
 @interface KGLoginNavigationController ()
 
@@ -38,7 +38,17 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
+    if ([self.topViewController isKindOfClass:[KGLoginViewController class]]) {
+        return UIStatusBarStyleLightContent;
+    }
     return UIStatusBarStyleDefault;
+}
+
+- (UIColor *)kg_barTintColor {
+    if ([self.topViewController isKindOfClass:[KGLoginViewController class]]) {
+        return [UIColor kg_whiteColor];
+    }
+    return [UIColor kg_blackColor];
 }
 
 @end

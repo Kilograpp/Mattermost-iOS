@@ -22,7 +22,7 @@
 }
 
 - (void)configure {
-    [self.messageLabel setFont:[UIFont kg_regular15Font]];
+    [self.messageLabel setFont:[UIFont kg_regular14Font]];
     [self.messageLabel setMentionColor:[UIColor blueColor]];
     
 }

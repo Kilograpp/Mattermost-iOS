@@ -8,11 +8,17 @@
 
 #import "UIColor+KGPreparedColor.h"
 #import "KGUtils.h"
+#import <HexColors/HexColors.h>
 
 @implementation UIColor (KGPreparedColor)
 
 + (UIColor *)kg_blueColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:35/255.f green:127/255.f blue:215/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#0076FF" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_blackColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#3B3B3B" alpha:1])
     return color;
 }
 
@@ -21,10 +27,6 @@
     return color;
 }
 
-+ (UIColor *)kg_blackColor {
-    STATIC_ONCE(color, [UIColor blackColor])
-    return color;
-}
 
 + (UIColor *)kg_grayColor {
     STATIC_ONCE(color, [UIColor grayColor])
@@ -63,6 +65,21 @@
 
 + (UIColor *)kg_leftMenuHeaderColor {
     STATIC_ONCE(color, [UIColor colorWithRed:47/255.f green:129/255.f blue:173/255.f alpha:1.f])
+    return color;
+}
+
++ (UIColor *)kg_loginSubtitleColor {
+    STATIC_ONCE(color, [UIColor colorWithRed:51/255.f green:70/255.f blue:89/255.f alpha:1.f])
+    return color;
+}
+
++ (UIColor *)kg_disabledButtonTintColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#ABB4BD" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_enabledButtonTintColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#0076FF" alpha:1])
     return color;
 }
 
