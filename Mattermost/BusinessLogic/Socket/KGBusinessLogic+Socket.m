@@ -4,6 +4,7 @@
 //
 
 #import "KGBusinessLogic+Socket.h"
+#import <MagicalRecord.h>
 #import "KGBusinessLogic+Session.h"
 #import "KGUtils.h"
 #import "KGBusinessLogic+Channel.h"
@@ -19,6 +20,7 @@
 #import "KGBusinessLogic+Posts.h"
 #import "NSStringUtils.h"
 #import <SRWebSocket.h>
+
 
 
 static NSString * const KGChannelIdentifierKey = @"channel_id";
@@ -112,7 +114,7 @@ static NSString * const KGActionNameKey = @"action";
 
         NSDictionary *postDict = [NSJSONSerialization JSONObjectWithData:[postString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        KGPost *post = [KGPost managedObjectById:postDict[@"id"]];
+        KGPost *post = [KGPost managedObjectById:postDict[@"id"]] ?: [KGPost MR_findFirstByAttribute:@"backendPendingId" withValue:postDict[@"pending_post_id"]];
         if (post) {
             return;
         } else {
