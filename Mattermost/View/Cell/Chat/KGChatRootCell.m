@@ -50,6 +50,8 @@
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.layer.drawsAsynchronously = YES;
     
+    self.messageLabel.layer.drawsAsynchronously = YES;
+    
     self.avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.layer.cornerRadius = 20.f;
     self.avatarImageView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.05f];
@@ -72,22 +74,27 @@
 
 #pragma mark - Height
 
-+ (CGFloat)heightWithObject:(KGPost*)post {
-    CGFloat kAvatarUser = 40;
-    CGFloat kGorizontalPadding = 8;
-    CGFloat kVerticalPadding = 8;
-    CGFloat kTopPadding = 3;
-    CGFloat kNameToMessagePadding = 2;
-    CGFloat kNameHeight = 22;
-    CGFloat kBottomPadding = 2;
-    CGFloat kMinHeightCell = kAvatarUser + kVerticalPadding*2;
-
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat messageLabelWidth = screenWidth - kAvatarUser - kGorizontalPadding*3;
-    CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-    CGFloat heightCell = kTopPadding + kNameHeight + kNameToMessagePadding + heightMessage + kBottomPadding;
++ (CGFloat)heightWithObject:(id)object {
+    if ([object isKindOfClass:[KGPost class]]) {
+        KGPost *post = object;
+        
+        CGFloat kAvatarUser = 40;
+        CGFloat kGorizontalPadding = 8;
+        CGFloat kTopPadding = 16;
+        CGFloat kNameToMessagePadding = 2;
+        CGFloat kNameHeight = 22;
+        CGFloat kBottomPadding = 2;
+//        CGFloat kMinHeightCell = kAvatarUser + kVerticalPadding*2;
+        
+        CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+        CGFloat messageLabelWidth = screenWidth - kAvatarUser - kGorizontalPadding*3;
+        CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
+        CGFloat heightCell = kTopPadding + kNameHeight + kNameToMessagePadding + heightMessage + kBottomPadding;
+        
+        return  ceilf(heightCell);
+    }
     
-    return MAX(kMinHeightCell, heightCell);
+    return 0.f;
 }
 
 + (UIImage *)placeholderImage {
