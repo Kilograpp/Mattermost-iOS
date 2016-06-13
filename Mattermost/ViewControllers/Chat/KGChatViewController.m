@@ -28,6 +28,10 @@
 #import <CTAssetsPickerController/CTAssetsPickerController.h>
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
+#import "KGFollowUpChatCell.h"
+#import "KGUser.h"
+#import "KGImageChatCell.h"
+
 @import CoreText;
 
 
@@ -38,6 +42,7 @@
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @property (nonatomic, strong) NSMutableArray *assignedPhotos;
+@property (nonatomic, strong) NSString *previousMessageAuthorId;
 @end
 
 @implementation KGChatViewController
@@ -87,9 +92,13 @@
 }
 
 - (void)setupTableView {
-    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier]];
+    NSArray *cellClasses = @[[KGChatRootCell class], [KGFollowUpChatCell class], [KGImageChatCell class] ];
+    
+    for (Class class in cellClasses) {
+        [self.tableView registerNib:[class nib] forCellReuseIdentifier:[class reuseIdentifier]];
+    }
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 }
 
 - (void)setupKeyboardToolbar {
@@ -125,10 +134,29 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGChatRootCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChatRootCell reuseIdentifier] forIndexPath:indexPath];
+    NSString *reuseIdentifier;
+    KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+    
+    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
+        reuseIdentifier = post.files.count == 0 ? [KGChatRootCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+    } else {
+        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+        if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
+            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+        } else {
+            reuseIdentifier = post.files.count == 0 ? [KGChatRootCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+        }
+}
 
-    [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    NSDate *start = [NSDate date];
+    KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    NSDate *mid = [NSDate date];
+    [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
+    NSDate *end = [NSDate date];
+    NSLog(@"%f - %f TOTAL : %f %d", [mid timeIntervalSinceDate:start], [end timeIntervalSinceDate:mid], [end timeIntervalSinceDate:start], post.files.count);
 
     return cell;
 }
@@ -137,7 +165,22 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [KGChatRootCell heightWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+    
+    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
+        return post.files.count == 0 ? [KGChatRootCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+    } else {
+        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+        if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
+            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGImageChatCell heightWithObject:post];;
+        } else {
+            return post.files.count == 0 ? [KGChatRootCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+        }
+    }
+    
+    return 0.f;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {

@@ -6,9 +6,8 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "KGTableViewCell.h"
 
-@interface KGImageMessageCell :KGTableViewCell
+@interface KGImageChatCell :KGTableViewCell
 
 @end
