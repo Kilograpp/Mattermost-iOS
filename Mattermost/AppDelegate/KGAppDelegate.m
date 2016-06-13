@@ -9,6 +9,8 @@
 #import "KGAppDelegate.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <MagicalRecord.h>
+#import "KGPreferences.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Notifications.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -52,7 +54,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
-
+    [[KGPreferences sharedInstance] save];
+    [[NSManagedObjectContext MR_defaultContext].parentContext MR_saveToPersistentStoreAndWait];
 }
 
 
