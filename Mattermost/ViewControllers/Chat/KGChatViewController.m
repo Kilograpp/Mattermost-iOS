@@ -102,7 +102,7 @@
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.placeholder = @"Написать сообщение";
-    self.textInputbar.textView.font = [UIFont kg_regular15Font];
+    self.textInputbar.textView.font = [UIFont kg_regular14Font];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -133,9 +133,36 @@
     return cell;
 }
 
+
+#pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [KGChatRootCell heightWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
 }
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    
+    return [sectionInfo name];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    [header.textLabel setTextColor:[UIColor kg_blackColor]];
+    [header.textLabel setFont:[UIFont kg_bold16Font]];
+    header.textLabel.textAlignment = NSTextAlignmentRight;
+    //    header.transform = self.tableView.transform;
+    header.textLabel.transform = self.tableView.transform;
+    
+    header.contentView.backgroundColor = [UIColor kg_whiteColor];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return CGFLOAT_MIN;
+}
+
+
+#pragma mark - NSFetchedResultsController
 
 
 - (void)setupFetchedResultsController {
@@ -143,7 +170,7 @@
     self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
                                                       ascending:NO
                                                   withPredicate:predicate
-                                                        groupBy:nil
+                                                        groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self];
 }
 
@@ -175,6 +202,8 @@
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self showLoadingView];
     self.channel = [KGChannel managedObjectById:idetnfifier];
+//    self.title = self.channel.displayName;
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
    
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
         [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
@@ -221,14 +250,15 @@
     post.author = [[KGBusinessLogic sharedInstance] currentUser];
     post.channel = self.channel;
     post.createdAt = [NSDate date];
+    self.textView.text = @"";
+    
     [post setBackendPendingId:[NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [post.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:post completion:^(KGError *error) {
         if (error) {
             NSLog(@"(((((((((((((((((");
         }
-        
-        self.textView.text = @"";
+    
         //        [self setupFetchedResultsController];
         //        [self.tableView reloadData];
     }];
@@ -332,23 +362,24 @@
 }
 
 - (void)assignPhotos {
-    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            // init picker
-            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-            
-            // set delegate
-            picker.delegate = self;
-            
-            // Optionally present picker as a form sheet on iPad
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                picker.modalPresentationStyle = UIModalPresentationFormSheet;
-            
-            // present picker
-            [self presentViewController:picker animated:YES completion:nil];
-        });
-    }];
+//    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            
+//            // init picker
+//            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+//            
+//            // set delegate
+//            picker.delegate = self;
+//            
+//            // Optionally present picker as a form sheet on iPad
+//            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+//            
+//            // present picker
+//            [self presentViewController:picker animated:YES completion:nil];
+//        });
+//    }];
+//    [self.textInputbar attachFile:[UIImage imageNamed:@"icn_upload"]];
 }
 
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {

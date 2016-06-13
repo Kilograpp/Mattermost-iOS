@@ -16,6 +16,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSString+HeightCalculation.h"
 #import "UIColor+KGPreparedColor.h"
+#import "SDWebImageDownloader.h"
 
 @interface KGChatRootCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel* messageLabel;
@@ -28,40 +29,48 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    [self configure];
     
-    self.layer.shouldRasterize = YES;
-    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    self.layer.drawsAsynchronously = YES;
+    [self setup];
 }
 
-- (void)configure {
+
+#pragma mark - Setup
+
+- (void)setup {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
     [self.messageLabel setMentionColor:[UIColor blueColor]];
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.backgroundColor = [UIColor kg_whiteColor];
     self.dateTimeLabel.backgroundColor = [UIColor kg_whiteColor];
+    self.dateTimeLabel.font = [UIFont kg_regular13Font];
     [self.messageLabel setBackgroundColor:[UIColor kg_whiteColor]];
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.drawsAsynchronously = YES;
+    
+    self.avatarImageView.layer.drawsAsynchronously = YES;
+    self.avatarImageView.layer.cornerRadius = 20.f;
+    self.avatarImageView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.05f];
 }
+
+
+#pragma mark - Configuration
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
     self.nameLabel.text = post.author.nickname;
-    //KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-    //self.messageLabel.backgroundColor = (post.author.identifier == user.identifier) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
-    [self.avatarImageView setImageWithURL:post.author.imageUrl
-                         placeholderImage:nil
-                                  options:SDWebImageHandleCookies completed:nil
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+
+    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:[[self class] placeholderImage] options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    [self.avatarImageView removeActivityIndicator];
 }
 
 
-+ (NSString*)reuseIdentifier{
-    return NSStringFromClass(self);
-}
+#pragma mark - Height
 
 + (CGFloat)heightWithObject:(KGPost*)post {
     CGFloat kAvatarUser = 40;
@@ -81,5 +90,18 @@
     return MAX(kMinHeightCell, heightCell);
 }
 
++ (UIImage *)placeholderImage {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context,
+//                                   [[UIColor lightGrayColor] CGColor]);
+      [[UIColor colorWithRed:232./255 green:237./255 blue: 239./255 alpha:1] CGColor]) ;
+    CGContextFillRect(context, rect);
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return img;
+}
 
 @end

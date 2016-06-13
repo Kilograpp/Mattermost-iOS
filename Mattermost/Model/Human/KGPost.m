@@ -101,6 +101,28 @@
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
+
+#pragma mark - Core Data
+
+- (void)willSave {
+    [super willSave];
+    
+    [self configureDiplayDate];
+}
+
+- (void)configureDiplayDate {
+    if (!self.creationDay && self.createdAt) {
+        unsigned int      intFlags   = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
+        NSCalendar       *calendar   = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        
+        components = [calendar components:intFlags fromDate:self.createdAt];
+        
+        self.creationDay = [calendar dateFromComponents:components];
+    }
+}
+
+
 #pragma mark - Request Descriptors
 
 + (RKRequestDescriptor*)createRequestDescriptor {

@@ -10,6 +10,8 @@
 
 @interface UIColor (KGPreparedColor)
 
+#pragma mark - Common
+
 + (UIColor *)kg_blueColor;
 + (UIColor *)kg_whiteColor;
 + (UIColor *)kg_blackColor;
@@ -19,7 +21,17 @@
 + (UIColor *)kg_lightBlueColor;
 + (UIColor *)kg_lightLightGrayColor;
 
++ (UIColor *)kg_disabledButtonTintColor;
++ (UIColor *)kg_enabledButtonTintColor;
+
+#pragma mark - Left menu
+
 + (UIColor *)kg_leftMenuBackgroundColor;
 + (UIColor *)kg_leftMenuHighlightColor;
 + (UIColor *)kg_leftMenuHeaderColor;
+
+#pragma mark - Login
+
++ (UIColor *)kg_loginSubtitleColor;
+
 @end

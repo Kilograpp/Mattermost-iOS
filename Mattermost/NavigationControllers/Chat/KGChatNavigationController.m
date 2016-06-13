@@ -11,7 +11,8 @@
 #import "UIFont+KGPreparedFont.h"
 
 @interface KGChatNavigationController () <UINavigationControllerDelegate>
-
+@property (nonatomic, strong) UILabel *kg_titleLabel;
+@property (nonatomic, strong) UILabel *kg_subtitleLabel;
 @end
 
 @implementation KGChatNavigationController 
@@ -30,18 +31,39 @@
     UINavigationBar *navBar = self.navigationBar;
     navBar.translucent = NO;
     
-    navBar.tintColor = [UIColor kg_whiteColor];
-    navBar.barTintColor = [UIColor kg_leftMenuHeaderColor];
-    [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                   NSFontAttributeName : [UIFont kg_semibold18Font] }];
+//    navBar.tintColor = [UIColor kg_whiteColor];
+//    navBar.barTintColor = [UIColor kg_leftMenuHeaderColor];
+//    [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor kg_blackColor],
+//                                                   NSFontAttributeName : [UIFont kg_medium16Font] }];
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 44.f)];
+    self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
+    self.kg_subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 22.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
     
+    self.kg_titleLabel.font = [UIFont kg_navigationBarTitleFont];
+    self.kg_titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.kg_titleLabel.textColor = [UIColor kg_blackColor];
+
+    self.kg_subtitleLabel.font = [UIFont kg_navigationBarSubtitleFont];
+    self.kg_subtitleLabel.textAlignment = NSTextAlignmentCenter;
+    self.kg_subtitleLabel.textColor = [UIColor kg_blueColor];
+
+    
+    [titleView addSubview:self.kg_titleLabel];
+    [titleView addSubview:self.kg_subtitleLabel];
+    [self.navigationBar.topItem setTitleView:titleView];
+}
+
+- (void)setupTitleViewWithUserName:(NSString *)userName online:(BOOL)online {
+    self.kg_titleLabel.text = userName;
+    self.kg_subtitleLabel.text = online ? @"online" : @"offline";
+    self.kg_subtitleLabel.textColor = online ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
 }
 
 
 #pragma mark - Status Bar
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 

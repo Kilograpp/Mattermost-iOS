@@ -10,4 +10,6 @@
 
 @interface KGButton : UIButton
 
+@property (nonatomic, assign) BOOL shouldDrawImageAtRightSide;
+
 @end

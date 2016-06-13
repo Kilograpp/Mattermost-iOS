@@ -20,6 +20,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 @interface KGServerUrlViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subtitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *promtLabel;
 @property (weak, nonatomic) IBOutlet KGTextField *textField;
 
@@ -36,6 +37,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
     
     [self setupTitleLabel];
+    [self setupSubtitleLabel];
     [self setupPromtLabel];
     [self setupNextButton];
     [self setupTextfield];
@@ -58,8 +60,13 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 #pragma mark - Setup 
 
 - (void)setupTitleLabel {
-    self.titleLabel.font = [UIFont kg_semibold30Font];
+    self.titleLabel.font = [UIFont kg_regular36Font];
     self.titleLabel.textColor = [UIColor kg_blackColor];
+}
+
+- (void)setupSubtitleLabel {
+    self.subtitleLabel.font = [UIFont kg_regular14Font];
+    self.subtitleLabel.textColor = [UIColor kg_loginSubtitleColor];
 }
 
 - (void)setupPromtLabel {
@@ -69,15 +76,13 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)setupNextButton {
     self.nextButton.layer.cornerRadius = KGStandartCornerRadius;
-    self.nextButton.backgroundColor = [UIColor kg_blueColor];
-    [self.nextButton setTitle:NSLocalizedString(@"Next", nil) forState:UIControlStateNormal];
-    [self.nextButton setTintColor:[UIColor whiteColor]];
-    self.nextButton.titleLabel.font = [UIFont kg_regular16Font];
+    [self.nextButton setTitle:NSLocalizedString(@"Next step", nil) forState:UIControlStateNormal];
+    self.nextButton.titleLabel.font = [UIFont kg_medium18Font];
     self.nextButton.enabled = NO;
+    self.nextButton.shouldDrawImageAtRightSide = YES;
 }
 
 - (void)setupTextfield {
-
     self.textField.delegate = self;
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
@@ -91,6 +96,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 - (void)configureLabels {
     self.titleLabel.text = @"Mattermost";
     self.promtLabel.text = @"Team server URL";
+    self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere.";
 }
 
 #pragma mark - Actions

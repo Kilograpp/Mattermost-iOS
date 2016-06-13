@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* createdAt;
 
+@property (nonatomic, strong, nullable) NSDate* creationDay;
+
 @property (nonatomic, strong, nullable) NSDate* deletedAt;
 
 @property (nonatomic, strong, nullable) NSString* identifier;
@@ -72,6 +74,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveCreatedAt;
 - (void)setPrimitiveCreatedAt:(NSDate*)value;
 
+- (NSDate*)primitiveCreationDay;
+- (void)setPrimitiveCreationDay:(NSDate*)value;
+
 - (NSDate*)primitiveDeletedAt;
 - (void)setPrimitiveDeletedAt:(NSDate*)value;
 
@@ -102,6 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)backendPendingId;
 + (NSString *)channelId;
 + (NSString *)createdAt;
++ (NSString *)creationDay;
 + (NSString *)deletedAt;
 + (NSString *)identifier;
 + (NSString *)message;

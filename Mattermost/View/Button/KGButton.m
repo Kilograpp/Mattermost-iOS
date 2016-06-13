@@ -11,6 +11,22 @@
 
 @implementation KGButton
 
+
+#pragma mark - Public
+
+- (void)setShouldDrawImageAtRightSide:(BOOL)shouldDrawImageAtRightSide {
+    _shouldDrawImageAtRightSide = shouldDrawImageAtRightSide;
+    
+    if (shouldDrawImageAtRightSide) {
+        self.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        self.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+        self.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    }
+}
+
+
+#pragma mark - Override
+
 - (void) setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
     
@@ -23,11 +39,13 @@
 
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
-    if (enabled == NO){
-        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:0.6];
-    } else {
-        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:1.f];
-    }
+//    if (enabled == NO){
+//        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:0.6];
+//    } else {
+//        self.backgroundColor = [self.backgroundColor colorWithAlphaComponent:1.f];
+//    }
+    
+    self.tintColor = enabled ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
 }
 
 @end

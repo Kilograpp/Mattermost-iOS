@@ -55,6 +55,13 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     self.loginTextField.text = @"getmaxx@kilograpp.com";
     self.passwordTextField.text = @"102Aky5i";
     self.loginButton.enabled = YES;
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -67,26 +74,26 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 #pragma mark - Setup
 
 - (void)setupTitleLabel {
-    self.titleLabel.font = [UIFont kg_semibold30Font];
-    self.titleLabel.textColor = [UIColor kg_blackColor];
+    self.titleLabel.font = [UIFont kg_bold28Font];
+    self.titleLabel.textColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupPromtLabels {
     self.loginPromtLabel.font = [UIFont kg_regular14Font];
     self.loginPromtLabel.textColor = [UIColor kg_grayColor];
-    
     self.passwordPromtLabel.font = [UIFont kg_regular14Font];
     self.passwordPromtLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupLoginButton {
     self.loginButton.layer.cornerRadius = KGStandartCornerRadius;
-    self.loginButton.backgroundColor = [UIColor kg_blueColor];
+//    self.loginButton.backgroundColor = [UIColor kg_blueColor];
     [self.loginButton setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
-    [self.loginButton setTintColor:[UIColor whiteColor]];
-    self.loginButton.titleLabel.font = [UIFont kg_regular16Font];
-    self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
+//    [self.loginButton setTintColor:[UIColor whiteColor]];
+    self.loginButton.titleLabel.font = [UIFont kg_medium18Font];
+//    self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
     self.loginButton.enabled = NO;
+    self.loginButton.shouldDrawImageAtRightSide = YES;
 }
 
 - (void)setupRecoveryButton {
@@ -99,7 +106,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 }
 
 - (void)setupLoginTextfield {
-
     self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
@@ -109,7 +115,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 }
 
 - (void)setupPasswordTextField {
-
     self.passwordTextField.delegate = self;
     self.passwordTextField.textColor = [UIColor kg_blackColor];
     self.passwordTextField.font = [UIFont kg_regular16Font];
@@ -122,7 +127,7 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 #pragma mark - Configuration
 
 - (void)configureLabels {
-    self.titleLabel.text = @"Team name";
+    self.titleLabel.text = @"Kilograpp";
     self.loginPromtLabel.text = @"Email";
     self.passwordPromtLabel.text = @"Password";
 }

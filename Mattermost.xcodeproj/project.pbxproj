@@ -17,15 +17,11 @@
 		9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82238547742F610B40AF2A /* NSStringUtils.m */; };
 		9B82223003DD82D9EB7A9635 /* NSManagedObject+CustomFinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82200A1155667A3D89150D /* NSManagedObject+CustomFinder.m */; };
 		9B8223A1506518E1117BB72D /* KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822BE95D060B2A944203CA /* KGChannel.m */; };
-		9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */; };
 		9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C4F7D940BF446AE9219 /* KGError.m */; };
 		9B822470293C9B033F47A1E4 /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */; };
 		9B822478B94669140F45CB09 /* _KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82210DA8457DEE5157685D /* _KGPost.m */; };
 		9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */; };
-		9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */; };
 		9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */; };
-		9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */; };
-		9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */; };
 		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
 		9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228762344686CE2207B8C /* KGManagedObject.m */; };
 		9B8229555967AD0C8D3320E3 /* _KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8227F2CBC646A9EB03FA5A /* _KGFile.m */; };
@@ -53,6 +49,13 @@
 		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
+		D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */; };
+		D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */; };
+		D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */; };
+		D636DBEF1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEE1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf */; };
+		D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */; };
+		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
+		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -111,7 +114,6 @@
 		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B822174A12039F460C51401 /* KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFile.h; sourceTree = "<group>"; };
-		9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9B822244568FAC9E52BF52EA /* UIFont+KGPreparedFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+KGPreparedFont.m"; sourceTree = "<group>"; };
 		9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Notifications.m"; sourceTree = "<group>"; };
 		9B8222F1E65BDE846AD32CCC /* _KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGFile.h; sourceTree = "<group>"; };
@@ -124,7 +126,6 @@
 		9B82269BB71EB602FA7747FB /* KGBusinessLogic+File.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+File.m"; sourceTree = "<group>"; };
 		9B8226FF7B005D985E9C9B4C /* KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPost.m; sourceTree = "<group>"; };
 		9B8227136A03D68E83AC0C8E /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
-		9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
 		9B82276635BE51FB6CAFF1A9 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Preferences.plist; sourceTree = "<group>"; };
 		9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Channel.m"; sourceTree = "<group>"; };
 		9B8227F2CBC646A9EB03FA5A /* _KGFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGFile.m; sourceTree = "<group>"; };
@@ -145,14 +146,12 @@
 		9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Posts.m"; sourceTree = "<group>"; };
 		9B822BA2F5E3E10B3F0DAD90 /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		9B822BE95D060B2A944203CA /* KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannel.m; sourceTree = "<group>"; };
-		9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		9B822C4F7D940BF446AE9219 /* KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGError.m; sourceTree = "<group>"; };
 		9B822C537DAEB1629E36B183 /* NSError+KGError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+KGError.m"; sourceTree = "<group>"; };
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelPostsWrapper.h; sourceTree = "<group>"; };
 		9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelNotification.m; sourceTree = "<group>"; };
 		9B822D047156786CF9AA400F /* _KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGChannel.h; sourceTree = "<group>"; };
-		9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		9B822DE7BEDDF6462930AE3B /* KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPost.h; sourceTree = "<group>"; };
 		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
 		9B822E38B0AEFE3B1C079CB1 /* KGChannelNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelNotification.h; sourceTree = "<group>"; };
@@ -182,6 +181,13 @@
 		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfilViewController.m; path = Profile/KGProfilViewController.m; sourceTree = "<group>"; };
 		CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGRightMenuViewController.h; path = RightMenu/KGRightMenuViewController.h; sourceTree = "<group>"; };
 		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGRightMenuViewController.m; path = RightMenu/KGRightMenuViewController.m; sourceTree = "<group>"; };
+		D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
+		D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
+		D636DBEE1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Bold.otf"; sourceTree = "<group>"; };
+		D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
+		D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
 		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
@@ -412,10 +418,13 @@
 		9B822AE956F9663378049854 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				9B822C2C96D9617B255E4929 /* OpenSans-Bold.ttf */,
-				9B822D4A462B76D9981B528B /* OpenSans-Light.ttf */,
-				9B82223CF63DAA5663D2DAEE /* OpenSans-Regular.ttf */,
-				9B82272455992CF2D3D20FB2 /* OpenSans-Semibold.ttf */,
+				D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */,
+				D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */,
+				D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */,
+				D636DBEE1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf */,
+				D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */,
+				D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */,
+				D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -1057,19 +1066,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */,
+				D636DBEF1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf in Resources */,
 				CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */,
+				D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */,
+				D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
+				D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
-				9B82269187C9406FE48DB61C /* OpenSans-Bold.ttf in Resources */,
-				9B8225693DA061A276D7E8CC /* OpenSans-Light.ttf in Resources */,
-				9B8224059D2C9EDBCA65DD1F /* OpenSans-Regular.ttf in Resources */,
-				9B82270437D5EE4B7BFD8E6F /* OpenSans-Semibold.ttf in Resources */,
 				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
+				D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */,
 				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
 				CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
+				D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */,
+				D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */,
 				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

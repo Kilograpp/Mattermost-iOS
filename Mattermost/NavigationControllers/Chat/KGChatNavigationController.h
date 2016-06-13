@@ -9,5 +9,8 @@
 #import "KGNavigationController.h"
 
 @interface KGChatNavigationController : KGNavigationController
+@property (nonatomic, copy) NSString *kg_title;
+@property (nonatomic, copy) NSString *kg_subtitle;
 
+- (void)setupTitleViewWithUserName:(NSString *)userName online:(BOOL)online;
 @end
