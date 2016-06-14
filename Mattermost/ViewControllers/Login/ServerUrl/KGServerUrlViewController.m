@@ -86,7 +86,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     self.textField.delegate = self;
     self.textField.textColor = [UIColor kg_blackColor];
     self.textField.font = [UIFont kg_regular16Font];
-    self.textField.placeholder = @"https://matttermost.example.com";
+    self.textField.placeholder = @"Your team URL";
     self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
 
@@ -95,7 +95,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)configureLabels {
     self.titleLabel.text = @"Mattermost";
-    self.promtLabel.text = @"Team server URL";
+    self.promtLabel.text = @"e.g. https://matttermost.example.com";
     self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere.";
 }
 
