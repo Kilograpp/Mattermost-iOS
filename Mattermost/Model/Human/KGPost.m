@@ -104,8 +104,8 @@
 
 #pragma mark - Core Data
 
-- (void)willSave {
-    [super willSave];
+- (void)awakeFromFetch {
+    [super awakeFromFetch];
     
     [self configureDiplayDate];
 }
