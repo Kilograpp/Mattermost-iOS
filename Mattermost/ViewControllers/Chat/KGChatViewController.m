@@ -33,6 +33,7 @@
 #import "KGImageChatCell.h"
 
 #import "KGChatCommonTableViewCell.h"
+#import "KGChatAttachmentsTableViewCell.h"
 
 @import CoreText;
 
@@ -101,6 +102,7 @@
     }
     
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
+    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -144,13 +146,13 @@
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+        reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
-            reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
 }
 
@@ -174,13 +176,13 @@
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+        return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
     } else {
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGImageChatCell heightWithObject:post];;
+            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
         } else {
-            return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+            return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         }
     }
     

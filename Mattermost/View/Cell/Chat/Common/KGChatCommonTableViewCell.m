@@ -17,15 +17,8 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSString+HeightCalculation.h"
 
-static CGFloat const kAvatarDimension = 40.f;
-static CGFloat const kStandartPadding = 8.f;
-static CGFloat const kSmallPadding = 5.f;
-
 @interface KGChatCommonTableViewCell ()
-@property (nonatomic, strong) UIImageView *avatarImageView;
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *dateLabel;
-@property (nonatomic, strong) ActiveLabel *messageLabel;
+
 @end
 
 @implementation KGChatCommonTableViewCell
@@ -44,6 +37,9 @@ static CGFloat const kSmallPadding = 5.f;
         for (UIView *view in self.subviews) {
             view.layer.drawsAsynchronously = YES;
         }
+        
+        self.layer.shouldRasterize = YES;
+        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -79,7 +75,7 @@ static CGFloat const kSmallPadding = 5.f;
     [self.nameLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultLow forAxis: UILayoutConstraintAxisHorizontal];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.avatarImageView.mas_right).offset(kSmallPadding);
+        make.leading.equalTo(self.avatarImageView.mas_trailing).offset(kSmallPadding);
         make.top.equalTo(self).offset(8.f);
     }];
 }
@@ -94,7 +90,7 @@ static CGFloat const kSmallPadding = 5.f;
     [self.dateLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultHigh forAxis: UILayoutConstraintAxisHorizontal];
     
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.nameLabel.mas_right).offset(kSmallPadding);
+        make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
         make.centerY.equalTo(self.nameLabel);
         make.trailing.equalTo(self).offset(-kStandartPadding);
     }];
@@ -133,8 +129,6 @@ static CGFloat const kSmallPadding = 5.f;
                   usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         
         [self.avatarImageView removeActivityIndicator];
-        
-        [self.nameLabel sizeToFit];
         
     }
 }

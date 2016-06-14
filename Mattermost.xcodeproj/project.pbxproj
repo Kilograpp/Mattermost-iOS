@@ -59,6 +59,8 @@
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
+		D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */; };
+		D67A24931D108922006579E8 /* KGAsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24921D108922006579E8 /* KGAsyncImageView.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
@@ -196,6 +198,10 @@
 		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
 		D67A24851D10448B006579E8 /* KGChatCommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatCommonTableViewCell.h; path = Common/KGChatCommonTableViewCell.h; sourceTree = "<group>"; };
 		D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatCommonTableViewCell.m; path = Common/KGChatCommonTableViewCell.m; sourceTree = "<group>"; };
+		D67A24891D106ECC006579E8 /* KGChatAttachmentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatAttachmentsTableViewCell.h; path = Attachments/KGChatAttachmentsTableViewCell.h; sourceTree = "<group>"; };
+		D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatAttachmentsTableViewCell.m; path = Attachments/KGChatAttachmentsTableViewCell.m; sourceTree = "<group>"; };
+		D67A24911D108922006579E8 /* KGAsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAsyncImageView.h; path = AsyncImageView/KGAsyncImageView.h; sourceTree = "<group>"; };
+		D67A24921D108922006579E8 /* KGAsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAsyncImageView.m; path = AsyncImageView/KGAsyncImageView.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -321,6 +327,7 @@
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D67A248F1D1088BE006579E8 /* New Group */,
 				41FC94B21D07FA73009E1090 /* Button */,
 				411169EC1D09DDD800448145 /* Cell */,
 				41FC94B61D07FA8C009E1090 /* TextField */,
@@ -625,6 +632,39 @@
 			name = Common;
 			sourceTree = "<group>";
 		};
+		D67A24881D106E9A006579E8 /* Attachments */ = {
+			isa = PBXGroup;
+			children = (
+				D67A24891D106ECC006579E8 /* KGChatAttachmentsTableViewCell.h */,
+				D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */,
+			);
+			name = Attachments;
+			sourceTree = "<group>";
+		};
+		D67A248D1D107378006579E8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D67A248E1D107381006579E8 /* UIHelper */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		D67A248E1D107381006579E8 /* UIHelper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UIHelper;
+			sourceTree = "<group>";
+		};
+		D67A248F1D1088BE006579E8 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				D67A24911D108922006579E8 /* KGAsyncImageView.h */,
+				D67A24921D108922006579E8 /* KGAsyncImageView.m */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		D696F7681D060FDD008341AF = {
 			isa = PBXGroup;
 			children = (
@@ -650,6 +690,7 @@
 				D696F7991D061301008341AF /* BusinessLogic */,
 				9B822B986A41E5765DB8CD58 /* Categories */,
 				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
+				D67A248D1D107378006579E8 /* Helpers */,
 				D696F78F1D061099008341AF /* Model */,
 				D6C154D31D0756DC00B053CE /* NavigationControllers */,
 				D696F79E1D061368008341AF /* Resources */,
@@ -925,6 +966,7 @@
 		D844A6E61D0AE35200B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D67A24881D106E9A006579E8 /* Attachments */,
 				D67A24841D104443006579E8 /* Common */,
 				D65E5AC71D0F519400D5E0C6 /* Image */,
 				D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */,
@@ -1219,8 +1261,10 @@
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D69FB17B1D097FA000043C2D /* UIWindow+KGAdditions.m in Sources */,
 				D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */,
+				D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */,
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
 				D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */,
+				D67A24931D108922006579E8 /* KGAsyncImageView.m in Sources */,
 				D8B428F11D06DFE6008BF955 /* KGUser.m in Sources */,
 				CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
