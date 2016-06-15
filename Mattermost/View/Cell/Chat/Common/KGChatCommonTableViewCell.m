@@ -72,7 +72,7 @@
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     
-    [self.nameLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultLow forAxis: UILayoutConstraintAxisHorizontal];
+    [self.nameLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultHigh forAxis: UILayoutConstraintAxisHorizontal];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.avatarImageView.mas_trailing).offset(kSmallPadding);
@@ -87,7 +87,8 @@
     self.dateLabel.textColor = [UIColor kg_lightGrayColor];
     self.dateLabel.font = [UIFont kg_regular13Font];
     self.dateLabel.contentMode = UIViewContentModeLeft;
-    [self.dateLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultHigh forAxis: UILayoutConstraintAxisHorizontal];
+//    self.dateLabel
+    [self.dateLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultLow forAxis: UILayoutConstraintAxisHorizontal];
     
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
@@ -108,7 +109,7 @@
     
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_leading);
-        make.trailing.equalTo(self);
+        make.trailing.equalTo(self).offset(-kStandartPadding);
         make.bottom.equalTo(self).offset(-kStandartPadding);
         make.top.equalTo(self.nameLabel.mas_bottom);
     }];
