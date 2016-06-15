@@ -46,6 +46,7 @@
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
 		CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */; };
 		CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */; };
+		CD7D119B1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D119A1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m */; };
 		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
@@ -179,6 +180,8 @@
 		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
 		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPresentNavigationController.h; sourceTree = "<group>"; };
 		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPresentNavigationController.m; sourceTree = "<group>"; };
+		CD7D11991D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CAGradientLayer+KGPreparedGradient.h"; path = "CAGradientLayer/CAGradientLayer+KGPreparedGradient.h"; sourceTree = "<group>"; };
+		CD7D119A1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAGradientLayer+KGPreparedGradient.m"; path = "CAGradientLayer/CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
 		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGSettingsViewController.h; sourceTree = "<group>"; };
 		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGSettingsViewController.m; sourceTree = "<group>"; };
 		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfilViewController.h; sourceTree = "<group>"; };
@@ -454,6 +457,7 @@
 		9B822B986A41E5765DB8CD58 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				CD7D11951D1175B4002EED4E /* CAGradientLayer */,
 				CD05D7441D0B466200675EAC /* NSAttributedString */,
 				D844A7091D0B377300B53BB3 /* NSDate */,
 				9B8229E81C4A960156D4C50F /* NSError */,
@@ -565,6 +569,15 @@
 				CD7D11801D0C6B33002EED4E /* RightMenuDataSource */,
 			);
 			path = DataSource;
+			sourceTree = "<group>";
+		};
+		CD7D11951D1175B4002EED4E /* CAGradientLayer */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D11991D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.h */,
+				CD7D119A1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m */,
+			);
+			name = CAGradientLayer;
 			sourceTree = "<group>";
 		};
 		CD8D69041D0C50D600AFA198 /* Settings */ = {
@@ -1271,6 +1284,7 @@
 				D8B429101D071776008BF955 /* RKRequestDescriptor+Runtime.m in Sources */,
 				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
 				9B822F7AAD38800C5E462DE5 /* NSError+KGError.m in Sources */,
+				CD7D119B1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m in Sources */,
 				D8B4290C1D0713F1008BF955 /* NSObject+DumpValues.m in Sources */,
 				D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */,
 				D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */,

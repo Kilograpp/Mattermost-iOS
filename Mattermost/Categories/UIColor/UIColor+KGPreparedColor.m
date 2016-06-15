@@ -83,4 +83,24 @@
     return color;
 }
 
+#pragma mark - Gradient
+
++ (UIColor *)kg_topColorForGradientBlue {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#1D66DE" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_middleColorForGradientBlue {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#217AE0" alpha:1])
+    return color;
+}
+
+
++ (UIColor *)kg_bottomColorForGradientBlue {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#248BE2" alpha:1])
+    return color;
+}
+
+
+
 @end

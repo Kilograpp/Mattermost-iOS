@@ -34,4 +34,10 @@
 
 + (UIColor *)kg_loginSubtitleColor;
 
+#pragma mark - Gradient
+
++ (UIColor *)kg_topColorForGradientBlue;
++ (UIColor *)kg_middleColorForGradientBlue;
++ (UIColor *)kg_bottomColorForGradientBlue;
+
 @end
