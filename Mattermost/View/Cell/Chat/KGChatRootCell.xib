@@ -24,14 +24,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="324" height="82"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="imG-zB-can" customClass="KGAvatarImageView">
-                        <rect key="frame" x="8" y="16" width="40" height="40"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="width" secondItem="imG-zB-can" secondAttribute="height" multiplier="1:1" id="KHn-bm-YrN"/>
-                            <constraint firstAttribute="width" constant="40" id="LIC-WR-Mad"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:23 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y83-hO-DpO">
                         <rect key="frame" x="171" y="17" width="53" height="17"/>
                         <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="14"/>
@@ -50,6 +42,14 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="imG-zB-can" customClass="KGAvatarImageView">
+                        <rect key="frame" x="8" y="16" width="40" height="40"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="imG-zB-can" secondAttribute="height" multiplier="1:1" id="KHn-bm-YrN"/>
+                            <constraint firstAttribute="width" constant="40" id="LIC-WR-Mad"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Y83-hO-DpO" firstAttribute="centerY" secondItem="ysk-Dl-ooh" secondAttribute="centerY" id="4u8-BE-moj"/>

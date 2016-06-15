@@ -128,10 +128,10 @@ static NSString *const kImageCellReuseIdentifier = @"cellReuseIdentifier";
     
     if (file.isImage) {
 //        NSURL *test = [NSURL URLWithString:@"http://dressacat.com/chat.png"];
-//        NSLog(@"%@", file.downloadLink.absoluteString);
-        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.kg_imageView removeActivityIndicator];
+        NSLog(@"%@", file.downloadLink.absoluteString);
+//        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+//                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        [cell.kg_imageView removeActivityIndicator];
     }
     
     return cell;
