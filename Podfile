@@ -19,6 +19,7 @@ target 'Mattermost' do
   pod 'SlackTextViewController'
   pod 'CTAssetsPickerController',  '~> 3.3.0'
   pod 'HexColors'
+  pod 'JVFloatLabeledTextField'
 end
 
 post_install do |installer_representation|

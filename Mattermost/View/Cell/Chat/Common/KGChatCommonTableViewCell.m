@@ -33,6 +33,10 @@
         [self setupNameLabel];
         [self setupDateLabel];
         [self setupMessageLabel];
+        self.avatarImageView.backgroundColor = [UIColor greenColor];
+        self.nameLabel.backgroundColor = [UIColor grayColor];
+        self.dateLabel.backgroundColor = [UIColor redColor];
+        self.messageLabel.backgroundColor = [UIColor blueColor];
         
         for (UIView *view in self.subviews) {
             view.layer.drawsAsynchronously = YES;
