@@ -17,9 +17,10 @@
     self.kg_imageView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.05f];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:self.kg_imageView];
     self.layer.shouldRasterize = YES;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)prepareForReuse {

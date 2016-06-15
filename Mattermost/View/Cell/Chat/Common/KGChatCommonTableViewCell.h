@@ -12,8 +12,8 @@
 static CGFloat const kAvatarDimension = 40.f;
 static CGFloat const kStandartPadding = 8.f;
 static CGFloat const kSmallPadding = 5.f;
-
 @interface KGChatCommonTableViewCell : KGTableViewCell
+
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;

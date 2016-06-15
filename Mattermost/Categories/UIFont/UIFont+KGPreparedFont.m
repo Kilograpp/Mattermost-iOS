@@ -104,6 +104,12 @@ static NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay
     return font;
 }
 
+#pragma mark - Light
+
++ (UIFont *)kg_light16Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsMediumFontName size:16.f])
+    return font;
+}
 
 #pragma mark - Navigation Bar
 

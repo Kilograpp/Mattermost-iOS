@@ -18,9 +18,10 @@
 #import "NSString+HeightCalculation.h"
 #import "KGImageCell.h"
 #import "KGFile.h"
+#import "UIImage+Resize.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.5f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
 
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -53,11 +54,12 @@
     self.tableView.layer.drawsAsynchronously = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.contentView addSubview:self.tableView];
     
     [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_leading);
-        make.trailing.equalTo(self);
+        make.trailing.equalTo(self).offset(-kStandartPadding);
         make.top.equalTo(self.nameLabel.mas_bottom);
     }];
     
@@ -82,8 +84,22 @@
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         self.messageLabel.text = post.message;
         
-        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        __weak typeof(self) wSelf = self;
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            dispatch_async(bgQueue, ^{
+                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    wSelf.avatarImageView.image = img;
+                    [wSelf layoutIfNeeded];
+                });
+            });
+        }];
+
+        
         self.messageLabel.text = post.message;
         //FIXME: Добавить деление файл - не файл и наличие заголовка
         self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
@@ -131,11 +147,24 @@
     KGFile *file = self.files[indexPath.row];
     __weak typeof(cell) wCell = cell;
     if (file.isImage) {
-        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            wCell.kg_imageView.image = image;
-        }
-               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.kg_imageView removeActivityIndicator];
+//        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            wCell.kg_imageView.image = image;
+//        }
+//               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        [cell.kg_imageView removeActivityIndicator];
+        
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        __weak typeof(self) wSelf = self;
+        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:file.downloadLink options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            dispatch_async(bgQueue, ^{
+                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.kg_imageView.image = img;
+                    [wSelf layoutIfNeeded];
+                });
+            });
+        }];
+
     }
     
     return cell;
@@ -145,7 +174,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return KG_IMAGE_HEIGHT;
+    return ceilf(KG_IMAGE_HEIGHT);
 }
 
 - (UIImage *)optimizedImageFromImage:(UIImage *)image

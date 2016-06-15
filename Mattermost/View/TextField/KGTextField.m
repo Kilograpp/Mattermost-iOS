@@ -30,12 +30,20 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        //self.delegate = self;
+        [self setupPlaceholder];
     }
     return self;
 }
 
 
+
+- (void)setupPlaceholder {
+    self.floatingLabelActiveTextColor = [UIColor kg_lightGrayColor];
+    self.floatingLabelYPadding = -20.f;
+    self.floatingLabelFont = self.font;
+    self.keepBaseline = NO;
+    //self.attributedPlaceholder = [NSAttributedString alloc]
+}
 - (void)didMoveToSuperview {
     [super didMoveToSuperview];
     
@@ -51,13 +59,13 @@
     
 }
 
-- (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 10, 0);
-}
-
-- (CGRect)textRectForBounds:(CGRect)bounds {
-    return CGRectInset(bounds, 10, 0);
-}
+//- (CGRect)editingRectForBounds:(CGRect)bounds {
+//    return CGRectInset(bounds, 10, 0);
+//}
+//
+//- (CGRect)textRectForBounds:(CGRect)bounds {
+//    return CGRectInset(bounds, 10, 0);
+//}
 
 - (void)highlightForError {
     self.underlineView.backgroundColor = [UIColor kg_redColor];
