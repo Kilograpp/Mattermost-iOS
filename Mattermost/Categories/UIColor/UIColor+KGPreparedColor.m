@@ -85,22 +85,55 @@
 
 #pragma mark - Gradient
 
-+ (UIColor *)kg_topColorForGradientBlue {
++ (UIColor *)kg_topBlueColorForGradient {
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#1D66DE" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_middleColorForGradientBlue {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#217AE0" alpha:1])
-    return color;
-}
-
-
-+ (UIColor *)kg_bottomColorForGradientBlue {
++ (UIColor *)kg_bottomBlueColorForGradient {
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#248BE2" alpha:1])
     return color;
 }
 
++ (UIColor *)kg_topRedColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F5515F" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomRedColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#9F041B" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topGreenColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#B4EC51" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomGreenColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#429321" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topOrangeColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FAD961" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomOrangeColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F76B1C" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topPurpleColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C86DD7" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomPurpleColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#3023AE" alpha:1])
+    return color;
+}
 
 
 @end

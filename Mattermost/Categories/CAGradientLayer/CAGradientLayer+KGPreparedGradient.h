@@ -12,6 +12,10 @@
 @interface CAGradientLayer (KGPreparedGradient)
 
 + (CAGradientLayer *)kg_blueGradientForNavigationBar;
-+ (CAGradientLayer *)makeGradientForColorOne:(UIColor *)colorOne ToColorTwo:(UIColor *)colorTwo;
++ (CAGradientLayer *)makeGradientForTopColor:(UIColor *)topColor ToBottomColor:(UIColor *)bottomColor;
+- (void)animateLayer:(CAGradientLayer *)headerLayer forTopColor:(UIColor *)topColor toBottomColor:(UIColor *)bottomColor;
+//- (void)animateLayerInfinitely:(CAGradientLayer *)headerLayer;
+- (void)animateLayerInfinitely:(CAGradientLayer *)headerLayer;
+
 
 @end

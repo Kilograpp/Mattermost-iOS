@@ -76,10 +76,10 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     self.title = @"Sign In";
     CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
     bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
+    [bgLayer animateLayerInfinitely:bgLayer];
     [self.navigationView.layer insertSublayer:bgLayer above:0];
     [self.navigationView bringSubviewToFront:self.titleLabel];
 }
-
 
 #pragma mark - Setup
 
