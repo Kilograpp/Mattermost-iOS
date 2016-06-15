@@ -16,6 +16,7 @@
 #import "NSDate+DateFormatter.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSString+HeightCalculation.h"
+#import "UIImage+Resize.h"
 
 @interface KGChatCommonTableViewCell ()
 
@@ -33,10 +34,6 @@
         [self setupNameLabel];
         [self setupDateLabel];
         [self setupMessageLabel];
-        self.avatarImageView.backgroundColor = [UIColor greenColor];
-        self.nameLabel.backgroundColor = [UIColor grayColor];
-        self.dateLabel.backgroundColor = [UIColor redColor];
-        self.messageLabel.backgroundColor = [UIColor blueColor];
         
         for (UIView *view in self.subviews) {
             view.layer.drawsAsynchronously = YES;
@@ -59,7 +56,7 @@
     [self addSubview:self.avatarImageView];
     self.avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.layer.cornerRadius = kAvatarDimension / 2;
-    self.avatarImageView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.05f];
+    self.avatarImageView.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.f];
     self.avatarImageView.clipsToBounds = YES;
     
     [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,11 +127,23 @@
         self.nameLabel.text = post.author.nickname;
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         
-        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        __weak typeof(self) wSelf = self;
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                dispatch_async(bgQueue, ^{
+                    UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(kAvatarDimension, kAvatarDimension) interpolationQuality:kCGInterpolationMedium];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        wSelf.avatarImageView.image = img;
+                        [wSelf layoutIfNeeded];
+                    });
+                });
+            }];
         
-        [self.avatarImageView removeActivityIndicator];
-        
+//        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        
+//        [self.avatarImageView removeActivityIndicator];
+        [self.nameLabel sizeToFit];
     }
 }
 
@@ -155,6 +164,10 @@
     }
     
     return 0.f;
+}
+
+- (void)prepareForReuse {
+    self.avatarImageView.image = nil;
 }
 
 

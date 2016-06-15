@@ -56,6 +56,7 @@
 		D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */; };
 		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
 		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
+		D63B2BDC1D1166F80090D739 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D63B2BDB1D1166F80090D739 /* UIImage+Resize.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
@@ -192,6 +193,8 @@
 		D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Bold.otf"; sourceTree = "<group>"; };
 		D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
+		D63B2BDA1D1166F80090D739 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		D63B2BDB1D1166F80090D739 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
@@ -454,6 +457,7 @@
 		9B822B986A41E5765DB8CD58 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D63B2BD91D1166E00090D739 /* UIImage */,
 				CD05D7441D0B466200675EAC /* NSAttributedString */,
 				D844A7091D0B377300B53BB3 /* NSDate */,
 				9B8229E81C4A960156D4C50F /* NSError */,
@@ -592,6 +596,15 @@
 				CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */,
 			);
 			path = RightMenu;
+			sourceTree = "<group>";
+		};
+		D63B2BD91D1166E00090D739 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				D63B2BDA1D1166F80090D739 /* UIImage+Resize.h */,
+				D63B2BDB1D1166F80090D739 /* UIImage+Resize.m */,
+			);
+			name = UIImage;
 			sourceTree = "<group>";
 		};
 		D65E5AC71D0F519400D5E0C6 /* Image */ = {
@@ -1284,6 +1297,7 @@
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
 				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
+				D63B2BDC1D1166F80090D739 /* UIImage+Resize.m in Sources */,
 				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
