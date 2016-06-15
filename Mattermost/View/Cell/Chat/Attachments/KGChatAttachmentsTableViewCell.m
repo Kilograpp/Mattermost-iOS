@@ -130,13 +130,13 @@
     
     KGFile *file = self.files[indexPath.row];
     __weak typeof(cell) wCell = cell;
-//    if (file.isImage) {
-//        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            wCell.kg_imageView.image = image;
-//        }
-//               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        [cell.kg_imageView removeActivityIndicator];
-//    }
+    if (file.isImage) {
+        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            wCell.kg_imageView.image = image;
+        }
+               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [cell.kg_imageView removeActivityIndicator];
+    }
     
     return cell;
 }
