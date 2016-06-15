@@ -20,13 +20,6 @@
 #import "NSString+HeightCalculation.h"
 #import "KGImageCell.h"
 
-//static CGFloat const topPadding = 4.f;
-//static CGFloat const verticalPadding = 8.0f;
-//static CGFloat const avatarImageHeight = 40.f;
-//static CGFloat const horizontalPadding = 8.f;
-//static CGFloat const aspectRatioImage = 1.5;
-//static CGFloat const heightNameLabel = 22.f;
-
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.5f
 static CGFloat const kCellAspectRatio = 0.5f;

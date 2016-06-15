@@ -130,6 +130,9 @@
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         self.avatarImageView.URL = post.author.imageUrl;
         self.avatarImageView.layerBacked = YES;
+        for (UIView *view in self.subviews) {
+            view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+        }
 //        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
 //        __weak typeof(self) wSelf = self;
 //            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {

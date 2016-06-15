@@ -32,6 +32,10 @@
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
+    
+    for (UIView *view in self.subviews) {
+        view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+    }
 }
 
 + (CGFloat)heightWithObject:(id)object {
