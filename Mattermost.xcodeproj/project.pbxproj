@@ -57,6 +57,7 @@
 		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
 		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
 		D63B2BDC1D1166F80090D739 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = D63B2BDB1D1166F80090D739 /* UIImage+Resize.m */; };
+		D63B2BE11D1197B30090D739 /* AsyncDisplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
@@ -178,8 +179,8 @@
 		CD7D11811D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuDataSourceEntry.h; sourceTree = "<group>"; };
 		CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuDataSourceEntry.m; sourceTree = "<group>"; };
 		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
-		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPresentNavigationController.h; sourceTree = "<group>"; };
-		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPresentNavigationController.m; sourceTree = "<group>"; };
+		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPresentNavigationController.h; path = ../ViewControllers/KGPresentNavigationController.h; sourceTree = "<group>"; };
+		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPresentNavigationController.m; path = ../ViewControllers/KGPresentNavigationController.m; sourceTree = "<group>"; };
 		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGSettingsViewController.h; sourceTree = "<group>"; };
 		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGSettingsViewController.m; sourceTree = "<group>"; };
 		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfilViewController.h; sourceTree = "<group>"; };
@@ -195,6 +196,7 @@
 		D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		D63B2BDA1D1166F80090D739 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		D63B2BDB1D1166F80090D739 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncDisplayKit.framework; path = Carthage/Build/iOS/AsyncDisplayKit.framework; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D63B2BE11D1197B30090D739 /* AsyncDisplayKit.framework in Frameworks */,
 				D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */,
 				D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */,
 				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
@@ -298,6 +301,7 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */,
 				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
 				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
@@ -607,6 +611,22 @@
 			name = UIImage;
 			sourceTree = "<group>";
 		};
+		D63B2BDD1D118C570090D739 /* Popover */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */,
+				CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */,
+			);
+			name = Popover;
+			sourceTree = "<group>";
+		};
+		D63B2BDE1D118C6F0090D739 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
 		D65E5AC71D0F519400D5E0C6 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -877,6 +897,7 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D63B2BDE1D118C6F0090D739 /* Test */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
@@ -885,8 +906,6 @@
 				CD8D690C1D0C51D600AFA198 /* RightMenu */,
 				CD8D69041D0C50D600AFA198 /* Settings */,
 				D69FB19A1D09C62200043C2D /* SideMenu */,
-				CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */,
-				CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -942,6 +961,7 @@
 		D6C154D31D0756DC00B053CE /* NavigationControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D63B2BDD1D118C570090D739 /* Popover */,
 				D6C154D41D0756F500B053CE /* Base */,
 				D69FB1901D09C5AC00043C2D /* Chat */,
 				D6C154D51D07570000B053CE /* Login */,
@@ -1221,6 +1241,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/ActiveLabel.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AsyncDisplayKit.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
