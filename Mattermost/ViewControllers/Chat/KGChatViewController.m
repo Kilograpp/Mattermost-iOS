@@ -31,6 +31,7 @@
 #import "KGFollowUpChatCell.h"
 #import "KGUser.h"
 #import "KGImageChatCell.h"
+#import "NSDate+DateFormatter.h"
 
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
@@ -191,8 +192,16 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+   //[formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    //[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    NSDate *date = [formatter dateFromString:[sectionInfo name]];
     
-    return [sectionInfo name];
+    //NSString *dateName = [date dateFormatForMassage];
+    NSString *dateName = [date dateFormatForMessageTitle];
+    return dateName;
+    //return [sectionInfo name];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {

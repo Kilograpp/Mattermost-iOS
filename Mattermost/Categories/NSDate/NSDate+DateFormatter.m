@@ -19,4 +19,8 @@
     return [self formattedDateWithFormat:@"dd.MM.yyyy"];
 }
 
+- (NSString *)dateFormatForMessageTitle {
+    return [self formattedDateWithFormat:@"MMM dd,yyyy" locale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+}
+
 @end
