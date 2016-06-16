@@ -56,6 +56,10 @@
             @"author.identifier" : @"user_id",
             @"backendPendingId" : @"pending_post_id"
     }];
+    
+    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"files"
+                                                                            toKeyPath:@"filenames"
+                                                                          withMapping:[[KGFile simpleEntityMapping] inverseMapping]]];
 
     return mapping;
 }
