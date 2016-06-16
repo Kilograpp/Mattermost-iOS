@@ -13,4 +13,5 @@
 - (NSString *)timeFormatForMessages;
 - (NSString *)dateFormatForMassage;
 - (NSString *)dateFormatForMessageTitle;
+
 @end

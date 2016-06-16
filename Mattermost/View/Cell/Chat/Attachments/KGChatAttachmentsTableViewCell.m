@@ -18,9 +18,10 @@
 #import "NSString+HeightCalculation.h"
 #import "KGImageCell.h"
 #import "KGFile.h"
+#import "UIImage+Resize.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.5f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
 
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -53,6 +54,7 @@
     self.tableView.layer.drawsAsynchronously = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.contentView addSubview:self.tableView];
     
     [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -82,8 +84,30 @@
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         self.messageLabel.text = post.message;
         
-        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+        
+        if (cachedImage) {
+            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+                self.avatarImageView.image = image;
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                    dispatch_async(bgQueue, ^{
+                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                            [[self class] roundedImage:image completion:^(UIImage *image) {
+                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+                                                                                self.avatarImageView.image = image;
+                                                                            }];
+                                                                        });
+                                                                    });
+                                                                }];
+            [self.avatarImageView removeActivityIndicator];
+        }
+        
         self.messageLabel.text = post.message;
         //FIXME: Добавить деление файл - не файл и наличие заголовка
         self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
@@ -122,21 +146,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.files.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
     KGFile *file = self.files[indexPath.row];
-    __weak typeof(cell) wCell = cell;
-    if (file.isImage) {
-        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            wCell.kg_imageView.image = image;
-        }
-               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.kg_imageView removeActivityIndicator];
-    }
+    [cell configureWithObject:file.downloadLink];
     
     return cell;
 }
@@ -145,17 +162,7 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return KG_IMAGE_HEIGHT;
-}
-
-- (UIImage *)optimizedImageFromImage:(UIImage *)image
-{
-    CGSize imageSize = image.size;
-    UIGraphicsBeginImageContextWithOptions( imageSize, YES, 0.f );
-    [image drawInRect: CGRectMake( 0, 0, imageSize.width, imageSize.height )];
-    UIImage *optimizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return optimizedImage;
+    return ceilf(KG_IMAGE_HEIGHT);
 }
 
 @end
