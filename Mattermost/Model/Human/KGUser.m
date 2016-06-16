@@ -5,7 +5,12 @@
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
+#import "KGUtils.h"
 #import <RestKit.h>
+
+static NSString * const kAwayNetworkString = @"away";
+static NSString * const kOnlineNetworkString = @"online";
+static NSString * const kOfflineNetworkString = @"offline";
 
 @interface KGUser ()
 
@@ -15,9 +20,29 @@
 
 @implementation KGUser
 
+#pragma mark - Properties
+
 - (NSURL*)imageUrl {
     return [[KGBusinessLogic sharedInstance] imageUrlForUser:self];
 }
+
+- (KGUserNetworkStatus)networkStatus {
+    SWITCH(self.backendStatus) {
+        CASE(kOnlineNetworkString) {
+            return KGUserOnlineStatus;
+        }
+        CASE(kAwayNetworkString) {
+            return KGUserAwayStatus;
+        }
+        CASE(kOfflineNetworkString) {
+            return KGUserOfflineStatus;
+        }
+        DEFAULT {
+            return KGUserOfflineStatus;
+        };
+    }
+}
+
 
 #pragma mark - Mappings
 
