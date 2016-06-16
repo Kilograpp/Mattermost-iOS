@@ -383,7 +383,6 @@
                             [[SDImageCache sharedImageCache] storeImage:image forKey:tempId];
                             KGFile *imgFile = [KGFile MR_createEntity];
                             [self.currentPost addFilesObject:imgFile];
-                            imgFile.tempId = nil;
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
                             [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(NSString *fileName, KGError *error) {
