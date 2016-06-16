@@ -60,7 +60,7 @@
 //    self.avatarImageView.view.layer.cornerRadius = kAvatarDimension / 2;
 //    self.avatarImageView.layer.cornerRadius = kAvatarDimension / 2;
     self.avatarImageView.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.f];
-//    self.avatarImageView.clipsToBounds = YES;
+    self.avatarImageView.clipsToBounds = YES;
     
     [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
@@ -187,9 +187,9 @@
 
 - (void)prepareForReuse {
     self.avatarImageView.image = [[self class] placeholderBackground];
-    self.nameLabel.text = nil;
-    self.dateLabel = nil;
-    self.messageLabel = nil;
+//    self.nameLabel.text = nil;
+//    self.dateLabel = nil;
+//    self.messageLabel = nil;
 }
 
 

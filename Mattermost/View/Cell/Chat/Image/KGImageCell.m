@@ -11,6 +11,9 @@
 #import <Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
+#define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
+
 @implementation KGImageCell
 
 - (void)didMoveToSuperview {
@@ -25,7 +28,7 @@
     [self addSubview:self.kg_imageView/*.view*/];
     self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.kg_imageView/*.view*/.layer.cornerRadius = 5.f;
+//    self.kg_imageView/*.view*/.layer.cornerRadius = 5.f;
     self.kg_imageView/*.view*/.clipsToBounds = YES;
 
     [self.kg_imageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -34,9 +37,6 @@
     }];
 }
 
-- (void)prepareForReuse {
-    self.kg_imageView.image = nil;
-}
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[NSURL class]]) {
@@ -57,6 +57,7 @@
                                                                     dispatch_async(bgQueue, ^{
                                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                                             [[self class] roundedImage:image completion:^(UIImage *image) {
+                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                                                                 self.kg_imageView.image = image;
                                                                             }];
                                                                         });
@@ -78,7 +79,7 @@
         
         // Add a clip before drawing anything, in the shape of an rounded rect
         [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:5.f] addClip];
+                                    cornerRadius:15.f] addClip];
         // Draw your image
         [image drawInRect:rect];
         
@@ -94,6 +95,28 @@
         });
     });
 }
+
+- (void)prepareForReuse {
+    self.kg_imageView.image = nil;
+}
+
++ (UIImage *)placeholderBackground {
+    //    CGRect rect = CGRectMake(0, 0, 1, 1);
+    CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
+//    CGContextFillRect(context, rect);
+    
+    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:15.0];
+    CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:0.95f alpha:1.f].CGColor);
+    [bezierPath stroke];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 
 
 @end
