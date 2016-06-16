@@ -44,8 +44,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (int32_t)sizeValue;
 - (void)setSizeValue:(int32_t)value_;
 
-@property (nonatomic, strong, nullable) NSString* tempId;
-
 @property (nonatomic, strong, nullable) KGPost *post;
 
 @end
@@ -76,9 +74,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (int32_t)primitiveSizeValue;
 - (void)setPrimitiveSizeValue:(int32_t)value_;
 
-- (NSString*)primitiveTempId;
-- (void)setPrimitiveTempId:(NSString*)value;
-
 - (KGPost*)primitivePost;
 - (void)setPrimitivePost:(KGPost*)value;
 
@@ -91,7 +86,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)hasPreviewImage;
 + (NSString *)name;
 + (NSString *)size;
-+ (NSString *)tempId;
 @end
 
 @interface KGFileRelationships: NSObject

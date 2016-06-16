@@ -25,7 +25,6 @@
         <attribute name="hasPreviewImage" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="size" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="tempId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="files" inverseEntity="Post" syncable="YES"/>
     </entity>
     <entity name="Post" representedClassName="KGPost" syncable="YES">
@@ -41,7 +40,7 @@
         <attribute name="userId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User" syncable="YES"/>
         <relationship name="channel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="posts" inverseEntity="Channel" syncable="YES"/>
-        <relationship name="files" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" inverseName="post" inverseEntity="File" syncable="YES"/>
+        <relationship name="files" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="File" inverseName="post" inverseEntity="File" syncable="YES"/>
     </entity>
     <entity name="Team" representedClassName="KGTeam" syncable="YES">
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
