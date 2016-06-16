@@ -14,10 +14,14 @@
 @interface KGChannelTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
-
+@property (weak, nonatomic) IBOutlet UIView *dotView;
+@property (weak, nonatomic) IBOutlet UILabel *sharpLabel;
 @property (weak, nonatomic) IBOutlet UILabel *channelNameLabel;
 @property (weak, nonatomic) IBOutlet UIView *selectedView;
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+@property (strong, nonatomic) UIColor *labelColor;
+@property (strong, nonatomic) UIColor *dotViewColor;
+@property (strong, nonatomic) UIColor *dotViewBorderColor;
+@property (strong, nonatomic) UIColor *dotViewBorderColorIfSelected;
 
 @end
 @implementation KGChannelTableViewCell
@@ -33,23 +37,26 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    [self setupDeleteButton];
     [self setupChannelNameLabel];
     [self setupBachground];
-    [self setupTypeImageView];
+    [self setupDotView];
+    [self setupSelectedView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
     if (selected) {
-        self.selectedView.backgroundColor = [UIColor kg_lightBlueColor];
-        self.channelNameLabel.textColor = [UIColor kg_whiteColor];
-        self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
+        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
+        self.channelNameLabel.textColor = [UIColor kg_blackColor];
+        self.sharpLabel.textColor = [UIColor kg_blackColor];
+        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
+        
     } else {
         self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = [UIColor kg_lightBlueColor];
-        self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+        self.channelNameLabel.textColor = self.labelColor;
+        self.sharpLabel.textColor = self.labelColor;
+        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
     }
 }
 
@@ -57,35 +64,41 @@
     [super setHighlighted:highlighted animated:animated];
     
     if (highlighted) {
-        self.selectedView.backgroundColor = [UIColor kg_lightBlueColor];
-        self.channelNameLabel.textColor = [UIColor kg_whiteColor];
-        self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
+        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
+        self.channelNameLabel.textColor = [UIColor kg_blackColor];
+        self.sharpLabel.textColor = [UIColor kg_blackColor];
+        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
     } else {
         self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = [UIColor kg_lightBlueColor];
-        self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+        self.channelNameLabel.textColor = self.labelColor;
+        self.sharpLabel.textColor = self.labelColor;
+        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
     }
 }
 
 
 #pragma mark - Setup
 
-- (void)setupDeleteButton {
-    [self.deleteButton setImage:[UIImage imageNamed:@"map_close_icon"] forState:UIControlStateNormal];
-    [self.deleteButton.imageView setTintColor:[UIColor kg_lightBlueColor]];
-}
-
 - (void)setupBachground {
     self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
 - (void)setupChannelNameLabel {
-    self.channelNameLabel.font = [UIFont kg_regular16Font];
-    self.channelNameLabel.textColor = [UIColor kg_lightBlueColor];
+    self.channelNameLabel.font = [UIFont kg_regular18Font];
+    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
 }
 
-- (void)setupTypeImageView {
-    // self.typeImageView.image = [UIImage imageNamed:@"map_close_icon"];
+- (void)setupDotView {
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.cornerRadius = self.dotView.bounds.size.height / 2;
+    self.dotView.layer.borderWidth = 1;
+    self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
+}
+
+- (void)setupSelectedView {
+    self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+    self.selectedView.layer.cornerRadius = 3;
 }
 
 
@@ -94,14 +107,32 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGChannel class]]) {
         KGChannel *channel = object;
-        
+
         self.channelNameLabel.text = channel.displayName;
         if (channel.type == KGChannelTypePrivate){
-            self.deleteButton.hidden = NO;
+            [self configureCellForChannelPrivate];
+            
         } else {
-            self.deleteButton.hidden = YES;
+            [self configureCellForCnannelPublic];
         }
     }
+}
+
+- (void)configureCellForChannelPrivate {
+    self.dotView.hidden = NO;
+    self.sharpLabel.hidden = YES;
+    //if user online/offline/...
+    //if newMessage
+    self.labelColor = [UIColor kg_sectionColorLeftMenu];
+    self.dotViewColor = [UIColor clearColor];
+    self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
+    self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
+}
+
+- (void)configureCellForCnannelPublic{
+    self.dotView.hidden = YES;
+    self.sharpLabel.hidden = NO;
+    self.labelColor = [UIColor kg_sectionColorLeftMenu];
 }
 
 @end

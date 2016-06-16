@@ -61,9 +61,9 @@
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="author" inverseEntity="Post" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Channel" positionX="25" positionY="-108" width="128" height="283"/>
-        <element name="File" positionX="169" positionY="207" width="128" height="148"/>
-        <element name="Post" positionX="-173" positionY="128" width="128" height="238"/>
+        <element name="Channel" positionX="25" positionY="-108" width="128" height="268"/>
+        <element name="File" positionX="169" positionY="207" width="128" height="30"/>
+        <element name="Post" positionX="-173" positionY="128" width="128" height="240"/>
         <element name="Team" positionX="-180" positionY="-18" width="128" height="103"/>
         <element name="User" positionX="-389" positionY="128" width="128" height="193"/>
     </elements>

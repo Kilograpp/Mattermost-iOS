@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JVFloatLabeledTextField.h"
+
 @interface KGTextField : JVFloatLabeledTextField
 @property (nonatomic,strong) UIView * underlineView;
 

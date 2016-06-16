@@ -29,9 +29,24 @@
 + (UIColor *)kg_leftMenuBackgroundColor;
 + (UIColor *)kg_leftMenuHighlightColor;
 + (UIColor *)kg_leftMenuHeaderColor;
++ (UIColor *)kg_sectionColorLeftMenu;
 
 #pragma mark - Login
 
 + (UIColor *)kg_loginSubtitleColor;
+
+#pragma mark - Gradient
+
++ (UIColor *)kg_topBlueColorForGradient;
++ (UIColor *)kg_bottomBlueColorForGradient;
++ (UIColor *)kg_topRedColorForGradient;
++ (UIColor *)kg_bottomRedColorForGradient;
++ (UIColor *)kg_topGreenColorForGradient;
++ (UIColor *)kg_bottomGreenColorForGradient;
++ (UIColor *)kg_topOrangeColorForGradient;
++ (UIColor *)kg_bottomOrangeColorForGradient;
++ (UIColor *)kg_topPurpleColorForGradient;
++ (UIColor *)kg_bottomPurpleColorForGradient;
+
 
 @end
