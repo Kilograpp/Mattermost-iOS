@@ -57,7 +57,7 @@
     
     [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_leading);
-        make.trailing.equalTo(self);
+        make.trailing.equalTo(self).offset(-kStandartPadding);
         make.top.equalTo(self.nameLabel.mas_bottom);
     }];
     

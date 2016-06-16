@@ -198,10 +198,8 @@
     //[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSDate *date = [formatter dateFromString:[sectionInfo name]];
     
-    //NSString *dateName = [date dateFormatForMassage];
     NSString *dateName = [date dateFormatForMessageTitle];
     return dateName;
-    //return [sectionInfo name];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {

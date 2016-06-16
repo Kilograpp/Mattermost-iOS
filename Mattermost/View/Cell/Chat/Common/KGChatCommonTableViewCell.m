@@ -36,7 +36,8 @@
         self.avatarImageView.backgroundColor = [UIColor greenColor];
         self.nameLabel.backgroundColor = [UIColor grayColor];
         self.dateLabel.backgroundColor = [UIColor redColor];
-        self.messageLabel.backgroundColor = [UIColor blueColor];
+        self.messageLabel.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [UIColor kg_lightBlueColor];
         
         for (UIView *view in self.subviews) {
             view.layer.drawsAsynchronously = YES;
@@ -112,7 +113,7 @@
     
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_leading);
-        make.trailing.equalTo(self);
+        make.trailing.equalTo(self).offset(-kStandartPadding);
         make.bottom.equalTo(self).offset(-kStandartPadding);
         make.top.equalTo(self.nameLabel.mas_bottom);
     }];
