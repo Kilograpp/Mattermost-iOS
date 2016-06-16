@@ -10,6 +10,8 @@
 #import "UIColor+KGPreparedColor.h"
 
 static int kAnimationDuration = 10;
+static NSString *const kAnimateGradientKey = @"animateGradient";
+static NSString *const kBasisAnimationColorKey = @"colors";
 
 @implementation CAGradientLayer (KGPreparedGradient)
 
@@ -40,11 +42,11 @@ static int kAnimationDuration = 10;
                           (id)bottomColor.CGColor];
     
     [headerLayer setColors:toColors];
-    [headerLayer addAnimation:[self addBaseAnimationForColors:fromColors toColors:toColors] forKey:@"animateGradient"];
+    [headerLayer addAnimation:[self addBaseAnimationForColors:fromColors toColors:toColors] forKey:kAnimateGradientKey];
 }
 
 - (CABasicAnimation *)addBaseAnimationForColors:(NSArray *)fromColors toColors:(NSArray *)toColors{
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"colors"];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:kBasisAnimationColorKey];
     
     animation.fromValue             = fromColors;
     animation.toValue               = toColors;
@@ -65,7 +67,8 @@ static int kAnimationDuration = 10;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, timeDelay * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             [headerLayer setColors:[colorsArray objectAtIndex:i]];
-            [headerLayer addAnimation:[self addBaseAnimationForColors:[colorsArray objectAtIndex:i-1] toColors:[colorsArray objectAtIndex:i]] forKey:@"animateGradient"];
+            [headerLayer addAnimation:[self addBaseAnimationForColors:[colorsArray objectAtIndex:i-1]
+                                                             toColors:[colorsArray objectAtIndex:i]] forKey:kAnimateGradientKey];
             if (i + 1 == colorsArray.count) {
                 [self  animateLayerInfinitely:headerLayer];
             }
@@ -77,18 +80,18 @@ static int kAnimationDuration = 10;
 
 - (NSArray *)makeArrayColors:(CAGradientLayer *)headerLayer {
     NSArray *fromColors = headerLayer.colors;
-    NSArray *toColors1 = @[(id)[UIColor kg_topGreenColorForGradient].CGColor,
+    NSArray *toColorsGreen = @[(id)[UIColor kg_topGreenColorForGradient].CGColor,
                           (id)[UIColor kg_bottomGreenColorForGradient].CGColor];
-    NSArray *toColors2 = @[(id)[UIColor kg_topOrangeColorForGradient].CGColor,
+    NSArray *toColorsOrange = @[(id)[UIColor kg_topOrangeColorForGradient].CGColor,
                              (id)[UIColor kg_bottomOrangeColorForGradient].CGColor];
-    NSArray *toColors3 = @[(id)[UIColor kg_topRedColorForGradient].CGColor,
+    NSArray *toColorsRed = @[(id)[UIColor kg_topRedColorForGradient].CGColor,
                              (id)[UIColor kg_bottomRedColorForGradient].CGColor];
-    NSArray *toColors4 = @[(id)[UIColor kg_topPurpleColorForGradient].CGColor,
+    NSArray *toColorsPurple = @[(id)[UIColor kg_topPurpleColorForGradient].CGColor,
                              (id)[UIColor kg_bottomPurpleColorForGradient].CGColor];
-    NSArray *toColors5 = @[(id)[UIColor kg_topBlueColorForGradient].CGColor,
+    NSArray *toColorsBlue = @[(id)[UIColor kg_topBlueColorForGradient].CGColor,
                             (id)[UIColor kg_bottomBlueColorForGradient].CGColor];
     
-    NSArray *colorsArray = [NSArray arrayWithObjects:fromColors,toColors1,toColors2,toColors3,toColors4,toColors5, nil];
+    NSArray *colorsArray = [NSArray arrayWithObjects:fromColors,toColorsGreen,toColorsOrange,toColorsRed,toColorsPurple,toColorsBlue, nil];
     
     return colorsArray;  
 }

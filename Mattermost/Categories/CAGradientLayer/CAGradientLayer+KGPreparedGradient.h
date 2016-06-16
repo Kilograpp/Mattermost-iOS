@@ -16,5 +16,4 @@
 - (void)animateLayer:(CAGradientLayer *)headerLayer forTopColor:(UIColor *)topColor toBottomColor:(UIColor *)bottomColor;
 - (void)animateLayerInfinitely:(CAGradientLayer *)headerLayer;
 
-
 @end
