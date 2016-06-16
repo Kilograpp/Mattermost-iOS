@@ -3,6 +3,7 @@
 #import "KGBusinessLogic+File.h"
 #import "NSStringUtils.h"
 #import <RestKit.h>
+#import <SDWebImage/SDImageCache.h>
 
 @interface KGFile ()
 
@@ -36,8 +37,7 @@
 
 + (RKEntityMapping *)simpleEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping setForceCollectionMapping:YES];
-    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"backendLink"];
+    [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"backendLink"]];
     [mapping setIdentificationAttributes:@[@"backendLink"]];
     return mapping;
 }
@@ -89,10 +89,10 @@
 
 
 + (RKResponseDescriptor*)uploadResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self simpleEntityMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self uploadFilePathPattern]
-                                                       keyPath:@"filenames"
+                                                       keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
@@ -122,10 +122,13 @@
 #pragma mark - Core Data
 
 - (void)willSave {
-    if ([NSStringUtils isStringEmpty:self.name] && ![NSStringUtils isStringEmpty:self.backendLink] && !self.tempId) {
+    if ([NSStringUtils isStringEmpty:self.name] && ![NSStringUtils isStringEmpty:self.backendLink]) {
         [self fillNameFromBackendLink];
     }
 };
 
+- (void)prepareForDeletion {
+    [[SDImageCache sharedImageCache] removeImageForKey:self.backendLink];
+}
 
 @end

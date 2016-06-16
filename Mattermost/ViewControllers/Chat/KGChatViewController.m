@@ -379,21 +379,14 @@
                             img = image;
                             self.currentPost = self.currentPost ?: [KGPost MR_createEntity];
                             [wSelf.assignedPhotos addObject:img];
-                            NSString *tempId = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
-                            [[SDImageCache sharedImageCache] storeImage:image forKey:tempId];
+                            NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
+                            [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
                             KGFile *imgFile = [KGFile MR_createEntity];
+                            [imgFile setBackendLink:localLink];
                             [self.currentPost addFilesObject:imgFile];
-                            imgFile.tempId = nil;
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
-                            [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(NSString *fileName, KGError *error) {
-                                if (error) {
-                                    //TODO error handling
-                                } else {
-                                    KGFile *file = [KGFile MR_findFirstByAttribute:NSStringFromSelector(@selector(tempId)) withValue:tempId];
-                                    file.tempId = nil;
-                                    [self.currentPost addFilesObject:file];
-                                }
+                            [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGError *error) {
                             }];
                         }];
     }
