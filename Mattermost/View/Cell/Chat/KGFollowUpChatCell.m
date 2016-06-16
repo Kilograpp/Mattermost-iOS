@@ -27,7 +27,9 @@
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
     self.messageLabel.layer.drawsAsynchronously = YES;
+    self.messageLabel.layer.shouldRasterize = YES;
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
+    
 }
 
 - (void)configureWithObject:(KGPost*)post {
