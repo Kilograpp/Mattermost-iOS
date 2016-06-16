@@ -84,21 +84,29 @@
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         self.messageLabel.text = post.message;
         
-//        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
         
-//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-//        __weak typeof(self) wSelf = self;
-//        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-//            dispatch_async(bgQueue, ^{
-//                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    wSelf.avatarImageView.image = img;
-//                    [wSelf layoutIfNeeded];
-//                });
-//            });
-//        }];
-
+        if (cachedImage) {
+            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+                self.avatarImageView.image = image;
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                    dispatch_async(bgQueue, ^{
+                                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                                            [[self class] roundedImage:image completion:^(UIImage *image) {
+                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+                                                                                self.avatarImageView.image = image;
+                                                                            }];
+                                                                        });
+                                                                    });
+                                                                }];
+            [self.avatarImageView removeActivityIndicator];
+        }
         
         self.messageLabel.text = post.message;
         //FIXME: Добавить деление файл - не файл и наличие заголовка
@@ -138,34 +146,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.files.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
     KGFile *file = self.files[indexPath.row];
-//    __weak typeof(cell) wCell = cell;
-    if (file.isImage) {
-//        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            wCell.kg_imageView.image = image;
-//        }
-//               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        [cell.kg_imageView removeActivityIndicator];
-        
-//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-//        __weak typeof(self) wSelf = self;
-//        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:file.downloadLink options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-//            dispatch_async(bgQueue, ^{
-//                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    cell.kg_imageView.image = img;
-//                    [wSelf layoutIfNeeded];
-//                });
-//            });
-//        }];
-        [cell configureWithObject:file.downloadLink];
-    }
+    [cell configureWithObject:file.downloadLink];
     
     return cell;
 }
@@ -175,16 +163,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return ceilf(KG_IMAGE_HEIGHT);
-}
-
-- (UIImage *)optimizedImageFromImage:(UIImage *)image
-{
-    CGSize imageSize = image.size;
-    UIGraphicsBeginImageContextWithOptions( imageSize, YES, 0.f );
-    [image drawInRect: CGRectMake( 0, 0, imageSize.width, imageSize.height )];
-    UIImage *optimizedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return optimizedImage;
 }
 
 @end

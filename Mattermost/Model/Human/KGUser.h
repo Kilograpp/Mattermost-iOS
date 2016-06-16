@@ -5,5 +5,8 @@
 + (NSString*) authPathPattern;
 + (NSString*) avatarPathPattern;
 + (NSString*) uploadAvatarPathPattern;
+
++ (NSString *)usersStatusPathPattern;
+
 + (NSString*) attachDevicePathPattern;
 @end
