@@ -6,9 +6,11 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
+#import <MagicalRecord/MagicalRecord/NSManagedObject+MagicalFinders.h>
 #import "KGLoginViewController.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "KGUser.h"
 #import "KGConstants.h"
 #import "KGButton.h"
 #import "KGTextField.h"
@@ -17,6 +19,7 @@
 #import "KGBusinessLogic+Team.h"
 #import "KGBusinessLogic+Channel.h"
 #import "KGSideMenuContainerViewController.h"
+#import "CAGradientLayer+KGPreparedGradient.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
@@ -28,6 +31,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 
 @end
 
@@ -58,13 +62,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
-                                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
-//    //self.navigationController.navigationBar.topItem.title = @"Sign In";
-    self.title = @"Sign In";
-//    [self setTitle:@"Sign In"];
-   self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
+    [self setupNavigationBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -73,6 +71,17 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [self.loginTextField becomeFirstResponder];
 }
 
+- (void)setupNavigationBar{
+    [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
+    self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
+    self.title = @"Sign In";
+    CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
+    bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
+    [bgLayer animateLayerInfinitely:bgLayer];
+    [self.navigationView.layer insertSublayer:bgLayer above:0];
+    [self.navigationView bringSubviewToFront:self.titleLabel];
+}
 
 #pragma mark - Setup
 
@@ -170,15 +179,22 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         if (error) {
+            [self hideProgressHud];
             [self processError:error];
             [self highlightTextFieldsForError];
         }
         else {
             [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
                 if (error) {
+                    [self hideProgressHud];
                     [self processError:error];
                 } else if (!userShouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+
+//                        [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+//
+//                        }];
+
                         [self hideProgressHud];
                         if (error) {
                             [self processError:error];

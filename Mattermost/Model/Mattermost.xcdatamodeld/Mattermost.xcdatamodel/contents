@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15C50" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Channel" representedClassName="KGChannel" syncable="YES">
         <attribute name="backendType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -48,11 +48,13 @@
         <relationship name="channels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Channel" inverseName="team" inverseEntity="Channel" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="KGUser" syncable="YES">
+        <attribute name="backendStatus" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="channels" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="members" inverseEntity="Channel" syncable="YES"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="author" inverseEntity="Post" syncable="YES"/>
@@ -62,6 +64,6 @@
         <element name="File" positionX="169" positionY="207" width="128" height="148"/>
         <element name="Post" positionX="-173" positionY="128" width="128" height="240"/>
         <element name="Team" positionX="-180" positionY="-18" width="128" height="103"/>
-        <element name="User" positionX="-389" positionY="128" width="128" height="163"/>
+        <element name="User" positionX="-389" positionY="128" width="128" height="193"/>
     </elements>
 </model>
