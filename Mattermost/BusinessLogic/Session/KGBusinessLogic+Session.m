@@ -30,7 +30,9 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
     NSString* path = [KGUser usersStatusPathPattern];
-    [self.defaultObjectManager postObjectAtPath:path parameters:@{[NSNull null] : userIds } success:^(RKMappingResult* mappingResult) {} failure:completion];
+    [self.defaultObjectManager postObjectAtPath:path parameters:userIds  success:^(RKMappingResult* mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
 }
 
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {

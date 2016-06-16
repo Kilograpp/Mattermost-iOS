@@ -109,18 +109,18 @@
 
     for (int i = 0; i < 15; i++) {
         
-        UITableViewCell* cell = [[[NSBundle mainBundle] loadNibNamed:@"KGChatRootCell" owner:self options:nil] firstObject];
+        UITableViewCell* cell = [[KGChatCommonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
         [_chatRootCells addObject:cell];
         
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGImageChatCell" owner:self options:nil] firstObject];
+        cell = [[KGChatAttachmentsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
         [_imageCells addObject:cell];
     
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGFollowUpChatCell" owner:self options:nil] firstObject];
         [_followupCells addObject:cell];
     }
 
-    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
-    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
+    //[self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
+    //[self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -178,12 +178,12 @@
     NSDate *start = [NSDate date];
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
-        if ([[KGChatRootCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+        if ([[KGChatCommonTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
             cell = _chatRootCells.firstObject;
         
             [_chatRootCells removeObject:cell];
         }
-        if ([[KGImageChatCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+        if ([[KGChatAttachmentsTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
             cell = _imageCells.firstObject;
             [_imageCells removeObject:cell];
         }

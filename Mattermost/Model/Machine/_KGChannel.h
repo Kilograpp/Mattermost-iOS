@@ -38,6 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* lastPostDate;
 
+@property (nonatomic, strong, nullable) NSDate* lastViewDate;
+
 @property (nonatomic, strong, nullable) NSNumber* messagesCount;
 
 @property (atomic) int64_t messagesCountValue;
@@ -100,6 +102,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveLastPostDate;
 - (void)setPrimitiveLastPostDate:(NSDate*)value;
 
+- (NSDate*)primitiveLastViewDate;
+- (void)setPrimitiveLastViewDate:(NSDate*)value;
+
 - (NSNumber*)primitiveMessagesCount;
 - (void)setPrimitiveMessagesCount:(NSNumber*)value;
 
@@ -139,6 +144,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)header;
 + (NSString *)identifier;
 + (NSString *)lastPostDate;
++ (NSString *)lastViewDate;
 + (NSString *)messagesCount;
 + (NSString *)name;
 + (NSString *)purpose;

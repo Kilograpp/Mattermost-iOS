@@ -8,6 +8,7 @@
 #import "NSStringUtils.h"
 #import "KGBusinessLogic+Session.h"
 #import "KGBusinessLogic+Channel.h"
+#import "DateTools.h"
 
 @interface KGChannel ()
 
@@ -16,6 +17,10 @@
 @implementation KGChannel
 
 #pragma mark - Properties
+
+- (BOOL)hasNewMessages {
+    return [self.lastViewDate isEarlierThan:self.lastPostDate];
+}
 
 - (KGChannelType)type {
     SWITCH(self.backendType) {
@@ -44,7 +49,7 @@
             @"display_name"    : @"displayName",
             @"last_post_at"    : @"lastPostDate",
             @"total_msg_count" : @"messagesCount",
-            @"extra_update_at" : @"shouldUpdateAt"
+            @"extra_update_at" : @"lastViewDate"
     }];
     [mapping addAttributeMappingsFromArray:@[@"name", @"purpose", @"header"]];
     [mapping addRelationshipMappingWithSourceKeyPath:@"members" mapping:[KGUser entityMapping]];
@@ -65,6 +70,10 @@
     return @"teams/:team.identifier/channels/:identifier/extra_info";
 }
 
++ (NSString*)updateLastViewDatePathPattern {
+    return @"teams/:team.identifier/channels/:identifier/update_last_viewed_at";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)channelsListResponseDescriptor {
@@ -80,6 +89,14 @@
     return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
                                                         method:RKRequestMethodGET
                                                    pathPattern:[self extraInfoPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)updateLastViewDataResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self updateLastViewDatePathPattern]
                                                        keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }

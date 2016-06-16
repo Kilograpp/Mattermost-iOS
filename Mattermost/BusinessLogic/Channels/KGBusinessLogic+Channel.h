@@ -10,6 +10,8 @@
 
 @interface KGBusinessLogic (Channel)
 
+- (void)updateLastViewDateForChannel:(KGChannel*)channel withCompletion:(void (^)(KGError* error))completion;
+
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion;
 - (void)loadExtraInfoForChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion;
 
