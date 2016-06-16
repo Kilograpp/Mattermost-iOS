@@ -60,7 +60,7 @@
 //    self.avatarImageView.view.layer.cornerRadius = kAvatarDimension / 2;
 //    self.avatarImageView.layer.cornerRadius = kAvatarDimension / 2;
     self.avatarImageView.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.f];
-//    self.avatarImageView.clipsToBounds = YES;
+    self.avatarImageView.clipsToBounds = YES;
     
     [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
@@ -102,7 +102,7 @@
 }
 
 - (void)setupMessageLabel {
-    self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self addSubview:self.messageLabel];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.textColor = [UIColor kg_blackColor];
@@ -153,7 +153,6 @@
                         [[self class] roundedImage:image completion:^(UIImage *image) {
                             [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
                             self.avatarImageView.image = image;
-//                            [self.avatarImageView setNeedsDisplay];
                         }];
                     });
                 });
@@ -187,9 +186,9 @@
 
 - (void)prepareForReuse {
     self.avatarImageView.image = [[self class] placeholderBackground];
-    self.nameLabel.text = nil;
-    self.dateLabel = nil;
-    self.messageLabel = nil;
+//    self.nameLabel.text = nil;
+//    self.dateLabel = nil;
+//    self.messageLabel = nil;
 }
 
 
