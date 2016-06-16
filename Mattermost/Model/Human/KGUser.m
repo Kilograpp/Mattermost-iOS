@@ -45,6 +45,18 @@
     return mapping;
 }
 
++ (RKEntityMapping*)statusEntityMapping {
+    RKEntityMapping *mapping = [super emptyEntityMapping];
+    [mapping setForceCollectionMapping:YES];
+    [mapping setIdentificationAttributes:@[@"identifier"]];
+    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
+    [mapping addAttributeMappingsFromDictionary:@{
+            @"(identifier)" : @"backendStatus"
+    }];
+    return mapping;
+}
+
+
 
 #pragma mark - Path Patterns
 
@@ -70,6 +82,10 @@
 
 + (NSString*)uploadAvatarPathPattern {
     return @"users/newimage";
+}
+
++ (NSString*)usersStatusPathPattern {
+    return @"users/status";
 }
 
 #pragma mark - Response Descriptors
@@ -107,6 +123,15 @@
                                                        keyPath:@"members"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
++ (RKResponseDescriptor*)statusResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self statusEntityMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self usersStatusPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 
 #pragma mark - Core Data
 

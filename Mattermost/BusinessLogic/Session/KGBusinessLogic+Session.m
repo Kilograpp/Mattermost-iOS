@@ -24,6 +24,15 @@ extern NSString * const KGAuthTokenHeaderName;
 
 #pragma mark - Network
 
+- (void)updateStatusForUsers:(NSArray<KGUser*>*) users completion:(void(^)(KGError *error))completion {
+    [self updateStatusForUsersWithIds:[users valueForKey:@"identifier"] completion:completion];
+}
+
+- (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
+    NSString* path = [KGUser usersStatusPathPattern];
+    [self.defaultObjectManager postObjectAtPath:path parameters:@{[NSNull null] : userIds } success:^(RKMappingResult* mappingResult) {} failure:completion];
+}
+
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
     NSString *path = [KGUser authPathPattern];

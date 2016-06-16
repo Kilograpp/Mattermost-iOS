@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGUserID *objectID;
 
+@property (nonatomic, strong, nullable) NSString* backendStatus;
+
 @property (nonatomic, strong, nullable) NSString* email;
 
 @property (nonatomic, strong, nullable) NSString* firstName;
@@ -34,6 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString* lastName;
 
 @property (nonatomic, strong, nullable) NSString* nickname;
+
+@property (nonatomic, strong, nullable) NSNumber* status;
+
+@property (atomic) int16_t statusValue;
+- (int16_t)statusValue;
+- (void)setStatusValue:(int16_t)value_;
 
 @property (nonatomic, strong, nullable) NSString* username;
 
@@ -54,6 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface _KGUser (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSString*)primitiveBackendStatus;
+- (void)setPrimitiveBackendStatus:(NSString*)value;
+
 - (NSString*)primitiveEmail;
 - (void)setPrimitiveEmail:(NSString*)value;
 
@@ -69,6 +80,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveNickname;
 - (void)setPrimitiveNickname:(NSString*)value;
 
+- (NSNumber*)primitiveStatus;
+- (void)setPrimitiveStatus:(NSNumber*)value;
+
+- (int16_t)primitiveStatusValue;
+- (void)setPrimitiveStatusValue:(int16_t)value_;
+
 - (NSString*)primitiveUsername;
 - (void)setPrimitiveUsername:(NSString*)value;
 
@@ -81,11 +98,13 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGUserAttributes: NSObject 
++ (NSString *)backendStatus;
 + (NSString *)email;
 + (NSString *)firstName;
 + (NSString *)identifier;
 + (NSString *)lastName;
 + (NSString *)nickname;
++ (NSString *)status;
 + (NSString *)username;
 @end
 

@@ -6,9 +6,11 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
+#import <MagicalRecord/MagicalRecord/NSManagedObject+MagicalFinders.h>
 #import "KGLoginViewController.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "KGUser.h"
 #import "KGConstants.h"
 #import "KGButton.h"
 #import "KGTextField.h"
@@ -179,6 +181,11 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
                     [self processError:error];
                 } else if (!userShouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+
+//                        [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+//
+//                        }];
+
                         [self hideProgressHud];
                         if (error) {
                             [self processError:error];
