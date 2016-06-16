@@ -37,21 +37,21 @@
 
 + (RKEntityMapping *)simpleEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"backendLink"]];
-    [mapping setIdentificationAttributes:@[@"backendLink"]];
+    [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:[KGFileAttributes backendLink]]];
+    [mapping setIdentificationAttributes:@[[KGFileAttributes backendLink]]];
     return mapping;
 }
 
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping setIdentificationAttributes:@[@"name"]];
+    [mapping setIdentificationAttributes:@[[KGFileAttributes name]]];
     [mapping addAttributeMappingsFromDictionary:@{
-            @"filename" : @"name",
-            @"mime_type" : @"backendMimeType",
-            @"has_preview_image" : @"hasPreviewImage"
+            @"filename" : [KGFileAttributes name],
+            @"mime_type" : [KGFileAttributes backendMimeType],
+            @"has_preview_image" : [KGFileAttributes hasPreviewImage]
     }];
-    [mapping addAttributeMappingsFromArray:@[@"size",@"extension"]];
+    [mapping addAttributeMappingsFromArray:@[[KGFileAttributes size],[KGFileAttributes extension]]];
     return mapping;
 }
 
