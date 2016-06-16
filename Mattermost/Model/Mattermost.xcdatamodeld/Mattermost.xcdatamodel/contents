@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15C50" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Channel" representedClassName="KGChannel" syncable="YES">
         <attribute name="backendType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -19,7 +19,6 @@
         <relationship name="team" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Team" inverseName="channels" inverseEntity="Team" syncable="YES"/>
     </entity>
     <entity name="File" representedClassName="KGFile" syncable="YES">
-        <attribute name="attribute" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="backendLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="backendMimeType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="extension" optional="YES" attributeType="String" syncable="YES"/>

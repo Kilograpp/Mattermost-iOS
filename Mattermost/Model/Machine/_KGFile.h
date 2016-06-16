@@ -24,8 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGFileID *objectID;
 
-@property (nonatomic, strong, nullable) NSData* attribute;
-
 @property (nonatomic, strong, nullable) NSString* backendLink;
 
 @property (nonatomic, strong, nullable) NSString* backendMimeType;
@@ -53,9 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface _KGFile (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSData*)primitiveAttribute;
-- (void)setPrimitiveAttribute:(NSData*)value;
 
 - (NSString*)primitiveBackendLink;
 - (void)setPrimitiveBackendLink:(NSString*)value;
@@ -90,7 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGFileAttributes: NSObject 
-+ (NSString *)attribute;
 + (NSString *)backendLink;
 + (NSString *)backendMimeType;
 + (NSString *)extension;
