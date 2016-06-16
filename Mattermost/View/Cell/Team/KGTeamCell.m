@@ -25,14 +25,15 @@
     [super awakeFromNib];
     
     [self setup];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
+
+
+#pragma mark - Setup
 
 - (void)setup {
     self.teamNameLabel.font = [UIFont kg_regular16Font];
@@ -40,7 +41,6 @@
     self.circleView.layer.cornerRadius = 20.f;
     self.circleLabel.font = [UIFont kg_regular18Font];
     self.circleLabel.textColor = [UIColor whiteColor];
-    
 }
 
 - (void)configureWithObject:(id)object {
@@ -49,5 +49,7 @@
     self.circleLabel.text = [self.teamNameLabel.text substringToIndex:1];
 }
 
-
++ (CGFloat)heightWithObject:(id)object {
+    return 60.f;
+}
 @end

@@ -10,10 +10,12 @@
 #import "KGTeamCell.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "CAGradientLayer+KGPreparedGradient.h"
 
 @interface KGTeamsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 
 @end
 
@@ -24,11 +26,14 @@
     
     [self setupTable];
     [self setup];
+    [self setupNavigationBar];
 }
+
+
+#pragma mark - Setup
 
 - (void)setupTable {
      [self.tableView registerNib:[KGTeamCell nib] forCellReuseIdentifier:[KGTeamCell reuseIdentifier]];
-    
 }
 
 - (void)setup {
@@ -39,14 +44,19 @@
     self.navigationController.navigationBar.topItem.title = @"";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setupNavigationBar{
+    CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
+    bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
+    [bgLayer animateLayerInfinitely:bgLayer];
+    [self.navigationView.layer insertSublayer:bgLayer above:0];
+    [self.navigationView bringSubviewToFront:self.titleLabel];
 }
 
+
+#pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-   // NSNumber *index = self.numberOfPhoto[indexPath.row];
-    return 60.f;
+    return [KGTeamCell heightWithObject:nil];
 }
 
 
