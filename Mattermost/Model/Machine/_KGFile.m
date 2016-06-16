@@ -91,8 +91,6 @@
 	[self setPrimitiveSize:@(value_)];
 }
 
-@dynamic tempId;
-
 @dynamic post;
 
 @end
@@ -115,9 +113,6 @@
 }
 + (NSString *)size {
 	return @"size";
-}
-+ (NSString *)tempId {
-	return @"tempId";
 }
 @end
 
