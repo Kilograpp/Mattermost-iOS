@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		411169F01D09DE0D00448145 /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
+		41A061B91D12B34E006B634D /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41A061B81D12B34E006B634D /* KGTeamCell.xib */; };
+		41A061BC1D12B610006B634D /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A061BB1D12B610006B634D /* KGTeamCell.m */; };
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
@@ -110,6 +113,9 @@
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		411169EE1D09DE0D00448145 /* KGChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelTableViewCell.h; sourceTree = "<group>"; };
 		411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelTableViewCell.m; sourceTree = "<group>"; };
+		41A061B81D12B34E006B634D /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGTeamCell.xib; path = Team/KGTeamCell.xib; sourceTree = "<group>"; };
+		41A061BA1D12B610006B634D /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamCell.h; path = Team/KGTeamCell.h; sourceTree = "<group>"; };
+		41A061BB1D12B610006B634D /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamCell.m; path = Team/KGTeamCell.m; sourceTree = "<group>"; };
 		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
 		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
 		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
@@ -315,6 +321,7 @@
 		411169EC1D09DDD800448145 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				41A061B51D12B30A006B634D /* Team */,
 				D844A6EF1D0AF9DC00B53BB3 /* Base */,
 				411169ED1D09DDDD00448145 /* Channel */,
 				D844A6E61D0AE35200B53BB3 /* Chat */,
@@ -332,6 +339,16 @@
 				D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */,
 			);
 			path = Channel;
+			sourceTree = "<group>";
+		};
+		41A061B51D12B30A006B634D /* Team */ = {
+			isa = PBXGroup;
+			children = (
+				41A061B81D12B34E006B634D /* KGTeamCell.xib */,
+				41A061BA1D12B610006B634D /* KGTeamCell.h */,
+				41A061BB1D12B610006B634D /* KGTeamCell.m */,
+			);
+			name = Team;
 			sourceTree = "<group>";
 		};
 		41FC94B11D07FA6C009E1090 /* View */ = {
@@ -1196,6 +1213,7 @@
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
 				D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */,
 				D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */,
+				41A061B91D12B34E006B634D /* KGTeamCell.xib in Resources */,
 				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1331,6 +1349,7 @@
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
+				41A061BC1D12B610006B634D /* KGTeamCell.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,

@@ -7,8 +7,15 @@
 //
 
 #import "KGTeamsViewController.h"
+#import "KGTeamCell.h"
+#import "UIFont+KGPreparedFont.h"
+#import "UIColor+KGPreparedColor.h"
+#import "CAGradientLayer+KGPreparedGradient.h"
 
-@interface KGTeamsViewController ()
+@interface KGTeamsViewController () <UITableViewDataSource, UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 
 @end
 
@@ -16,22 +23,53 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setupTable];
+    [self setup];
+    [self setupNavigationBar];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - Setup
+
+- (void)setupTable {
+     [self.tableView registerNib:[KGTeamCell nib] forCellReuseIdentifier:[KGTeamCell reuseIdentifier]];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setup {
+    self.titleLabel.text = @"Kilograpp";
+    self.title = @"Choose your team";
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont kg_bold28Font];
+    self.navigationController.navigationBar.topItem.title = @"";
 }
-*/
 
+- (void)setupNavigationBar{
+    CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
+    bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
+    [bgLayer animateLayerInfinitely:bgLayer];
+    [self.navigationView.layer insertSublayer:bgLayer above:0];
+    [self.navigationView bringSubviewToFront:self.titleLabel];
+}
+
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [KGTeamCell heightWithObject:nil];
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    KGTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGTeamCell reuseIdentifier]];
+    [cell configureWithObject:nil];
+   
+    return cell;
+}
 @end
