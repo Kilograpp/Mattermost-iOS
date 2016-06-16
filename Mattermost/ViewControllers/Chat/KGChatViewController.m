@@ -46,6 +46,10 @@
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @property (nonatomic, strong) NSMutableArray *assignedPhotos;
+@property (nonatomic, strong) NSMutableArray* chatRootCells;
+@property (nonatomic, strong) NSMutableArray* followupCells;
+@property (nonatomic, strong) NSMutableArray* imageCells;
+@property (nonatomic, strong) NSString *previousMessageAuthorId;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @end
 
@@ -92,12 +96,29 @@
 }
 
 - (void)setupTableView {
-    NSArray *cellClasses = @[[KGChatRootCell class], [KGFollowUpChatCell class], [KGImageChatCell class] ];
+//    NSArray *cellClasses = @[[KGChatRootCell class], [KGFollowUpChatCell class], [KGImageChatCell class] ];
+
+//    for (Class class in cellClasses) {
+//        [self.tableView registerNib:[class nib] forCellReuseIdentifier:[class reuseIdentifier]];
+//    }
+
+    _chatRootCells = [NSMutableArray arrayWithCapacity:15];
+    _imageCells = [NSMutableArray arrayWithCapacity:15];
+    _followupCells = [NSMutableArray arrayWithCapacity:15];
+
+
+    for (int i = 0; i < 15; i++) {
+        
+        UITableViewCell* cell = [[[NSBundle mainBundle] loadNibNamed:@"KGChatRootCell" owner:self options:nil] firstObject];
+        [_chatRootCells addObject:cell];
+        
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGImageChatCell" owner:self options:nil] firstObject];
+        [_imageCells addObject:cell];
     
-    for (Class class in cellClasses) {
-        [self.tableView registerNib:[class nib] forCellReuseIdentifier:[class reuseIdentifier]];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGFollowUpChatCell" owner:self options:nil] firstObject];
+        [_followupCells addObject:cell];
     }
-    
+
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
     
@@ -153,7 +174,38 @@
         }
 }
 
-    KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+
+    NSDate *start = [NSDate date];
+    KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    if (!cell) {
+        if ([[KGChatRootCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+            cell = _chatRootCells.firstObject;
+        
+            [_chatRootCells removeObject:cell];
+        }
+        if ([[KGImageChatCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+            cell = _imageCells.firstObject;
+            [_imageCells removeObject:cell];
+        }
+        if ([[KGFollowUpChatCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+            cell = _followupCells.firstObject;
+            [_followupCells removeObject:cell];
+        }
+    } else {
+        NSLog(@"Quequed");
+    }
+    
+    if (!cell){
+        cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    }
+    
+    NSDate *mid = [NSDate date];
+    [cell configureWithObject:post];
+    cell.transform = self.tableView.transform;
+    NSDate *end = [NSDate date];
+    NSLog(@"%f - %f TOTAL : %f %d", [mid timeIntervalSinceDate:start], [end timeIntervalSinceDate:mid], [end timeIntervalSinceDate:start], post.files.count);
+
+    
     
     return cell;
 }

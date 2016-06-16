@@ -12,6 +12,11 @@
 @class KGUser;
 @interface KGBusinessLogic (Session)
 
+
+- (void)updateStatusForUsers:(NSArray<KGUser*>*)users completion:(void (^)(KGError* error))completion;
+
+- (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void (^)(KGError* error))completion;
+
 - (void)loginWithEmail:(NSString *)login
               password:(NSString *)password
             completion:(void(^)(KGError *error))completion;

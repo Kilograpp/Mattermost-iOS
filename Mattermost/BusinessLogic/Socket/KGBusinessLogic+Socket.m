@@ -48,8 +48,8 @@ static NSString * const KGActionNameKey = @"action";
 
 - (void)closeSocket {
     [self.socket close];
+    self.socket.delegate = nil;
     self.socket = nil;
-
 }
 
 - (void)rocketFuckingSocket {
@@ -77,7 +77,11 @@ static NSString * const KGActionNameKey = @"action";
     NSLog(@"DidFail: %@", error.localizedDescription);
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean {
-    NSLog(@"DidClose: %@ ", reason);
+//    if (!wasClean) {
+//        [self closeSocket];
+//        [self openSocket];
+//    }
+    //TODO Check Socket
 }
 
 - (BOOL)webSocketShouldConvertTextFrameToString:(SRWebSocket *)webSocket {
