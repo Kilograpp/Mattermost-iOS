@@ -50,6 +50,8 @@
 
 @dynamic lastPostDate;
 
+@dynamic lastViewDate;
+
 @dynamic messagesCount;
 
 - (int64_t)messagesCountValue {
@@ -124,6 +126,9 @@
 }
 + (NSString *)lastPostDate {
 	return @"lastPostDate";
+}
++ (NSString *)lastViewDate {
+	return @"lastViewDate";
 }
 + (NSString *)messagesCount {
 	return @"messagesCount";

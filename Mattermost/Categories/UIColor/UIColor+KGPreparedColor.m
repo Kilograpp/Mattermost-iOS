@@ -53,8 +53,14 @@
     return color;
 }
 
+#pragma mark - Left Menu
++ (UIColor *)kg_sectionColorLeftMenu {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C3CDD4" alpha:1])
+    return color;
+}
+
 + (UIColor *)kg_leftMenuBackgroundColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:32/255.f green:113/255.f blue:167/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor colorWithRed:38/255.f green:93/255.f blue:154/255.f alpha:1.f])
     return color;
 }
 
@@ -64,7 +70,7 @@
 }
 
 + (UIColor *)kg_leftMenuHeaderColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:47/255.f green:129/255.f blue:173/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor colorWithRed:42/255.f green:103/255.f blue:165/255.f alpha:1.f])
     return color;
 }
 
@@ -82,5 +88,60 @@
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#0076FF" alpha:1])
     return color;
 }
+
+#pragma mark - Gradient
+
++ (UIColor *)kg_topBlueColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#1D66DE" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomBlueColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#248BE2" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topRedColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#9F041B" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomRedColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F5515F" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topGreenColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#429321" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomGreenColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#B4EC51" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topOrangeColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F76B1C" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomOrangeColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FAD961" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_topPurpleColorForGradient {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#3023AE" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_bottomPurpleColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C86DD7" alpha:1])
+    return color;
+}
+
+
+
 
 @end

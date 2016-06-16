@@ -7,6 +7,7 @@
         <attribute name="header" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastPostDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="lastViewDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="messagesCount" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="purpose" optional="YES" attributeType="String" syncable="YES"/>

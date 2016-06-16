@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIButton *allUsersCommandButton;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -39,8 +40,6 @@
    
     [self setup];
     [self setupTableView];
-    [self setupAvatarImageView];
-    [self setupNicknameLabel];
     [self setupTeamLabel];
     [self configureHeaderView];
     [self setupFetchedResultsController];
@@ -48,6 +47,10 @@
 
 
 #pragma mark - Setup
+
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
@@ -60,20 +63,15 @@
     self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
 }
 
-- (void)setupAvatarImageView {
-    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
-    self.avatarImageView.layer.drawsAsynchronously = YES;
-    self.avatarImageView.clipsToBounds = YES;
-}
-
-- (void)setupNicknameLabel {
-    self.nicknameLabel.textColor = [UIColor kg_whiteColor];
-    self.nicknameLabel.font = [UIFont kg_regular16Font];
-}
+//- (void)setupAvatarImageView {
+//    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+//    self.avatarImageView.layer.drawsAsynchronously = YES;
+//    self.avatarImageView.clipsToBounds = YES;
+//}
 
 - (void)setupTeamLabel {
     self.teamLabel.textColor = [UIColor kg_whiteColor];
-    self.teamLabel.font = [UIFont kg_semibold20Font];
+    self.teamLabel.font = [UIFont kg_boldText16Font];
 }
 
 
@@ -82,13 +80,6 @@
 - (void)configureHeaderView {
     KGTeam *team = [[KGBusinessLogic sharedInstance] currentTeam];
     self.teamLabel.text = team.displayName;
-    
-    KGUser *currentUser = [[KGBusinessLogic sharedInstance] currentUser];
-    self.nicknameLabel.text = [@"@" stringByAppendingString:currentUser.username];
-    
-    [self.avatarImageView setImageWithURL:currentUser.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    [self.avatarImageView removeActivityIndicator];
 }
 
 
@@ -121,9 +112,8 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    [header.textLabel setTextColor:[UIColor kg_whiteColor]];
-    [header.textLabel setFont:[UIFont kg_regular16Font]];
-    
+    [header.textLabel setTextColor:[UIColor kg_sectionColorLeftMenu]];
+    [header.textLabel setFont:[UIFont kg_boldText10Font]];
     header.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 

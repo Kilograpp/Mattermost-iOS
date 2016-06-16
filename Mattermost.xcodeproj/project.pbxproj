@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		411169F01D09DE0D00448145 /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
@@ -48,6 +47,7 @@
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
 		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
+		CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */; };
 		CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */; };
 		CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */; };
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
@@ -56,6 +56,7 @@
 		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
+		CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
 		D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */; };
 		D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */; };
 		D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */; };
@@ -187,6 +188,8 @@
 		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
 		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
+		CD5E1F6D1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+KGPreparedGradient.h"; sourceTree = "<group>"; };
+		CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
 		CD7D117B1D0C648B002EED4E /* KGRightMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuCell.h; sourceTree = "<group>"; };
 		CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuCell.m; sourceTree = "<group>"; };
 		CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGRightMenuCell.xib; sourceTree = "<group>"; };
@@ -305,7 +308,6 @@
 				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
 				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
-				7339B69CC14FAE271AFEB356 /* Categories */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -429,6 +431,7 @@
 		7339B69CC14FAE271AFEB356 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				CD671BD41D12A3A7004CD55E /* CAGradientLayer */,
 				7339B84ED964B6992516D5B3 /* UIImage */,
 				7339BEFD7996248E8290A9A6 /* NSAttributedString */,
 				7339B2062A635809A5F63600 /* NSDate */,
@@ -442,8 +445,7 @@
 				7339B5886EB66CFD5B58086A /* UIFont */,
 				7339BFCE090DC8F80E1828CF /* UIWindow */,
 			);
-			name = Categories;
-			path = Mattermost/Categories;
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		7339B7FE3FBC526652FD164F /* RKRequestDescriptor */ = {
@@ -619,6 +621,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		CD671BD41D12A3A7004CD55E /* CAGradientLayer */ = {
+			isa = PBXGroup;
+			children = (
+				CD5E1F6D1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.h */,
+				CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */,
+			);
+			path = CAGradientLayer;
+			sourceTree = "<group>";
+		};
 		CD7D11791D0C6421002EED4E /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,6 +788,7 @@
 		D696F7731D060FDD008341AF /* Mattermost */ = {
 			isa = PBXGroup;
 			children = (
+				7339B69CC14FAE271AFEB356 /* Categories */,
 				D696F7901D061107008341AF /* AppDelegate */,
 				D696F7991D061301008341AF /* BusinessLogic */,
 				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
@@ -1272,6 +1284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */,
 				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
@@ -1304,9 +1317,9 @@
 				D844A7011D0B2D4B00B53BB3 /* KGFollowUpChatCell.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
-				411169F01D09DE0D00448145 /* KGChannelTableViewCell.m in Sources */,
 				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
+				CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
 				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
 				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,

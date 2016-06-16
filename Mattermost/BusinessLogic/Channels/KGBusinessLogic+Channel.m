@@ -14,6 +14,17 @@
 
 @implementation KGBusinessLogic (Channel)
 
+- (void)updateLastViewDateForChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
+    NSString* channelIdentifier = channel.identifier;
+    NSString* path = SOCStringFromStringWithObject([KGChannel updateLastViewDatePathPattern], channel);
+    [self.defaultObjectManager postObjectAtPath:path success:^(RKMappingResult* mappingResult) {
+        KGChannel *innerChannel = [KGChannel managedObjectById:channelIdentifier];
+        [innerChannel setLastViewDate:[NSDate date]];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+        safetyCall(completion, nil);
+    } failure:completion];
+}
+
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion {
     NSString * path = SOCStringFromStringWithObject([KGChannel listPathPattern], [self currentTeam]);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
