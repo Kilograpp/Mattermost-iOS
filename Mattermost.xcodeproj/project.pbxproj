@@ -54,7 +54,6 @@
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
 		CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */; };
 		CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */; };
-		CD7D119B1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D119A1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m */; };
 		CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */; };
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
@@ -199,7 +198,6 @@
 		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
 		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPresentNavigationController.h; path = ../ViewControllers/KGPresentNavigationController.h; sourceTree = "<group>"; };
 		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPresentNavigationController.m; path = ../ViewControllers/KGPresentNavigationController.m; sourceTree = "<group>"; };
-		CD7D119A1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CAGradientLayer+KGPreparedGradient.m"; path = "CAGradientLayer/CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
 		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGSettingsViewController.h; sourceTree = "<group>"; };
 		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGSettingsViewController.m; sourceTree = "<group>"; };
 		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfilViewController.h; sourceTree = "<group>"; };
@@ -1313,7 +1311,6 @@
 				CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
-				CD7D119B1D1175ED002EED4E /* CAGradientLayer+KGPreparedGradient.m in Sources */,
 				D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */,
 				D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */,
 				D844A7011D0B2D4B00B53BB3 /* KGFollowUpChatCell.m in Sources */,
