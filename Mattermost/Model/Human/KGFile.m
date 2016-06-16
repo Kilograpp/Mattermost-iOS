@@ -114,9 +114,14 @@
 
 - (void)fillNameFromBackendLink {
     NSArray *fileComponents = [self.backendLink componentsSeparatedByString:@"/"];
-    NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
-    NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
-    self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+    if (fileComponents.count >= 2) {
+        NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
+        NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
+        self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+    } else {
+        self.name = self.backendLink;
+    }
+    
 }
 
 #pragma mark - Core Data

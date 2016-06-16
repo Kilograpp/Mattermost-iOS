@@ -29,7 +29,6 @@
     self.messageLabel.layer.drawsAsynchronously = YES;
     self.messageLabel.layer.shouldRasterize = YES;
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
-    
 }
 
 - (void)configureWithObject:(KGPost*)post {
@@ -37,6 +36,7 @@
     
     for (UIView *view in self.subviews) {
         view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+        self.messageLabel.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
     }
 }
 
