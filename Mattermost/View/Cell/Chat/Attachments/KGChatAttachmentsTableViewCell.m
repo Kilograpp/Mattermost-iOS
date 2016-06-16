@@ -153,7 +153,7 @@
     KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
     KGFile *file = self.files[indexPath.row];
-    [cell configureWithObject:file.downloadLink];
+    [cell configureWithObject:file];
     
     return cell;
 }

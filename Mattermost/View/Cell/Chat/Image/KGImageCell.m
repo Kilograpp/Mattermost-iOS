@@ -10,6 +10,7 @@
 #import <AsyncDisplayKit/ASNetworkImageNode.h>
 #import <Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "KGFile.h"
 
 #define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
@@ -39,8 +40,13 @@
 
 
 - (void)configureWithObject:(id)object {
-    if ([object isKindOfClass:[NSURL class]]) {
-        NSURL *url = object;
+    if ([object isKindOfClass:[KGFile class]]) {
+        KGFile *file = object;
+        if (!file.downloadLink) {
+            UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:file.backendLink];
+            self.kg_imageView.image = cachedImage;
+        }
+        NSURL *url = file.downloadLink;
 //        self.kg_imageView.URL = url;
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
@@ -49,23 +55,17 @@
                 self.kg_imageView.image = image;
             }];
         } else {
-            dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
                                                                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                    dispatch_async(bgQueue, ^{
-                                                                        dispatch_async(dispatch_get_main_queue(), ^{
                                                                             [[self class] roundedImage:image completion:^(UIImage *image) {
                                                                                 [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                                                                 self.kg_imageView.image = image;
                                                                             }];
-                                                                        });
-                                                                    });
                                                                 }];
             [self.kg_imageView removeActivityIndicator];
         }
-
     }
 }
 
