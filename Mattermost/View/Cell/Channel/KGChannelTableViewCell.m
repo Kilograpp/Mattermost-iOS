@@ -107,32 +107,30 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGChannel class]]) {
         KGChannel *channel = object;
-
+        
         self.channelNameLabel.text = channel.displayName;
         if (channel.type == KGChannelTypePrivate){
-            [self configureCellForChannelPrivate];
-            
+            [self configureCellForChannelPrivate:channel.hasNewMessages];
         } else {
-            [self configureCellForCnannelPublic];
+            [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
     }
 }
 
-- (void)configureCellForChannelPrivate {
+- (void)configureCellForChannelPrivate:(BOOL)boolIsNewMessage {
     self.dotView.hidden = NO;
     self.sharpLabel.hidden = YES;
-    //if user online/offline/...
-    //if newMessage
-    self.labelColor = [UIColor kg_sectionColorLeftMenu];
+    //if user online/offline/... ?
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
     self.dotViewColor = [UIColor clearColor];
     self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
     self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
 }
 
-- (void)configureCellForCnannelPublic{
+- (void)configureCellForCnannelPublic:(BOOL)boolIsNewMessage{
     self.dotView.hidden = YES;
     self.sharpLabel.hidden = NO;
-    self.labelColor = [UIColor kg_sectionColorLeftMenu];
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
 
 @end
