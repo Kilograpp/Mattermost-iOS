@@ -9,6 +9,7 @@
 #import "CAGradientLayer+KGPreparedGradient.h"
 #import "UIColor+KGPreparedColor.h"
 
+static int kAnimationDuration = 10;
 
 @implementation CAGradientLayer (KGPreparedGradient)
 
@@ -47,7 +48,7 @@
     
     animation.fromValue             = fromColors;
     animation.toValue               = toColors;
-    animation.duration              = 3.00;
+    animation.duration              = kAnimationDuration;
     animation.removedOnCompletion   = YES;
     animation.fillMode              = kCAFillModeForwards;
     animation.timingFunction        = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
@@ -60,7 +61,7 @@
     NSArray *colorsArray = [self makeArrayColors:headerLayer];
     int64_t timeDelay = 0;
     for (int i = 1; i < colorsArray.count; i ++) {
-        timeDelay = i*3;
+        timeDelay = i*kAnimationDuration;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, timeDelay * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
             [headerLayer setColors:[colorsArray objectAtIndex:i]];

@@ -96,42 +96,42 @@
 }
 
 + (UIColor *)kg_topRedColorForGradient {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F5515F" alpha:1])
-    return color;
-}
-
-+ (UIColor *)kg_bottomRedColorForGradient{
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#9F041B" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_topGreenColorForGradient {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#B4EC51" alpha:1])
++ (UIColor *)kg_bottomRedColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F5515F" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_bottomGreenColorForGradient{
++ (UIColor *)kg_topGreenColorForGradient {
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#429321" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_topOrangeColorForGradient {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FAD961" alpha:1])
++ (UIColor *)kg_bottomGreenColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#B4EC51" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_bottomOrangeColorForGradient{
++ (UIColor *)kg_topOrangeColorForGradient {
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F76B1C" alpha:1])
     return color;
 }
 
++ (UIColor *)kg_bottomOrangeColorForGradient{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FAD961" alpha:1])
+    return color;
+}
+
 + (UIColor *)kg_topPurpleColorForGradient {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C86DD7" alpha:1])
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#3023AE" alpha:1])
     return color;
 }
 
 + (UIColor *)kg_bottomPurpleColorForGradient{
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#3023AE" alpha:1])
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C86DD7" alpha:1])
     return color;
 }
 
