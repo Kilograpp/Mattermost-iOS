@@ -22,11 +22,10 @@
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
-
+static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *loginPromtLabel;
-@property (weak, nonatomic) IBOutlet UILabel *passwordPromtLabel;
+
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
@@ -43,7 +42,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     [super viewDidLoad];
     
     [self setupTitleLabel];
-    [self setupPromtLabels];
     [self setupLoginButton];
     [self setupRecoveryButton];
     [self setupLoginTextfield];
@@ -63,7 +61,12 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
+//    //self.navigationController.navigationBar.topItem.title = @"Sign In";
+    self.title = @"Sign In";
+//    [self setTitle:@"Sign In"];
+   self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -80,13 +83,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     self.titleLabel.textColor = [UIColor kg_whiteColor];
 }
 
-- (void)setupPromtLabels {
-    self.loginPromtLabel.font = [UIFont kg_regular14Font];
-    self.loginPromtLabel.textColor = [UIColor kg_grayColor];
-    self.passwordPromtLabel.font = [UIFont kg_regular14Font];
-    self.passwordPromtLabel.textColor = [UIColor kg_grayColor];
-}
-
 - (void)setupLoginButton {
     self.loginButton.layer.cornerRadius = KGStandartCornerRadius;
 //    self.loginButton.backgroundColor = [UIColor kg_blueColor];
@@ -101,9 +97,9 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 - (void)setupRecoveryButton {
     self.recoveryButton.layer.cornerRadius = KGStandartCornerRadius;
     self.recoveryButton.backgroundColor = [UIColor kg_whiteColor];
-    [self.recoveryButton setTitle:NSLocalizedString(@"I forgot password", nil) forState:UIControlStateNormal];
-    [self.recoveryButton setTintColor:[UIColor kg_blueColor]];
-    [self.recoveryButton setTitleColor:[UIColor kg_blueColor] forState:UIControlStateNormal];
+    [self.recoveryButton setTitle:NSLocalizedString(@"Need a remember?", nil) forState:UIControlStateNormal];
+    [self.recoveryButton setTintColor:[UIColor kg_redColor]];
+    [self.recoveryButton setTitleColor:[UIColor kg_redColor] forState:UIControlStateNormal];
     self.recoveryButton.titleLabel.font = [UIFont kg_regular16Font];
 }
 
@@ -111,7 +107,8 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
-    self.loginTextField.placeholder = @"address@example.com";
+//    self.loginTextField.placeholder = @"address@example.com";
+    self.loginTextField.placeholder = @"Email";
     self.loginTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.loginTextField.autocorrectionType = UITextAutocorrectionTypeNo;
 }
@@ -120,7 +117,7 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
     self.passwordTextField.delegate = self;
     self.passwordTextField.textColor = [UIColor kg_blackColor];
     self.passwordTextField.font = [UIFont kg_regular16Font];
-    self.passwordTextField.placeholder = @"password";
+    self.passwordTextField.placeholder = @"Password";
     self.passwordTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.passwordTextField.secureTextEntry = YES;
 }
@@ -129,9 +126,11 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 #pragma mark - Configuration
 
 - (void)configureLabels {
+//    self.titleLabel.text = @"Kilograpp";
+//    self.loginPromtLabel.text = @"Email";
+//    self.passwordPromtLabel.text = @"Password";
     self.titleLabel.text = @"Kilograpp";
-    self.loginPromtLabel.text = @"Email";
-    self.passwordPromtLabel.text = @"Password";
+
 }
 
 
@@ -146,6 +145,7 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 }
 
 - (IBAction)recoveryAction:(id)sender {
+    //[self performSegueWithIdentifier:@"resetPassword" sender:nil];
 }
 
 - (IBAction)loginChangeAction:(id)sender {

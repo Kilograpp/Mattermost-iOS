@@ -30,7 +30,7 @@
         <attribute name="backendPendingId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="creationDay" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creationDay" optional="YES" transient="YES" attributeType="Date" syncable="YES"/>
         <attribute name="deletedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>

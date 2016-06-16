@@ -20,13 +20,6 @@
 #import "NSString+HeightCalculation.h"
 #import "KGImageCell.h"
 
-//static CGFloat const topPadding = 4.f;
-//static CGFloat const verticalPadding = 8.0f;
-//static CGFloat const avatarImageHeight = 40.f;
-//static CGFloat const horizontalPadding = 8.f;
-//static CGFloat const aspectRatioImage = 1.5;
-//static CGFloat const heightNameLabel = 22.f;
-
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.5f
 static CGFloat const kCellAspectRatio = 0.5f;
@@ -127,11 +120,11 @@ static NSString *const kImageCellReuseIdentifier = @"cellReuseIdentifier";
     KGFile *file = self.files[indexPath.row];
     
     if (file.isImage) {
-//        NSURL *test = [NSURL URLWithString:@"http://dressacat.com/chat.png"];
+////        NSURL *test = [NSURL URLWithString:@"http://dressacat.com/chat.png"];
 //        NSLog(@"%@", file.downloadLink.absoluteString);
-        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [cell.kg_imageView removeActivityIndicator];
+//        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+//                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        [cell.kg_imageView removeActivityIndicator];
     }
     
     return cell;

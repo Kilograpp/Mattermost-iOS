@@ -27,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupNavigationBar];
     [self setupTitleLabel];
     [self setupSubtitleLabel];
     [self setupResetButton];
@@ -34,27 +35,45 @@
     [self configureLabels];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+   // self.navigationController.navigationBar.topItem.title = @"Sign In";
+}
+
 
 #pragma mark - Setup
 
+- (void)setupNavigationBar {
+    [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor blackColor],
+                                                                        NSFontAttributeName : [UIFont kg_semibold18Font] }];
+    self.navigationController.navigationBar.tintColor = [UIColor kg_blackColor];
+    self.navigationController.navigationBar.topItem.title = @"";
+//    self.navigationController.navigationBar.barTintColor = [UIColor kg_blackColor];
+}
 - (void)setupTitleLabel {
     self.titleLabel.font = [UIFont kg_semibold30Font];
     self.titleLabel.textColor = [UIColor kg_blackColor];
 }
 
 - (void)setupSubtitleLabel {
-    self.subtitleLabel.font = [UIFont kg_light18Font];
+//    self.subtitleLabel.font = [UIFont kg_light18Font];
+    self.subtitleLabel.font = [UIFont kg_regular18Font];
     self.subtitleLabel.textColor = [UIColor kg_grayColor];
 }
 
 - (void)setupResetButton {
     self.resetButton.layer.cornerRadius = KGStandartCornerRadius;
-    self.resetButton.backgroundColor = [UIColor kg_blueColor];
-    [self.resetButton setTitle:NSLocalizedString(@"Reset my password", nil) forState:UIControlStateNormal];
-    [self.resetButton setTintColor:[UIColor whiteColor]];
-    self.resetButton.titleLabel.font = [UIFont kg_regular16Font];
-    self.resetButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
+    //self.resetButton.backgroundColor = [UIColor kg_blueColor];
+    [self.resetButton setTitle:NSLocalizedString(@"Recovery", nil) forState:UIControlStateNormal];
+   // [self.resetButton setTintColor:[UIColor whiteColor]];
+    self.resetButton.titleLabel.font = [UIFont kg_medium18Font];
+   // self.resetButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
     self.resetButton.enabled = NO;
+    self.resetButton.shouldDrawImageAtRightSide = YES;
 }
 
 - (void)setupEmailTextfield {
@@ -71,7 +90,7 @@
 
 - (void)configureLabels {
     self.titleLabel.text = @"Password Reset";
-    self.subtitleLabel.text = @"To reset your password, enter the email address you used to sign in";
+    self.subtitleLabel.text = @"Enter the email address associated with your team.";
 }//FIXME: Pragma mark
 - (IBAction)textChange:(id)sender {
     if (self.emailTextField.text.length > 0 ){

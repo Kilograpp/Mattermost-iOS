@@ -31,6 +31,10 @@
 #import "KGFollowUpChatCell.h"
 #import "KGUser.h"
 #import "KGImageChatCell.h"
+#import "NSDate+DateFormatter.h"
+#import "KGChatCommonTableViewCell.h"
+#import "KGChatAttachmentsTableViewCell.h"
+#import "KGChannelNotification.h"
 
 @import CoreText;
 
@@ -46,6 +50,7 @@
 @property (nonatomic, strong) NSMutableArray* followupCells;
 @property (nonatomic, strong) NSMutableArray* imageCells;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
+@property NSMutableIndexSet *deletedSections, *insertedSections;
 @end
 
 @implementation KGChatViewController
@@ -62,7 +67,6 @@
     [self setupTableView];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,8 +81,6 @@
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
     }
-
-
 }
 
 
@@ -91,7 +93,6 @@
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     leftVC.delegate = self;
     rightVC.delegate = self;
-
 }
 
 - (void)setupTableView {
@@ -118,6 +119,9 @@
         [_followupCells addObject:cell];
     }
 
+    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
+    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -160,15 +164,16 @@
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        reuseIdentifier = post.files.count == 0 ? [KGChatRootCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+        reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
-            reuseIdentifier = post.files.count == 0 ? [KGChatRootCell reuseIdentifier] : [KGImageChatCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
 }
+
 
     NSDate *start = [NSDate date];
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
@@ -189,13 +194,26 @@
     } else {
         NSLog(@"Quequed");
     }
+    
+    if (!cell){
+        cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
+    }
+    
     NSDate *mid = [NSDate date];
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
     NSDate *end = [NSDate date];
     NSLog(@"%f - %f TOTAL : %f %d", [mid timeIntervalSinceDate:start], [end timeIntervalSinceDate:mid], [end timeIntervalSinceDate:start], post.files.count);
 
+    
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [cell configureWithObject:post];
+    [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
+    cell.transform = self.tableView.transform;
 }
 
 
@@ -207,13 +225,13 @@
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        return post.files.count == 0 ? [KGChatRootCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+        return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
     } else {
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGImageChatCell heightWithObject:post];;
+            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
         } else {
-            return post.files.count == 0 ? [KGChatRootCell heightWithObject:post] : [KGImageChatCell heightWithObject:post];
+            return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         }
     }
     
@@ -222,8 +240,11 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    
-    return [sectionInfo name];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    NSDate *date = [formatter dateFromString:[sectionInfo name]];
+    NSString *dateName = [date dateFormatForMessageTitle];
+    return dateName;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
@@ -231,7 +252,6 @@
     [header.textLabel setTextColor:[UIColor kg_blackColor]];
     [header.textLabel setFont:[UIFont kg_bold16Font]];
     header.textLabel.textAlignment = NSTextAlignmentRight;
-    //    header.transform = self.tableView.transform;
     header.textLabel.transform = self.tableView.transform;
     
     header.contentView.backgroundColor = [UIColor kg_whiteColor];
@@ -244,70 +264,14 @@
 
 #pragma mark - NSFetchedResultsController
 
-
 - (void)setupFetchedResultsController {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
     self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
                                                       ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
-                                                       delegate:self];
-}
-
-
-#pragma mark - UINavigationControllerDelegate
-
-- (void)navigationController:(UINavigationController *)navigationController
-      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    
-    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
-        if (navigationController.viewControllers.count == 1) {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-                                                                                     style:UIBarButtonItemStylePlain
-                                                                                    target:self
-                                                                                    action:@selector(toggleLeftSideMenuAction)];
-            
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-                                                                                     style:UIBarButtonItemStylePlain
-                                                                                    target:self
-                                                                                    action:@selector(toggleRightSideMenuAction)];
-        }
-        
-    }
-}
-
-
-#pragma mark - KGLeftMenuDelegate
-
-- (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
-    [self showLoadingView];
-    self.channel = [KGChannel managedObjectById:idetnfifier];
-//    self.title = self.channel.displayName;
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
-   
-    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-        [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-            if (error) {
-                [self hideLoadingViewAnimated:YES];
-            }
-            [self setupFetchedResultsController];
-            [self.tableView reloadData];
-            [self hideLoadingViewAnimated:YES];
-            
-        }];
-    }];
-}
-
-#pragma mark = KGRightMenuDelegate
-
--(void)navigationToProfil {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
-    KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
-    presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentViewController:presentNC animated:YES completion:nil];
-    });
-    
+                                                       delegate:self
+    ];
 }
 
 
@@ -318,6 +282,7 @@
         if (error) {
             
         }
+
         [self setupFetchedResultsController];
         [self.tableView reloadData];
     }];
@@ -325,25 +290,21 @@
 
 - (void)sendPost {
     KGPost *post = [KGPost MR_createEntity];
-    
     post.message = self.textInputbar.textView.text;
     post.author = [[KGBusinessLogic sharedInstance] currentUser];
     post.channel = self.channel;
     post.createdAt = [NSDate date];
     self.textView.text = @"";
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [post setBackendPendingId:[NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [post.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:post completion:^(KGError *error) {
         if (error) {
-            NSLog(@"(((((((((((((((((");
+            //FIXME обработка ошибок
         }
-    
-        //        [self setupFetchedResultsController];
-        //        [self.tableView reloadData];
     }];
 }
-
 
 
 #pragma mark - Actions
@@ -397,42 +358,84 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView beginUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
     
-    UITableView *tableView = self.tableView;
-    
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
+    self.deletedSections = [[NSMutableIndexSet alloc] init];
+    self.insertedSections = [[NSMutableIndexSet alloc] init];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    if (self.fetchedResultsController.fetchedObjects.count > 0) {
-        [self.tableView endUpdates];
+    [self.tableView endUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+      didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
+               atIndex:(NSUInteger)sectionIndex
+         forChangeType:(NSFetchedResultsChangeType)type {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
+    
+    switch(type) {
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.deletedSections addIndexes:indexSet];
+            break;
+            
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.insertedSections addIndexes:indexSet];
+            break;
+            
+        default:
+            break;
     }
 }
 
+- (void)controller:(NSFetchedResultsController *)controller
+       didChangeObject:(id)anObject
+           atIndexPath:(NSIndexPath *)indexPath
+         forChangeType:(NSFetchedResultsChangeType)type
+          newIndexPath:(NSIndexPath *)newIndexPath {
+    switch(type) {
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            // iOS 9.0b5 sends the same index path twice instead of delete
+            if(![indexPath isEqual:newIndexPath]) {
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else if([self.insertedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
+                // Really the only way is to delete and insert the same index path...
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else if([self.deletedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 bug: same index path reported after section was removed
+                // we can ignore item deletion here because the whole section was removed anyway
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            // On iOS 9.0b5 NSFetchedResultsController may not even contain such indexPath anymore
+            // when removing last item from section.
+            if(![self.deletedSections containsIndex:indexPath.section] && ![self.insertedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 sends update before delete therefore we cannot use reload
+                // this will never work correctly but at least no crash.
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
+            }
+            
+            break;
+    }
+}
 
 #pragma mark - Private
 
@@ -442,24 +445,35 @@
 }
 
 - (void)assignPhotos {
-//    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            // init picker
-//            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-//            
-//            // set delegate
-//            picker.delegate = self;
-//            
-//            // Optionally present picker as a form sheet on iPad
-//            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//                picker.modalPresentationStyle = UIModalPresentationFormSheet;
-//            
-//            // present picker
-//            [self presentViewController:picker animated:YES completion:nil];
-//        });
-//    }];
-//    [self.textInputbar attachFile:[UIImage imageNamed:@"icn_upload"]];
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            // init picker
+            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+
+            // set delegate
+            picker.delegate = self;
+
+            // Optionally present picker as a form sheet on iPad
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+
+            // present picker
+            [self presentViewController:picker animated:YES completion:nil];
+        });
+    }];
+
+}
+
+- (void)test:(NSNotification *)notification {
+    if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
+        KGChannelNotification *kg_notification = notification.object;
+        
+        if (kg_notification.action == KGActionTyping) {
+            KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
+            [self.typingIndicatorView insertUsername:user.nickname];
+        }
+    }
 }
 
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
@@ -481,6 +495,72 @@
                             [wSelf.assignedPhotos addObject:img];
                         }];
     }
+}
+
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController
+      willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+
+    if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
+        if (navigationController.viewControllers.count == 1) {
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                     style:UIBarButtonItemStylePlain
+                                                                                    target:self
+                                                                                    action:@selector(toggleLeftSideMenuAction)];
+
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                                      style:UIBarButtonItemStylePlain
+                                                                                     target:self
+                                                                                     action:@selector(toggleRightSideMenuAction)];
+        }
+    }
+}
+
+
+#pragma mark - KGLeftMenuDelegate
+
+- (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+    [self showLoadingView];
+    if (self.channel) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:self.channel.notificationsName object:nil];
+    }
+
+    self.channel = [KGChannel managedObjectById:idetnfifier];
+//    self.title = self.channel.displayName;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
+
+    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+        [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+            if (error) {
+                [self hideLoadingViewAnimated:YES];
+            }
+            [self setupFetchedResultsController];
+            [self.tableView reloadData];
+            [self hideLoadingViewAnimated:YES];
+
+        }];
+    }];
+}
+
+#pragma mark - KGRightMenuDelegate
+
+- (void)navigationToProfil {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
+    KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
+    presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:presentNC animated:YES completion:nil];
+    });
 }
 
 @end
