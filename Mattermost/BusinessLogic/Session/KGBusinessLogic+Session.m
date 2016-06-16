@@ -24,8 +24,17 @@ extern NSString * const KGAuthTokenHeaderName;
 
 #pragma mark - Network
 
+
+
 - (void)updateStatusForUsers:(NSArray<KGUser*>*) users completion:(void(^)(KGError *error))completion {
     [self updateStatusForUsersWithIds:[users valueForKey:@"identifier"] completion:completion];
+}
+
+- (void)sendLogoutRequestWithCompletion:(void(^)(KGError *error))completion {
+    NSString* path = [KGUser logoutPathPattern];
+    [self.defaultObjectManager postObjectAtPath:path success:^(RKMappingResult* mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
 }
 
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
@@ -84,10 +93,14 @@ extern NSString * const KGAuthTokenHeaderName;
     return NO;
 }
 
-- (void)signOut {
-    [self resetPersistentStore];
-    [self clearCookies];
-    [self closeSocket];
+- (void)signOutWithCompletion:(void(^)(KGError *error))completion {
+    [self sendLogoutRequestWithCompletion:^(KGError* error) {
+        [self resetPersistentStore];
+        [self clearCookies];
+        [self closeSocket];
+        safetyCall(completion, nil);
+    }];
+
 }
 
 #pragma mark - Resetters

@@ -113,6 +113,10 @@ static NSString * const kOfflineNetworkString = @"offline";
     return @"users/status";
 }
 
++ (NSString*)logoutPathPattern {
+    return @"users/logout";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {
@@ -128,6 +132,14 @@ static NSString * const kOfflineNetworkString = @"offline";
     return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self attachDevicePathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)logoutResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self logoutPathPattern]
                                                        keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }

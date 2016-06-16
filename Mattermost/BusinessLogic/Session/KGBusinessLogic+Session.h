@@ -15,6 +15,8 @@
 
 - (void)updateStatusForUsers:(NSArray<KGUser*>*)users completion:(void (^)(KGError* error))completion;
 
+- (void)sendLogoutRequestWithCompletion:(void (^)(KGError* error))completion;
+
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void (^)(KGError* error))completion;
 
 - (void)loginWithEmail:(NSString *)login
@@ -29,7 +31,7 @@
 - (KGUser*)currentUser;
 
 - (BOOL)isSignedIn;
-- (void)signOut;
+- (void)signOutWithCompletion:(void(^)(KGError *error))completion;
 
 - (NSHTTPCookie*)authCookie;
 
