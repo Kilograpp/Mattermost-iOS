@@ -87,17 +87,17 @@
 //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
 //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-        __weak typeof(self) wSelf = self;
-        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            dispatch_async(bgQueue, ^{
-                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    wSelf.avatarImageView.image = img;
-                    [wSelf layoutIfNeeded];
-                });
-            });
-        }];
+//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+//        __weak typeof(self) wSelf = self;
+//        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//            dispatch_async(bgQueue, ^{
+//                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    wSelf.avatarImageView.image = img;
+//                    [wSelf layoutIfNeeded];
+//                });
+//            });
+//        }];
 
         
         self.messageLabel.text = post.message;
@@ -145,7 +145,7 @@
     KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
     KGFile *file = self.files[indexPath.row];
-    __weak typeof(cell) wCell = cell;
+//    __weak typeof(cell) wCell = cell;
     if (file.isImage) {
 //        [cell.kg_imageView setImageWithURL:file.downloadLink placeholderImage:nil options:SDWebImageHandleCookies completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
 //            wCell.kg_imageView.image = image;
@@ -153,18 +153,18 @@
 //               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 //        [cell.kg_imageView removeActivityIndicator];
         
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-        __weak typeof(self) wSelf = self;
-        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:file.downloadLink options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            dispatch_async(bgQueue, ^{
-                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.kg_imageView.image = img;
-                    [wSelf layoutIfNeeded];
-                });
-            });
-        }];
-
+//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+//        __weak typeof(self) wSelf = self;
+//        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:file.downloadLink options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//            dispatch_async(bgQueue, ^{
+//                UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(KG_CONTENT_WIDTH, KG_IMAGE_HEIGHT) interpolationQuality:kCGInterpolationMedium];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    cell.kg_imageView.image = img;
+//                    [wSelf layoutIfNeeded];
+//                });
+//            });
+//        }];
+        [cell configureWithObject:file.downloadLink];
     }
     
     return cell;

@@ -18,6 +18,8 @@
 #import "NSString+HeightCalculation.h"
 #import "UIImage+Resize.h"
 
+@import AsyncDisplayKit;
+
 @interface KGChatCommonTableViewCell ()
 
 @end
@@ -52,14 +54,14 @@
 #pragma mark - Setup
 
 - (void)setupAvatarImageView {
-    self.avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self addSubview:self.avatarImageView];
-    self.avatarImageView.layer.drawsAsynchronously = YES;
-    self.avatarImageView.layer.cornerRadius = kAvatarDimension / 2;
+    _avatarImageView = [[ASNetworkImageNode alloc] init];
+    [self addSubview:_avatarImageView.view];
+    _avatarImageView.layer.drawsAsynchronously = YES;
+    self.avatarImageView.view.layer.cornerRadius = kAvatarDimension / 2;
     self.avatarImageView.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.f];
     self.avatarImageView.clipsToBounds = YES;
     
-    [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.avatarImageView.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
         make.width.height.equalTo(@(kAvatarDimension));
     }];
@@ -76,7 +78,7 @@
     [self.nameLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultHigh forAxis: UILayoutConstraintAxisHorizontal];
     
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.avatarImageView.mas_trailing).offset(kSmallPadding);
+        make.leading.equalTo(self.avatarImageView.view.mas_trailing).offset(kSmallPadding);
         make.top.equalTo(self).offset(8.f);
     }];
 }
@@ -126,18 +128,19 @@
         self.messageLabel.text = post.message;
         self.nameLabel.text = post.author.nickname;
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
-        
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-        __weak typeof(self) wSelf = self;
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                dispatch_async(bgQueue, ^{
-                    UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(kAvatarDimension, kAvatarDimension) interpolationQuality:kCGInterpolationMedium];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        wSelf.avatarImageView.image = img;
-                        [wSelf layoutIfNeeded];
-                    });
-                });
-            }];
+        self.avatarImageView.URL = post.author.imageUrl;
+        self.avatarImageView.layerBacked = YES;
+//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+//        __weak typeof(self) wSelf = self;
+//            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl options:SDWebImageDownloaderHandleCookies progress:nil completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//                dispatch_async(bgQueue, ^{
+//                    UIImage *img = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(kAvatarDimension, kAvatarDimension) interpolationQuality:kCGInterpolationMedium];
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        wSelf.avatarImageView.image = img;
+//                        [wSelf setNeedsLayout];
+//                    });
+//                });
+//            }];
         
 //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
 //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];

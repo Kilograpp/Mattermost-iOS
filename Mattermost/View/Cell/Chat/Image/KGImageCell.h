@@ -7,7 +7,8 @@
 //
 
 #import "KGTableViewCell.h"
+@class ASNetworkImageNode;
 
 @interface KGImageCell : KGTableViewCell
-@property (nonatomic, strong) UIImageView *kg_imageView;
+@property (nonatomic, strong) ASNetworkImageNode *kg_imageView;
 @end

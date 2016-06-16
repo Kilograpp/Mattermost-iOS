@@ -1,1 +1,2 @@
 github "optonaut/ActiveLabel.swift" "master"
+github "facebook/AsyncDisplayKit" "master"

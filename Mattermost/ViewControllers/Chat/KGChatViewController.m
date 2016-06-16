@@ -34,6 +34,7 @@
 #import "NSDate+DateFormatter.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
+#import "KGChannelNotification.h"
 
 @import CoreText;
 
@@ -64,7 +65,6 @@
     [self setupTableView];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,6 +118,7 @@
     self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.placeholder = @"Написать сообщение";
     self.textInputbar.textView.font = [UIFont kg_regular14Font];
+//    self.canShowTypingIndicator = YES;
 }
 
 - (void)setupLeftBarButtonItem {
@@ -159,12 +160,18 @@
     NSDate *start = [NSDate date];
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     NSDate *mid = [NSDate date];
-    [cell configureWithObject:post];
-    cell.transform = self.tableView.transform;
+//    [cell configureWithObject:post];
+//    cell.transform = self.tableView.transform;
     NSDate *end = [NSDate date];
 //    NSLog(@"%f - %f TOTAL : %f %d", [mid timeIntervalSinceDate:start], [end timeIntervalSinceDate:mid], [end timeIntervalSinceDate:start], post.files.count);
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [cell configureWithObject:post];
+    [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
+    cell.transform = self.tableView.transform;
 }
 
 
@@ -253,8 +260,13 @@
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self showLoadingView];
+    if (self.channel) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:self.channel.notificationsName object:nil];
+    }
+    
     self.channel = [KGChannel managedObjectById:idetnfifier];
 //    self.title = self.channel.displayName;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
    
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
@@ -270,7 +282,7 @@
     }];
 }
 
-#pragma mark = KGRightMenuDelegate
+#pragma mark - KGRightMenuDelegate
 
 -(void)navigationToProfil {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
@@ -476,6 +488,17 @@
 //    [self.textInputbar attachFile:[UIImage imageNamed:@"icn_upload"]];
 }
 
+- (void)test:(NSNotification *)notification {
+    if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
+        KGChannelNotification *kg_notification = notification.object;
+        
+        if (kg_notification.action == KGActionTyping) {
+            KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
+            [self.typingIndicatorView insertUsername:user.nickname];
+        }
+    }
+}
+
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
     PHImageManager *manager = [PHImageManager defaultManager];
     self.requestOptions = [[PHImageRequestOptions alloc] init];
@@ -495,6 +518,13 @@
                             [wSelf.assignedPhotos addObject:img];
                         }];
     }
+}
+
+
+#pragma mark - Dealloc
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
