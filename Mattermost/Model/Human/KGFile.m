@@ -36,7 +36,8 @@
 
 + (RKEntityMapping *)simpleEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:@"backendLink"]];
+    [mapping setForceCollectionMapping:YES];
+    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"backendLink"];
     [mapping setIdentificationAttributes:@[@"backendLink"]];
     return mapping;
 }
@@ -89,7 +90,7 @@
 
 + (RKResponseDescriptor*)uploadResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self simpleEntityMapping]
-                                                        method:RKRequestMethodGET
+                                                        method:RKRequestMethodPOST
                                                    pathPattern:[self uploadFilePathPattern]
                                                        keyPath:@"filenames"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -121,7 +122,7 @@
 #pragma mark - Core Data
 
 - (void)willSave {
-    if ([NSStringUtils isStringEmpty:self.name] && !self.tempId) {
+    if ([NSStringUtils isStringEmpty:self.name] && ![NSStringUtils isStringEmpty:self.backendLink] && !self.tempId) {
         [self fillNameFromBackendLink];
     }
 };

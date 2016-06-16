@@ -43,8 +43,6 @@
 	return keyPaths;
 }
 
-@dynamic attribute;
-
 @dynamic backendLink;
 
 @dynamic backendMimeType;
@@ -100,9 +98,6 @@
 @end
 
 @implementation KGFileAttributes 
-+ (NSString *)attribute {
-	return @"attribute";
-}
 + (NSString *)backendLink {
 	return @"backendLink";
 }
