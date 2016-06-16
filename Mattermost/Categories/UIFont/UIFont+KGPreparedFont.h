@@ -13,6 +13,9 @@
 + (UIFont *)kg_bold16Font;
 + (UIFont *)kg_bold28Font;
 
++ (UIFont *)kg_boldText16Font;
++ (UIFont *)kg_boldText10Font;
+
 + (UIFont *)kg_semibold16Font;
 + (UIFont *)kg_semibold18Font;
 + (UIFont *)kg_semibold20Font;

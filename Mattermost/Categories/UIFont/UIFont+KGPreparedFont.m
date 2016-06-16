@@ -22,7 +22,7 @@ static NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay
 @implementation UIFont (CustomFonts)
 
 
-#pragma mark - Bold
+#pragma mark - BoldDisplay
 
 
 + (UIFont *)kg_bold28Font {
@@ -32,6 +32,18 @@ static NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay
 
 + (UIFont *)kg_bold16Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldDisplayFontName size:16.f])
+    return font;
+}
+
+#pragma mark - BoldText
+
++ (UIFont *)kg_boldText16Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldFontName size:16.f])
+    return font;
+}
+
++ (UIFont *)kg_boldText10Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldFontName size:10.f])
     return font;
 }
 

@@ -29,6 +29,7 @@
 + (UIColor *)kg_leftMenuBackgroundColor;
 + (UIColor *)kg_leftMenuHighlightColor;
 + (UIColor *)kg_leftMenuHeaderColor;
++ (UIColor *)kg_sectionColorLeftMenu;
 
 #pragma mark - Login
 
