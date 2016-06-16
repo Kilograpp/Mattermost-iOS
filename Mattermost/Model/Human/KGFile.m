@@ -121,7 +121,7 @@
 #pragma mark - Core Data
 
 - (void)willSave {
-    if ([NSStringUtils isStringEmpty:self.name]) {
+    if ([NSStringUtils isStringEmpty:self.name] && !self.tempId) {
         [self fillNameFromBackendLink];
     }
 };

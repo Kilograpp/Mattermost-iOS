@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGFileID *objectID;
 
+@property (nonatomic, strong, nullable) NSData* attribute;
+
 @property (nonatomic, strong, nullable) NSString* backendLink;
 
 @property (nonatomic, strong, nullable) NSString* backendMimeType;
@@ -44,11 +46,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (int32_t)sizeValue;
 - (void)setSizeValue:(int32_t)value_;
 
+@property (nonatomic, strong, nullable) NSString* tempId;
+
 @property (nonatomic, strong, nullable) KGPost *post;
 
 @end
 
 @interface _KGFile (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSData*)primitiveAttribute;
+- (void)setPrimitiveAttribute:(NSData*)value;
 
 - (NSString*)primitiveBackendLink;
 - (void)setPrimitiveBackendLink:(NSString*)value;
@@ -74,18 +81,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (int32_t)primitiveSizeValue;
 - (void)setPrimitiveSizeValue:(int32_t)value_;
 
+- (NSString*)primitiveTempId;
+- (void)setPrimitiveTempId:(NSString*)value;
+
 - (KGPost*)primitivePost;
 - (void)setPrimitivePost:(KGPost*)value;
 
 @end
 
 @interface KGFileAttributes: NSObject 
++ (NSString *)attribute;
 + (NSString *)backendLink;
 + (NSString *)backendMimeType;
 + (NSString *)extension;
 + (NSString *)hasPreviewImage;
 + (NSString *)name;
 + (NSString *)size;
++ (NSString *)tempId;
 @end
 
 @interface KGFileRelationships: NSObject

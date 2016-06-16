@@ -102,7 +102,7 @@
 }
 
 - (void)setupMessageLabel {
-    self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self addSubview:self.messageLabel];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.textColor = [UIColor kg_blackColor];
@@ -153,7 +153,6 @@
                         [[self class] roundedImage:image completion:^(UIImage *image) {
                             [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
                             self.avatarImageView.image = image;
-//                            [self.avatarImageView setNeedsDisplay];
                         }];
                     });
                 });
