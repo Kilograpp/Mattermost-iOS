@@ -43,6 +43,8 @@
 	return keyPaths;
 }
 
+@dynamic attribute;
+
 @dynamic backendLink;
 
 @dynamic backendMimeType;
@@ -91,11 +93,16 @@
 	[self setPrimitiveSize:@(value_)];
 }
 
+@dynamic tempId;
+
 @dynamic post;
 
 @end
 
 @implementation KGFileAttributes 
++ (NSString *)attribute {
+	return @"attribute";
+}
 + (NSString *)backendLink {
 	return @"backendLink";
 }
@@ -113,6 +120,9 @@
 }
 + (NSString *)size {
 	return @"size";
+}
++ (NSString *)tempId {
+	return @"tempId";
 }
 @end
 
