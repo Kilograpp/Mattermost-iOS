@@ -382,6 +382,7 @@
                             NSString *tempId = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
                             [[SDImageCache sharedImageCache] storeImage:image forKey:tempId];
                             KGFile *imgFile = [KGFile MR_createEntity];
+                            imgFile.tempId = tempId;
                             [self.currentPost addFilesObject:imgFile];
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
