@@ -10,15 +10,18 @@
 #import "UIWindow+KGAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <TSMessage.h>
+#import "TSMessageView.h"
 
 static CGFloat const kHUDDimViewAlpha = 0.4f;
 static CGFloat const kHUDDismissDelay = 1.2f;
-static CGFloat const kStandartHudDismissDelay = 5.0f;
+static CGFloat const kStandartHudDismissDelay = 3.0f;
 
 
 @interface KGAlertManager ()
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, assign, getter=isHudHidden) BOOL hudHidden;
+@property (nonatomic, strong) TSMessage *message;
+
 @end
 
 @implementation KGAlertManager
@@ -71,7 +74,7 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
 
 - (void)showError:(KGError *)error {
     self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
-
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                       withTitle:NSLocalizedString(error.title, nil)
                                     withMessage:NSLocalizedString(error.message, nil)
@@ -81,14 +84,12 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                 withButtonTitle:nil
                              withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:YES];
-
-    
-    
-
+                            canBeDismisedByUser:NO];
+    [self showNavigationBar];
 }
 
 - (void)showSuccessWithTitle:(NSString*)title message:(NSString *)message {
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                       withTitle:title
                                     withMessage:message
@@ -98,7 +99,8 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                 withButtonTitle:nil
                              withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:YES];
+                            canBeDismisedByUser:NO];
+    [self showNavigationBar];
 }
 
 - (void)showErrorWithTitle:(NSString*)title message:(NSString *)message {
@@ -113,7 +115,7 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
 //    self.hud.labelText = title;
 //    self.hud.detailsLabelText = message;
 //    [self hideHudAnimated:YES afterDelay:kHUDDismissDelay];
-    
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                       withTitle:title
                                     withMessage:message
@@ -123,14 +125,15 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                 withButtonTitle:nil
                              withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:YES];
+                            canBeDismisedByUser:NO];
     
-    
+    [self showNavigationBar];
 }
 
 
 
 - (void)showSuccessWithMessage:(NSString *)message {
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                       withTitle:nil
                                     withMessage:message
@@ -140,10 +143,12 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                 withButtonTitle:nil
                              withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:YES];
+                            canBeDismisedByUser:NO];
+    [self showNavigationBar];
 }
 
 - (void)showUnauthorizedError {
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                           withTitle:NSLocalizedString(@"Недоступно для неавторизованного пользователя", nil)
                                        withMessage:nil
@@ -153,10 +158,12 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                     withButtonTitle:nil
                                  withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                           canBeDismisedByUser:YES];
+                           canBeDismisedByUser:NO];
+    [self showNavigationBar];
 }
 
 - (void)showWarningWithTitle:(NSString *)title message:(NSString *)message {
+    [self hideNavigationBar];
     [TSMessage showNotificationInViewController:[self presentingViewController]
                                       withTitle:title
                                     withMessage:message
@@ -166,7 +173,8 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
                                 withButtonTitle:nil
                              withButtonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:YES];
+                            canBeDismisedByUser:NO];
+    [self showNavigationBar];
 }
 
 
@@ -177,9 +185,21 @@ static CGFloat const kStandartHudDismissDelay = 5.0f;
     if (!_presentingViewController) {
         return [UIWindow kg_visibleViewController];
     }
-
     return _presentingViewController;
 }
+
+- (void)hideNavigationBar {
+     [self presentingViewController].navigationController.navigationBarHidden = ![self presentingViewController].navigationController.navigationBarHidden;
+}
+
+- (void)showNavigationBar {
+    int64_t timeDelay = kStandartHudDismissDelay;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, timeDelay * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+        [self presentingViewController].navigationController.navigationBarHidden = ![self presentingViewController].navigationController.navigationBarHidden;
+    });
+}
+
 
 - (void)hideHudAnimated:(BOOL)animated {
     [self.hud hide:animated];
