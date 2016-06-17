@@ -35,6 +35,13 @@
 
 #pragma mark - Response Mapping
 
++ (RKObjectMapping *)requestMapping {
+    RKObjectMapping *mapping = [super requestMapping];
+    [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:[KGFileAttributes backendLink] toKeyPath:nil]];
+    
+    return mapping;
+}
+
 + (RKEntityMapping *)simpleEntityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
     [mapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:[KGFileAttributes backendLink]]];
@@ -82,6 +89,7 @@
     return @"teams/:post.channel.team.identifier/files/get:thumbPostfix.jpg";
 }
 
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)updateResponseDescriptor {
@@ -100,6 +108,7 @@
                                                        keyPath:@"filenames"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
 
 
 #pragma mark - Support
