@@ -185,12 +185,11 @@
 #pragma mark - Navigation
 
 - (void)logout {
-#warning Сделать логаут асихнронный
     [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
-
+        KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        [appDelegate loadInitialScreen];
     }];
-    KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate loadInitialScreen];
+
 }
 
 
