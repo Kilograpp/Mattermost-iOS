@@ -182,4 +182,17 @@
     }
 }
 
+- (NSString *)interlocuterId {
+    NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
+    NSString *companionIdentifier;
+    
+    if (![sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) {
+        companionIdentifier = sideIds.firstObject;
+    } else {
+        companionIdentifier = sideIds.lastObject;
+    }
+
+    return companionIdentifier;
+}
+
 @end

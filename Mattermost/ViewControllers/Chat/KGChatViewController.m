@@ -445,7 +445,19 @@
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
+    NSString *subtitleString;
+    BOOL shouldHighlight = NO;
+    if (self.channel.type == KGChannelTypePrivate) {
+        KGUser *user = [KGUser managedObjectById:self.channel.interlocuterId];
+        if (user) {
+            subtitleString = user.stringFromNetworkStatus;
+            shouldHighlight = user.networkStatus == KGUserOnlineStatus;
+        }
+    } else {
+        subtitleString = self.channel.displayName;
+    }
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
+    self.channel.lastViewDate = [NSDate date];
 
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
         [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {

@@ -26,4 +26,6 @@ typedef NS_ENUM(NSInteger, KGChannelType) {
 
 + (NSString *)titleForChannelBackendType:(NSString *)backendType;
 
+- (NSString *)interlocuterId;
+
 @end

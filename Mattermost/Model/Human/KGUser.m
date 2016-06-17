@@ -179,6 +179,20 @@ static NSString * const kOfflineNetworkString = @"offline";
 }
 
 
+#pragma mark - Public
 
+- (NSString *)stringFromNetworkStatus {
+    switch (self.networkStatus) {
+        case KGUserOnlineStatus:
+            return @"online";
+            
+        case KGUserAwayStatus:
+            return @"away";
+            
+        case KGUserOfflineStatus: {
+            return @"offline";
+        }
+    }
+}
 
 @end

@@ -53,10 +53,10 @@
     [self.navigationBar.topItem setTitleView:titleView];
 }
 
-- (void)setupTitleViewWithUserName:(NSString *)userName online:(BOOL)online {
+- (void)setupTitleViewWithUserName:(NSString *)userName subtitle:(NSString *)subtitle shouldHighlight:(BOOL)shouldHighlight {
     self.kg_titleLabel.text = userName;
-    self.kg_subtitleLabel.text = online ? @"online" : @"offline";
-    self.kg_subtitleLabel.textColor = online ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
+    self.kg_subtitleLabel.text = subtitle;
+    self.kg_subtitleLabel.textColor = shouldHighlight ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
 }
 
 
