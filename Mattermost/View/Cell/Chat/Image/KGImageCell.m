@@ -42,10 +42,13 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-        if (!file.downloadLink) {
-            UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:file.backendLink];
-            self.kg_imageView.image = cachedImage;
+//        if (!file.downloadLink) {
+            UIImage *cachedImage_ = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:file.backendLink];
+        if (cachedImage_) {
+            self.kg_imageView.image = cachedImage_;
+            return;
         }
+//        }
         NSURL *url = file.downloadLink;
 //        self.kg_imageView.URL = url;
         
