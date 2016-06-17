@@ -35,7 +35,7 @@
 - (void)save {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
-        [defaults setValue:[self valueForKey:propertyName] forKey:propertyName];
+        [defaults setValue:[[self valueForKey:propertyName] description] forKey:propertyName];
     }];
     [defaults synchronize];
 
