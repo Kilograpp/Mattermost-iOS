@@ -152,13 +152,17 @@
 }
 
 #pragma mark - RefreshControl
--(void)setupRefreshControl {
-    self.refreshControl = [[UIRefreshControl alloc]init];
-    [self.tableView addSubview:self.refreshControl];
-    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+- (void)setupRefreshControl {
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.tableView;
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
+
 }
 
-- (void)refresh:(UIRefreshControl *)refreshControl {
+- (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
     [refreshControl endRefreshing];
 }
 
@@ -188,10 +192,8 @@
         } else {
             reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
-}
+    }
 
-
-    NSDate *start = [NSDate date];
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
         if ([[KGChatCommonTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
@@ -207,21 +209,13 @@
             cell = _followupCells.firstObject;
             [_followupCells removeObject:cell];
         }
-    } else {
-        NSLog(@"Quequed");
     }
-    
     if (!cell){
         cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     }
     
-    NSDate *mid = [NSDate date];
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
-    NSDate *end = [NSDate date];
-    NSLog(@"%f - %f TOTAL : %f %d", [mid timeIntervalSinceDate:start], [end timeIntervalSinceDate:mid], [end timeIntervalSinceDate:start], post.files.count);
-
-    
     
     return cell;
 }
