@@ -9,5 +9,5 @@
 #import "KGChatCommonTableViewCell.h"
 
 @interface KGChatAttachmentsTableViewCell : KGChatCommonTableViewCell
-
+//@property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber);
 @end

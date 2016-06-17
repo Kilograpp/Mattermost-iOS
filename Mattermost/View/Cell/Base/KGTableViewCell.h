@@ -17,4 +17,6 @@
 - (void)awakeFromNib __attribute((objc_requires_super));
 - (void)configureWithObject:(id)object;
 
+@property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber, UIView *cell);
+
 @end

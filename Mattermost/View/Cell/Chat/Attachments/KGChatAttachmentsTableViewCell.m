@@ -84,7 +84,6 @@
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
         self.messageLabel.text = post.message;
         
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
         
         if (cachedImage) {
@@ -159,6 +158,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return ceilf(KG_IMAGE_HEIGHT);
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.photoTapHandler) {
+        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+    }
 }
 
 @end

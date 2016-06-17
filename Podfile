@@ -21,6 +21,7 @@ target 'Mattermost' do
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
   pod 'TSMessages'
+  pod 'IDMPhotoBrowser'
   
 end
 

@@ -41,6 +41,7 @@
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
 #import "KGNotificationValues.h"
+#import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -229,6 +230,15 @@
         cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
     }
     
+    cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
+        NSArray *array = [post.files.allObjects sortedArrayUsingSelector:@selector(downloadLink)];
+        NSArray *urls = [array valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
+        NSArray *photos = [IDMPhoto photosWithURLs:urls];
+        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:photos animatedFromView:view];
+        [browser setInitialPageIndex:selectedPhoto];
+        [self presentViewController:browser animated:YES completion:nil];
+    };
+    
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
     
@@ -325,6 +335,7 @@
     self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
     self.currentPost.channel = self.channel;
     self.currentPost.createdAt = [NSDate date];
+    self.textView.text = @"";
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
@@ -332,7 +343,6 @@
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
-        self.textView.text = @"";
         if (error) {
             //FIXME обработка ошибок
         }
