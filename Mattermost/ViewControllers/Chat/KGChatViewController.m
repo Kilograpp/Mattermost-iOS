@@ -38,6 +38,7 @@
 #import "KGChannelNotification.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
+#import "KGAlertManager.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -127,7 +128,7 @@
 }
 
 - (void)setupKeyboardToolbar {
-    [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
+    [self.rightButton setTitle:@"Send" forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
     [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
@@ -135,8 +136,11 @@
     
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
-    self.textInputbar.textView.placeholder = @"Написать сообщение";
-    self.textInputbar.textView.font = [UIFont kg_regular14Font];
+    self.textInputbar.textView.font = [UIFont kg_regular15Font];
+    self.textInputbar.textView.placeholder = @"Type something...";
+    self.textInputbar.textView.layer.borderWidth = 0.f;
+    self.textInputbar.translucent = NO;
+    self.textInputbar.barTintColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -294,17 +298,21 @@
 }
 
 - (void)sendPost {
-    self.currentPost = [KGPost MR_createEntity];
+    if (!self.currentPost) {
+        self.currentPost = [KGPost MR_createEntity];
+    }
     self.currentPost.message = self.textInputbar.textView.text;
     self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
     self.currentPost.channel = self.channel;
     self.currentPost.createdAt = [NSDate date];
-    self.textView.text = @"";
+    
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
-    [self.currentPost setBackendPendingId:[NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
+    [self.currentPost setBackendPendingId:
+            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
+        self.textView.text = @"";
         if (error) {
             //FIXME обработка ошибок
         }
@@ -325,21 +333,15 @@
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
         dispatch_async(dispatch_get_main_queue(), ^{
 
-            // init picker
             CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-
-            // set delegate
             picker.delegate = self;
 
-            // Optionally present picker as a form sheet on iPad
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                 picker.modalPresentationStyle = UIModalPresentationFormSheet;
 
-            // present picker
             [self presentViewController:picker animated:YES completion:nil];
         });
     }];
-
 }
 
 
@@ -368,30 +370,44 @@
     __block UIImage *img;
     __weak typeof(self) wSelf = self;
 
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[KGAlertManager sharedManager] showProgressHud];
+    }];
     
+    dispatch_group_t group = dispatch_group_create();
+    if (!self.currentPost) {
+        self.currentPost = [KGPost MR_createEntity];
+    }
+    
+    self.textInputbar.rightButton.enabled = NO;
     for (PHAsset *asset in assets) {
+        dispatch_group_enter(group);
         [manager requestImageForAsset:asset
                            targetSize:PHImageManagerMaximumSize
                           contentMode:PHImageContentModeAspectFill
                               options:self.requestOptions
                         resultHandler:^(UIImage *image, NSDictionary *info) {
                             img = image;
-                            self.currentPost = self.currentPost ?: [KGPost MR_createEntity];
                             [wSelf.assignedPhotos addObject:img];
                             NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
                             [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
                             KGFile *imgFile = [KGFile MR_createEntity];
-                            //imgFile.tempId = tempId;
+                           // imgFile.tempId = tempId;
                             [imgFile setBackendLink:localLink];
-
                             [self.currentPost addFilesObject:imgFile];
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
-                            [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGError *error) {
+                            [[KGBusinessLogic sharedInstance] uploadFile:imgFile atChannel:wSelf.channel withCompletion:^(KGError *error) {
+                                dispatch_group_leave(group);
                             }];
                         }];
     }
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [[KGAlertManager sharedManager] hideHud];
+        self.textInputbar.rightButton.enabled = YES;
+        [self sendPost];
+    });
 }
 
 
@@ -432,7 +448,6 @@
     }
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
-//    self.title = self.channel.displayName;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
 
