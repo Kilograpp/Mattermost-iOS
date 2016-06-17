@@ -131,6 +131,9 @@
         }
 
         NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username];
+        NSNumber *statusUser = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] status];
+
+        self.status = statusUser;
         self.displayName = futureName;
     }
 }

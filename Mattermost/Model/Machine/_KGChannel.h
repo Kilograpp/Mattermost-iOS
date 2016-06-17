@@ -52,6 +52,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* shouldUpdateAt;
 
+@property (nonatomic, strong, nullable) NSNumber* status;
+
+@property (atomic) int16_t statusValue;
+- (int16_t)statusValue;
+- (void)setStatusValue:(int16_t)value_;
+
 @property (nonatomic, strong, nullable) NSString* teamId;
 
 @property (nonatomic, strong, nullable) NSDate* updatedAt;
@@ -120,6 +126,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveShouldUpdateAt;
 - (void)setPrimitiveShouldUpdateAt:(NSDate*)value;
 
+- (NSNumber*)primitiveStatus;
+- (void)setPrimitiveStatus:(NSNumber*)value;
+
+- (int16_t)primitiveStatusValue;
+- (void)setPrimitiveStatusValue:(int16_t)value_;
+
 - (NSString*)primitiveTeamId;
 - (void)setPrimitiveTeamId:(NSString*)value;
 
@@ -149,6 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)name;
 + (NSString *)purpose;
 + (NSString *)shouldUpdateAt;
++ (NSString *)status;
 + (NSString *)teamId;
 + (NSString *)updatedAt;
 @end
