@@ -7,7 +7,6 @@
     <customFonts key="customFonts">
         <mutableArray key="SF-UI-Text-Bold.otf">
             <string>SFUIText-Bold</string>
-            <string>SFUIText-Bold</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -117,36 +116,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLM-Oi-DV5">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BjP-S0-p8K">
-                                        <rect key="frame" x="64" y="22" width="44" height="20"/>
-                                        <fontDescription key="fontDescription" name="SFUIText-Bold" family="SF UI Text" pointSize="16"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9Qm-v7-s5e">
-                                        <rect key="frame" x="15" y="15" width="34" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="34" id="OUx-AL-ULo"/>
-                                            <constraint firstAttribute="height" constant="34" id="PMk-6h-XSr"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="34" id="Qkn-5D-wZd"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="XSI-zQ-DOa"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.1647058824" green="0.4039215686" blue="0.64705882349999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="BjP-S0-p8K" firstAttribute="leading" secondItem="9Qm-v7-s5e" secondAttribute="trailing" constant="15" id="059-Bp-idd"/>
-                                    <constraint firstAttribute="height" constant="64" id="B5z-ZC-jwh"/>
-                                    <constraint firstItem="BjP-S0-p8K" firstAttribute="centerY" secondItem="OLM-Oi-DV5" secondAttribute="centerY" id="cke-UH-wG9"/>
-                                    <constraint firstItem="9Qm-v7-s5e" firstAttribute="centerY" secondItem="OLM-Oi-DV5" secondAttribute="centerY" id="sD1-od-f3H"/>
-                                    <constraint firstItem="9Qm-v7-s5e" firstAttribute="leading" secondItem="OLM-Oi-DV5" secondAttribute="leading" constant="15" id="xRs-70-7ic"/>
-                                </constraints>
-                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1Tz-RJ-Dm5">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="z8p-bN-Ad0" id="HtZ-Cz-quA"/>
@@ -156,12 +127,9 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="1Tz-RJ-Dm5" firstAttribute="top" secondItem="OLM-Oi-DV5" secondAttribute="bottom" id="1if-bv-JDO"/>
-                            <constraint firstItem="OLM-Oi-DV5" firstAttribute="width" secondItem="lxa-h9-d2C" secondAttribute="width" id="PrH-Mz-Eye"/>
+                            <constraint firstItem="1Tz-RJ-Dm5" firstAttribute="top" secondItem="3mR-Y0-A3w" secondAttribute="bottom" id="Bmq-Z4-iL5"/>
                             <constraint firstAttribute="trailing" secondItem="1Tz-RJ-Dm5" secondAttribute="trailing" id="WWL-Gj-eCz"/>
-                            <constraint firstItem="OLM-Oi-DV5" firstAttribute="leading" secondItem="lxa-h9-d2C" secondAttribute="leading" id="b1b-Z3-alO"/>
                             <constraint firstItem="1Tz-RJ-Dm5" firstAttribute="leading" secondItem="lxa-h9-d2C" secondAttribute="leading" id="cAh-FT-ORW"/>
-                            <constraint firstItem="OLM-Oi-DV5" firstAttribute="top" secondItem="3mR-Y0-A3w" secondAttribute="bottom" id="vh2-I8-zUz"/>
                             <constraint firstItem="Gb1-UM-Xna" firstAttribute="top" secondItem="1Tz-RJ-Dm5" secondAttribute="bottom" id="y5F-7A-FYH"/>
                         </constraints>
                     </view>
@@ -171,9 +139,6 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="avatarImageView" destination="9Qm-v7-s5e" id="QRj-0I-dMg"/>
-                        <outlet property="headerView" destination="OLM-Oi-DV5" id="cvi-jb-wss"/>
-                        <outlet property="nameLabel" destination="BjP-S0-p8K" id="mBO-sj-zsq"/>
                         <outlet property="tableView" destination="1Tz-RJ-Dm5" id="Wcl-cZ-pZx"/>
                     </connections>
                 </viewController>

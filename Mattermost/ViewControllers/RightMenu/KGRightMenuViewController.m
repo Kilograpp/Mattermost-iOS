@@ -88,6 +88,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGRightMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:[KGRightMenuCell reuseIdentifier]];
     [cell configureWithObject:self.dataSource[indexPath.row]];
+    if (indexPath.row == 0) {
+         KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+        [cell configureWithImageName:user.imageUrl];
+    }
     return cell;
 }
 
@@ -96,6 +100,14 @@
 - (void)setupDataSource {
     NSMutableArray *rightMenuDataSource = [[NSMutableArray alloc] init];
     __weak typeof(self) wSelf = self;
+    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(user.nickname, nil)
+                                                                     iconName:@"menu_switch_icon"
+                                                                   titleColor:[UIColor kg_whiteColor]
+                                                                      handler:^{
+                                                                                                                                                    [wSelf.delegate navigationToProfil];
+                                                                          
+                                                                      }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]

@@ -10,6 +10,8 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGRightMenuDataSourceEntry.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "UIImage+Resize.h"
 
 @interface KGRightMenuCell()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
@@ -36,6 +38,19 @@
     self.titleMenuLabel.text = title;
 }
 
+- (void)configureWithImageName:(NSURL *) image{
+    UIImageView *avatar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    
+    [self addSubview:avatar];
+    [avatar setCenter:self.iconImageView.center];
+    self.iconImageView = nil;
+    avatar.layer.cornerRadius = CGRectGetHeight(avatar.bounds) / 2;
+    avatar.layer.drawsAsynchronously = YES;
+    avatar.clipsToBounds = YES;
+    avatar.backgroundColor = [UIColor whiteColor];
+    [avatar setImageWithURL:image placeholderImage:nil options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+}
 #pragma mark - Override
 
 -(void)configureWithObject:(id)object{
@@ -49,7 +64,7 @@
 
 + (CGFloat)heightWithObject:(id)object {
     CGFloat heightScreen =  [[UIScreen mainScreen] bounds].size.height;
-    return (heightScreen - 84) / 8 ;
+    return (heightScreen - 20) / 9 ;
 }
 
 
