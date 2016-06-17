@@ -118,7 +118,6 @@
         if (channel.type == KGChannelTypePrivate){
             [self configureCellForChannelPrivate:channel.hasNewMessages];
             [self configureDotViewForNetworkStatus:channel.configureNetworkStatus];
-            NSLog(@"channel.configureNetworkStatus %ld", (long)channel.configureNetworkStatus);
         } else {
             [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
