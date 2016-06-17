@@ -172,7 +172,7 @@
 }
 
 
-#pragma mark - Private Setters {
+#pragma mark - Private Setters
 
 - (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
     _delegate = delegate;

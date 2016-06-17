@@ -40,6 +40,7 @@
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
+#import "KGNotificationValues.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -71,6 +72,7 @@
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
+    [self registerObservers];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,31 +102,22 @@
 }
 
 - (void)setupTableView {
-//    NSArray *cellClasses = @[[KGChatRootCell class], [KGFollowUpChatCell class], [KGImageChatCell class] ];
-
-//    for (Class class in cellClasses) {
-//        [self.tableView registerNib:[class nib] forCellReuseIdentifier:[class reuseIdentifier]];
-//    }
-
     _chatRootCells = [NSMutableArray arrayWithCapacity:15];
     _imageCells = [NSMutableArray arrayWithCapacity:15];
     _followupCells = [NSMutableArray arrayWithCapacity:15];
 
-
     for (int i = 0; i < 15; i++) {
-        
-        UITableViewCell* cell = [[KGChatCommonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
+        UITableViewCell* cell = [[KGChatCommonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                 reuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
         [_chatRootCells addObject:cell];
         
-        cell = [[KGChatAttachmentsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
+        cell = [[KGChatAttachmentsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                     reuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
         [_imageCells addObject:cell];
     
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGFollowUpChatCell" owner:self options:nil] firstObject];
         [_followupCells addObject:cell];
     }
-
-    //[self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
-    //[self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -146,7 +139,8 @@
     [self registerPrefixesForAutoCompletion:@[@"@"]];
 }
 
-#pragma mark Override 
+
+#pragma mark - Override
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
    // NSArray *arrayChannels = [KGChannel MR_findFirstByAttribute:NSStringFromSelector(@selector(displayName))];
@@ -315,7 +309,7 @@
 - (void)loadLastPosts {
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
         if (error) {
-            
+            //FIXME: обработка ошибок
         }
 
         [self setupFetchedResultsController];
@@ -370,6 +364,21 @@
     }];
 }
 
+- (void)updateNavigationBarAppearance {
+    NSString *subtitleString;
+    BOOL shouldHighlight = NO;
+    if (self.channel.type == KGChannelTypePrivate) {
+        KGUser *user = [KGUser managedObjectById:self.channel.interlocuterId];
+        if (user) {
+            subtitleString = user.stringFromNetworkStatus;
+            shouldHighlight = user.networkStatus == KGUserOnlineStatus;
+        }
+    } else {
+        subtitleString = self.channel.displayName;
+    }
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
+}
+
 
 #pragma mark - Notifications
 
@@ -382,6 +391,10 @@
             [self.typingIndicatorView insertUsername:user.nickname];
         }
     }
+}
+
+- (void)registerObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNavigationBarAppearance) name:KGNotificationUsersStatusUpdate object:nil];
 }
 
 
@@ -465,18 +478,7 @@
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
-    NSString *subtitleString;
-    BOOL shouldHighlight = NO;
-    if (self.channel.type == KGChannelTypePrivate) {
-        KGUser *user = [KGUser managedObjectById:self.channel.interlocuterId];
-        if (user) {
-            subtitleString = user.stringFromNetworkStatus;
-            shouldHighlight = user.networkStatus == KGUserOnlineStatus;
-        }
-    } else {
-        subtitleString = self.channel.displayName;
-    }
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
+    [self updateNavigationBarAppearance];
     self.channel.lastViewDate = [NSDate date];
 
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
@@ -487,7 +489,6 @@
             [self setupFetchedResultsController];
             [self.tableView reloadData];
             [self hideLoadingViewAnimated:YES];
-
         }];
     }];
 }
@@ -597,6 +598,7 @@
 - (void)toggleRightSideMenuAction {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
+
 
 #pragma mark - Loading View
 
