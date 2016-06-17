@@ -21,6 +21,7 @@
 #import "NSManagedObject+CustomFinder.h"
 #import <UIImageView+UIActivityIndicatorForSDWebImage.h>
 #import <MFSideMenu/MFSideMenu.h>
+#import "KGNotificationValues.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -37,12 +38,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    //[[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
     [self setup];
     [self setupTableView];
     [self setupTeamLabel];
     [self configureHeaderView];
     [self setupFetchedResultsController];
+    [self registerObservers];
 }
 
 
@@ -63,15 +65,18 @@
     self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
 }
 
-//- (void)setupAvatarImageView {
-//    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
-//    self.avatarImageView.layer.drawsAsynchronously = YES;
-//    self.avatarImageView.clipsToBounds = YES;
-//}
 
 - (void)setupTeamLabel {
     self.teamLabel.textColor = [UIColor kg_whiteColor];
     self.teamLabel.font = [UIFont kg_boldText16Font];
+}
+
+- (void)registerObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:KGNotificationUsersStatusUpdate object:nil];
+}
+
+- (void)updateTableView {
+    [self.tableView reloadData];
 }
 
 
