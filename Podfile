@@ -20,6 +20,7 @@ target 'Mattermost' do
   pod 'CTAssetsPickerController',  '~> 3.3.0'
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
+  pod 'TSMessages'
   
 end
 

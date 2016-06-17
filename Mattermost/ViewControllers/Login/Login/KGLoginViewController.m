@@ -20,6 +20,7 @@
 #import "KGBusinessLogic+Channel.h"
 #import "KGSideMenuContainerViewController.h"
 #import "CAGradientLayer+KGPreparedGradient.h"
+#import "KGAlertManager.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
@@ -180,14 +181,17 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         if (error) {
             [self hideProgressHud];
-            [self processError:error];
+            //[self processError:error];
             [self highlightTextFieldsForError];
+            [[KGAlertManager sharedManager] showError:error];
+            [self hideProgressHud];
         }
         else {
             [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
                 if (error) {
+                   // [self processError:error];
+                    [[KGAlertManager sharedManager] showError:error];
                     [self hideProgressHud];
-                    [self processError:error];
                 } else if (!userShouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
 
@@ -197,7 +201,10 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
                         [self hideProgressHud];
                         if (error) {
-                            [self processError:error];
+                            
+                           //[self processError:error];
+                            [[KGAlertManager sharedManager] showError:error];
+                            [self hideProgressHud];
                         } else {
                             [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
                             KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];

@@ -19,6 +19,7 @@
 #import "KGUser.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
+#import "KGAlertManager.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -186,9 +187,11 @@
 
 - (void)logout {
 #warning Сделать логаут асихнронный
-    [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
-
-    }];
+        [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
+            if (error) {
+                [[KGAlertManager sharedManager] showError:error];
+            }
+        }];
     KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     [appDelegate loadInitialScreen];
 }
