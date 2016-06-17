@@ -73,6 +73,7 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateCurrentUserWithObject:(KGUser*)user {
     [[KGPreferences sharedInstance] setCurrentUserId:user.identifier];
+    [[KGPreferences sharedInstance] save];
 }
 
 - (NSURL *)imageUrlForUser:(KGUser *)user {
