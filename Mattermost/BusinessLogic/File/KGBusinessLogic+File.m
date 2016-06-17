@@ -13,7 +13,8 @@
 #import "_KGChannel.h"
 #import "KGChannel.h"
 #import "NSStringUtils.h"
-
+#import "SDImageCache.h"
+#import <MagicalRecord.h>
 
 @implementation KGBusinessLogic (File)
 
@@ -35,17 +36,34 @@
     } failure:completion];
 }
 
-- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(NSString* fileName, KGError *error))completion {
+- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]
     };
     [self.defaultObjectManager postImage:image withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, [mappingResult.firstObject name], nil);
-    } failure:^(KGError *error) {
-        safetyCall(completion, nil, error);
-    }];
+        safetyCall(completion, nil);
+    } failure:completion];
+}
+
+- (void)uploadFile:(KGFile*)file atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
+    NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
+    NSDictionary* parameters = @{
+                                 @"channel_id" : channel.identifier,
+                                 @"client_ids" : [NSStringUtils randomUUID]
+                                 };
+    NSString *oldBackendLink = file.backendLink;
+    __block KGFile *file_ = file;
+    UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:file.backendLink];
+    [self.defaultObjectManager postImage:image withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
+        file_ = mappingResult.firstObject;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        [[SDImageCache sharedImageCache] removeImageForKey:oldBackendLink withCompletion:^{
+            safetyCall(completion, nil);
+        }];
+    } failure:completion];
+
 }
 
 @end

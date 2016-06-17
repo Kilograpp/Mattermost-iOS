@@ -3,6 +3,7 @@
 #import "KGBusinessLogic+File.h"
 #import "NSStringUtils.h"
 #import <RestKit.h>
+#import <SDWebImage/SDImageCache.h>
 
 @interface KGFile ()
 
@@ -88,10 +89,10 @@
 
 
 + (RKResponseDescriptor*)uploadResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self simpleEntityMapping]
-                                                        method:RKRequestMethodGET
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
                                                    pathPattern:[self uploadFilePathPattern]
-                                                       keyPath:@"filenames"
+                                                       keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
@@ -113,18 +114,26 @@
 
 - (void)fillNameFromBackendLink {
     NSArray *fileComponents = [self.backendLink componentsSeparatedByString:@"/"];
-    NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
-    NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
-    self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+    if (fileComponents.count >= 2) {
+        NSString * fileIdentifier = fileComponents[fileComponents.count - 2];
+        NSString * fileName = [fileComponents.lastObject stringByRemovingPercentEncoding];
+        self.name = [fileIdentifier stringByAppendingPathComponent:fileName];
+    } else {
+        self.name = self.backendLink;
+    }
+    
 }
 
 #pragma mark - Core Data
 
 - (void)willSave {
-    if ([NSStringUtils isStringEmpty:self.name]) {
+    if ([NSStringUtils isStringEmpty:self.name] && ![NSStringUtils isStringEmpty:self.backendLink]) {
         [self fillNameFromBackendLink];
     }
 };
 
+- (void)prepareForDeletion {
+    [[SDImageCache sharedImageCache] removeImageForKey:self.backendLink];
+}
 
 @end

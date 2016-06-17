@@ -53,8 +53,14 @@
     return color;
 }
 
+#pragma mark - Left Menu
++ (UIColor *)kg_sectionColorLeftMenu {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C3CDD4" alpha:1])
+    return color;
+}
+
 + (UIColor *)kg_leftMenuBackgroundColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:32/255.f green:113/255.f blue:167/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor colorWithRed:38/255.f green:93/255.f blue:154/255.f alpha:1.f])
     return color;
 }
 
@@ -64,7 +70,7 @@
 }
 
 + (UIColor *)kg_leftMenuHeaderColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:47/255.f green:129/255.f blue:173/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor colorWithRed:42/255.f green:103/255.f blue:165/255.f alpha:1.f])
     return color;
 }
 
@@ -134,6 +140,8 @@
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#C86DD7" alpha:1])
     return color;
 }
+
+
 
 
 @end

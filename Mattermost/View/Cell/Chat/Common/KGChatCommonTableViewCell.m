@@ -38,7 +38,7 @@
         [self setupMessageLabel];
         
         for (UIView *view in self.subviews) {
-            view.layer.drawsAsynchronously = YES;
+//            view.layer.drawsAsynchronously = YES;
             view.layer.shouldRasterize = YES;
             view.layer.rasterizationScale = [UIScreen mainScreen].scale;
         }
@@ -102,7 +102,7 @@
 }
 
 - (void)setupMessageLabel {
-    self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     [self addSubview:self.messageLabel];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.textColor = [UIColor kg_blackColor];
@@ -148,15 +148,10 @@
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
                                                                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                dispatch_async(bgQueue, ^{
-                    dispatch_async(dispatch_get_main_queue(), ^{
                         [[self class] roundedImage:image completion:^(UIImage *image) {
                             [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
                             self.avatarImageView.image = image;
-//                            [self.avatarImageView setNeedsDisplay];
                         }];
-                    });
-                });
             }];
             [self.avatarImageView removeActivityIndicator];
         }

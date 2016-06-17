@@ -20,6 +20,7 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGLeftMenuViewController.h"
 #import "KGBusinessLogic+Socket.h"
+#import "KGBusinessLogic+File.h"
 #import "KGBusinessLogic+Channel.h"
 #import "KGRightMenuViewController.h"
 #import "KGPresentNavigationController.h"
@@ -35,9 +36,9 @@
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGChannelNotification.h"
-
-@import CoreText;
-
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "KGFile.h"
+#import "KGAlertManager.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -50,6 +51,7 @@
 @property (nonatomic, strong) NSMutableArray* followupCells;
 @property (nonatomic, strong) NSMutableArray* imageCells;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
+@property (nonatomic, strong) KGPost *currentPost;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @end
 
@@ -109,24 +111,24 @@
 
     for (int i = 0; i < 15; i++) {
         
-        UITableViewCell* cell = [[[NSBundle mainBundle] loadNibNamed:@"KGChatRootCell" owner:self options:nil] firstObject];
+        UITableViewCell* cell = [[KGChatCommonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
         [_chatRootCells addObject:cell];
         
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGImageChatCell" owner:self options:nil] firstObject];
+        cell = [[KGChatAttachmentsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
         [_imageCells addObject:cell];
     
         cell = [[[NSBundle mainBundle] loadNibNamed:@"KGFollowUpChatCell" owner:self options:nil] firstObject];
         [_followupCells addObject:cell];
     }
 
-    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
-    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
+    //[self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
+    //[self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (void)setupKeyboardToolbar {
-    [self.rightButton setTitle:@"Отпр." forState:UIControlStateNormal];
+    [self.rightButton setTitle:@"Send" forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
     [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
@@ -134,8 +136,11 @@
     
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
-    self.textInputbar.textView.placeholder = @"Написать сообщение";
-    self.textInputbar.textView.font = [UIFont kg_regular14Font];
+    self.textInputbar.textView.font = [UIFont kg_regular15Font];
+    self.textInputbar.textView.placeholder = @"Type something...";
+    self.textInputbar.textView.layer.borderWidth = 0.f;
+    self.textInputbar.translucent = NO;
+    self.textInputbar.barTintColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -178,12 +183,12 @@
     NSDate *start = [NSDate date];
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell) {
-        if ([[KGChatRootCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+        if ([[KGChatCommonTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
             cell = _chatRootCells.firstObject;
         
             [_chatRootCells removeObject:cell];
         }
-        if ([[KGImageChatCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
+        if ([[KGChatAttachmentsTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
             cell = _imageCells.firstObject;
             [_imageCells removeObject:cell];
         }
@@ -261,6 +266,10 @@
     return CGFLOAT_MIN;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 50.f;
+}
+
 
 #pragma mark - NSFetchedResultsController
 
@@ -289,153 +298,29 @@
 }
 
 - (void)sendPost {
-    KGPost *post = [KGPost MR_createEntity];
-    post.message = self.textInputbar.textView.text;
-    post.author = [[KGBusinessLogic sharedInstance] currentUser];
-    post.channel = self.channel;
-    post.createdAt = [NSDate date];
-    self.textView.text = @"";
+    if (!self.currentPost) {
+        self.currentPost = [KGPost MR_createEntity];
+    }
+    self.currentPost.message = self.textInputbar.textView.text;
+    self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
+    self.currentPost.channel = self.channel;
+    self.currentPost.createdAt = [NSDate date];
+    
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
-    [post setBackendPendingId:[NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [post.createdAt timeIntervalSince1970]]];
+    [self.currentPost setBackendPendingId:
+            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
     
-    [[KGBusinessLogic sharedInstance] sendPost:post completion:^(KGError *error) {
+    [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
+        self.textView.text = @"";
         if (error) {
             //FIXME обработка ошибок
         }
+
+        self.currentPost = nil;
     }];
 }
 
-
-#pragma mark - Actions
-
-- (void)toggleLeftSideMenuAction {
-    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
-}
-
-- (void)toggleRightSideMenuAction {
-    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
-}
-
-#pragma mark - Loading View
-
-- (UIActivityIndicatorView *)loadingActivityIndicator {
-    if (!_loadingActivityIndicator) {
-        _loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _loadingActivityIndicator.hidesWhenStopped = YES;
-    }
-    
-    return _loadingActivityIndicator;
-}
-
-- (void)showLoadingView {
-    self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.loadingView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.loadingView];
-    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
-    
-    [self.loadingView addSubview:self.loadingActivityIndicator];
-    [self.loadingActivityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.loadingView);
-    }];
-    [self.loadingActivityIndicator startAnimating];
-}
-
-- (void)hideLoadingViewAnimated:(BOOL)animated {
-    CGFloat duration = animated ? KGStandartAnimationDuration : 0;
-    [UIView animateWithDuration:duration animations:^{
-        self.loadingView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.loadingActivityIndicator stopAnimating];
-        [self.loadingView removeFromSuperview];
-    }];
-}
-
-
-#pragma mark - NSFetchedResultsControllerDelegate
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView beginUpdates];
-    
-    self.deletedSections = [[NSMutableIndexSet alloc] init];
-    self.insertedSections = [[NSMutableIndexSet alloc] init];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView endUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-      didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
-               atIndex:(NSUInteger)sectionIndex
-         forChangeType:(NSFetchedResultsChangeType)type {
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
-    
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.deletedSections addIndexes:indexSet];
-            break;
-            
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.insertedSections addIndexes:indexSet];
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-       didChangeObject:(id)anObject
-           atIndexPath:(NSIndexPath *)indexPath
-         forChangeType:(NSFetchedResultsChangeType)type
-          newIndexPath:(NSIndexPath *)newIndexPath {
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-            
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            // iOS 9.0b5 sends the same index path twice instead of delete
-            if(![indexPath isEqual:newIndexPath]) {
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else if([self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
-                // Really the only way is to delete and insert the same index path...
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else if([self.deletedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: same index path reported after section was removed
-                // we can ignore item deletion here because the whole section was removed anyway
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            // On iOS 9.0b5 NSFetchedResultsController may not even contain such indexPath anymore
-            // when removing last item from section.
-            if(![self.deletedSections containsIndex:indexPath.section] && ![self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 sends update before delete therefore we cannot use reload
-                // this will never work correctly but at least no crash.
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-            }
-            
-            break;
-    }
-}
 
 #pragma mark - Private
 
@@ -448,22 +333,19 @@
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
         dispatch_async(dispatch_get_main_queue(), ^{
 
-            // init picker
             CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-
-            // set delegate
             picker.delegate = self;
 
-            // Optionally present picker as a form sheet on iPad
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                 picker.modalPresentationStyle = UIModalPresentationFormSheet;
 
-            // present picker
             [self presentViewController:picker animated:YES completion:nil];
         });
     }];
-
 }
+
+
+#pragma mark - Notifications
 
 - (void)test:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
@@ -476,6 +358,9 @@
     }
 }
 
+
+#pragma mark -  CTAssetsPickerControllerDelegate
+
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
     PHImageManager *manager = [PHImageManager defaultManager];
     self.requestOptions = [[PHImageRequestOptions alloc] init];
@@ -484,8 +369,19 @@
     
     __block UIImage *img;
     __weak typeof(self) wSelf = self;
+
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[KGAlertManager sharedManager] showProgressHud];
+    }];
     
+    dispatch_group_t group = dispatch_group_create();
+    if (!self.currentPost) {
+        self.currentPost = [KGPost MR_createEntity];
+    }
+    
+    self.textInputbar.rightButton.enabled = NO;
     for (PHAsset *asset in assets) {
+        dispatch_group_enter(group);
         [manager requestImageForAsset:asset
                            targetSize:PHImageManagerMaximumSize
                           contentMode:PHImageContentModeAspectFill
@@ -493,8 +389,24 @@
                         resultHandler:^(UIImage *image, NSDictionary *info) {
                             img = image;
                             [wSelf.assignedPhotos addObject:img];
+                            NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
+                            [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
+                            KGFile *imgFile = [KGFile MR_createEntity];
+                            [imgFile setBackendLink:localLink];
+                            [self.currentPost addFilesObject:imgFile];
+                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+
+                            [[KGBusinessLogic sharedInstance] uploadFile:imgFile atChannel:wSelf.channel withCompletion:^(KGError *error) {
+                                dispatch_group_leave(group);
+                            }];
                         }];
     }
+    
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [[KGAlertManager sharedManager] hideHud];
+        self.textInputbar.rightButton.enabled = YES;
+        [self sendPost];
+    });
 }
 
 
@@ -535,7 +447,6 @@
     }
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
-//    self.title = self.channel.displayName;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName online:arc4random() % 2];
 
@@ -561,6 +472,137 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:presentNC animated:YES completion:nil];
     });
+}
+
+
+#pragma mark - NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+
+    self.deletedSections = [[NSMutableIndexSet alloc] init];
+    self.insertedSections = [[NSMutableIndexSet alloc] init];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type {
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
+
+    switch(type) {
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.deletedSections addIndexes:indexSet];
+            break;
+
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.insertedSections addIndexes:indexSet];
+            break;
+
+        default:
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath {
+    switch(type) {
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            break;
+
+        case NSFetchedResultsChangeMove:
+            // iOS 9.0b5 sends the same index path twice instead of delete
+            if(![indexPath isEqual:newIndexPath]) {
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else if([self.insertedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
+                // Really the only way is to delete and insert the same index path...
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            else if([self.deletedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 bug: same index path reported after section was removed
+                // we can ignore item deletion here because the whole section was removed anyway
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+
+            break;
+
+        case NSFetchedResultsChangeUpdate:
+            // On iOS 9.0b5 NSFetchedResultsController may not even contain such indexPath anymore
+            // when removing last item from section.
+            if(![self.deletedSections containsIndex:indexPath.section] && ![self.insertedSections containsIndex:indexPath.section]) {
+                // iOS 9.0b5 sends update before delete therefore we cannot use reload
+                // this will never work correctly but at least no crash.
+                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
+            }
+
+            break;
+    }
+}
+
+
+#pragma mark - Actions
+
+- (void)toggleLeftSideMenuAction {
+    [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
+}
+
+- (void)toggleRightSideMenuAction {
+    [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
+}
+
+#pragma mark - Loading View
+
+- (UIActivityIndicatorView *)loadingActivityIndicator {
+    if (!_loadingActivityIndicator) {
+        _loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _loadingActivityIndicator.hidesWhenStopped = YES;
+    }
+
+    return _loadingActivityIndicator;
+}
+
+- (void)showLoadingView {
+    self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.loadingView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.loadingView];
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+
+    [self.loadingView addSubview:self.loadingActivityIndicator];
+    [self.loadingActivityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.loadingView);
+    }];
+    [self.loadingActivityIndicator startAnimating];
+}
+
+- (void)hideLoadingViewAnimated:(BOOL)animated {
+    CGFloat duration = animated ? KGStandartAnimationDuration : 0;
+    [UIView animateWithDuration:duration animations:^{
+        self.loadingView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.loadingActivityIndicator stopAnimating];
+        [self.loadingView removeFromSuperview];
+    }];
 }
 
 @end
