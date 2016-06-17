@@ -42,6 +42,11 @@
     return mapping;
 }
 
++ (RKObjectMapping*)uploadLinksDictionaryMapping {
+    RKObjectMapping *dictionaryMapping = [RKObjectMapping mappingForClass:[NSMutableDictionary class]];
+    [dictionaryMapping addPropertyMapping:[RKAttributeMapping attributeMappingFromKeyPath:nil toKeyPath:[KGFileAttributes backendLink]]];
+    return dictionaryMapping;
+}
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super emptyEntityMapping];
@@ -89,10 +94,10 @@
 
 
 + (RKResponseDescriptor*)uploadResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self uploadLinksDictionaryMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self uploadFilePathPattern]
-                                                       keyPath:nil
+                                                       keyPath:@"filenames"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 

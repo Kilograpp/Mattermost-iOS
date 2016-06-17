@@ -13,7 +13,7 @@
 @interface KGBusinessLogic (File)
 
 - (void)updateFileInfo:(KGFile*)file withCompletion:(void(^)(KGError *error))completion;
-- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion;
+- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion;
 - (void)uploadFile:(KGFile*)file atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion;
 
 - (NSURL *)downloadLinkForFile:(KGFile *)file;
