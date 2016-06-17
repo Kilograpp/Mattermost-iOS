@@ -13,5 +13,5 @@
 
 - (void)configureWithImageName:(NSString *)imageName title:(NSString *)title;
 + (CGFloat)heightWithObject:(id)object;
-
+- (void)configureWithImageName:(NSURL *) image;
 @end

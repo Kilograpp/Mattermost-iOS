@@ -135,6 +135,18 @@
     }
 }
 
+- (KGUserNetworkStatus)configureNetworkStatus {
+    KGUserNetworkStatus userNetworkStatus;
+    if (self.type == KGChannelTypePrivate) {
+        NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
+        NSString *companionIdentifier;
+        companionIdentifier = (![sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) ? sideIds.firstObject : sideIds.lastObject;
+        KGUser *user = [KGUser managedObjectById:companionIdentifier];
+        userNetworkStatus = [user networkStatus];
+    }
+    return userNetworkStatus;
+}
+
 
 #pragma mark - Public
 

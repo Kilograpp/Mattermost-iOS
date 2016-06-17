@@ -10,8 +10,10 @@
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
 #import "KGChannel.h"
+#import "KGUser.h"
 
 @interface KGChannelTableViewCell()
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UIView *dotView;
@@ -50,12 +52,14 @@
         self.selectedView.backgroundColor = [UIColor kg_whiteColor];
         self.channelNameLabel.textColor = [UIColor kg_blackColor];
         self.sharpLabel.textColor = [UIColor kg_blackColor];
+        self.dotView.backgroundColor = self.dotViewColor;
         self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
         
     } else {
         self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
         self.channelNameLabel.textColor = self.labelColor;
         self.sharpLabel.textColor = self.labelColor;
+        self.dotView.backgroundColor = self.dotViewColor;
         self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
     }
 }
@@ -67,11 +71,13 @@
         self.selectedView.backgroundColor = [UIColor kg_whiteColor];
         self.channelNameLabel.textColor = [UIColor kg_blackColor];
         self.sharpLabel.textColor = [UIColor kg_blackColor];
+        self.dotView.backgroundColor = self.dotViewColor;
         self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
     } else {
         self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
         self.channelNameLabel.textColor = self.labelColor;
         self.sharpLabel.textColor = self.labelColor;
+        self.dotView.backgroundColor = self.dotViewColor;
         self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
     }
 }
@@ -107,32 +113,53 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGChannel class]]) {
         KGChannel *channel = object;
-
+        
         self.channelNameLabel.text = channel.displayName;
         if (channel.type == KGChannelTypePrivate){
-            [self configureCellForChannelPrivate];
-            
+            [self configureCellForChannelPrivate:channel.hasNewMessages];
+            [self configureDotViewForNetworkStatus:channel.configureNetworkStatus];
         } else {
-            [self configureCellForCnannelPublic];
+            [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
     }
 }
 
-- (void)configureCellForChannelPrivate {
-    self.dotView.hidden = NO;
-    self.sharpLabel.hidden = YES;
-    //if user online/offline/...
-    //if newMessage
-    self.labelColor = [UIColor kg_sectionColorLeftMenu];
-    self.dotViewColor = [UIColor clearColor];
-    self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
-    self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
+-(void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
+    switch (networkStatus) {
+        case KGUserOnlineStatus:
+            self.dotViewColor = [UIColor greenColor];
+            self.dotViewBorderColor = [UIColor greenColor];
+            self.dotViewBorderColorIfSelected = [UIColor greenColor];
+            break;
+        case KGUserAwayStatus:
+            self.dotViewColor = [UIColor yellowColor];
+            self.dotViewBorderColor = [UIColor yellowColor];
+            self.dotViewBorderColorIfSelected = [UIColor yellowColor];
+            break;
+        case KGUserOfflineStatus:
+            self.dotViewColor = [UIColor clearColor];
+            self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
+            self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
+        break;
+        default:
+            self.dotViewColor = [UIColor clearColor];
+            self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
+            self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
+            break;
+    }
 }
 
-- (void)configureCellForCnannelPublic{
+- (void)configureCellForChannelPrivate:(BOOL)boolIsNewMessage {
+    self.dotView.hidden = NO;
+    self.sharpLabel.hidden = YES;
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
+
+}
+
+- (void)configureCellForCnannelPublic:(BOOL)boolIsNewMessage{
     self.dotView.hidden = YES;
     self.sharpLabel.hidden = NO;
-    self.labelColor = [UIColor kg_sectionColorLeftMenu];
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
 
 @end

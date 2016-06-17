@@ -51,6 +51,7 @@
 @property (nonatomic, strong) NSMutableArray* followupCells;
 @property (nonatomic, strong) NSMutableArray* imageCells;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) KGPost *currentPost;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @end
@@ -69,6 +70,7 @@
     [self setupTableView];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
+    [self setupRefreshControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,7 +150,17 @@
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(toggleLeftSideMenuAction)];
+}
 
+#pragma mark - RefreshControl
+-(void)setupRefreshControl {
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:self.refreshControl];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [refreshControl endRefreshing];
 }
 
 #pragma mark - UITableViewDataSource
@@ -392,6 +404,7 @@
                             NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
                             [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
                             KGFile *imgFile = [KGFile MR_createEntity];
+                           // imgFile.tempId = tempId;
                             [imgFile setBackendLink:localLink];
                             [self.currentPost addFilesObject:imgFile];
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
