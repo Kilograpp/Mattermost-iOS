@@ -81,7 +81,7 @@
        parameters:(NSDictionary*)parameters
           success:(void (^)(RKMappingResult *mappingResult))success
           failure:(void (^)(KGError *error))failure {
-    void (^constructingBodyWithBlock)(id <AFMultipartFormData> formData) = ^void(id <AFMultipartFormData> formData) {
+    void (^constructingBodyWithBlock)(id <AFMultipartFormData>) = ^void(id <AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:name fileName:@"file.png" mimeType:@"image/png"];
     };
 
@@ -92,6 +92,7 @@
                                               constructingBodyWithBlock:constructingBodyWithBlock];
 
     void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+
         safetyCall(success, mappingResult);
     };
 
@@ -103,7 +104,7 @@
                                                                           success:successHandlerBlock
                                                                           failure:failureHandlerBlock];
 
-    [[RKObjectManager sharedManager] enqueueObjectRequestOperation:operation];
+    [self enqueueObjectRequestOperation:operation];
 }
 
 #pragma mark - Support
