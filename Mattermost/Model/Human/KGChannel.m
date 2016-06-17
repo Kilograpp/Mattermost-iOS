@@ -45,16 +45,27 @@
             @"type"            : @"backendType",
             @"team_id"         : @"teamId",
             @"create_at"       : @"createdAt",
-            @"update_at"       : @"updatedAt",
             @"display_name"    : @"displayName",
             @"last_post_at"    : @"lastPostDate",
-            @"total_msg_count" : @"messagesCount",
-            @"extra_update_at" : @"lastViewDate"
+            @"total_msg_count" : @"messagesCount"
     }];
     [mapping addAttributeMappingsFromArray:@[@"name", @"purpose", @"header"]];
     [mapping addRelationshipMappingWithSourceKeyPath:@"members" mapping:[KGUser entityMapping]];
     [mapping addConnectionForRelationship:@"team" connectedBy:@{@"teamId" : @"identifier"}];
 
+    return mapping;
+}
+
++ (RKEntityMapping *)attendantInfoEntityMapping {
+    RKEntityMapping *mapping = [super emptyEntityMapping];
+    [mapping setIdentificationAttributes:@[@"identifier"]];
+    [mapping setForceCollectionMapping:YES];
+    [mapping setAssignsNilForMissingRelationships:NO];
+    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
+    [mapping addAttributeMappingsFromDictionary:@{
+            @"(identifier).last_update_at" : @"updatedAt",
+            @"(identifier).last_viewed_at" : @"lastViewDate"
+    }];
     return mapping;
 }
 
@@ -81,6 +92,15 @@
                                                         method:RKRequestMethodGET
                                                    pathPattern:[self listPathPattern]
                                                        keyPath:@"channels"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
++ (RKResponseDescriptor*)channelsListMembersResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self attendantInfoEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self listPathPattern]
+                                                       keyPath:@"members"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 

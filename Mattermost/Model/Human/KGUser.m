@@ -153,13 +153,13 @@ static NSString * const kOfflineNetworkString = @"offline";
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
-+ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
-                                                        method:RKRequestMethodGET
-                                                   pathPattern:[self channelMembersListPathPattern]
-                                                       keyPath:@"members"
-                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-}
+//+ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
+//    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
+//                                                        method:RKRequestMethodGET
+//                                                   pathPattern:[self channelMembersListPathPattern]
+//                                                       keyPath:@"members"
+//                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+//}
 
 + (RKResponseDescriptor*)statusResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self statusEntityMapping]
