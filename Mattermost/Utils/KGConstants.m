@@ -18,3 +18,6 @@ NSString * const KGXRequestedWithHeader = @"X-Requested-With";
 NSString * const KGContentTypeHeader = @"Content-Type";
 NSString * const KGAcceptLanguageHeader = @"Accept-Language";
 
+
+NSString*  const KGNotificationUsersStatusUpdate = @"maUsaDidStatusUpdateMon";
+

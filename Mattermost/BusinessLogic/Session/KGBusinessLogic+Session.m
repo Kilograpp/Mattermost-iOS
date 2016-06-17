@@ -12,6 +12,7 @@
 #import <MagicalRecord.h>
 #import <SOCKit/SOCKit.h>
 #import "KGUser.h"
+#import "KGNotificationValues.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Notifications.h"
@@ -145,8 +146,13 @@ extern NSString * const KGAuthTokenHeaderName;
 
 
 - (void)updateStatusForAllUsers {
-    if (self.isSignedIn)
-        [self updateStatusForUsers:[KGUser MR_findAll] completion:nil];
+    if (self.isSignedIn){
+        [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
+        }];
+        
+    }
+
 }
 
 @end
