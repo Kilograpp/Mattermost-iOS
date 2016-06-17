@@ -143,4 +143,10 @@ extern NSString * const KGAuthTokenHeaderName;
     }
 }
 
+
+- (void)updateStatusForAllUsers {
+    if (self.isSignedIn)
+        [self updateStatusForUsers:[KGUser MR_findAll] completion:nil];
+}
+
 @end
