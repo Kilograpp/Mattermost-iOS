@@ -70,12 +70,17 @@
         self.window.rootViewController = sideMenuContainer;
         [self.window makeKeyAndVisible];
     } else {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        UINavigationController *navController = [sb instantiateInitialViewController];
-        self.window.rootViewController = navController;
-        [self.window makeKeyAndVisible];
+        [self loadLogin];
     }
 }
+
+- (void)loadLogin {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    UINavigationController *navController = [sb instantiateInitialViewController];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
+}
+
 
 - (void)setupFabric {
     [Fabric with:@[[Crashlytics class]]];

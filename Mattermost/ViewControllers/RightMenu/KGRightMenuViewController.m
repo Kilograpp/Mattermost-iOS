@@ -187,13 +187,15 @@
 
 - (void)logout {
 #warning Сделать логаут асихнронный
-        [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
-            if (error) {
-                [[KGAlertManager sharedManager] showError:error];
-            }
-        }];
+
+    [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+        }
+    }];
+    
     KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    [appDelegate loadInitialScreen];
+    [appDelegate loadLogin];
 }
 
 

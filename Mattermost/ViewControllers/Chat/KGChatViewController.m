@@ -142,6 +142,26 @@
     self.textInputbar.textView.layer.borderWidth = 0.f;
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
+    [self registerPrefixesForAutoCompletion:@[@"@"]];
+}
+
+#pragma mark Override 
+
+- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
+   // NSArray *arrayChannels = [KGChannel MR_findFirstByAttribute:NSStringFromSelector(@selector(displayName))];
+   // NSArray *array = [KGChannel managedObjectById:0];
+    
+    NSArray *arrayUser = [KGUser MR_findAll];
+    NSArray * searchArray;
+    
+    if ([prefix isEqualToString:@"@"] && word.length > 0) {
+        searchArray = [[arrayUser valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        
+       // self.searchResult = [array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c]", word]];
+    }
+    
+    BOOL show = (searchArray.count > 0);
+    [self showAutoCompletionView:show];
 }
 
 - (void)setupLeftBarButtonItem {
