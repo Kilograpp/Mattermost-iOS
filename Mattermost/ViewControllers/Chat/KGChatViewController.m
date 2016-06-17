@@ -403,14 +403,15 @@
                             [wSelf.assignedPhotos addObject:img];
                             NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
                             [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
-                            KGFile *imgFile = [KGFile MR_createEntity];
+                            __block KGFile *imgFile = [KGFile MR_createEntity];
                            // imgFile.tempId = tempId;
                             [imgFile setBackendLink:localLink];
                             [self.currentPost addFilesObject:imgFile];
-                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+
 
                             [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
-
+                                imgFile = file;
+//                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                             }];
                         }];
     }
