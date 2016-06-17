@@ -54,12 +54,13 @@
     [mapping addAttributeMappingsFromDictionary:@{
             @"channel.identifier" : @"channel_id",
             @"author.identifier" : @"user_id",
-            @"backendPendingId" : @"pending_post_id"
+            @"backendPendingId" : @"pending_post_id",
+            @"files.backendLink" : @"filenames"
     }];
-    
-    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"files"
-                                                                            toKeyPath:@"filenames"
-                                                                          withMapping:[[KGFile simpleEntityMapping] inverseMapping]]];
+//    
+//    [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"files"
+//                                                                            toKeyPath:@"filenames"
+//                                                                          withMapping:[KGFile requestMapping]]];
 
     return mapping;
 }

@@ -48,7 +48,6 @@
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure{
     [super postObject:object path:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", [RKNSJSONSerialization objectFromData:[operation.HTTPRequestOperation.request HTTPBody] error:nil]);
         safetyCall(success, mappingResult);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         safetyCall(failure, [self handleOperation:operation withError:error]);

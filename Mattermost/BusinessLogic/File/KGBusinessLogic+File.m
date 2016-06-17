@@ -46,6 +46,11 @@
 
         KGFile *imageFile = [KGFile MR_createEntity];
         [imageFile setBackendLink:[[mappingResult.dictionary[@"filenames"] firstObject] valueForKey:@"backendLink"]];
+
+        [[SDImageCache sharedImageCache] storeImage:image forKey:imageFile.backendLink];
+
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+
         safetyCall(completion, imageFile, nil);
     } failure:^(KGError* error) {
         safetyCall(completion, nil, error);

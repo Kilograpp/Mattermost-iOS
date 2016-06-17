@@ -46,7 +46,6 @@
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
-@property (nonatomic, strong) NSMutableArray *assignedPhotos;
 @property (nonatomic, strong) NSMutableArray* chatRootCells;
 @property (nonatomic, strong) NSMutableArray* followupCells;
 @property (nonatomic, strong) NSMutableArray* imageCells;
@@ -239,7 +238,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
@@ -378,8 +377,7 @@
     self.requestOptions = [[PHImageRequestOptions alloc] init];
     self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
     self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    
-    __block UIImage *img;
+
     __weak typeof(self) wSelf = self;
 
     [self dismissViewControllerAnimated:YES completion:^{
@@ -399,18 +397,9 @@
                           contentMode:PHImageContentModeAspectFill
                               options:self.requestOptions
                         resultHandler:^(UIImage *image, NSDictionary *info) {
-                            img = image;
-                            [wSelf.assignedPhotos addObject:img];
-                            NSString *localLink = [NSString stringWithFormat:@"temp_image_%d", wSelf.assignedPhotos.count];
-                            [[SDImageCache sharedImageCache] storeImage:image forKey:localLink];
-                            KGFile *imgFile = [KGFile MR_createEntity];
-                           // imgFile.tempId = tempId;
-                            [imgFile setBackendLink:localLink];
-                            [self.currentPost addFilesObject:imgFile];
-                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-
-                            [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
-
+                            [[KGBusinessLogic sharedInstance] uploadImage:image atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
+                                [self.currentPost addFilesObject:file];
+                                dispatch_group_leave(group);
                             }];
                         }];
     }
