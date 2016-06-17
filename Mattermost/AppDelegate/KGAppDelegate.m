@@ -66,12 +66,16 @@
 
 - (void)loadInitialScreen {
     if ([[KGBusinessLogic sharedInstance] isSignedIn]) {
-        KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController configuredContainerViewController];
-        self.window.rootViewController = sideMenuContainer;
-        [self.window makeKeyAndVisible];
+        [self configureSideMenuContainer];
     } else {
         [self loadLogin];
     }
+}
+
+- (void)configureSideMenuContainer {
+    KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController configuredContainerViewController];
+    self.window.rootViewController = sideMenuContainer;
+    [self.window makeKeyAndVisible];
 }
 
 - (void)loadLogin {
