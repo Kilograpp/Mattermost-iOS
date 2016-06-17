@@ -39,6 +39,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
+#import "UIImage+KGRotate.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -391,7 +392,7 @@
                           contentMode:PHImageContentModeAspectFill
                               options:self.requestOptions
                         resultHandler:^(UIImage *image, NSDictionary *info) {
-                            [[KGBusinessLogic sharedInstance] uploadImage:image atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
+                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage] atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
                                 [self.currentPost addFilesObject:file];
                                 dispatch_group_leave(group);
                             }];
