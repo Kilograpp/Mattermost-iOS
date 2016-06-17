@@ -34,11 +34,6 @@
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"statusValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"status"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 
 	return keyPaths;
 }
@@ -82,26 +77,6 @@
 @dynamic purpose;
 
 @dynamic shouldUpdateAt;
-
-@dynamic status;
-
-- (int16_t)statusValue {
-	NSNumber *result = [self status];
-	return [result shortValue];
-}
-
-- (void)setStatusValue:(int16_t)value_ {
-	[self setStatus:@(value_)];
-}
-
-- (int16_t)primitiveStatusValue {
-	NSNumber *result = [self primitiveStatus];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveStatusValue:(int16_t)value_ {
-	[self setPrimitiveStatus:@(value_)];
-}
 
 @dynamic teamId;
 
@@ -166,9 +141,6 @@
 }
 + (NSString *)shouldUpdateAt {
 	return @"shouldUpdateAt";
-}
-+ (NSString *)status {
-	return @"status";
 }
 + (NSString *)teamId {
 	return @"teamId";

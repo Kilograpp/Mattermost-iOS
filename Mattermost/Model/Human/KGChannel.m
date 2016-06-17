@@ -131,11 +131,20 @@
         }
 
         NSString *futureName = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] username];
-        NSNumber *statusUser = [[KGUser managedObjectById:companionIdentifier inContext:self.managedObjectContext] status];
-
-        self.status = statusUser;
         self.displayName = futureName;
     }
+}
+
+- (KGUserNetworkStatus)configureNetworkStatus {
+    KGUserNetworkStatus userNetworkStatus;
+    if (self.type == KGChannelTypePrivate) {
+        NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
+        NSString *companionIdentifier;
+        companionIdentifier = (![sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) ? sideIds.firstObject : sideIds.lastObject;
+        KGUser *user = [KGUser managedObjectById:companionIdentifier];
+        userNetworkStatus = [user networkStatus];
+    }
+    return userNetworkStatus;
 }
 
 

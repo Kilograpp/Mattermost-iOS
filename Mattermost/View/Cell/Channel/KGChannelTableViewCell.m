@@ -12,13 +12,6 @@
 #import "KGChannel.h"
 #import "KGUser.h"
 
-typedef NS_ENUM(NSInteger, NetworkStatus) {
-    KGOnlineStatus,
-    KGAwayStatus,
-    KGOfflineStatus
-};
-
-
 @interface KGChannelTableViewCell()
 
 
@@ -124,26 +117,27 @@ typedef NS_ENUM(NSInteger, NetworkStatus) {
         self.channelNameLabel.text = channel.displayName;
         if (channel.type == KGChannelTypePrivate){
             [self configureCellForChannelPrivate:channel.hasNewMessages];
-            [self configureDotViewForNetworkStatus:[channel.status integerValue]];
+            [self configureDotViewForNetworkStatus:channel.configureNetworkStatus];
+            NSLog(@"channel.configureNetworkStatus %ld", (long)channel.configureNetworkStatus);
         } else {
             [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
     }
 }
 
--(void)configureDotViewForNetworkStatus:(NSInteger)networkStatus {
+-(void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
     switch (networkStatus) {
-        case KGOnlineStatus:
+        case KGUserOnlineStatus:
             self.dotViewColor = [UIColor greenColor];
             self.dotViewBorderColor = [UIColor greenColor];
             self.dotViewBorderColorIfSelected = [UIColor greenColor];
             break;
-        case KGAwayStatus:
+        case KGUserAwayStatus:
             self.dotViewColor = [UIColor yellowColor];
             self.dotViewBorderColor = [UIColor yellowColor];
             self.dotViewBorderColorIfSelected = [UIColor yellowColor];
             break;
-        case KGOfflineStatus:
+        case KGUserOfflineStatus:
             self.dotViewColor = [UIColor clearColor];
             self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
             self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
