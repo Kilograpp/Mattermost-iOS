@@ -11,16 +11,12 @@ platform :ios do
   end
 
   lane :Development do |options|
-    crashlytics(api_token: "1373df4a388cbef38f2feb69c126b74abc82a69e",
-                build_secret: "9f621d40452e483343b6d9c0150f1a7422c9b5619252363ae1be1a0ec37ad468",
-                ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
+    crashlytics(ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
                 groups: ["Testers"])
   end
 
   lane :Production do |options|
-    crashlytics(api_token: "1373df4a388cbef38f2feb69c126b74abc82a69e",
-                build_secret: "9f621d40452e483343b6d9c0150f1a7422c9b5619252363ae1be1a0ec37ad468",
-                ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
+    crashlytics(ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
                 groups: [ENV['APP_NAME']])
   end 
 

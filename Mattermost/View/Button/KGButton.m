@@ -29,9 +29,6 @@
 
 - (void) setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
-    
-    
-    
 //    self.backgroundColor = highlighted ? [UIColor kg_blueColor]: [UIColor whiteColor];
 //    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
 //    [self setTitleColor:[UIColor kg_blueColor] forState:UIControlStateNormal];
