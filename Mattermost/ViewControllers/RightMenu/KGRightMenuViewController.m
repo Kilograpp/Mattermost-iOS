@@ -13,12 +13,18 @@
 #import "KGAppDelegate.h"
 #import "KGRightMenuDataSourceEntry.h"
 #import "KGRightMenuCell.h"
-
+#import "KGBusinessLogic+Session.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
+#import "KGUser.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "UIImage+Resize.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSArray *dataSource;
 @end
 
@@ -29,6 +35,7 @@
     [super viewDidLoad];
     [self setupDataSource];
     [self setupTableView];
+    [self setup];
 }
 
 #pragma mark - Setup
@@ -39,6 +46,23 @@
     [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
 }
 
+- (void)setup {
+    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
+    self.nameLabel.textColor = [UIColor kg_whiteColor];
+    self.nameLabel.font = [UIFont kg_boldText16Font];
+    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    NSLog(@"%@",user);
+    //
+        self.nameLabel.text = user.nickname;
+    //self.avatarView.layer.cornerRadius = 17.5;
+        self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+        self.avatarImageView.layer.drawsAsynchronously = YES;
+        self.avatarImageView.clipsToBounds = YES;
+    self.avatarImageView.backgroundColor = [UIColor whiteColor];
+    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -72,56 +96,56 @@
 - (void)setupDataSource {
     NSMutableArray *rightMenuDataSource = [[NSMutableArray alloc] init];
     __weak typeof(self) wSelf = self;
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Profile", nil)
-                                                                     iconName:@"navbar_close_icon"
+    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
+                                                                     iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-                                                                           [wSelf.delegate navigationToProfil];
+//                                                                           [wSelf.delegate navigationToProfil];
                                                                           
                                                                       }]];
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
-                                                                     iconName:@"navbar_close_icon"
+    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Files", nil)
+                                                                     iconName:@"menu_files_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           // [wSelf performSegueWithIdentifier:kAccountSettingsIdentifier sender:nil];
                                                                       }]];
     
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Member", nil)
-                                                                     iconName:@"navbar_close_icon"
+    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
+                                                                     iconName:@"menu_settings_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           //[wSelf navigateToNewMember];
                                                                       }]];
     
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
-                                                                     iconName:@"navbar_close_icon"
+    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)
+                                                                     iconName:@"menu_invite_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                    
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Help", nil)
-                                                                     iconName:@"navbar_close_icon"
+                                                                     iconName:@"menu_help_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Report a Problem", nil)
-                                                                     iconName:@"navbar_close_icon"
+                                                                     iconName:@"menu_report_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"About Mattermost", nil)
-                                                                     iconName:@"navbar_close_icon"
+                                                                     iconName:@"menu_question_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           
                                                                       }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
-                                                                     iconName:@"navbar_close_icon"
+                                                                     iconName:@"menu_logout_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
                                                                           [wSelf logout];

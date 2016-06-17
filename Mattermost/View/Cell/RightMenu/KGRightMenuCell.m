@@ -49,7 +49,7 @@
 
 + (CGFloat)heightWithObject:(id)object {
     CGFloat heightScreen =  [[UIScreen mainScreen] bounds].size.height;
-    return (heightScreen - 20) / 8 ;
+    return (heightScreen - 84) / 8 ;
 }
 
 
