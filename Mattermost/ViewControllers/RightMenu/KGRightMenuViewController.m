@@ -21,10 +21,10 @@
 #import "UIImage+Resize.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+//@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+//@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
+//@property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (nonatomic, strong) NSArray *dataSource;
 @end
 
@@ -35,7 +35,7 @@
     [super viewDidLoad];
     [self setupDataSource];
     [self setupTableView];
-    [self setup];
+    //[self setup];
 }
 
 #pragma mark - Setup
@@ -46,23 +46,13 @@
     [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
 }
 
-- (void)setup {
-    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
-    self.nameLabel.textColor = [UIColor kg_whiteColor];
-    self.nameLabel.font = [UIFont kg_boldText16Font];
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-    NSLog(@"%@",user);
-    //
-        self.nameLabel.text = user.nickname;
-    //self.avatarView.layer.cornerRadius = 17.5;
-        self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
-        self.avatarImageView.layer.drawsAsynchronously = YES;
-        self.avatarImageView.clipsToBounds = YES;
-    self.avatarImageView.backgroundColor = [UIColor whiteColor];
-    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
-}
+//- (void)setup {
+//    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
+//    self.nameLabel.textColor = [UIColor kg_whiteColor];
+//    self.nameLabel.font = [UIFont kg_boldText16Font];
+//    
+//
+//}
 
 #pragma mark - UITableViewDelegate
 

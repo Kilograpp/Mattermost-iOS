@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2yp-uC-Dgm" customClass="KGProfileTableHeader">
+            <rect key="frame" x="0.0" y="0.0" width="377" height="245"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rpz-DV-Q0g">
+                    <rect key="frame" x="123" y="43" width="130" height="130"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="130" id="XLc-1r-yZV"/>
+                        <constraint firstAttribute="width" constant="130" id="foW-7M-mhg"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IpZ-CL-62X">
+                    <rect key="frame" x="18" y="183" width="340" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="IpZ-CL-62X" firstAttribute="centerX" secondItem="Rpz-DV-Q0g" secondAttribute="centerX" id="3Zv-w2-Uvs"/>
+                <constraint firstItem="Rpz-DV-Q0g" firstAttribute="centerX" secondItem="2yp-uC-Dgm" secondAttribute="centerX" id="8O2-7v-PiB"/>
+                <constraint firstItem="IpZ-CL-62X" firstAttribute="top" secondItem="Rpz-DV-Q0g" secondAttribute="bottom" constant="10" id="9qH-mb-XNe"/>
+                <constraint firstItem="Rpz-DV-Q0g" firstAttribute="centerY" secondItem="2yp-uC-Dgm" secondAttribute="centerY" constant="-15" id="ALe-kQ-wdF"/>
+                <constraint firstItem="IpZ-CL-62X" firstAttribute="width" secondItem="2yp-uC-Dgm" secondAttribute="width" multiplier="0.9" id="bsh-uZ-tCN"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="avatarImageView" destination="Rpz-DV-Q0g" id="Sdl-jA-Cdy"/>
+                <outlet property="nameLabel" destination="IpZ-CL-62X" id="TZp-pa-XRF"/>
+            </connections>
+            <point key="canvasLocation" x="297.5" y="242.5"/>
+        </view>
+    </objects>
+</document>
