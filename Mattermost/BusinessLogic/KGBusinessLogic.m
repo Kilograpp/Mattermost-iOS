@@ -219,9 +219,10 @@
 - (void)runTimerForStatusUpdate {
     if (![self.statusTimer isValid] || !self.statusTimer)
         self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 10
-                                     target: self
+                                     target:self
                                    selector:@selector(updateStatusForAllUsers)
-                                   userInfo: nil repeats:YES];
+                                   userInfo:nil
+                                    repeats:YES];
 
 
 }

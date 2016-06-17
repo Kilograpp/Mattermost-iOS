@@ -406,12 +406,15 @@
                             __block KGFile *imgFile = [KGFile MR_createEntity];
                            // imgFile.tempId = tempId;
                             [imgFile setBackendLink:localLink];
-                            [self.currentPost addFilesObject:imgFile];
 
 
                             [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
-                                imgFile = file;
-//                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                                [self.currentPost addFilesObject:file];
+//                                imgFile = file;
+                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                                dispatch_group_leave(group);
+
+
                             }];
                         }];
     }
