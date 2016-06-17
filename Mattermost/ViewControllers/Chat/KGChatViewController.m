@@ -409,8 +409,8 @@
                             [self.currentPost addFilesObject:imgFile];
                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
-                            [[KGBusinessLogic sharedInstance] uploadFile:imgFile atChannel:wSelf.channel withCompletion:^(KGError *error) {
-                                dispatch_group_leave(group);
+                            [[KGBusinessLogic sharedInstance] uploadImage:img atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
+
                             }];
                         }];
     }

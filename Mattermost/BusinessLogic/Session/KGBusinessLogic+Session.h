@@ -35,4 +35,5 @@
 
 - (NSHTTPCookie*)authCookie;
 
+- (void)updateStatusForAllUsers;
 @end

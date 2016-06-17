@@ -51,6 +51,7 @@
 
 - (void)setFirstTeamAsCurrentFromMappingResult:(RKMappingResult*)mappingResult {
     [[KGPreferences sharedInstance] setCurrentTeamId:[[mappingResult.dictionary[@"teams"] firstObject] identifier]];
+    [[KGPreferences sharedInstance] save];
 }
 
 - (BOOL)isMappingResultContainsOnlyOneTeam:(RKMappingResult *)mappingResult {

@@ -22,6 +22,7 @@
 @interface KGBusinessLogic ()
 
 @property (assign) BOOL shouldReloadDefaultManager;
+@property (strong, nonatomic) NSTimer* statusTimer;
 @property (strong, nonatomic, readwrite) KGObjectManager *defaultObjectManager;
 @property (strong, nonatomic, readwrite) RKManagedObjectStore *managedObjectStore;
 
@@ -51,6 +52,7 @@
         [self setupMagicalRecord];
         [self subscribeForNotifications];
         [self subscribeForServerBaseUrlChanges];
+        [self runTimerForStatusUpdate];
 
     }
     
@@ -86,6 +88,7 @@
 
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
+
 
         _defaultObjectManager = manager;
         _shouldReloadDefaultManager = NO;
@@ -179,6 +182,7 @@
 
 - (void)applicationDidBecomeActive {
     [self openSocket];
+    [self runTimerForStatusUpdate];
 }
 
 
@@ -186,6 +190,7 @@
     UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
 
     [self savePreferences];
+    [self stopStatusTimer];
     [self closeSocket];
 
     [self endBackgroundTaskWithId:taskId];
@@ -209,5 +214,20 @@
     }
 }
 
+#pragma mark - Status Timer
+
+- (void)runTimerForStatusUpdate {
+    if (![self.statusTimer isValid] || !self.statusTimer)
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 10
+                                     target: self
+                                   selector:@selector(updateStatusForAllUsers)
+                                   userInfo: nil repeats:YES];
+
+}
+
+- (void)stopStatusTimer {
+    [self.statusTimer invalidate];
+    self.statusTimer = nil;
+}
 
 @end

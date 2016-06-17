@@ -36,15 +36,20 @@
     } failure:completion];
 }
 
-- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
+- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]
     };
     [self.defaultObjectManager postImage:image withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, nil);
-    } failure:completion];
+
+        KGFile *imageFile = [KGFile MR_createEntity];
+        [imageFile setBackendLink:[[mappingResult.dictionary[@"filenames"] firstObject] valueForKey:@"backendLink"]];
+        safetyCall(completion, imageFile, nil);
+    } failure:^(KGError* error) {
+        safetyCall(completion, nil, error);
+    }];
 }
 
 - (void)uploadFile:(KGFile*)file atChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
