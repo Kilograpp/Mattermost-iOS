@@ -432,6 +432,11 @@
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
 }
 
+- (void)toogleStatusBarState {
+//    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+}
+
 
 #pragma mark - Notifications
 
@@ -645,10 +650,12 @@
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
+    [self toogleStatusBarState];
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
 - (void)toggleRightSideMenuAction {
+    [self toogleStatusBarState];
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 

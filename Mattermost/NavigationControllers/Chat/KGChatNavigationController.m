@@ -24,6 +24,12 @@
     [self setupNavigationBar];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
 
 #pragma mark - Setup
 
@@ -31,10 +37,6 @@
     UINavigationBar *navBar = self.navigationBar;
     navBar.translucent = NO;
     
-//    navBar.tintColor = [UIColor kg_whiteColor];
-//    navBar.barTintColor = [UIColor kg_leftMenuHeaderColor];
-//    [self.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor kg_blackColor],
-//                                                   NSFontAttributeName : [UIFont kg_medium16Font] }];
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 44.f)];
     self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
     self.kg_subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 22.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
