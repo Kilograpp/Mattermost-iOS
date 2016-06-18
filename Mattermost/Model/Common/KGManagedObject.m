@@ -21,6 +21,11 @@
     return [self MR_findFirstByAttribute:NSStringFromSelector(@selector(identifier)) withValue:objectId inContext:context];
 }
 
++ (instancetype)managedObjectByUserName:(NSString *)userName {
+   return  [self MR_findFirstByAttribute:@"username" withValue:userName];
+}
+
+
 
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [RKEntityMapping mappingForEntityForName:[self entityName]
