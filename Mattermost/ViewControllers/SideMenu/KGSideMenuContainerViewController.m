@@ -69,7 +69,6 @@
 }
 
 
-
 #pragma mark - Orientations
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

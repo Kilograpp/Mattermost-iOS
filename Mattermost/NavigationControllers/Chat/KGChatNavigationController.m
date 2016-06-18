@@ -75,4 +75,10 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+
+
+//- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
+//    return UIBarPositionTopAttached;
+//}
+
 @end

@@ -24,7 +24,9 @@
 //@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 //@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-//@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UIView *headerView;
+@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, strong) NSArray *dataSource;
 @end
 
@@ -35,24 +37,31 @@
     [super viewDidLoad];
     [self setupDataSource];
     [self setupTableView];
-    //[self setup];
+    [self setup];
 }
 
 #pragma mark - Setup
+
+- (void)setup {
+    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
+    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    
+    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+    self.avatarImageView.backgroundColor = [UIColor kg_rightMenuSeparatorColor];
+    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.nicknameLabel.textColor = [UIColor kg_whiteColor];
+    self.nicknameLabel.font = [UIFont kg_semibold16Font];
+    self.nicknameLabel.text = [@"@" stringByAppendingString:user.nickname];
+}
 
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
+    self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
 }
 
-//- (void)setup {
-//    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
-//    self.nameLabel.textColor = [UIColor kg_whiteColor];
-//    self.nameLabel.font = [UIFont kg_boldText16Font];
-//    
-//
-//}
 
 #pragma mark - UITableViewDelegate
 
@@ -78,10 +87,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGRightMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:[KGRightMenuCell reuseIdentifier]];
     [cell configureWithObject:self.dataSource[indexPath.row]];
-    if (indexPath.row == 0) {
-         KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-        [cell configureWithImageName:user.imageUrl];
-    }
+    
+    cell.preservesSuperviewLayoutMargins = NO;
+    cell.separatorInset = UIEdgeInsetsZero;
+    cell.layoutMargins = UIEdgeInsetsZero;
+    
     return cell;
 }
 
@@ -91,13 +101,13 @@
     NSMutableArray *rightMenuDataSource = [[NSMutableArray alloc] init];
     __weak typeof(self) wSelf = self;
     KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(user.nickname, nil)
-                                                                     iconName:@"menu_switch_icon"
-                                                                   titleColor:[UIColor kg_whiteColor]
-                                                                      handler:^{
-                                                                                                                                                    [wSelf.delegate navigationToProfil];
-                                                                          
-                                                                      }]];
+//    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(user.nickname, nil)
+//                                                                     iconName:@"menu_switch_icon"
+//                                                                   titleColor:[UIColor kg_whiteColor]
+//                                                                      handler:^{
+//                                                                        [wSelf.delegate navigationToProfil];
+//                                                                          
+//                                                                      }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]

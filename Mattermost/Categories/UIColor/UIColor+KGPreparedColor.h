@@ -24,6 +24,8 @@
 + (UIColor *)kg_disabledButtonTintColor;
 + (UIColor *)kg_enabledButtonTintColor;
 
++ (UIColor *)kg_rightMenuSeparatorColor;
+
 #pragma mark - Left menu
 
 + (UIColor *)kg_leftMenuBackgroundColor;
