@@ -602,6 +602,13 @@
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
+    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    
+//    UIViewController *vc = [[UIViewController alloc] init];
+//    [self presentViewController:vc animated:NO completion:nil];
+//    [self dismissViewControllerAnimated:NO completion:nil];
+    
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 

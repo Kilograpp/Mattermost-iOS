@@ -63,6 +63,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self setupNavigationBar];
 }
 
@@ -82,6 +83,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [bgLayer animateLayerInfinitely:bgLayer];
     [self.navigationView.layer insertSublayer:bgLayer above:0];
     [self.navigationView bringSubviewToFront:self.titleLabel];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
 }
 
 #pragma mark - Setup
