@@ -19,4 +19,7 @@
 - (UIImage *)resizedImageWithContentMode:(UIViewContentMode)contentMode
                                   bounds:(CGSize)bounds
                     interpolationQuality:(CGInterpolationQuality)quality;
+
++ (void)roundedImage:(UIImage *)image
+          completion:(void (^)(UIImage *image))completion;
 @end
