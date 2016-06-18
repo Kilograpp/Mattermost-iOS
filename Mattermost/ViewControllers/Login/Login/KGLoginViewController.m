@@ -73,7 +73,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [self.loginTextField becomeFirstResponder];
 }
 
-- (void)setupNavigationBar{
+- (void)setupNavigationBar {
     [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                                         NSFontAttributeName : [UIFont kg_semibold18Font] }];
     self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
