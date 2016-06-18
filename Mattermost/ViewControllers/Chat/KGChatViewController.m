@@ -44,6 +44,7 @@
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -56,6 +57,7 @@
 @property (nonatomic, strong) KGPost *currentPost;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (nonatomic, strong) NSArray *searchResultArray;
+@property (nonatomic, strong) NSArray *usersArray;
 @end
 
 @implementation KGChatViewController
@@ -129,10 +131,11 @@
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
     //SLKTextViewController - поиск по предикату
-    NSArray *arrayUser = [KGUser MR_findAll];
+    self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
-        self.searchResultArray = [[arrayUser valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        self.searchResultArray = [[self.usersArray valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -141,7 +144,7 @@
 
 - (CGFloat)heightForAutoCompletionView {
     //SLKTextViewController
-    CGFloat cellHeight = 34.0;
+    CGFloat cellHeight = 40;
     return cellHeight*self.searchResultArray.count;
 }
 
@@ -187,10 +190,41 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![tableView isEqual:self.tableView]) {
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
-
-        UITableViewCell *cell = [[UITableViewCell alloc]init];
+        KGUser *user =[KGUser managedObjectByUserName:item];
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.textLabel.text = [NSString stringWithFormat:@"@%@", item];
-       // cell.imageView.image = imageAvatar;
+        cell.textLabel.font = [UIFont kg_bold16Font];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
+        cell.detailTextLabel.font = [UIFont kg_regular14Font];
+        UIImageView *cachedImage;
+        [cachedImage setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+        if (cachedImage) {
+            [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
+                cell.imageView.image = image;
+                //                [self.avatarImageView setNeedsDisplay];
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                    [UIImage roundedImage:image completion:^(UIImage *image) {
+                                                                        [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
+                                                                        cell.imageView.image = image;
+                                                                    }];
+                                                                }];
+
+           // [cell.imageView removeActivityIndicator];
+        }
+        
+        
+     //   UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:user.imageUrl.absoluteString];
+//        [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
+//            cell.imageView.image = image;
+//        }];
+        // cell.imageView.image = cachedImage.image;
+
         return cell;
     }
     NSString *reuseIdentifier;
@@ -257,7 +291,7 @@
         return 0.f;
     }
     
-    return 34.0;
+    return 40;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
