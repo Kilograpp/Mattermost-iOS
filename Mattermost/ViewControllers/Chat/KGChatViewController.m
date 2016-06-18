@@ -206,8 +206,6 @@
     if (![tableView isEqual:self.tableView]) {
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
-        NSLog(@"%@", user);
-
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.textLabel.text = [NSString stringWithFormat:@"@%@", item];
         cell.textLabel.font = [UIFont kg_bold16Font];
