@@ -50,9 +50,11 @@
 
 #pragma mark - Setup
 
--(UIStatusBarStyle)preferredStatusBarStyle {
+-  (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
+
+
 
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];

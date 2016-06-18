@@ -63,6 +63,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self setupNavigationBar];
 }
 
@@ -72,7 +73,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [self.loginTextField becomeFirstResponder];
 }
 
-- (void)setupNavigationBar{
+- (void)setupNavigationBar {
     [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                                         NSFontAttributeName : [UIFont kg_semibold18Font] }];
     self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
@@ -82,6 +83,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [bgLayer animateLayerInfinitely:bgLayer];
     [self.navigationView.layer insertSublayer:bgLayer above:0];
     [self.navigationView bringSubviewToFront:self.titleLabel];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
 }
 
 #pragma mark - Setup

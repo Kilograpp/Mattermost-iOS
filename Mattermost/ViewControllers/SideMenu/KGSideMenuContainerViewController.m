@@ -18,6 +18,8 @@
 
 @implementation KGSideMenuContainerViewController
 
+#pragma mark - Init
+
 + (instancetype)containerWithCenterViewController:(id)centerViewController
                            leftMenuViewController:(id)leftMenuViewController
                           rightMenuViewController:(id)rightMenuViewController {
@@ -45,6 +47,25 @@
     sideMenuContainer.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
     return sideMenuContainer;
+}
+
+
+#pragma mark - Override
+
+- (void)setMenuState:(MFSideMenuState)menuState completion:(void (^)(void))completion {
+    __weak typeof (self) wSelf = self;
+    [super setMenuState:menuState completion: ^{
+        if (completion) {
+            completion();
+        }
+
+        [wSelf toogleStatusBarState];
+    }];
+}
+
+- (void)toogleStatusBarState {
+    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationFade];
 }
 
 

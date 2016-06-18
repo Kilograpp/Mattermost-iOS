@@ -43,6 +43,8 @@
 #import "UITableView+Cache.h"
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
+#import "UIImage+Resize.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -54,18 +56,18 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) KGPost *currentPost;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
+@property (nonatomic, strong) NSArray *searchResultArray;
+@property (nonatomic, strong) NSArray *usersArray;
 @end
 
 @implementation KGChatViewController
 
-+ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder
-{
++ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
     return UITableViewStyleGrouped;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -87,7 +89,6 @@
         self.navigationController.delegate = nil;
     }
 }
-
 
 #pragma mark - Setup
 
@@ -129,20 +130,22 @@
 #pragma mark - Override
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
-   // NSArray *arrayChannels = [KGChannel MR_findFirstByAttribute:NSStringFromSelector(@selector(displayName))];
-   // NSArray *array = [KGChannel managedObjectById:0];
-    
-    NSArray *arrayUser = [KGUser MR_findAll];
-    NSArray * searchArray;
+    //SLKTextViewController - поиск по предикату
+    self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
-        searchArray = [[arrayUser valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        self.searchResultArray = [[self.usersArray valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
         
-       // self.searchResult = [array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c]", word]];
     }
     
-    BOOL show = (searchArray.count > 0);
+    BOOL show = (self.searchResultArray.count > 0);
     [self showAutoCompletionView:show];
+}
+
+- (CGFloat)heightForAutoCompletionView {
+    //SLKTextViewController
+    CGFloat cellHeight = 40;
+    return cellHeight*self.searchResultArray.count;
 }
 
 - (void)setupLeftBarButtonItem {
@@ -170,15 +173,60 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if (![tableView isEqual:self.tableView]) {
+        return 1;
+    }
     return self.fetchedResultsController.sections.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    return [sectionInfo numberOfObjects];
+    if ([tableView isEqual:self.tableView]) {
+        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+        return [sectionInfo numberOfObjects];
+    }
+    return self.searchResultArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (![tableView isEqual:self.tableView]) {
+        NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
+        KGUser *user =[KGUser managedObjectByUserName:item];
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell.textLabel.text = [NSString stringWithFormat:@"@%@", item];
+        cell.textLabel.font = [UIFont kg_bold16Font];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
+        cell.detailTextLabel.font = [UIFont kg_regular14Font];
+        UIImageView *cachedImage;
+        [cachedImage setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+        if (cachedImage) {
+            [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
+                cell.imageView.image = image;
+                //                [self.avatarImageView setNeedsDisplay];
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                    [UIImage roundedImage:image completion:^(UIImage *image) {
+                                                                        [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
+                                                                        cell.imageView.image = image;
+                                                                    }];
+                                                                }];
+
+           // [cell.imageView removeActivityIndicator];
+        }
+        
+        
+     //   UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:user.imageUrl.absoluteString];
+//        [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
+//            cell.imageView.image = image;
+//        }];
+        // cell.imageView.image = cachedImage.image;
+
+        return cell;
+    }
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
@@ -212,51 +260,63 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [cell configureWithObject:post];
-    [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-    cell.transform = self.tableView.transform;
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+////    [cell configureWithObject:post];
+//    if ([tableView isEqual:self.tableView]) {
+//        [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
+//        cell.transform = self.tableView.transform;
+//    }
+//}
 
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
-    
-    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
-    } else {
-        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
-        if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
-        } else {
+    if ([tableView isEqual:self.tableView]) {
+        KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
+        
+        if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
             return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+        } else {
+            KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+            if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
+                return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
+            } else {
+                return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+            }
         }
+        
+        return 0.f;
     }
     
-    return 0.f;
+    return 40;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-    NSDate *date = [formatter dateFromString:[sectionInfo name]];
-    NSString *dateName = [date dateFormatForMessageTitle];
-    return dateName;
+    if ([tableView isEqual:self.tableView]) {
+        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+        NSDate *date = [formatter dateFromString:[sectionInfo name]];
+        NSString *dateName = [date dateFormatForMessageTitle];
+        return dateName;
+    }
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-    [header.textLabel setTextColor:[UIColor kg_blackColor]];
-    [header.textLabel setFont:[UIFont kg_bold16Font]];
-    header.textLabel.textAlignment = NSTextAlignmentRight;
-    header.textLabel.transform = self.tableView.transform;
-    
-    header.contentView.backgroundColor = [UIColor kg_whiteColor];
+    if ([tableView isEqual:self.tableView]) {
+        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+        [header.textLabel setTextColor:[UIColor kg_blackColor]];
+        [header.textLabel setFont:[UIFont kg_bold16Font]];
+        header.textLabel.textAlignment = NSTextAlignmentRight;
+        header.textLabel.transform = self.tableView.transform;
+        
+        header.contentView.backgroundColor = [UIColor kg_whiteColor];
+    }
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -264,7 +324,22 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 50.f;
+    if ([tableView isEqual:self.tableView]) {
+        return 50.f;
+    } else {
+        return CGFLOAT_MIN;
+    }
+    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([tableView isEqual:self.autoCompletionView]) {
+        
+        NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
+        [item appendString:@" "]; // Adding a space helps dismissing the auto-completion view
+        
+        [self acceptAutoCompletionWithString:item keepPrefix:YES];
+    }
 }
 
 
@@ -322,8 +397,10 @@
 #pragma mark - Private
 
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-    cell.transform = self.tableView.transform;
+    if ([cell isKindOfClass:[KGTableViewCell class]]) {
+        [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        cell.transform = self.tableView.transform;
+    }
 }
 
 - (void)assignPhotos {
@@ -354,6 +431,11 @@
         subtitleString = self.channel.displayName;
     }
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
+}
+
+- (void)toogleStatusBarState {
+//    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
 }
 
 
@@ -569,10 +651,12 @@
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
+    [self toogleStatusBarState];
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
 - (void)toggleRightSideMenuAction {
+    [self toogleStatusBarState];
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 

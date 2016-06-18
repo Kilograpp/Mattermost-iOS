@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		419096E31D14117800725440 /* KGProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096E21D14117800725440 /* KGProfileCell.m */; };
+		419096E51D14118800725440 /* KGProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419096E41D14118800725440 /* KGProfileCell.xib */; };
+		419096E91D1427EB00725440 /* KGProfileDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096E81D1427EB00725440 /* KGProfileDataSource.m */; };
+		419096ED1D1435C800725440 /* KGProfileTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096EC1D1435C800725440 /* KGProfileTableHeader.m */; };
+		419096EF1D1435D900725440 /* KGProfileTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419096EE1D1435D900725440 /* KGProfileTableHeader.xib */; };
+		419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096F41D1455B400725440 /* KGProfileTableViewController.m */; };
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
@@ -118,6 +124,16 @@
 		419096D91D13DD8500725440 /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamCell.h; path = Team/KGTeamCell.h; sourceTree = "<group>"; };
 		419096DA1D13DD8500725440 /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamCell.m; path = Team/KGTeamCell.m; sourceTree = "<group>"; };
 		419096DB1D13DD8500725440 /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGTeamCell.xib; path = Team/KGTeamCell.xib; sourceTree = "<group>"; };
+		419096E11D14117800725440 /* KGProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileCell.h; path = Profile/KGProfileCell.h; sourceTree = "<group>"; };
+		419096E21D14117800725440 /* KGProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileCell.m; path = Profile/KGProfileCell.m; sourceTree = "<group>"; };
+		419096E41D14118800725440 /* KGProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGProfileCell.xib; sourceTree = "<group>"; };
+		419096E71D1427EB00725440 /* KGProfileDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileDataSource.h; path = ProfileDataSource/KGProfileDataSource.h; sourceTree = "<group>"; };
+		419096E81D1427EB00725440 /* KGProfileDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileDataSource.m; path = ProfileDataSource/KGProfileDataSource.m; sourceTree = "<group>"; };
+		419096EB1D1435C800725440 /* KGProfileTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileTableHeader.h; path = TableHeader/KGProfileTableHeader.h; sourceTree = "<group>"; };
+		419096EC1D1435C800725440 /* KGProfileTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileTableHeader.m; path = TableHeader/KGProfileTableHeader.m; sourceTree = "<group>"; };
+		419096EE1D1435D900725440 /* KGProfileTableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGProfileTableHeader.xib; sourceTree = "<group>"; };
+		419096F31D1455B400725440 /* KGProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileTableViewController.h; sourceTree = "<group>"; };
+		419096F41D1455B400725440 /* KGProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileTableViewController.m; sourceTree = "<group>"; };
 		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
 		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
 		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
@@ -332,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				CDB0506C1D14009300594A8C /* Team */,
+				419096E01D14115000725440 /* Profile */,
 				419096D81D13DD3D00725440 /* Team */,
 				D844A6EF1D0AF9DC00B53BB3 /* Base */,
 				411169ED1D09DDDD00448145 /* Channel */,
@@ -362,9 +379,39 @@
 			name = Team;
 			sourceTree = "<group>";
 		};
+		419096E01D14115000725440 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				419096E11D14117800725440 /* KGProfileCell.h */,
+				419096E21D14117800725440 /* KGProfileCell.m */,
+				419096E41D14118800725440 /* KGProfileCell.xib */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		419096E61D1427B100725440 /* ProfileDataSource */ = {
+			isa = PBXGroup;
+			children = (
+				419096E71D1427EB00725440 /* KGProfileDataSource.h */,
+				419096E81D1427EB00725440 /* KGProfileDataSource.m */,
+			);
+			name = ProfileDataSource;
+			sourceTree = "<group>";
+		};
+		419096EA1D14358800725440 /* TableHeader */ = {
+			isa = PBXGroup;
+			children = (
+				419096EB1D1435C800725440 /* KGProfileTableHeader.h */,
+				419096EC1D1435C800725440 /* KGProfileTableHeader.m */,
+				419096EE1D1435D900725440 /* KGProfileTableHeader.xib */,
+			);
+			name = TableHeader;
+			sourceTree = "<group>";
+		};
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				419096EA1D14358800725440 /* TableHeader */,
 				D67A248F1D1088BE006579E8 /* New Group */,
 				41FC94B21D07FA73009E1090 /* Button */,
 				411169EC1D09DDD800448145 /* Cell */,
@@ -699,6 +746,7 @@
 		CD7D11841D0C6BBD002EED4E /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
+				419096E61D1427B100725440 /* ProfileDataSource */,
 				CD7D11801D0C6B33002EED4E /* RightMenuDataSource */,
 			);
 			path = DataSource;
@@ -718,6 +766,8 @@
 			children = (
 				CD8D69091D0C514800AFA198 /* KGProfilViewController.h */,
 				CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */,
+				419096F31D1455B400725440 /* KGProfileTableViewController.h */,
+				419096F41D1455B400725440 /* KGProfileTableViewController.m */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1230,6 +1280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419096EF1D1435D900725440 /* KGProfileTableHeader.xib in Resources */,
 				D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */,
 				D636DBEF1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf in Resources */,
 				CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */,
@@ -1239,6 +1290,7 @@
 				D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
 				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
+				419096E51D14118800725440 /* KGProfileCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
 				D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */,
 				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
@@ -1348,6 +1400,8 @@
 				D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */,
 				41FC94B51D07FA87009E1090 /* KGButton.m in Sources */,
 				D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */,
+				419096E31D14117800725440 /* KGProfileCell.m in Sources */,
+				419096ED1D1435C800725440 /* KGProfileTableHeader.m in Sources */,
 				D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */,
 				D6C154C61D07557600B053CE /* KGViewController.m in Sources */,
 				D69FB19D1D09C62D00043C2D /* KGSideMenuContainerViewController.m in Sources */,
@@ -1387,12 +1441,14 @@
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
+				419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
 				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				CDB050701D1400A200594A8C /* KGTeamCell.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
+				419096E91D1427EB00725440 /* KGProfileDataSource.m in Sources */,
 				CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */,
 				D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */,
 				9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */,

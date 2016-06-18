@@ -22,6 +22,7 @@
 
 + (instancetype)managedObjectById:(NSString *)objectId;
 + (instancetype)managedObjectById:(NSString *)objectId inContext:(NSManagedObjectContext *)context;
++ (instancetype)managedObjectByUserName:(NSString *)userName;
 
 + (NSString *)entityName;
 + (RKEntityMapping *)entityMapping;

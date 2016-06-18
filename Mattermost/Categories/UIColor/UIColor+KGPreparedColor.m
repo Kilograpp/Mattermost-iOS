@@ -60,7 +60,7 @@
 }
 
 + (UIColor *)kg_leftMenuBackgroundColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:38/255.f green:93/255.f blue:154/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#2071A8" alpha:1])
     return color;
 }
 
@@ -70,7 +70,7 @@
 }
 
 + (UIColor *)kg_leftMenuHeaderColor {
-    STATIC_ONCE(color, [UIColor colorWithRed:42/255.f green:103/255.f blue:165/255.f alpha:1.f])
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#2F81B7" alpha:1])
     return color;
 }
 
@@ -88,6 +88,12 @@
     STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#0076FF" alpha:1])
     return color;
 }
+
++ (UIColor *)kg_rightMenuSeparatorColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#8798A4" alpha:1])
+    return color;
+}
+
 
 #pragma mark - Gradient
 
