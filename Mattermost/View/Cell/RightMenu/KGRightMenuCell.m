@@ -27,7 +27,8 @@
 }
 
 - (void)setupTitleLabel {
-    self.titleMenuLabel.font = [UIFont kg_regular16Font];
+    self.titleMenuLabel.font = [UIFont kg_semibold16Font];
+    self.titleMenuLabel.textColor = [UIColor kg_whiteColor];
 }
 
 
@@ -38,14 +39,13 @@
     self.titleMenuLabel.text = title;
 }
 
-- (void)configureWithImageName:(NSURL *) image{
+- (void)configureWithImageName:(NSURL *) image {
     UIImageView *avatar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
     
     [self addSubview:avatar];
     [avatar setCenter:self.iconImageView.center];
     self.iconImageView = nil;
     avatar.layer.cornerRadius = CGRectGetHeight(avatar.bounds) / 2;
-    avatar.layer.drawsAsynchronously = YES;
     avatar.clipsToBounds = YES;
     avatar.backgroundColor = [UIColor whiteColor];
     [avatar setImageWithURL:image placeholderImage:nil options:SDWebImageHandleCookies
@@ -56,7 +56,6 @@
 -(void)configureWithObject:(id)object{
     if ([object isKindOfClass: [KGRightMenuDataSourceEntry class]]) {
         KGRightMenuDataSourceEntry *dataSourse = object;
-        self.titleMenuLabel.textColor = dataSourse.titleColor;
         [self configureWithImageName:dataSourse.iconName title:dataSourse.title];
     }
 
@@ -71,15 +70,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
-    if (selected) {
-        self.contentView.backgroundColor = [UIColor kg_lightBlueColor];
-       // self.titleMenuLabel.textColor = [UIColor kg_whiteColor];
-       // self.backgroundColor = [UIColor kg_leftMenuHighlightColor];
-    } else {
-        self.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-      //  self.titleMenuLabel.textColor = [UIColor kg_lightBlueColor];
-      //  self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    }
+    self.contentView.backgroundColor = selected ? [UIColor kg_lightBlueColor] : [UIColor kg_leftMenuBackgroundColor];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
@@ -92,7 +83,9 @@
     }
 }
 
-
+- (void)prepareForReuse {
+    self.imageView.image = nil;
+}
 
 
 @end
