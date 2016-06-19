@@ -40,6 +40,7 @@
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
+#import "UITableView+Cache.h"
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
@@ -51,9 +52,6 @@
 @property (nonatomic, strong) UIView *loadingView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
-@property (nonatomic, strong) NSMutableArray* chatRootCells;
-@property (nonatomic, strong) NSMutableArray* followupCells;
-@property (nonatomic, strong) NSMutableArray* imageCells;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) KGPost *currentPost;
@@ -104,23 +102,10 @@
 }
 
 - (void)setupTableView {
-    _chatRootCells = [NSMutableArray arrayWithCapacity:15];
-    _imageCells = [NSMutableArray arrayWithCapacity:15];
-    _followupCells = [NSMutableArray arrayWithCapacity:15];
+    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:2];
+    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:2];
+    [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:2];
 
-    for (int i = 0; i < 15; i++) {
-        UITableViewCell* cell = [[KGChatCommonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                 reuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier]];
-        [_chatRootCells addObject:cell];
-        
-        cell = [[KGChatAttachmentsTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                     reuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier]];
-        [_imageCells addObject:cell];
-    
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"KGFollowUpChatCell" owner:self options:nil] firstObject];
-        [_followupCells addObject:cell];
-    }
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
@@ -259,25 +244,7 @@
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell) {
-        if ([[KGChatCommonTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
-            cell = _chatRootCells.firstObject;
-        
-            [_chatRootCells removeObject:cell];
-        }
-        if ([[KGChatAttachmentsTableViewCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
-            cell = _imageCells.firstObject;
-            [_imageCells removeObject:cell];
-        }
-        if ([[KGFollowUpChatCell reuseIdentifier] isEqualToString:reuseIdentifier]) {
-            cell = _followupCells.firstObject;
-            [_followupCells removeObject:cell];
-        }
-    }
-    if (!cell){
-        cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier forIndexPath:indexPath];
-    }
-    
+
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *array = [post.files.allObjects sortedArrayUsingSelector:@selector(downloadLink)];
         NSArray *urls = [array valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
