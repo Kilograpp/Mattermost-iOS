@@ -46,7 +46,9 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
+        NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) UIView *loadingView;
@@ -58,6 +60,7 @@
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (nonatomic, strong) NSArray *searchResultArray;
 @property (nonatomic, strong) NSArray *usersArray;
+
 @end
 
 @implementation KGChatViewController
@@ -66,8 +69,12 @@
     return UITableViewStyleGrouped;
 }
 
+
+#pragma mark - Lifecycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -95,16 +102,21 @@
 - (void)setup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
-    KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
+    KGLeftMenuViewController *leftVC =
+            (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
+    KGRightMenuViewController *rightVC  =
+            (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     leftVC.delegate = self;
     rightVC.delegate = self;
 }
 
 - (void)setupTableView {
-    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
-    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
+           forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
+    [self.tableView registerClass:[KGChatCommonTableViewCell class]
+           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerNib:[KGFollowUpChatCell nib]
+         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
@@ -176,6 +188,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    //fixme вынести в отдельный метод конфигурации
     if (![tableView isEqual:self.tableView]) {
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
@@ -196,14 +209,13 @@
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                    [UIImage roundedImage:image completion:^(UIImage *image) {
-                                                                        [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
-                                                                        cell.imageView.image = image;
-                                                                    }];
-                                                                }];
+                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                     [UIImage roundedImage:image completion:^(UIImage *image) {
+                         [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
+                         cell.imageView.image = image;
+                     }];
+                 }];
 
-           // [cell.imageView removeActivityIndicator];
         }
         
         
@@ -221,13 +233,16 @@
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+        reuseIdentifier = post.files.count == 0 ?
+                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ?
+                    [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
-            reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ?
+                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
 
@@ -248,14 +263,6 @@
     return cell;
 }
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-////    [cell configureWithObject:post];
-//    if ([tableView isEqual:self.tableView]) {
-//        [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-//        cell.transform = self.tableView.transform;
-//    }
-//}
-
 
 #pragma mark - UITableViewDelegate
 
@@ -266,13 +273,17 @@
         id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
         
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-            return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+            return post.files.count == 0 ?
+                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
-            KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+            KGPost *prevPost =
+                    [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
             if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-                return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
+                return post.files.count == 0 ?
+                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
-                return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                return post.files.count == 0 ?
+                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
         
@@ -370,7 +381,8 @@
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [self.currentPost setBackendPendingId:
-            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
+            [NSString stringWithFormat:@"%@:%lf",
+                            [[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
@@ -418,12 +430,8 @@
     } else {
         subtitleString = self.channel.displayName;
     }
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
-}
-
-- (void)toogleStatusBarState {
-//    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    [(KGChatNavigationController *)self.navigationController
+            setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
 }
 
 
@@ -441,13 +449,17 @@
 }
 
 - (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNavigationBarAppearance) name:KGNotificationUsersStatusUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateNavigationBarAppearance)
+                                                 name:KGNotificationUsersStatusUpdate
+                                               object:nil];
 }
 
 
 #pragma mark -  CTAssetsPickerControllerDelegate
 
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
+    //fixme REFACOR
     PHImageManager *manager = [PHImageManager defaultManager];
     self.requestOptions = [[PHImageRequestOptions alloc] init];
     self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
@@ -471,12 +483,14 @@
                            targetSize:PHImageManagerMaximumSize
                           contentMode:PHImageContentModeAspectFill
                               options:self.requestOptions
-                        resultHandler:^(UIImage *image, NSDictionary *info) {
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage] atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
-                                [self.currentPost addFilesObject:file];
-                                dispatch_group_leave(group);
-                            }];
-                        }];
+        resultHandler:^(UIImage *image, NSDictionary *info) {
+             [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
+                                                 atChannel:wSelf.channel
+                  withCompletion:^(KGFile* file, KGError* error) {
+                      [self.currentPost addFilesObject:file];
+                      dispatch_group_leave(group);
+                  }];
+        }];
     }
     
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
