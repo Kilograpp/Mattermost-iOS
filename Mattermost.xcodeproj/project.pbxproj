@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		415FFC071D182EEC003F9E23 /* KGTableViewSectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */; };
+		415FFC091D182F06003F9E23 /* KGTableViewSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */; };
 		419096E31D14117800725440 /* KGProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096E21D14117800725440 /* KGProfileCell.m */; };
 		419096E51D14118800725440 /* KGProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419096E41D14118800725440 /* KGProfileCell.xib */; };
 		419096E91D1427EB00725440 /* KGProfileDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096E81D1427EB00725440 /* KGProfileDataSource.m */; };
@@ -121,6 +123,9 @@
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		411169EE1D09DE0D00448145 /* KGChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelTableViewCell.h; sourceTree = "<group>"; };
 		411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelTableViewCell.m; sourceTree = "<group>"; };
+		415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTableViewSectionHeader.h; path = TableSectionHeader/KGTableViewSectionHeader.h; sourceTree = "<group>"; };
+		415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTableViewSectionHeader.m; path = TableSectionHeader/KGTableViewSectionHeader.m; sourceTree = "<group>"; };
+		415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTableViewSectionHeader.xib; sourceTree = "<group>"; };
 		419096D91D13DD8500725440 /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamCell.h; path = Team/KGTeamCell.h; sourceTree = "<group>"; };
 		419096DA1D13DD8500725440 /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamCell.m; path = Team/KGTeamCell.m; sourceTree = "<group>"; };
 		419096DB1D13DD8500725440 /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGTeamCell.xib; path = Team/KGTeamCell.xib; sourceTree = "<group>"; };
@@ -369,6 +374,16 @@
 			path = Channel;
 			sourceTree = "<group>";
 		};
+		415FFC041D182E99003F9E23 /* TableSectionHeader */ = {
+			isa = PBXGroup;
+			children = (
+				415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */,
+				415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */,
+				415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */,
+			);
+			name = TableSectionHeader;
+			sourceTree = "<group>";
+		};
 		419096D81D13DD3D00725440 /* Team */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,6 +426,7 @@
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				415FFC041D182E99003F9E23 /* TableSectionHeader */,
 				419096EA1D14358800725440 /* TableHeader */,
 				D67A248F1D1088BE006579E8 /* New Group */,
 				41FC94B21D07FA73009E1090 /* Button */,
@@ -1293,6 +1309,7 @@
 				419096E51D14118800725440 /* KGProfileCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
 				D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */,
+				415FFC091D182F06003F9E23 /* KGTableViewSectionHeader.xib in Resources */,
 				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
 				CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
@@ -1420,6 +1437,7 @@
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
 				D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */,
+				415FFC071D182EEC003F9E23 /* KGTableViewSectionHeader.m in Sources */,
 				D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */,
 				D844A7011D0B2D4B00B53BB3 /* KGFollowUpChatCell.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,

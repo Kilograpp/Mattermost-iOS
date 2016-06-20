@@ -53,6 +53,10 @@
     self.nicknameLabel.textColor = [UIColor kg_whiteColor];
     self.nicknameLabel.font = [UIFont kg_semibold16Font];
     self.nicknameLabel.text = [@"@" stringByAppendingString:user.nickname];
+    
+    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
+    self.avatarImageView.backgroundColor = [UIColor whiteColor];
+    self.avatarImageView.clipsToBounds = YES;
 }
 
 - (void)setupTableView {
@@ -60,6 +64,8 @@
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
     self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
+//    self.tableView .tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
 
 
@@ -91,7 +97,10 @@
     cell.preservesSuperviewLayoutMargins = NO;
     cell.separatorInset = UIEdgeInsetsZero;
     cell.layoutMargins = UIEdgeInsetsZero;
-    
+//    if (indexPath.row == 0) {
+//        KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+//        [cell configureWithImageName:user.imageUrl];
+//    }
     return cell;
 }
 

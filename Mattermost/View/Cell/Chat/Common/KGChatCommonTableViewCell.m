@@ -96,6 +96,8 @@
     
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
+//        make.leading.equalTo(self.nameLabel).offset(kStandartPadding);
+        
         make.centerY.equalTo(self.nameLabel);
         make.trailing.equalTo(self).offset(-kStandartPadding);
     }];
