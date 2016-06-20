@@ -45,6 +45,7 @@
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "KGTableViewSectionHeader.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -105,8 +106,12 @@
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
     [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
-
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
+forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+    
 }
 
 - (void)setupKeyboardToolbar {
@@ -133,6 +138,12 @@
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
 
+//- (void)setupRightBarButtonItem {
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+//                                                                             style:UIBarButtonItemStylePlain
+//                                                                            target:self
+//                                                                            action:@selector(toggleLeftSideMenuAction)];
+//}
 
 
 #pragma mark - SLKViewController
@@ -173,6 +184,20 @@
         return [sectionInfo numberOfObjects];
     }
     return self.searchResultArray.count;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    NSDate *date = [formatter dateFromString:[sectionInfo name]];
+    NSString *dateName = [date dateFormatForMessageTitle];
+    [header configureWithObject:dateName];
+    header.backgroundColor  = [UIColor whiteColor];
+    header.dateLabel.transform = self.tableView.transform;
+    return header;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,34 +306,44 @@
     
     return 40;
 }
-
-- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
-        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-        NSDate *date = [formatter dateFromString:[sectionInfo name]];
-        NSString *dateName = [date dateFormatForMessageTitle];
-        return dateName;
-    }
-    return nil;
-}
+//
+//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+//    if ([tableView isEqual:self.tableView]) {
+//        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+//        NSDate *date = [formatter dateFromString:[sectionInfo name]];
+//        NSString *dateName = [date dateFormatForMessageTitle];
+//        return dateName;
+//    }
+//    return nil;
+//}
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
-        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-        [header.textLabel setTextColor:[UIColor kg_blackColor]];
-        [header.textLabel setFont:[UIFont kg_bold16Font]];
-        header.textLabel.textAlignment = NSTextAlignmentRight;
-        header.textLabel.transform = self.tableView.transform;
-        
-        header.contentView.backgroundColor = [UIColor kg_whiteColor];
-    }
+    
+    UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
+    v.backgroundView.backgroundColor = [UIColor whiteColor];
+//    if ([tableView isEqual:self.tableView]) {
+//        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+//        [header.textLabel setTextColor:[UIColor kg_blackColor]];
+//        [header.textLabel setFont:[UIFont kg_bold16Font]];
+//        header.textLabel.textAlignment = NSTextAlignmentRight;
+//        header.textLabel.transform = self.tableView.transform;
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, header.textLabel.center.y, 200, 1)];
+//        //lineView.frame.origin.y = header.textLabel.frame.origin.y;
+//        lineView.backgroundColor = [UIColor kg_lightGrayColor];
+//        if (header.textLabel.center.y != 0.f){
+//            [header.contentView addSubview:lineView];
+//        }
+//        header.contentView.backgroundColor = [UIColor kg_whiteColor];
+//        
+//    }
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGFLOAT_MIN;
+    //return 50.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -317,7 +352,6 @@
     } else {
         return CGFLOAT_MIN;
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -506,10 +540,21 @@
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];
 
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-                                                                                      style:UIBarButtonItemStylePlain
-                                                                                     target:self
-                                                                                     action:@selector(toggleRightSideMenuAction)];
+            KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+            
+            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+            
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+            [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
+            [button addSubview:imageView];
+
+            [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+//            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+//                                                                                      style:UIBarButtonItemStylePlain
+//                                                                                     target:self
+//                                                                                     action:@selector(toggleRightSideMenuAction)];
         }
     }
 }
