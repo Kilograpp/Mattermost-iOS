@@ -22,7 +22,6 @@ target 'Mattermost' do
   pod 'JVFloatLabeledTextField'
   pod 'TSMessages'
   pod 'IDMPhotoBrowser'
-  
 end
 
 post_install do |installer_representation|

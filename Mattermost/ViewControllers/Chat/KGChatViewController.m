@@ -35,12 +35,13 @@
 #import "NSDate+DateFormatter.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
+#import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
-#import "UITableView+Cache.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
@@ -106,9 +107,12 @@
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
     [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
-forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
     
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
+            forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+
+    [self.tableView registerNib:[KGAutoCompletionCell nib] forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
     
@@ -164,7 +168,7 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
 - (CGFloat)heightForAutoCompletionView {
     //SLKTextViewController
-    CGFloat cellHeight = 40;
+    CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
     return cellHeight*self.searchResultArray.count;
 }
 
@@ -202,42 +206,11 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![tableView isEqual:self.tableView]) {
+        //ячейка для autoCompletionView
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
-        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        cell.textLabel.text = [NSString stringWithFormat:@"@%@", item];
-        cell.textLabel.font = [UIFont kg_bold16Font];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
-        cell.detailTextLabel.font = [UIFont kg_regular14Font];
-        UIImageView *cachedImage;
-        [cachedImage setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
-        if (cachedImage) {
-            [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
-                cell.imageView.image = image;
-                //                [self.avatarImageView setNeedsDisplay];
-            }];
-        } else {
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
-                                                                  options:SDWebImageDownloaderHandleCookies
-                                                                 progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                    [UIImage roundedImage:image completion:^(UIImage *image) {
-                                                                        [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
-                                                                        cell.imageView.image = image;
-                                                                    }];
-                                                                }];
-
-           // [cell.imageView removeActivityIndicator];
-        }
-        
-        
-     //   UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:user.imageUrl.absoluteString];
-//        [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
-//            cell.imageView.image = image;
-//        }];
-        // cell.imageView.image = cachedImage.image;
-
+        KGAutoCompletionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        [cell configureWithObject:user];
         return cell;
     }
     NSString *reuseIdentifier;
@@ -303,8 +276,8 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
         
         return 0.f;
     }
-    
-    return 40;
+    //ячейка для autoCompletionView:
+    return [KGAutoCompletionCell heightWithObject:nil];
 }
 //
 //- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
@@ -350,6 +323,7 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
     if ([tableView isEqual:self.tableView]) {
         return 50.f;
     } else {
+        //для autoCompletionView
         return CGFLOAT_MIN;
     }
 }
