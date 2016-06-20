@@ -56,6 +56,8 @@
 		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */; };
+		CD625C581D181AE800ED4E2F /* KGAutoCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD625C561D181AE800ED4E2F /* KGAutoCompletionCell.m */; };
+		CD625C591D181AE800ED4E2F /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD625C571D181AE800ED4E2F /* KGAutoCompletionCell.xib */; };
 		CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */; };
 		CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */; };
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
@@ -217,6 +219,9 @@
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
 		CD5E1F6D1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+KGPreparedGradient.h"; sourceTree = "<group>"; };
 		CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
+		CD625C551D181AE800ED4E2F /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAutoCompletionCell.h; path = AutoCompletion/KGAutoCompletionCell.h; sourceTree = "<group>"; };
+		CD625C561D181AE800ED4E2F /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAutoCompletionCell.m; path = AutoCompletion/KGAutoCompletionCell.m; sourceTree = "<group>"; };
+		CD625C571D181AE800ED4E2F /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGAutoCompletionCell.xib; path = AutoCompletion/KGAutoCompletionCell.xib; sourceTree = "<group>"; };
 		CD7D117B1D0C648B002EED4E /* KGRightMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuCell.h; sourceTree = "<group>"; };
 		CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuCell.m; sourceTree = "<group>"; };
 		CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGRightMenuCell.xib; sourceTree = "<group>"; };
@@ -708,6 +713,16 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		CD19AC1E1D181A3B00201953 /* AutoCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				CD625C551D181AE800ED4E2F /* KGAutoCompletionCell.h */,
+				CD625C561D181AE800ED4E2F /* KGAutoCompletionCell.m */,
+				CD625C571D181AE800ED4E2F /* KGAutoCompletionCell.xib */,
+			);
+			name = AutoCompletion;
+			sourceTree = "<group>";
+		};
 		CD671BD41D12A3A7004CD55E /* CAGradientLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1150,6 +1165,7 @@
 		D844A6E61D0AE35200B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				CD19AC1E1D181A3B00201953 /* AutoCompletion */,
 				D67A24881D106E9A006579E8 /* Attachments */,
 				D67A24841D104443006579E8 /* Common */,
 				D65E5AC71D0F519400D5E0C6 /* Image */,
@@ -1300,6 +1316,7 @@
 				D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */,
 				D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */,
 				CDB050711D1400A200594A8C /* KGTeamCell.xib in Resources */,
+				CD625C591D181AE800ED4E2F /* KGAutoCompletionCell.xib in Resources */,
 				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 				9B822D36FE33ED3BE423743B /* KGNotificationValues.h in Resources */,
 			);
@@ -1454,6 +1471,7 @@
 				9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */,
 				9B8229555967AD0C8D3320E3 /* _KGFile.m in Sources */,
 				9B822B929C3581984CF62D54 /* KGBusinessLogic+File.m in Sources */,
+				CD625C581D181AE800ED4E2F /* KGAutoCompletionCell.m in Sources */,
 				9B822BF0DBC6C73D268F3B4E /* KGBusinessLogic+Socket.m in Sources */,
 				9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */,
 				7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */,
