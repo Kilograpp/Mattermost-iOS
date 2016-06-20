@@ -13,6 +13,8 @@
 #import "UIImage+Resize.h"
 #import "KGUser.h"
 
+static CGFloat const kHeightCell = 44;
+
 @interface KGAutoCompletionCell()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImagView;
 @property (weak, nonatomic) IBOutlet UILabel *nickUserLabel;
@@ -32,18 +34,22 @@
 - (void)setupLabel {
     self.nickUserLabel.font = [UIFont kg_boldText16Font];
     self.nickUserLabel.textColor = [UIColor kg_blackColor];
+    self.nickUserLabel.backgroundColor = [UIColor kg_whiteColor];
     
     self.nameUserLabel.font = [UIFont kg_regular13Font];
     self.nameUserLabel.textColor = [UIColor kg_grayColor];
+    self.nameUserLabel.backgroundColor = [UIColor kg_whiteColor];
     
     self.contentView.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGUser class]]) {
+        
         KGUser *user = object;
         
         self.nickUserLabel.text = [NSString stringWithFormat:@"@%@", user.nickname];
+        
         NSString *userFirstName = (!user.firstName) ? @"" : user.firstName;
         NSString *userLastName = (!user.lastName) ? @"" : user.lastName;
         self.nameUserLabel.text = [NSString stringWithFormat:@"%@ %@", userFirstName, userLastName];
@@ -72,7 +78,7 @@
 }
 
 + (CGFloat)heightWithObject:(id)object {
-    return 44;
+    return kHeightCell;
 }
 
 
