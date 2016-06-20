@@ -35,12 +35,13 @@
 #import "NSDate+DateFormatter.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
+#import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
-#import "UITableView+Cache.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
@@ -165,7 +166,7 @@
 
 - (CGFloat)heightForAutoCompletionView {
     //SLKTextViewController
-    CGFloat cellHeight = 40;
+    CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
     return cellHeight*self.searchResultArray.count;
 }
 
@@ -190,6 +191,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //fixme вынести в отдельный метод конфигурации
     if (![tableView isEqual:self.tableView]) {
+        //ячейка для autoCompletionView
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
@@ -224,6 +226,10 @@
 //            cell.imageView.image = image;
 //        }];
         // cell.imageView.image = cachedImage.image;
+
+
+        KGAutoCompletionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        [cell configureWithObject:user];
 
         return cell;
     }
@@ -289,8 +295,8 @@
         
         return 0.f;
     }
-    
-    return 40;
+    //ячейка для autoCompletionView:
+    return [KGAutoCompletionCell heightWithObject:nil];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
@@ -326,6 +332,7 @@
     if ([tableView isEqual:self.tableView]) {
         return 50.f;
     } else {
+        //для autoCompletionView
         return CGFLOAT_MIN;
     }
     
