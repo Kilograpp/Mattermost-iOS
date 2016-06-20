@@ -126,15 +126,24 @@
     [self registerPrefixesForAutoCompletion:@[@"@"]];
 }
 
+- (void)setupLeftBarButtonItem {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(toggleLeftSideMenuAction)];
+}
 
-#pragma mark - Override
+
+
+#pragma mark - SLKViewController
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
     //SLKTextViewController - поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
-        self.searchResultArray = [[self.usersArray valueForKey:@"username"] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        self.searchResultArray = [[self.usersArray valueForKey:@"username"]
+                                  filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
         
     }
     
@@ -148,27 +157,6 @@
     return cellHeight*self.searchResultArray.count;
 }
 
-- (void)setupLeftBarButtonItem {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:@selector(toggleLeftSideMenuAction)];
-}
-
-#pragma mark - RefreshControl
-- (void)setupRefreshControl {
-    UITableViewController *tableViewController = [[UITableViewController alloc] init];
-    tableViewController.tableView = self.tableView;
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
-    tableViewController.refreshControl = self.refreshControl;
-
-}
-
-- (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-    [refreshControl endRefreshing];
-}
 
 #pragma mark - UITableViewDataSource
 
@@ -539,6 +527,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
     [self updateNavigationBarAppearance];
     self.channel.lastViewDate = [NSDate date];
+    [self.tableView slk_scrollToTopAnimated:NO];
 
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
         [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
@@ -695,6 +684,22 @@
         [self.loadingActivityIndicator stopAnimating];
         [self.loadingView removeFromSuperview];
     }];
+}
+
+
+#pragma mark - RefreshControl
+
+- (void)setupRefreshControl {
+    UITableViewController *tableViewController = [[UITableViewController alloc] init];
+    tableViewController.tableView = self.tableView;
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    tableViewController.refreshControl = self.refreshControl;
+}
+
+- (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
+    [refreshControl endRefreshing];
 }
 
 @end
