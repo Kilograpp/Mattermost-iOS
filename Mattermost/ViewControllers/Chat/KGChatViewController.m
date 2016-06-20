@@ -40,7 +40,7 @@
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
-#import "UITableView+Cache.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
