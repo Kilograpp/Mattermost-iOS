@@ -50,8 +50,12 @@
 
 #pragma mark - Setup
 
--  (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+//-  (UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent;
+//}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 

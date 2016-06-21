@@ -63,6 +63,7 @@
 
 @implementation KGChatViewController
 
+
 + (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
     return UITableViewStyleGrouped;
 }
@@ -79,8 +80,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     
     [IQKeyboardManager sharedManager].enable = NO;
+}
+
+- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
+{
+    return UIBarPositionTopAttached;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -90,6 +97,7 @@
         self.navigationController.delegate = nil;
     }
 }
+
 
 #pragma mark - Setup
 
@@ -330,6 +338,9 @@
 }
 
 - (void)sendPost {
+    
+    [self toogleStatusBarState];
+    
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
@@ -394,9 +405,29 @@
 }
 
 - (void)toogleStatusBarState {
-//    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+   [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    
+//    [UIView animateWithDuration:0.4 animations:^() {[self setNeedsStatusBarAppearanceUpdate];
+//    }completion:^(BOOL finished){}];
+
+//    if (isStatusBarHidden) {
+//        [self.navigationController.navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.height.equalTo(@44);
+//            make.top.equalTo(self.view).offset(20);
+//        }];
+//    } else {
+//        [self.navigationController.navigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.height.equalTo(@64);
+//            make.top.equalTo(self.view).offset(0);
+//        }];
+//
+//    }
+    
+    
 }
+
+
 
 
 #pragma mark - Notifications
