@@ -11,6 +11,7 @@
 #import "KGConstants.h"
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
+#import <Masonry/Masonry.h>
 
 @interface KGSideMenuContainerViewController ()
 @property (nonatomic, assign) CGFloat *oldX;
@@ -33,6 +34,7 @@
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
 }
+
 
 + (instancetype)configuredContainerViewController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
@@ -64,9 +66,11 @@
 }
 
 - (void)toogleStatusBarState {
-    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
-    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationFade];
-}
+ 
+//    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    
+  }
 
 
 #pragma mark - Orientations

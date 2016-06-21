@@ -31,6 +31,11 @@
 }
 
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+
 #pragma mark - Setup
 
 - (void)setupNavigationBar {
