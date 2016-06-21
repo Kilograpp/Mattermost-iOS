@@ -33,8 +33,7 @@
 - (void)setup {
     self.dateLabel.font = [UIFont kg_bold16Font];
     self.dateLabel.textColor = [UIColor kg_blackColor];
-    self.backgroundColor = [UIColor whiteColor];
-    
+//    self.backgroundColor = [UIColor whiteColor];    
 }
 
 - (void)configureWithObject:(id)object {

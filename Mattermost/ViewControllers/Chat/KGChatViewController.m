@@ -287,6 +287,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
+    
     v.backgroundView.backgroundColor = [UIColor whiteColor];
 }
 
