@@ -700,7 +700,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
         UINavigationController *nc = segue.destinationViewController;
         KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        vc.userId =
     }
 }
 

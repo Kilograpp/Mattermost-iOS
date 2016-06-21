@@ -12,6 +12,7 @@
 @property (copy, nonatomic) NSString * serverBaseUrl;
 @property (copy, nonatomic) NSString * currentUserId;
 @property (copy, nonatomic) NSString * currentTeamId;
+@property (copy, nonatomic) NSString * siteName;
 
 + (instancetype)sharedInstance;
 - (void)save;
