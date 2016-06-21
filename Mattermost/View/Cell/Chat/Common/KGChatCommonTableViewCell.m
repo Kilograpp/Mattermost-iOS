@@ -76,12 +76,11 @@
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 
-    [self.nameLabel setContentCompressionResistancePriority: 749 forAxis: UILayoutConstraintAxisHorizontal];
+    [self.nameLabel setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisHorizontal];
     [self.nameLabel setContentHuggingPriority:251 forAxis:UILayoutConstraintAxisHorizontal];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self).offset(53.f);
+        make.leading.equalTo(self.avatarImageView.mas_trailing).offset(kSmallPadding);
         make.top.equalTo(self).offset(8.f);
-//        make.trailing.lessThanOrEqualTo(self).offset(-75.f);
     }];
 }
 
@@ -92,14 +91,12 @@
     self.dateLabel.textColor = [UIColor kg_lightGrayColor];
     self.dateLabel.font = [UIFont kg_regular13Font];
     self.dateLabel.contentMode = UIViewContentModeLeft;
-    [self.dateLabel setContentCompressionResistancePriority: 750 forAxis: UILayoutConstraintAxisHorizontal];
+    [self.dateLabel setContentCompressionResistancePriority:750 forAxis:UILayoutConstraintAxisHorizontal];
     [self.dateLabel setContentHuggingPriority:250 forAxis:UILayoutConstraintAxisHorizontal];
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-       make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
-//        make.leading.equalTo(self.nameLabel).offset(self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width);
+        make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
         make.centerY.equalTo(self.nameLabel);
         make.trailing.equalTo(self).offset(-kStandartPadding);
-        
     }];
 }
 
@@ -109,6 +106,9 @@
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
+    [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
+    [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
+
     self.messageLabel.textColor = [UIColor kg_blackColor];
     self.messageLabel.font = [UIFont kg_regular15Font];
     self.messageLabel.numberOfLines = 0;
@@ -198,10 +198,8 @@
 #pragma mark - Override
 
 - (void)prepareForReuse {
+    self.avatarImageView.image = nil;
     self.avatarImageView.image = [[self class] placeholderBackground];
-//    self.nameLabel.text = nil;
-//    self.dateLabel = nil;
-//    self.messageLabel = nil;
 }
 
 
@@ -235,12 +233,13 @@
 }
 
 + (UIImage *)placeholderBackground {
-//    CGRect rect = CGRectMake(0, 0, 1, 1);
     CGRect rect = CGRectMake(0, 0, 40, 40);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:20].CGPath;
+    CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
-    CGContextFillRect(context, rect);
+    CGContextFillPath(context);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;

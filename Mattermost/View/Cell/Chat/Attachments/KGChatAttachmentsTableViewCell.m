@@ -94,12 +94,12 @@
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                            [[self class] roundedImage:image completion:^(UIImage *image) {
-                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
-                                                                                self.avatarImageView.image = image;
-                                                                            }];
-                                                                }];
+                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                     [[self class] roundedImage:image completion:^(UIImage *image) {
+                         [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+                         self.avatarImageView.image = image;
+                     }];
+                 }];
             [self.avatarImageView removeActivityIndicator];
         }
         
