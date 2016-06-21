@@ -61,12 +61,12 @@
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                            [[self class] roundedImage:image completion:^(UIImage *image) {
-                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
-                                                                                self.kg_imageView.image = image;
-                                                                            }];
-                                                                }];
+                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                            [[self class] roundedImage:image completion:^(UIImage *image) {
+                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
+                                self.kg_imageView.image = image;
+                            }];
+                }];
             [self.kg_imageView removeActivityIndicator];
         }
     }
@@ -75,12 +75,9 @@
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Begin a new image that will be the new image with the rounded corners
-        // (here with the size of an UIImageView)
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
         CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-        
-        // Add a clip before drawing anything, in the shape of an rounded rect
+
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:15.f] addClip];
         // Draw your image
@@ -100,26 +97,20 @@
 }
 
 - (void)prepareForReuse {
-    self.kg_imageView.image = nil;
+    self.kg_imageView.image = [[self class] placeholderBackground];
 }
 
 + (UIImage *)placeholderBackground {
-    //    CGRect rect = CGRectMake(0, 0, 1, 1);
     CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:15].CGPath;
+    CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
-//    CGContextFillRect(context, rect);
-    
-    UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:15.0];
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:0.95f alpha:1.f].CGColor);
-    [bezierPath stroke];
-    
+    CGContextFillPath(context);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
 }
-
-
 
 @end

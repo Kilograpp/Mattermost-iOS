@@ -57,9 +57,7 @@
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self addSubview:_avatarImageView/*.view*/];
     _avatarImageView.layer.drawsAsynchronously = YES;
-//    self.avatarImageView.view.layer.cornerRadius = kAvatarDimension / 2;
-//    self.avatarImageView.layer.cornerRadius = kAvatarDimension / 2;
-    self.avatarImageView.backgroundColor = [UIColor colorWithRed:0.95f green:0.95f blue:0.95f alpha:1.f];
+    self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
     
     [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -190,11 +188,6 @@
     
     return 0.f;
 }
-
-
-#pragma mark - ActiveLabel
-
-
 
 
 #pragma mark - Override
