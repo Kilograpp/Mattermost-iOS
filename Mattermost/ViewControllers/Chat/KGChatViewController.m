@@ -63,6 +63,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (nonatomic, strong) NSArray *searchResultArray;
 @property (nonatomic, strong) NSArray *usersArray;
+@property (nonatomic, copy) NSString *selectedUsername;
 @end
 
 @implementation KGChatViewController
@@ -189,20 +190,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     return self.searchResultArray.count;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-    NSDate *date = [formatter dateFromString:[sectionInfo name]];
-    NSString *dateName = [date dateFormatForMessageTitle];
-    [header configureWithObject:dateName];
-    header.backgroundColor  = [UIColor whiteColor];
-    header.dateLabel.transform = self.tableView.transform;
-    return header;
-    
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![tableView isEqual:self.tableView]) {
         //ячейка для autoCompletionView
@@ -240,6 +227,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     };
 
     cell.mentionTapHandler = ^(NSString *nickname) {
+        self.selectedUsername = nickname;
         [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
     };
     
@@ -277,6 +265,20 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     //ячейка для autoCompletionView:
     return [KGAutoCompletionCell heightWithObject:nil];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    NSDate *date = [formatter dateFromString:[sectionInfo name]];
+    NSString *dateName = [date dateFormatForMessageTitle];
+    [header configureWithObject:dateName];
+    header.backgroundColor  = [UIColor whiteColor];
+    header.dateLabel.transform = self.tableView.transform;
+    return header;
+
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
@@ -700,7 +702,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
         UINavigationController *nc = segue.destinationViewController;
         KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        vc.userId =
+        KGUser *user = [KGUser
+                MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
+        vc.userId = user.identifier;
     }
 }
 
