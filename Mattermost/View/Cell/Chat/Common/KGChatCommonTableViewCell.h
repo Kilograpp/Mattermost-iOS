@@ -19,7 +19,7 @@ static CGFloat const kSmallPadding = 5.f;
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
-@property (nonatomic, strong) UILabel *messageLabel;
+@property (nonatomic, strong) ActiveLabel *messageLabel;
 
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion;

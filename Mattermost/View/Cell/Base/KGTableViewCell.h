@@ -18,5 +18,7 @@
 - (void)configureWithObject:(id)object;
 
 @property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber, UIView *cell);
+@property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
+
 
 @end

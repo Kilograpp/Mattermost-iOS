@@ -64,7 +64,6 @@
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
     self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
-//    self.tableView .tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 10)];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
 

@@ -91,6 +91,7 @@
     self.dateLabel.textColor = [UIColor kg_lightGrayColor];
     self.dateLabel.font = [UIFont kg_regular13Font];
     self.dateLabel.contentMode = UIViewContentModeLeft;
+    
 //    self.dateLabel
     [self.dateLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultLow forAxis: UILayoutConstraintAxisHorizontal];
     
@@ -104,15 +105,24 @@
 }
 
 - (void)setupMessageLabel {
-    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
     [self addSubview:self.messageLabel];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
+    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+    [self.messageLabel setURLColor:[UIColor kg_blueColor]];
     self.messageLabel.textColor = [UIColor kg_blackColor];
     self.messageLabel.font = [UIFont kg_regular15Font];
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.messageLabel.preferredMaxLayoutWidth = 200.f;
-    
+
+    [self.messageLabel handleMentionTap:^(NSString *string) {
+        self.mentionTapHandler(string);
+    }];
+    [self.messageLabel handleURLTap:^(NSURL *url) {
+        [[UIApplication sharedApplication] openURL:url];
+    }];
+
     [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self.nameLabel);
         make.trailing.equalTo(self).offset(-kStandartPadding);
@@ -136,8 +146,7 @@
         for (UIView *view in self.subviews) {
             view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
         }
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-        __weak typeof(self) wSelf = self;
+
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
         
         if (cachedImage) {
@@ -182,6 +191,14 @@
     return 0.f;
 }
 
+
+#pragma mark - ActiveLabel
+
+
+
+
+#pragma mark - Override
+
 - (void)prepareForReuse {
     self.avatarImageView.image = [[self class] placeholderBackground];
 //    self.nameLabel.text = nil;
@@ -189,6 +206,8 @@
 //    self.messageLabel = nil;
 }
 
+
+#pragma mark - Images
 
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion {

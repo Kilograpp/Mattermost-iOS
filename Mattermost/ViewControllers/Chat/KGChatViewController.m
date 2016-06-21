@@ -47,6 +47,9 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGTableViewSectionHeader.h"
+#import "KGProfileTableViewController.h"
+
+static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -67,6 +70,9 @@
 + (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
     return UITableViewStyleGrouped;
 }
+
+
+#pragma mark - Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -141,13 +147,6 @@
                                                                             target:self
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
-
-//- (void)setupRightBarButtonItem {
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-//                                                                             style:UIBarButtonItemStylePlain
-//                                                                            target:self
-//                                                                            action:@selector(toggleLeftSideMenuAction)];
-//}
 
 
 #pragma mark - SLKViewController
@@ -239,20 +238,16 @@
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
+
+    cell.mentionTapHandler = ^(NSString *nickname) {
+        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
+    };
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
     
     return cell;
 }
-
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-////    [cell configureWithObject:post];
-//    if ([tableView isEqual:self.tableView]) {
-//        [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-//        cell.transform = self.tableView.transform;
-//    }
-//}
 
 
 #pragma mark - UITableViewDelegate
@@ -264,13 +259,17 @@
         id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
         
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-            return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+            return post.files.count == 0 ?
+                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
-            KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+            NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+            KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
             if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-                return post.files.count == 0 ? [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
+                return post.files.count == 0 ?
+                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
-                return post.files.count == 0 ? [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                return post.files.count == 0 ?
+                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
         
@@ -279,39 +278,10 @@
     //ячейка для autoCompletionView:
     return [KGAutoCompletionCell heightWithObject:nil];
 }
-//
-//- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-//    if ([tableView isEqual:self.tableView]) {
-//        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-//        NSDate *date = [formatter dateFromString:[sectionInfo name]];
-//        NSString *dateName = [date dateFormatForMessageTitle];
-//        return dateName;
-//    }
-//    return nil;
-//}
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    
     UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
     v.backgroundView.backgroundColor = [UIColor whiteColor];
-//    if ([tableView isEqual:self.tableView]) {
-//        UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
-//        [header.textLabel setTextColor:[UIColor kg_blackColor]];
-//        [header.textLabel setFont:[UIFont kg_bold16Font]];
-//        header.textLabel.textAlignment = NSTextAlignmentRight;
-//        header.textLabel.transform = self.tableView.transform;
-//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, header.textLabel.center.y, 200, 1)];
-//        //lineView.frame.origin.y = header.textLabel.frame.origin.y;
-//        lineView.backgroundColor = [UIColor kg_lightGrayColor];
-//        if (header.textLabel.center.y != 0.f){
-//            [header.contentView addSubview:lineView];
-//        }
-//        header.contentView.backgroundColor = [UIColor kg_whiteColor];
-//        
-//    }
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -426,12 +396,9 @@
     } else {
         subtitleString = self.channel.displayName;
     }
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
-}
-
-- (void)toogleStatusBarState {
-//    BOOL isStatusBarHidden = [[UIApplication sharedApplication] isStatusBarHidden];
-//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
+                                                                               subtitle:subtitleString
+                                                                        shouldHighlight:shouldHighlight];
 }
 
 
@@ -519,16 +486,15 @@
             UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
             
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-            [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [imageView setImageWithURL:user.imageUrl
+                      placeholderImage:nil
+                               options:SDWebImageHandleCookies
+           usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
             [button addSubview:imageView];
 
             [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
-//            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
-//                                                                                      style:UIBarButtonItemStylePlain
-//                                                                                     target:self
-//                                                                                     action:@selector(toggleRightSideMenuAction)];
         }
     }
 }
@@ -539,11 +505,16 @@
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self showLoadingView];
     if (self.channel) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:self.channel.notificationsName object:nil];
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:self.channel.notificationsName
+                                                      object:nil];
     }
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(test:) name:self.channel.notificationsName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(test:)
+                                                 name:self.channel.notificationsName
+                                               object:nil];
     [self updateNavigationBarAppearance];
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
@@ -659,12 +630,10 @@
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
-    [self toogleStatusBarState];
     [self.menuContainerViewController toggleLeftSideMenuCompletion:nil];
 }
 
 - (void)toggleRightSideMenuAction {
-    [self toogleStatusBarState];
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
@@ -673,7 +642,8 @@
 
 - (UIActivityIndicatorView *)loadingActivityIndicator {
     if (!_loadingActivityIndicator) {
-        _loadingActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _loadingActivityIndicator = [[UIActivityIndicatorView alloc]
+                initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _loadingActivityIndicator.hidesWhenStopped = YES;
     }
 
@@ -713,12 +683,25 @@
     tableViewController.tableView = self.tableView;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self
+                            action:@selector(refreshControlValueChanged:)
+                  forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
     [refreshControl endRefreshing];
+}
+
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
+        UINavigationController *nc = segue.destinationViewController;
+        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        vc.userId =
+    }
 }
 
 @end

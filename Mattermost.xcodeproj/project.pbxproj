@@ -100,6 +100,8 @@
 		D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CD1D0755A800B053CE /* KGLoginViewController.m */; };
 		D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154D71D07570B00B053CE /* KGNavigationController.m */; };
 		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
+		D6C915751D193B2F000DC072 /* KGAutoCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */; };
+		D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */; };
 		D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */; };
 		D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */; };
 		D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */; };
@@ -290,6 +292,9 @@
 		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNavigationController.m; sourceTree = "<group>"; };
 		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginNavigationController.h; sourceTree = "<group>"; };
 		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginNavigationController.m; sourceTree = "<group>"; };
+		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAutoCompletionCell.h; path = AutoCompletion/KGAutoCompletionCell.h; sourceTree = "<group>"; };
+		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAutoCompletionCell.m; path = AutoCompletion/KGAutoCompletionCell.m; sourceTree = "<group>"; };
+		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGAutoCompletionCell.xib; path = AutoCompletion/KGAutoCompletionCell.xib; sourceTree = "<group>"; };
 		D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatViewController.h; sourceTree = "<group>"; };
 		D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatViewController.m; sourceTree = "<group>"; };
 		D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatRootCell.h; sourceTree = "<group>"; };
@@ -1154,6 +1159,16 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		D6C915711D193B20000DC072 /* AutoCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */,
+				D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */,
+				D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */,
+			);
+			name = AutoCompletion;
+			sourceTree = "<group>";
+		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -1166,6 +1181,7 @@
 		D844A6E61D0AE35200B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D6C915711D193B20000DC072 /* AutoCompletion */,
 				D67A24881D106E9A006579E8 /* Attachments */,
 				D67A24841D104443006579E8 /* Common */,
 				D65E5AC71D0F519400D5E0C6 /* Image */,
@@ -1318,6 +1334,7 @@
 				D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */,
 				CDB050711D1400A200594A8C /* KGTeamCell.xib in Resources */,
 				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
+				D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */,
 				9B822D36FE33ED3BE423743B /* KGNotificationValues.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1436,6 +1453,7 @@
 				CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */,
 				D696F7821D060FDD008341AF /* Mattermost.xcdatamodeld in Sources */,
 				D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */,
+				D6C915751D193B2F000DC072 /* KGAutoCompletionCell.m in Sources */,
 				D69FB17F1D0992B200043C2D /* KGTeamsViewController.m in Sources */,
 				415FFC071D182EEC003F9E23 /* KGTableViewSectionHeader.m in Sources */,
 				D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */,
