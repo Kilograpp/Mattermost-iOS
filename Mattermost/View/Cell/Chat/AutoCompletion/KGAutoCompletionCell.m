@@ -16,7 +16,7 @@
 static CGFloat const kHeightCell = 44;
 
 @interface KGAutoCompletionCell()
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImagView;
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nickUserLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameUserLabel;
 
@@ -53,26 +53,24 @@ static CGFloat const kHeightCell = 44;
         NSString *userFirstName = (!user.firstName) ? @"" : user.firstName;
         NSString *userLastName = (!user.lastName) ? @"" : user.lastName;
         self.nameUserLabel.text = [NSString stringWithFormat:@"%@ %@", userFirstName, userLastName];
-        
-        UIImageView *cachedImage;
-        [cachedImage setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies completed:nil
-         usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray ];
+
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:user.imageUrl.absoluteString];
         if (cachedImage) {
-            [UIImage roundedImage:cachedImage.image completion:^(UIImage *image) {
-                self.avatarImagView.image = image;
-                [self.avatarImagView setNeedsDisplay];
+            [UIImage roundedImage:cachedImage completion:^(UIImage *image) {
+                self.avatarImageView.image = image;
+//                [self.avatarImageView setNeedsDisplay];
             }];
         } else {
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                    [UIImage roundedImage:image completion:^(UIImage *image) {
+                                                                completed:^(UIImage* image, NSData* data, NSError* error, BOOL finished) {
+                                                                    [UIImage roundedImage:image completion:^(UIImage* image) {
                                                                         [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
-                                                                        self.avatarImagView.image = image;
+                                                                        self.avatarImageView.image = image;
                                                                     }];
                                                                 }];
-             [self.avatarImagView removeActivityIndicator];
+            [self.avatarImageView removeActivityIndicator];
         }
     }
 }

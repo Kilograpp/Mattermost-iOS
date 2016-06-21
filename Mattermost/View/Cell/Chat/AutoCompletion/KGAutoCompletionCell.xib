@@ -55,7 +55,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="avatarImagView" destination="xrh-1f-e4y" id="duz-ow-R0E"/>
+                <outlet property="avatarImageView" destination="xrh-1f-e4y" id="duz-ow-R0E"/>
                 <outlet property="nameUserLabel" destination="KwB-WF-Jmp" id="egT-u6-3t2"/>
                 <outlet property="nickUserLabel" destination="Wx2-9D-E03" id="M7R-QL-e26"/>
             </connections>
