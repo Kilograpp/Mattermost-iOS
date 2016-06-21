@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface KGProfileTableViewController : UITableViewController
-
+@property (nonnull, nonatomic, strong) NSString *userId;
 @end

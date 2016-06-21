@@ -16,6 +16,8 @@
 @interface KGRightMenuCell()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleMenuLabel;
+@property (assign,nonatomic) CGPoint iconCenter;
+@property (weak, nonatomic) IBOutlet UIView *iconView;
 
 @end
 
@@ -29,6 +31,7 @@
 - (void)setupTitleLabel {
     self.titleMenuLabel.font = [UIFont kg_semibold16Font];
     self.titleMenuLabel.textColor = [UIColor kg_whiteColor];
+    self.center = self.iconImageView.center;
 }
 
 
@@ -37,19 +40,19 @@
 - (void)configureWithImageName:(NSString *)imageName title:(NSString *)title {
     [self.iconImageView setImage:[UIImage imageNamed:imageName]];
     self.titleMenuLabel.text = title;
+    
 }
 
 - (void)configureWithImageName:(NSURL *) image {
     UIImageView *avatar = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-    
-    [self addSubview:avatar];
-    [avatar setCenter:self.iconImageView.center];
-    self.iconImageView = nil;
+    [self.iconView addSubview:avatar];
+    self.iconImageView.image = nil;
     avatar.layer.cornerRadius = CGRectGetHeight(avatar.bounds) / 2;
     avatar.clipsToBounds = YES;
     avatar.backgroundColor = [UIColor whiteColor];
     [avatar setImageWithURL:image placeholderImage:nil options:SDWebImageHandleCookies
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
 }
 #pragma mark - Override
 

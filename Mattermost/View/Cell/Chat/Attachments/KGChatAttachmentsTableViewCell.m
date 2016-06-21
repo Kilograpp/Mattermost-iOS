@@ -82,8 +82,8 @@
         self.post = post;
         self.nameLabel.text = post.author.username;
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
-        self.messageLabel.text = post.message;
-        
+//        self.messageLabel.text = post.message;
+        self.messageLabel.text = @"attacments";
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
         
         if (cachedImage) {

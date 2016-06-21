@@ -57,7 +57,7 @@
 }
 
 - (void)setup {
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    KGUser *user = [KGUser managedObjectById:self.userId];
     self.nameLabel.font = [UIFont kg_semibold30Font];
     self.nameLabel.textColor = [UIColor kg_blackColor];
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
@@ -70,12 +70,6 @@
     self.username.text = user.nickname;
     self.nickname.text = user.nickname;
     self.email.text = user.email;
-    
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end

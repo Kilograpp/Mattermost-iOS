@@ -46,9 +46,16 @@
     [self.messageLabel setBackgroundColor:[UIColor kg_whiteColor]];
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     
+    
     self.layer.shouldRasterize = YES;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.layer.drawsAsynchronously = YES;
+    
+    for (UIView *v in self.subviews){
+        v.layer.shouldRasterize = YES;
+        v.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        v.layer.drawsAsynchronously = YES;
+    }
     
     self.messageLabel.layer.drawsAsynchronously = YES;
     
@@ -60,17 +67,83 @@
 
 #pragma mark - Configuration
 
+//- (void)configureWithObject:(KGPost*)post {
+//    self.messageLabel.text = post.message;
+//    self.nameLabel.text = post.author.nickname;
+//    self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
+//
+//    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:[[self class] placeholderImage] options:SDWebImageHandleCookies
+//              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    
+//    [self.avatarImageView removeActivityIndicator];
+//}
 - (void)configureWithObject:(KGPost*)post {
-    self.messageLabel.text = post.message;
-    self.nameLabel.text = post.author.nickname;
-    self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
-
-    [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:[[self class] placeholderImage] options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//    if ([object isKindOfClass:[KGPost class]]) {
+//        KGPost *post = object;
     
-    [self.avatarImageView removeActivityIndicator];
+    
+    
+        self.messageLabel.text = post.message;
+        self.nameLabel.text = post.author.nickname;
+        self.dateTimeLabel.text = [post.createdAt timeFormatForMessages];
+        //        self.avatarImageView.URL = post.author.imageUrl;
+        //        self.avatarImageView.layerBacked = YES;
+        
+        for (UIView *view in self.subviews) {
+            view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+        }
+        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+        __weak typeof(self) wSelf = self;
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+        if (cachedImage) {
+            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+                self.avatarImageView.image = image;
+                //                [self.avatarImageView setNeedsDisplay];
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                                                    [[self class] roundedImage:image completion:^(UIImage *image) {
+                                                                        [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+                                                                        self.avatarImageView.image = image;
+                                                                    }];
+                                                                }];
+            [self.avatarImageView removeActivityIndicator];
+        }
+        
+        //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+        //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+   // }
 }
 
++ (void)roundedImage:(UIImage *)image
+          completion:(void (^)(UIImage *image))completion {
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Begin a new image that will be the new image with the rounded corners
+        // (here with the size of an UIImageView)
+        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+        
+        // Add a clip before drawing anything, in the shape of an rounded rect
+        [[UIBezierPath bezierPathWithRoundedRect:rect
+                                    cornerRadius:image.size.width/2] addClip];
+        // Draw your image
+        [image drawInRect:rect];
+        
+        // Get the image, here setting the UIImageView image
+        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        // Lets forget about that we were drawing
+        UIGraphicsEndImageContext();
+        dispatch_async( dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(roundedImage);
+            }
+        });
+    });
+}
 
 #pragma mark - Height
 
