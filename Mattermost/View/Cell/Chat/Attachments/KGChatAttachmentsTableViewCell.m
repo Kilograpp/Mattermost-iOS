@@ -66,7 +66,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.equalTo(self.messageLabel);
         make.top.equalTo(self.messageLabel.mas_bottom).offset(kStandartPadding);
-        make.bottom.equalTo(self).offset(-kStandartPadding);
+        make.bottom.equalTo(self);
     }];
     
     [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
@@ -129,7 +129,7 @@
         CGFloat heightImage = post.files.count * KG_IMAGE_HEIGHT;
         heightCell += heightImage;
         
-        return ceilf(heightCell);
+        return ceilf(heightCell) - kSmallPadding;
     }
     
     return 0.f;

@@ -25,7 +25,7 @@
     self.kg_imageView.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.f];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.kg_imageView/*.view*/];
     self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -49,7 +49,7 @@
             return;
         }
 //        }
-        NSURL *url = file.downloadLink;
+        NSURL *url = file.thumbLink;
 //        self.kg_imageView.URL = url;
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
@@ -76,7 +76,8 @@
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+//        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
 
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:15.f] addClip];

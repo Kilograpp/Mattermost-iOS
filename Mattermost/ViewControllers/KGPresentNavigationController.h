@@ -6,8 +6,8 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "KGNavigationController.h"
 
-@interface KGPresentNavigationController : UINavigationController
+@interface KGPresentNavigationController : KGNavigationController
 
 @end

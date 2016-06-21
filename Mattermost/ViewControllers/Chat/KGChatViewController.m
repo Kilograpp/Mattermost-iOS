@@ -49,10 +49,13 @@
 #import "KGTableViewSectionHeader.h"
 #import "KGProfileTableViewController.h"
 #import "KGChatRootCell.h"
+#import "UIImage+Resize.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
+                            NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) UIView *loadingView;
@@ -61,10 +64,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) KGPost *currentPost;
-@property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (nonatomic, strong) NSArray *searchResultArray;
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
+@property NSMutableIndexSet *deletedSections, *insertedSections;
+
+- (IBAction)rightBarButtonAction:(id)sender;
+
 @end
 
 @implementation KGChatViewController
@@ -78,6 +84,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -99,6 +106,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         self.navigationController.delegate = nil;
     }
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 
 #pragma mark - Setup
 
@@ -146,7 +158,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)setupLeftBarButtonItem {
-    self.navigationItem.rightBarButtonItem.customView.layer.cornerRadius = 35/2;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
@@ -442,6 +453,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
+
 }
 
 
@@ -490,9 +502,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                           contentMode:PHImageContentModeAspectFill
                               options:self.requestOptions
                         resultHandler:^(UIImage *image, NSDictionary *info) {
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage] atChannel:wSelf.channel withCompletion:^(KGFile* file, KGError* error) {
-                                [self.currentPost addFilesObject:file];
-                                dispatch_group_leave(group);
+                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
+                                                                atChannel:wSelf.channel
+                                withCompletion:^(KGFile* file, KGError* error) {
+                                    [self.currentPost addFilesObject:file];
+                                    dispatch_group_leave(group);
                             }];
                         }];
     }
@@ -502,13 +516,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         self.textInputbar.rightButton.enabled = YES;
         [self sendPost];
     });
-}
-
-
-#pragma mark - Dealloc
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -524,25 +531,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];
 
-            KGUser *user;
-            if (self.channel.type == KGChannelTypePrivate) {
-                user = [KGUser managedObjectById:self.channel.interlocuterId];
-            } else {
-                user = [[KGBusinessLogic sharedInstance]currentUser];
-            }
-            
-            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-            
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-            [imageView setImageWithURL:user.imageUrl
-                      placeholderImage:nil
-                               options:SDWebImageHandleCookies
-           usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
-            [button addSubview:imageView];
-
-            [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
         }
     }
 }
@@ -685,6 +673,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
+- (IBAction)rightBarButtonAction:(id)sender {
+    [self toggleRightSideMenuAction];
+}
 
 #pragma mark - Loading View
 

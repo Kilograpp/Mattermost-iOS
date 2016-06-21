@@ -129,7 +129,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="px6-Ta-Ljn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDz-56-bVk">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDz-56-bVk">
                                         <rect key="frame" x="21" y="15" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="XDz-56-bVk" secondAttribute="height" multiplier="1:1" id="0RJ-gt-lhe"/>
@@ -218,7 +218,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3"/>
+                    <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3">
+                        <barButtonItem key="rightBarButtonItem" image="navbar_more_icon" id="9jw-m2-vIB">
+                            <connections>
+                                <action selector="rightBarButtonAction:" destination="uKV-ME-BHi" id="ZfT-fD-3nM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="ExM-Qi-d3C" kind="presentation" identifier="presentProfile" id="USz-Je-8BJ"/>
                     </connections>
@@ -238,5 +244,6 @@
     </scenes>
     <resources>
         <image name="menu_users_icon" width="20" height="13"/>
+        <image name="navbar_more_icon" width="22" height="22"/>
     </resources>
 </document>
