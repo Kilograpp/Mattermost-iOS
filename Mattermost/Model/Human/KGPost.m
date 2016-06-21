@@ -2,6 +2,7 @@
 #import "KGUser.h"
 #import "KGChannel.h"
 #import "KGFile.h"
+#import "DateTools.h"
 #import <RestKit.h>
 
 @interface KGPost ()
@@ -9,6 +10,10 @@
 @end
 
 @implementation KGPost
+
+- (BOOL)isUnread {
+    return ![self.createdAt isEarlierThan:self.channel.lastViewDate];
+}
 
 #pragma mark - Mappings
 

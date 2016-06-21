@@ -23,11 +23,24 @@
     }];
 }
 
+
+-(void)getObjectsAtPath:(NSString *)path
+             parameters:(NSDictionary *)parameters
+   successWithOperation:(void (^)(RKObjectRequestOperation *operation, RKMappingResult *mappingResult))success
+                failure:(void (^)(KGError *error))failure{
+    [super getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        safetyCall(success, operation, mappingResult);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        safetyCall(failure, [self handleOperation:operation withError:error]);
+    }];
+}
+
 -(void)getObjectsAtPath:(NSString *)path
                 success:(void (^)(RKMappingResult *mappingResult))success
                 failure:(void (^)(KGError *error))failure{
     [self getObjectsAtPath:path parameters:nil success:success failure:failure];
 }
+
 
 - (void)getObject:(id)object
              path:(NSString*)path

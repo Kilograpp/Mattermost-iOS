@@ -15,6 +15,8 @@
                 success:(void (^)(RKMappingResult *mappingResult))success
                 failure:(void (^)(KGError *error))failure;
 
+- (void)getObjectsAtPath:(NSString*)path parameters:(NSDictionary*)parameters successWithOperation:(void (^)(RKObjectRequestOperation* operation, RKMappingResult* mappingResult))success failure:(void (^)(KGError* error))failure;
+
 -(void)getObjectsAtPath:(NSString *)path
                 success:(void (^)(RKMappingResult *mappingResult))success
                 failure:(void (^)(KGError *error))failure;
