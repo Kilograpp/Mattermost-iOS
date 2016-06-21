@@ -100,8 +100,9 @@
         switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
             case AVAuthorizationStatusRestricted:
             case AVAuthorizationStatusDenied:
-                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
-                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
+//                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
+//                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
+                [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к камере. /nПожалуйста разрешите использовать камеру в настройках"];
                 break;
                 
             default:
@@ -115,8 +116,9 @@
         switch ([PHPhotoLibrary authorizationStatus]) {
             case AVAuthorizationStatusRestricted:
             case AVAuthorizationStatusDenied:
-                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к фотографиям"
-                                                           message:@"Пожалуйста разрешите использовать фотографии в настройках"];
+//                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к фотографиям"
+//                                                           message:@"Пожалуйста разрешите использовать фотографии в настройках"];
+                 [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к фотографиям. /nПожалуйста разрешите использовать фотографии в настройках"];
                 break;
                 
             default: {

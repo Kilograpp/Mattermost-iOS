@@ -30,9 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *allUsersCommandButton;
-@property (nonatomic, strong) KGChannel *selectedChannel;
 @property (nonatomic, assign) NSInteger selectedRow;
-@property (nonatomic, assign) NSInteger selectedSection;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -88,13 +86,15 @@
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadData];
     if (!self.selectedRow) {
-        //
+        //Первый вход
     } else {
-        //NSIndexPath *indexPathSelected = [NSIndexPath indexPathForRow:self.selectedRow inSection:self.selectedSection];
-        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        double delayInSeconds = 0.11;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+        });
     }
-
-
 }
 
 
@@ -120,13 +120,6 @@
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [cell configureWithObject:channel];
-    BOOL selectedCell = (indexPath.section == self.selectedSection && indexPath.row == self.selectedRow) ? YES : NO;
-   // BOOL selectedCell = ([channel isEqual:self.selectedChannel]) ? YES : NO;
-    if (selectedCell) {
-           // [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-        [cell setSelected:selectedCell];
-    }
-
     return cell;
 }
 
@@ -183,9 +176,7 @@
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
-    self.selectedChannel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedRow = indexPath.row;
-    self.selectedSection = indexPath.section;
 }
 
 - (void)setInitialSelectedChannel {
