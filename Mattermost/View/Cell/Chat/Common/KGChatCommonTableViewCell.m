@@ -53,12 +53,14 @@
 #pragma mark - Setup
 
 - (void)setupAvatarImageView {
-//    _avatarImageView = [[ASNetworkImageNode alloc] init];
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self addSubview:_avatarImageView/*.view*/];
     _avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
+    [UIImage roundedImage:[[self class] placeholderBackground] completion:^(UIImage *image) {
+        self.avatarImageView.image = image;
+    }];
     
     [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
@@ -148,7 +150,6 @@
         if (cachedImage) {
             [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
                 self.avatarImageView.image = image;
-//                [self.avatarImageView setNeedsDisplay];
             }];
         } else {
             [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
@@ -162,9 +163,6 @@
             }];
             [self.avatarImageView removeActivityIndicator];
         }
-        
-        //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-        //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
 }
 
