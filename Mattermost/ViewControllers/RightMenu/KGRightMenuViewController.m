@@ -40,6 +40,10 @@
     [self setup];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 #pragma mark - Setup
 
 - (void)setup {

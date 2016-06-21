@@ -48,6 +48,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGTableViewSectionHeader.h"
 #import "KGProfileTableViewController.h"
+#import "KGChatRootCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
@@ -63,6 +64,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (nonatomic, strong) NSArray *searchResultArray;
 @property (nonatomic, strong) NSArray *usersArray;
+@property (nonatomic, copy) NSString *selectedUsername;
 @end
 
 @implementation KGChatViewController
@@ -112,6 +114,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+//    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier] cacheSize:15];
+
     [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
     
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
@@ -189,20 +193,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     return self.searchResultArray.count;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-    NSDate *date = [formatter dateFromString:[sectionInfo name]];
-    NSString *dateName = [date dateFormatForMessageTitle];
-    [header configureWithObject:dateName];
-    header.backgroundColor  = [UIColor whiteColor];
-    header.dateLabel.transform = self.tableView.transform;
-    return header;
-    
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![tableView isEqual:self.tableView]) {
         //ячейка для autoCompletionView
@@ -240,6 +230,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     };
 
     cell.mentionTapHandler = ^(NSString *nickname) {
+        self.selectedUsername = nickname;
         [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
     };
     
@@ -277,6 +268,20 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     //ячейка для autoCompletionView:
     return [KGAutoCompletionCell heightWithObject:nil];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
+    NSDate *date = [formatter dateFromString:[sectionInfo name]];
+    NSString *dateName = [date dateFormatForMessageTitle];
+    [header configureWithObject:dateName];
+    header.backgroundColor  = [UIColor whiteColor];
+    header.dateLabel.transform = self.tableView.transform;
+    return header;
+
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
@@ -396,9 +401,29 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     } else {
         subtitleString = self.channel.displayName;
     }
+
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
+
+    KGUser *user;
+    if (self.channel.type == KGChannelTypePrivate) {
+        user = [KGUser managedObjectById:self.channel.interlocuterId];
+    } else {
+        user = [[KGBusinessLogic sharedInstance]currentUser];
+    }
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
+    [button addSubview:imageView];
+    
+    [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
 }
 
 
@@ -481,7 +506,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];
 
-            KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+            KGUser *user;
+            if (self.channel.type == KGChannelTypePrivate) {
+                user = [KGUser managedObjectById:self.channel.interlocuterId];
+            } else {
+                user = [[KGBusinessLogic sharedInstance]currentUser];
+            }
             
             UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
             
@@ -700,6 +730,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
         UINavigationController *nc = segue.destinationViewController;
         KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        KGUser *user = [KGUser
+                MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
+        vc.userId = user.identifier;
     }
 }
 
