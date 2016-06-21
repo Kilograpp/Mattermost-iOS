@@ -13,6 +13,7 @@
 
 + (CAGradientLayer *)kg_blueGradientForNavigationBar;
 + (CAGradientLayer *)makeGradientForTopColor:(UIColor *)topColor ToBottomColor:(UIColor *)bottomColor;
++ (CAGradientLayer *)setupGradientForTopColor:(UIColor *)topColor ToBottomColor:(UIColor *)bottomColor;
 - (void)animateLayer:(CAGradientLayer *)headerLayer forTopColor:(UIColor *)topColor toBottomColor:(UIColor *)bottomColor;
 - (void)animateLayerInfinitely:(CAGradientLayer *)headerLayer;
 

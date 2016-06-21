@@ -108,6 +108,8 @@
         self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
         
         [self.tableView reloadData];
+        
+    //    self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     }
 }
 

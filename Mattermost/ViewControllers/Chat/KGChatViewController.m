@@ -41,7 +41,8 @@
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
-#import <UITableView_Cache/UITableView+Cache.h>
+#import "UITableView+Cache.h"
+//#import <UITableView+Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
@@ -251,7 +252,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
-    
+    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     return cell;
 }
 
@@ -319,7 +320,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.autoCompletionView]) {
         
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
@@ -421,6 +422,42 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
+
+    KGUser *user;
+    if (self.channel.type == KGChannelTypePrivate) {
+        user = [KGUser managedObjectById:self.channel.interlocuterId];
+    } else {
+        user = [[KGBusinessLogic sharedInstance]currentUser];
+    }
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    
+    [imageView setImageWithURL:user.imageUrl
+              placeholderImage:nil
+                       options:SDWebImageHandleCookies
+   usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+
+    [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [UIImage roundedImage:imageView.image completion:^(UIImage *image) {
+        imageView.image = image;
+        [imageView setNeedsDisplay];
+    }];
+
+    imageView.clipsToBounds = YES;
+    button.clipsToBounds = YES;
+
+    [button addSubview:imageView];
+    
+    [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+
+    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
+                                                                               subtitle:subtitleString
+                                                                        shouldHighlight:shouldHighlight];
+
 }
 
 

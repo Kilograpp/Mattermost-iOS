@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *allUsersCommandButton;
+@property (nonatomic, assign) NSInteger selectedRow;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -78,11 +79,22 @@
 }
 
 - (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:KGNotificationUsersStatusUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView:) name:KGNotificationUsersStatusUpdate object:nil];
 }
 
-- (void)updateTableView {
+- (void)updateTableView:(NSNotification *)notification {
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadData];
+    if (!self.selectedRow) {
+        //Первый вход
+    } else {
+        double delayInSeconds = 0.11;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
+                              scrollPosition:UITableViewScrollPositionNone];
+        });
+    }
 }
 
 
@@ -133,6 +145,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [self selectChannelAtIntexPath:indexPath];
     [self toggleLeftSideMenuAction];
 }
@@ -163,6 +176,7 @@
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+    self.selectedRow = indexPath.row;
 }
 
 - (void)setInitialSelectedChannel {
