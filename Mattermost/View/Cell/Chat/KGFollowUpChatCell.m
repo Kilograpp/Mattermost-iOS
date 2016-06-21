@@ -26,7 +26,16 @@
 - (void)configure {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
-        [self.messageLabel setURLColor:[UIColor kg_blueColor]];
+    [self.messageLabel setURLColor:[UIColor kg_blueColor]];
+    [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
+    [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
+
+    [self.messageLabel handleMentionTap:^(NSString *string) {
+        self.mentionTapHandler(string);
+    }];
+    [self.messageLabel handleURLTap:^(NSURL *url) {
+        [[UIApplication sharedApplication] openURL:url];
+    }];
     self.messageLabel.layer.drawsAsynchronously = YES;
     self.messageLabel.layer.shouldRasterize = YES;
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
@@ -38,7 +47,8 @@
     
     for (UIView *view in self.subviews) {
         view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
-        self.messageLabel.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+        self.messageLabel.backgroundColor =
+                post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
     }
 }
 
