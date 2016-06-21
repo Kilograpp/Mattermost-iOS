@@ -416,15 +416,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-    
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-    [imageView setImageWithURL:user.imageUrl
-              placeholderImage:nil
-                       options:SDWebImageHandleCookies
-   usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
-    imageView.clipsToBounds = YES;
-    button.clipsToBounds = YES;
+
+    [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [UIImage roundedImage:imageView.image completion:^(UIImage *image) {
+        imageView.image = image;
+        [imageView setNeedsDisplay];
+    }];
     [button addSubview:imageView];
     
     [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];

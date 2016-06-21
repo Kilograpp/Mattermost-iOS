@@ -1,2 +1,3 @@
 github "optonaut/ActiveLabel.swift" "fa897a0d1a9db9faf62a694caf844892527cf43d"
-github "facebook/AsyncDisplayKit" "5d434d418f2508418aef23377bf00faaf3d1b2ec"
+github "facebook/AsyncDisplayKit" "21d0f1e10d7892e12f58a400a09ab4e18230f137"
+github "Kilograpp/UITableView-Cache" "aef78869ffe5c95b28fa44d0d92e151e4bd517ff"
