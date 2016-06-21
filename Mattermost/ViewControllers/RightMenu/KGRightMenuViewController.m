@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, strong) NSArray *dataSource;
+
 @end
 
 
@@ -213,12 +214,12 @@
 
 #pragma mark - Alert
 
-//This section is under development
 -(void) alertUnderDevelopment {
     KGAlertManager *alertView = [[KGAlertManager alloc]init];
-    [alertView showWarningWithTitle:@"In developing" message:@"This section is under development"];
+    [alertView showWarningWithMessage:@"This section is under development"];
 
 }
+
 
 
 @end

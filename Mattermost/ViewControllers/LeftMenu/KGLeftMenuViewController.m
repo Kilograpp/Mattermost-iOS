@@ -30,6 +30,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *allUsersCommandButton;
+@property (nonatomic, strong) KGChannel *selectedChannel;
+@property (nonatomic, assign) NSInteger selectedRow;
+@property (nonatomic, assign) NSInteger selectedSection;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -78,11 +81,20 @@
 }
 
 - (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:KGNotificationUsersStatusUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView:) name:KGNotificationUsersStatusUpdate object:nil];
 }
 
-- (void)updateTableView {
+- (void)updateTableView:(NSNotification *)notification {
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadData];
+    if (!self.selectedRow) {
+        //
+    } else {
+        //NSIndexPath *indexPathSelected = [NSIndexPath indexPathForRow:self.selectedRow inSection:self.selectedSection];
+        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+
+
 }
 
 
@@ -108,6 +120,13 @@
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [cell configureWithObject:channel];
+    BOOL selectedCell = (indexPath.section == self.selectedSection && indexPath.row == self.selectedRow) ? YES : NO;
+   // BOOL selectedCell = ([channel isEqual:self.selectedChannel]) ? YES : NO;
+    if (selectedCell) {
+           // [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        [cell setSelected:selectedCell];
+    }
+
     return cell;
 }
 
@@ -133,6 +152,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [self selectChannelAtIntexPath:indexPath];
     [self toggleLeftSideMenuAction];
 }
@@ -163,6 +183,9 @@
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+    self.selectedChannel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    self.selectedRow = indexPath.row;
+    self.selectedSection = indexPath.section;
 }
 
 - (void)setInitialSelectedChannel {

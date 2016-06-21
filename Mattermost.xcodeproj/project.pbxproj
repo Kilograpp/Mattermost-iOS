@@ -58,6 +58,7 @@
 		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */; };
+		CD625C681D19977C00ED4E2F /* KGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD625C671D19977C00ED4E2F /* KGAlertView.m */; };
 		CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */; };
 		CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */; };
 		CD7D11831D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */; };
@@ -224,6 +225,8 @@
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
 		CD5E1F6D1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+KGPreparedGradient.h"; sourceTree = "<group>"; };
 		CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
+		CD625C661D19977C00ED4E2F /* KGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertView.h; sourceTree = "<group>"; };
+		CD625C671D19977C00ED4E2F /* KGAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAlertView.m; sourceTree = "<group>"; };
 		CD7D117B1D0C648B002EED4E /* KGRightMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuCell.h; sourceTree = "<group>"; };
 		CD7D117C1D0C648B002EED4E /* KGRightMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuCell.m; sourceTree = "<group>"; };
 		CD7D117D1D0C648B002EED4E /* KGRightMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGRightMenuCell.xib; sourceTree = "<group>"; };
@@ -1035,6 +1038,8 @@
 			children = (
 				D69FB1751D097F4200043C2D /* KGAlertManager.h */,
 				D69FB1761D097F4200043C2D /* KGAlertManager.m */,
+				CD625C661D19977C00ED4E2F /* KGAlertView.h */,
+				CD625C671D19977C00ED4E2F /* KGAlertView.m */,
 			);
 			path = KGAlertManager;
 			sourceTree = "<group>";
@@ -1492,6 +1497,7 @@
 				9B822B929C3581984CF62D54 /* KGBusinessLogic+File.m in Sources */,
 				9B822BF0DBC6C73D268F3B4E /* KGBusinessLogic+Socket.m in Sources */,
 				9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */,
+				CD625C681D19977C00ED4E2F /* KGAlertView.m in Sources */,
 				7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */,
 				7339BA3BD5047EF66FBA59F1 /* NSAttributedString+FormattedTitle.m in Sources */,
 				7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */,

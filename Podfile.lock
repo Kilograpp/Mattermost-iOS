@@ -52,7 +52,6 @@ PODS:
   - SocketRocket (0.5.1)
   - SOCKit (1.1)
   - TransitionKit (2.2.1)
-  - TSMessages (0.9.3)
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
 
@@ -74,7 +73,6 @@ DEPENDENCIES:
   - SDWebImage
   - SlackTextViewController
   - SocketRocket
-  - TSMessages
   - UIActivityIndicator-for-SDWebImage
 
 EXTERNAL SOURCES:
@@ -117,7 +115,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SOCKit: c7376ac262bea9115b8f749358f762522a47d392
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
-  TSMessages: 1d6ba56c80f4a94b7a1d1b369db527a358780d0c
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
 
 COCOAPODS: 0.38.2
