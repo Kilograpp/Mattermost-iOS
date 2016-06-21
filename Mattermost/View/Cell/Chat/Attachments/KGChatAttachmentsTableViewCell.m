@@ -166,4 +166,8 @@
     }
 }
 
+- (void)prepareForReuse {
+    self.avatarImageView.image = [[self class] placeholderBackground];
+}
+
 @end

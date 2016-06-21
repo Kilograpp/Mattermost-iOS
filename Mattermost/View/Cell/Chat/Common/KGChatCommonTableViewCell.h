@@ -24,4 +24,6 @@ static CGFloat const kSmallPadding = 5.f;
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion;
 
++ (UIImage *)placeholderBackground;
+
 @end

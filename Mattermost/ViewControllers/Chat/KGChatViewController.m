@@ -220,13 +220,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-        reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+        reuseIdentifier = post.files.count == 0 ?
+                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
-        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section]];
+        NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
+        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
         if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
-            reuseIdentifier = post.files.count == 0 ? [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ?
+                    [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
-            reuseIdentifier = post.files.count == 0 ? [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+            reuseIdentifier = post.files.count == 0 ?
+                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
 
@@ -235,8 +239,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *array = [post.files.allObjects sortedArrayUsingSelector:@selector(downloadLink)];
         NSArray *urls = [array valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        NSArray *photos = [IDMPhoto photosWithURLs:urls];
-        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:photos animatedFromView:view];
+        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
@@ -336,7 +339,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                   withPredicate:predicate
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self
-    ];
+                                     ];
 }
 
 
@@ -435,7 +438,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNavigationBarAppearance) name:KGNotificationUsersStatusUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateNavigationBarAppearance)
+                                                 name:KGNotificationUsersStatusUpdate
+                                               object:nil];
 }
 
 
