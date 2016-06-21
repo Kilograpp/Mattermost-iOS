@@ -15,6 +15,7 @@
 		419096ED1D1435C800725440 /* KGProfileTableHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096EC1D1435C800725440 /* KGProfileTableHeader.m */; };
 		419096EF1D1435D900725440 /* KGProfileTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419096EE1D1435D900725440 /* KGProfileTableHeader.xib */; };
 		419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096F41D1455B400725440 /* KGProfileTableViewController.m */; };
+		41B020B91D19946900594995 /* KGImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B020B81D19946900594995 /* KGImagePickerController.m */; };
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
@@ -142,6 +143,8 @@
 		419096EE1D1435D900725440 /* KGProfileTableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGProfileTableHeader.xib; sourceTree = "<group>"; };
 		419096F31D1455B400725440 /* KGProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileTableViewController.h; sourceTree = "<group>"; };
 		419096F41D1455B400725440 /* KGProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileTableViewController.m; sourceTree = "<group>"; };
+		41B020B71D19946900594995 /* KGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGImagePickerController.h; path = KGImagePickerController/KGImagePickerController.h; sourceTree = "<group>"; };
+		41B020B81D19946900594995 /* KGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGImagePickerController.m; path = KGImagePickerController/KGImagePickerController.m; sourceTree = "<group>"; };
 		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
 		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
 		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
@@ -431,6 +434,15 @@
 			name = TableHeader;
 			sourceTree = "<group>";
 		};
+		41B020B51D19940E00594995 /* KGImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				41B020B71D19946900594995 /* KGImagePickerController.h */,
+				41B020B81D19946900594995 /* KGImagePickerController.m */,
+			);
+			name = KGImagePickerController;
+			sourceTree = "<group>";
+		};
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,6 +621,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				41B020B51D19940E00594995 /* KGImagePickerController */,
 				D69FB1741D097F3200043C2D /* KGAlertManager */,
 				D844A7051D0B348A00B53BB3 /* KGAvatarImageView */,
 				9B822AF8F1E38A1254268D42 /* KGChannelNotification */,
@@ -1488,6 +1501,7 @@
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				CDB050701D1400A200594A8C /* KGTeamCell.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
+				41B020B91D19946900594995 /* KGImagePickerController.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
 				419096E91D1427EB00725440 /* KGProfileDataSource.m in Sources */,
 				CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */,

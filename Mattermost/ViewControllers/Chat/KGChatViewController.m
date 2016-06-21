@@ -41,7 +41,8 @@
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
-#import <UITableView_Cache/UITableView+Cache.h>
+#import "UITableView+Cache.h"
+//#import <UITableView+Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
@@ -316,7 +317,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([tableView isEqual:self.autoCompletionView]) {
         
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
