@@ -75,12 +75,13 @@
     self.nameLabel.textColor = [UIColor kg_blackColor];
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    
-    [self.nameLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultHigh forAxis: UILayoutConstraintAxisHorizontal];
-    
+
+    [self.nameLabel setContentCompressionResistancePriority: 749 forAxis: UILayoutConstraintAxisHorizontal];
+    [self.nameLabel setContentHuggingPriority:251 forAxis:UILayoutConstraintAxisHorizontal];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self).offset(53.f);
         make.top.equalTo(self).offset(8.f);
+//        make.trailing.lessThanOrEqualTo(self).offset(-75.f);
     }];
 }
 
@@ -91,15 +92,16 @@
     self.dateLabel.textColor = [UIColor kg_lightGrayColor];
     self.dateLabel.font = [UIFont kg_regular13Font];
     self.dateLabel.contentMode = UIViewContentModeLeft;
+    //NSLog(@"nameLabel.width %f",self.nameLabel.frame.size.width);
 //    self.dateLabel
-    [self.dateLabel setContentCompressionResistancePriority: UILayoutPriorityDefaultLow forAxis: UILayoutConstraintAxisHorizontal];
-    
+    [self.dateLabel setContentCompressionResistancePriority: 750 forAxis: UILayoutConstraintAxisHorizontal];
+    [self.dateLabel setContentHuggingPriority:250 forAxis:UILayoutConstraintAxisHorizontal];
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
-//        make.leading.equalTo(self.nameLabel).offset(kStandartPadding);
-        
+       make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
+//        make.leading.equalTo(self.nameLabel).offset(self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width);
         make.centerY.equalTo(self.nameLabel);
         make.trailing.equalTo(self).offset(-kStandartPadding);
+        
     }];
 }
 
@@ -131,15 +133,14 @@
         self.messageLabel.text = post.message;
         self.nameLabel.text = post.author.nickname;
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
-//        self.avatarImageView.URL = post.author.imageUrl;
-//        self.avatarImageView.layerBacked = YES;
+ 
+        
         for (UIView *view in self.subviews) {
             view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
         }
         dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
         __weak typeof(self) wSelf = self;
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
-        
         if (cachedImage) {
             [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
                 self.avatarImageView.image = image;

@@ -46,6 +46,7 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGTableViewSectionHeader.h"
+#import "KGChatRootCell.h"
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -105,6 +106,8 @@
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+//    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier] cacheSize:15];
+
     [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
 forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
@@ -452,6 +455,23 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
     } else {
         subtitleString = self.channel.displayName;
     }
+    KGUser *user;
+    if (self.channel.type == KGChannelTypePrivate) {
+        user = [KGUser managedObjectById:self.channel.interlocuterId];
+    } else {
+        user = [[KGBusinessLogic sharedInstance]currentUser];
+    }
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
+    [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    imageView.layer.cornerRadius = CGRectGetHeight(imageView.bounds) / 2;
+    [button addSubview:imageView];
+    
+    [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName subtitle:subtitleString shouldHighlight:shouldHighlight];
 }
 
@@ -540,7 +560,12 @@ forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];
 
-            KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+            KGUser *user;
+            if (self.channel.type == KGChannelTypePrivate) {
+                user = [KGUser managedObjectById:self.channel.interlocuterId];
+            } else {
+                user = [[KGBusinessLogic sharedInstance]currentUser];
+            }
             
             UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
             
