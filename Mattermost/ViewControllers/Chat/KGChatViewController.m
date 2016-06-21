@@ -68,8 +68,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
-@property (weak, nonatomic) IBOutlet UIButton *rightBarButtonItem;
-
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -91,7 +89,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self setupTableView];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
-    [self setupRightBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
 }
@@ -167,11 +164,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
 
-- (void)setupRightBarButtonItem {
-    self.rightBarButtonItem.frame = CGRectMake(0, 0, 35, 35);
-    self.rightBarButtonItem.layer.cornerRadius = 35/2;
-    [self.rightBarButtonItem setTitle:nil forState:UIControlStateNormal];
-}
 
 #pragma mark - SLKViewController
 
@@ -426,30 +418,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
-
-    KGUser *user;
-    if (self.channel.type == KGChannelTypePrivate) {
-        user = [KGUser managedObjectById:self.channel.interlocuterId];
-            [self.rightBarButtonItem setBackgroundColor:[UIColor kg_lightBlueColor]];
-        
-        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:user.imageUrl
-                                                              options:SDWebImageDownloaderHandleCookies
-                                                             progress:nil
-            completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                [UIImage roundedImage:image completion:^(UIImage *image) {
-                    [[SDImageCache sharedImageCache] storeImage:image forKey:user.imageUrl.absoluteString];
-                    [self.rightBarButtonItem setBackgroundImage:image forState:UIControlStateNormal];
-                }];
-            }];
-        
-
-    } else {
-        user = [[KGBusinessLogic sharedInstance]currentUser];
-    }
-    
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
-                                                                               subtitle:subtitleString
-                                                                        shouldHighlight:shouldHighlight];
 }
 
 
@@ -669,6 +637,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
+- (IBAction)rightBarButtonAction:(id)sender {
+    [self toggleRightSideMenuAction];
+}
 
 #pragma mark - Loading View
 
@@ -738,6 +709,4 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 }
 
-- (IBAction)rightBarButtonAction:(id)sender {
-}
 @end

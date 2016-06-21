@@ -219,16 +219,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="wt7-PM-6dp">
-                            <button key="customView" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dOW-Jp-0gx">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" image="navbar_more_icon" id="9jw-m2-vIB">
+                            <connections>
+                                <action selector="rightBarButtonAction:" destination="uKV-ME-BHi" id="ZfT-fD-3nM"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="rightBarButtonItem" destination="dOW-Jp-0gx" id="RhA-g8-aZa"/>
                         <segue destination="ExM-Qi-d3C" kind="presentation" identifier="presentProfile" id="USz-Je-8BJ"/>
                     </connections>
                 </viewController>
@@ -247,5 +244,6 @@
     </scenes>
     <resources>
         <image name="menu_users_icon" width="20" height="13"/>
+        <image name="navbar_more_icon" width="22" height="22"/>
     </resources>
 </document>
