@@ -50,6 +50,9 @@
         self.messageLabel.backgroundColor =
                 post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
     }
+    
+    
+   // self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
 
 + (CGFloat)heightWithObject:(id)object {

@@ -165,6 +165,8 @@
             [self.avatarImageView removeActivityIndicator];
         }
         
+      //  self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+        
         //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
         //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }

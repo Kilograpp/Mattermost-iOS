@@ -11,6 +11,7 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGBusinessLogic+Session.h"
 #import "KGAppDelegate.h"
+#import "KGAlertManager.h"
 #import "KGRightMenuDataSourceEntry.h"
 #import "KGRightMenuCell.h"
 #import "KGBusinessLogic+Session.h"
@@ -124,49 +125,55 @@
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-//                                                                           [wSelf.delegate navigationToProfil];
+                                                                           [wSelf alertUnderDevelopment];
                                                                           
                                                                       }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Files", nil)
                                                                      iconName:@"menu_files_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          // [wSelf performSegueWithIdentifier:kAccountSettingsIdentifier sender:nil];
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
                                                                      iconName:@"menu_settings_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          //[wSelf navigateToNewMember];
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)
                                                                      iconName:@"menu_invite_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                   
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Help", nil)
                                                                      iconName:@"menu_help_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Report a Problem", nil)
                                                                      iconName:@"menu_report_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"About Mattermost", nil)
                                                                      iconName:@"menu_question_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          
+                                                                          [wSelf alertUnderDevelopment];
+
                                                                       }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
                                                                      iconName:@"menu_logout_icon"
@@ -204,6 +211,14 @@
 
 }
 
+#pragma mark - Alert
+
+//This section is under development
+-(void) alertUnderDevelopment {
+    KGAlertManager *alertView = [[KGAlertManager alloc]init];
+    [alertView showWarningWithTitle:@"In developing" message:@"This section is under development"];
+
+}
 
 
 @end

@@ -237,7 +237,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
-    
+    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     return cell;
 }
 
