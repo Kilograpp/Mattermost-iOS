@@ -84,16 +84,21 @@
 
 - (void)updateTableView:(NSNotification *)notification {
     NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    [self.tableView reloadData];
+    
     if (!self.selectedRow) {
+        [self.tableView reloadData];
         //Первый вход
     } else {
-        double delayInSeconds = 0.11;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
+        
+        [self.tableView beginUpdates];
+//        double delayInSeconds = 0.11;
+//        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+
+//        });
+        [self.tableView endUpdates];
+        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
                               scrollPosition:UITableViewScrollPositionNone];
-        });
     }
 }
 
