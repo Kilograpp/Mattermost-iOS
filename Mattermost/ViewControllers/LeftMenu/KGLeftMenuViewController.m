@@ -119,7 +119,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+ //   cell.isSelectedCell = (indexPath.row == self.selectedRow) ? YES : NO;
     [cell configureWithObject:channel];
+    
     return cell;
 }
 
@@ -131,6 +133,10 @@
     NSString *sectionHeaderTitle = [[KGChannel titleForChannelBackendType:[sectionInfo name]] uppercaseString];
     
     return sectionHeaderTitle;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [KGChannelTableViewCell heightWithObject:nil];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
@@ -182,6 +188,7 @@
 - (void)setInitialSelectedChannel {
     NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView selectRowAtIndexPath:firstChannelPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    //
     [self selectChannelAtIntexPath:firstChannelPath];
 }
 

@@ -12,8 +12,9 @@
 #import "KGChannel.h"
 #import "KGUser.h"
 
-@interface KGChannelTableViewCell()
+const static CGFloat kHeightCellLeftMenu = 50;
 
+@interface KGChannelTableViewCell()
 
 @property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
 @property (weak, nonatomic) IBOutlet UIView *dotView;
@@ -38,7 +39,6 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
     [self setupChannelNameLabel];
     [self setupBachground];
     [self setupDotView];
@@ -113,7 +113,7 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGChannel class]]) {
         KGChannel *channel = object;
-        
+       // [self setSelected:self.isSelectedCell animated:YES];
         self.channelNameLabel.text = channel.displayName;
         if (channel.type == KGChannelTypePrivate){
             [self configureCellForChannelPrivate:channel.hasNewMessages];
@@ -162,6 +162,9 @@
     self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
 
++(CGFloat)heightWithObject:(id)object {
+    return kHeightCellLeftMenu;
+}
 
 
 @end
