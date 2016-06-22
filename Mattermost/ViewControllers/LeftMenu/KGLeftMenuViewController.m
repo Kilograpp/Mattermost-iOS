@@ -30,7 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *teamLabel;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UIButton *allUsersCommandButton;
-@property (nonatomic, assign) NSInteger selectedRow;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
@@ -51,20 +51,11 @@
 
 #pragma mark - Setup
 
-//-  (UIStatusBarStyle)preferredStatusBarStyle {
-//    return UIStatusBarStyleLightContent;
-//}
-
-- (BOOL)prefersStatusBarHidden {
-    return YES;
-}
-
-
-
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView registerNib:[KGChannelTableViewCell nib] forCellReuseIdentifier:[KGChannelTableViewCell reuseIdentifier]];
+    [self.tableView registerNib:[KGChannelTableViewCell nib]
+         forCellReuseIdentifier:[KGChannelTableViewCell reuseIdentifier]];
 }
 
 - (void)setup {
@@ -79,22 +70,14 @@
 }
 
 - (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView:) name:KGNotificationUsersStatusUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableView:)
+                                                 name:KGNotificationUsersStatusUpdate
+                                               object:nil];
 }
 
 - (void)updateTableView:(NSNotification *)notification {
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
     [self.tableView reloadData];
-    if (!self.selectedRow) {
-        //Первый вход
-    } else {
-        double delayInSeconds = 0.11;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
-                              scrollPosition:UITableViewScrollPositionNone];
-        });
-    }
 }
 
 
@@ -117,9 +100,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier] ];
+    KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier]];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    BOOL shouldHightlight = indexPath.row == _selectedIndexPath.row && indexPath.section == _selectedIndexPath.section;
+    cell.isSelectedCell = shouldHightlight;
     [cell configureWithObject:channel];
+    
     return cell;
 }
 
@@ -131,6 +118,10 @@
     NSString *sectionHeaderTitle = [[KGChannel titleForChannelBackendType:[sectionInfo name]] uppercaseString];
     
     return sectionHeaderTitle;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [KGChannelTableViewCell heightWithObject:nil];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
@@ -145,10 +136,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [self selectChannelAtIntexPath:indexPath];
     [self toggleLeftSideMenuAction];
 }
+
 
 #pragma mark - NSFetchedResultsController
 
@@ -176,14 +167,15 @@
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
-    self.selectedRow = indexPath.row;
+    self.selectedIndexPath = indexPath;
+    [self.tableView reloadData];
 }
 
 - (void)setInitialSelectedChannel {
     NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView selectRowAtIndexPath:firstChannelPath animated:NO scrollPosition:UITableViewScrollPositionNone];
     [self selectChannelAtIntexPath:firstChannelPath];
 }
+
 
 #pragma mark - Actions
 

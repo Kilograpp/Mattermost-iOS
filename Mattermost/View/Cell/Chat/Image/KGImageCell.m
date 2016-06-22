@@ -31,8 +31,9 @@
     self.kg_imageView/*.view*/.clipsToBounds = YES;
 
     [self.kg_imageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self);
+        make.left.right.equalTo(self);
         make.bottom.equalTo(self).offset(-8.f);
+        make.top.equalTo(self).offset(8.f);
     }];
 }
 

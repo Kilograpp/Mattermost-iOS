@@ -13,7 +13,7 @@
 
 static CGFloat const kHUDDimViewAlpha = 0.4f;
 static CGFloat const kHUDDismissDelay = 1.2f;
-static CGFloat const kStandartHudDismissDelay = 3.0f;
+static CGFloat const kStandartHudDismissDelay = 4.0f;
 
 
 @interface KGAlertManager ()

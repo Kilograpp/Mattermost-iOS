@@ -54,13 +54,14 @@
 
 - (void)setupAvatarImageView {
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self addSubview:_avatarImageView/*.view*/];
+    [self addSubview:_avatarImageView];
     _avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.image = [[self class] placeholderBackground];
+    self.avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
     
-    [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
         make.width.height.equalTo(@(kAvatarDimension));
     }];
@@ -202,23 +203,16 @@
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Begin a new image that will be the new image with the rounded corners
-        // (here with the size of an UIImageView)
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
         CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
         
-        // Add a clip before drawing anything, in the shape of an rounded rect
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:image.size.width/2] addClip];
-        // Draw your image
         [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
         UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
         
-        // Lets forget about that we were drawing
         UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 completion(roundedImage);
             }
