@@ -56,6 +56,7 @@
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self addSubview:_avatarImageView];
     _avatarImageView.layer.drawsAsynchronously = YES;
+    _avatarImageView.layer.cornerRadius = 20.f;
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.image = [[self class] placeholderBackground];
@@ -145,29 +146,32 @@
             view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
         }
 
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
-        if (cachedImage) {
-            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
-                self.avatarImageView.image = image;
-            }];
-        } else {
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
-                                                                  options:SDWebImageDownloaderHandleCookies
-                                                                 progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                        [[self class] roundedImage:image completion:^(UIImage *image) {
-                            [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
-                            self.avatarImageView.image = image;
-                        }];
-            }];
-            [self.avatarImageView removeActivityIndicator];
-        }
+//        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+//        if (cachedImage) {
+//            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+//                self.avatarImageView.image = image;
+//            }];
+//        } else {
+//            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
+//                                                                  options:SDWebImageDownloaderHandleCookies
+//                                                                 progress:nil
+//                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//                        [[self class] roundedImage:image completion:^(UIImage *image) {
+//                            [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+//                            self.avatarImageView.image = image;
+//                        }];
+//            }];
+//            [self.avatarImageView removeActivityIndicator];
+//        }
+        [self.avatarImageView setImageWithURL:post.author.imageUrl
+                             placeholderImage:[[self class] placeholderBackground]
+                                      options:SDWebImageHandleCookies
+                                    completed:nil
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [self.avatarImageView removeActivityIndicator];
         
       //  self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
         
-        //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-        //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
     }
 }
 
@@ -181,7 +185,7 @@
         CGFloat screenWidth = CGRectGetWidth([[UIScreen mainScreen] bounds]);
         CGFloat messageLabelWidth = screenWidth - kAvatarDimension - kStandartPadding * 2 - kSmallPadding;
         CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-        CGFloat nameMessage = [post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
+        CGFloat nameMessage = 24.f;//[post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
         CGFloat heightCell = kStandartPadding + nameMessage + kSmallPadding + heightMessage + kStandartPadding;
         
         return  ceilf(heightCell);
@@ -194,6 +198,7 @@
 #pragma mark - Override
 
 - (void)prepareForReuse {
+    self.avatarImageView.image = nil;
     self.avatarImageView.image = [[self class] placeholderBackground];
 }
 

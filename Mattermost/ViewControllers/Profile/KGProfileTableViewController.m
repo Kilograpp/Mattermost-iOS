@@ -143,7 +143,7 @@
     }];
     
     UIAlertAction *openGalleryAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"From library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         switch ([PHPhotoLibrary authorizationStatus]) {
             case AVAuthorizationStatusRestricted:
             case AVAuthorizationStatusDenied:

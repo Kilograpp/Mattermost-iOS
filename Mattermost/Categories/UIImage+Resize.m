@@ -170,7 +170,7 @@
 }
 
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
-- (CGAffineTransform)transformForOrientation:(CGSize)newSize {
+- (CGAffineTransform)kg_transformForOrientation:(CGSize)newSize {
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch (self.imageOrientation) {
