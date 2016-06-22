@@ -11,6 +11,7 @@
 #import "KGFile.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "UIImage+Resize.h" 
 
 static CGFloat const kSmallPadding = 5.f;
 static CGFloat const kStandartPadding = 15.f;
@@ -78,38 +79,15 @@ static CGFloat const kIconSize = 45.f;
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-        UIImage *icon = [UIImage imageNamed:@"profile_name_icon"];
-        [[self class] roundedImage:icon completion:^(UIImage *image) {
-            self.iconImageView.image = image;
-        }];
+        UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
+//        [UIImage roundedImage:icon whithRadius:icon.size.width/2 completion:^(UIImage *image) {
+//            self.iconImageView.image = image;
+//        }];
+        self.iconImageView.image = icon;
         NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
         self.nameLabel.text = name;
         self.sizeLabel.text = @"0KB";
     }
 }
 
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion {
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-        //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
-        
-        [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:image.size.width/2] addClip];
-        // Draw your image
-        [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
-        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        // Lets forget about that we were drawing
-        UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(roundedImage);
-            }
-        });
-    });
-}
 @end
