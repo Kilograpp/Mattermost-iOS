@@ -92,16 +92,47 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0){
+        switch (indexPath.row) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                [self changeProfilePhoto];
+                break;
+            default:
+                break;
+        }
+        
+    } else {
+        switch (indexPath.row) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)changeProfilePhoto {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *openCameraAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Сделать фото", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
         switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
             case AVAuthorizationStatusRestricted:
             case AVAuthorizationStatusDenied:
-//                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
-//                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
+                //                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
+                //                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
                 [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к камере. /nПожалуйста разрешите использовать камеру в настройках"];
                 break;
                 
@@ -112,13 +143,13 @@
     }];
     
     UIAlertAction *openGalleryAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Выбрать из библиотеки", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"From library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         switch ([PHPhotoLibrary authorizationStatus]) {
             case AVAuthorizationStatusRestricted:
             case AVAuthorizationStatusDenied:
-//                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к фотографиям"
-//                                                           message:@"Пожалуйста разрешите использовать фотографии в настройках"];
-                 [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к фотографиям. /nПожалуйста разрешите использовать фотографии в настройках"];
+                //                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к фотографиям"
+                //                                                           message:@"Пожалуйста разрешите использовать фотографии в настройках"];
+                [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к фотографиям. /nПожалуйста разрешите использовать фотографии в настройках"];
                 break;
                 
             default: {
@@ -127,12 +158,13 @@
             }
         }
     }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Отмена", nil) style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:openCameraAction];
     [alertController addAction:openGalleryAction];
     [alertController addAction:cancelAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
+    
 
 }
 

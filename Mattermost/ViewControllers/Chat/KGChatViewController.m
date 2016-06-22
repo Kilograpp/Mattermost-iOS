@@ -217,6 +217,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    KGFile *f;
+    if ([post.files allObjects].count){
+   f = [[post.files allObjects] objectAtIndex:0];
+    }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     
@@ -498,7 +502,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     if ([navigationController isKindOfClass:[KGChatNavigationController class]]) {
         if (navigationController.viewControllers.count == 1) {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu_button"]
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navbar_menu_icon"]
                                                                                      style:UIBarButtonItemStylePlain
                                                                                     target:self
                                                                                     action:@selector(toggleLeftSideMenuAction)];

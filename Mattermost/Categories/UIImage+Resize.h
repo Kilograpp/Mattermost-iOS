@@ -22,4 +22,6 @@
 
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion;
++ (void)roundedImage:(UIImage *)image whithRadius: (CGFloat)radius
+          completion:(void (^)(UIImage *image))completion;
 @end
