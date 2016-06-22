@@ -241,7 +241,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="947.5" y="505.5"/>
+            <point key="canvasLocation" x="1060.5" y="546.5"/>
         </scene>
         <!--SettingsAccount-->
         <scene sceneID="O6e-oo-8mK">
@@ -257,6 +257,6 @@
         <image name="navbar_more_icon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8XZ-KO-uiL"/>
+        <segue reference="USz-Je-8BJ"/>
     </inferredMetricsTieBreakers>
 </document>
