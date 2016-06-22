@@ -29,6 +29,8 @@ const static CGFloat kHeightCellLeftMenu = 50;
 @end
 @implementation KGChannelTableViewCell
 
+#pragma mark - Init
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -37,6 +39,9 @@ const static CGFloat kHeightCellLeftMenu = 50;
     
     return self;
 }
+
+
+#pragma mark - Lifecycle
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -88,12 +93,16 @@ const static CGFloat kHeightCellLeftMenu = 50;
             [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
         
-        self.selectedView.hidden = !self.isSelectedCell;
-        self.channelNameLabel.textColor = self.isSelectedCell ? [UIColor kg_blackColor] : [UIColor kg_sectionColorLeftMenu];
-        self.sharpLabel.textColor = self.channelNameLabel.textColor;
-        self.dotView.layer.borderColor = self.isSelectedCell ?
-        self.dotViewBorderColorIfSelected.CGColor : self.dotViewBorderColor.CGColor;
+        [self configureForState:self.isSelectedCell];
     }
+}
+
+- (void)configureForState:(BOOL)isSelected {
+    self.selectedView.hidden = !isSelected;
+    self.channelNameLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.sharpLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.borderColor = (isSelected) ? self.dotViewBorderColorIfSelected.CGColor : self.dotViewBorderColor.CGColor;
 }
 
 - (void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
@@ -133,6 +142,9 @@ const static CGFloat kHeightCellLeftMenu = 50;
     self.sharpLabel.hidden = NO;
     self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
+
+
+#pragma mark - Height
 
 + (CGFloat)heightWithObject:(id)object {
     return kHeightCellLeftMenu;
