@@ -23,7 +23,7 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGNotificationValues.h"
 
-@interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
@@ -83,18 +83,14 @@
 }
 
 - (void)updateTableView:(NSNotification *)notification {
-    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-    
-    if (!self.selectedRow) {
-        [self.tableView reloadData];
-        //Первый вход
-    } else {
+
+        NSIndexPath *selectedIndexPath  = [self.tableView indexPathForSelectedRow];
        [self.tableView reloadData];
        [self.tableView beginUpdates];
        [self.tableView endUpdates];
         [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO
                               scrollPosition:UITableViewScrollPositionNone];
-    }
+
 }
 
 
@@ -124,6 +120,33 @@
     
     return cell;
 }
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [self updateTableView:nil];//4
+}
+
+
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+//   [self updateTableView:nil]; //1
+//}
+//
+//// called on finger up if the user dragged. decelerate is true if it will continue moving afterwards
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    [self updateTableView:nil];//2
+//}
+//
+//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+//    [self updateTableView:nil];
+//    //3
+//}
+
+
 
 
 #pragma mark - UITableViewDelegate
@@ -183,12 +206,12 @@
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
     self.selectedRow = indexPath.row;
+    
 }
 
 - (void)setInitialSelectedChannel {
     NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView selectRowAtIndexPath:firstChannelPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    //
     [self selectChannelAtIntexPath:firstChannelPath];
 }
 
