@@ -47,39 +47,20 @@ const static CGFloat kHeightCellLeftMenu = 50;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
-    if (selected) {
-        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
-        self.channelNameLabel.textColor = [UIColor kg_blackColor];
-        self.sharpLabel.textColor = [UIColor kg_blackColor];
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
-        
-    } else {
-        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = self.labelColor;
-        self.sharpLabel.textColor = self.labelColor;
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
-    }
+    [self configureObjectWithSelecteHiglighted:selected];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
-    
-    if (highlighted) {
-        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
-        self.channelNameLabel.textColor = [UIColor kg_blackColor];
-        self.sharpLabel.textColor = [UIColor kg_blackColor];
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
-    } else {
-        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = self.labelColor;
-        self.sharpLabel.textColor = self.labelColor;
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
-    }
+    [self configureObjectWithSelecteHiglighted:highlighted];
+}
+
+- (void)configureObjectWithSelecteHiglighted:(BOOL)isSelected {
+    self.selectedView.backgroundColor = (isSelected) ? [UIColor kg_whiteColor] : [UIColor kg_leftMenuBackgroundColor];
+    self.channelNameLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.sharpLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.borderColor = (isSelected) ? self.dotViewBorderColorIfSelected.CGColor : self.dotViewBorderColor.CGColor;
 }
 
 
