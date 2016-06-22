@@ -27,7 +27,6 @@ static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoveryButton;
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;

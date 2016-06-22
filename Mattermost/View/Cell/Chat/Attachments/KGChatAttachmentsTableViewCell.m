@@ -19,10 +19,11 @@
 #import "KGImageCell.h"
 #import "KGFile.h"
 #import "UIImage+Resize.h"
+#import "KGFileCell.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
-
+#define KG_FILE_HEIGHT  55.f
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) KGPost *post;
@@ -70,6 +71,7 @@
     }];
     
     [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
+    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier]];
     self.backgroundColor = [UIColor kg_whiteColor];
 }
 
@@ -110,7 +112,8 @@
         self.messageLabel.text = post.message;
         //FIXME: Добавить деление файл - не файл и наличие заголовка
         self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
-        
+        KGFile *file = [self.files objectAtIndex:0];
+        NSLog (@"%@", file.name);
         [self.tableView reloadData];
         
         self.backgroundColor = post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
@@ -129,8 +132,14 @@
         CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
         CGFloat nameMessage = [post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
         CGFloat heightCell = kStandartPadding + nameMessage + kSmallPadding + heightMessage + kStandartPadding + kStandartPadding;
-        
-        CGFloat heightImage = post.files.count * KG_IMAGE_HEIGHT;
+        CGFloat heightImage;
+        for (KGFile *file in [post.files allObjects]){
+            if ([file isImage]){
+                heightImage +=  KG_IMAGE_HEIGHT;
+            } else {
+                heightImage +=  KG_FILE_HEIGHT;
+            }
+        }
         heightCell += heightImage;
         
         return ceilf(heightCell) - kSmallPadding;
@@ -151,19 +160,35 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
+    if ([self.files[indexPath.row] isImage]){
+        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
-    KGFile *file = self.files[indexPath.row];
-    [cell configureWithObject:file];
+        KGFile *file = self.files[indexPath.row];
+        [cell configureWithObject:file];
+        return cell;
+    } else {
+//        UITableViewCell * cell = [[UITableViewCell alloc] init];
+//        KGFile *file = self.files[indexPath.row];
+//        cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [file name], [file size] ];
+//
+        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
+        KGFile *file = self.files[indexPath.row];
+        [cell configureWithObject:file];
+//        cell.textLabel.numberOfLines = 0;
+        return cell;
+    }
     
-    return cell;
 }
 
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return ceilf(KG_IMAGE_HEIGHT);
+    if ([self.files[indexPath.row] isImage]){
+        return ceilf(KG_IMAGE_HEIGHT);
+    } else {
+        return ceilf(KG_FILE_HEIGHT);
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
