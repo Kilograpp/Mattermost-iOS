@@ -49,7 +49,7 @@ static CGFloat const kLabelHeight = 20;
                                                                  (screenWidth - kImageMarginGorizontal - kImageWidth - kImageMarginGorizontal - kLabelMarginTralling),
                                                                  kLabelHeight)];
     self.messageLabel.font = [UIFont kg_regular13Font];
-    self.messageLabel.textColor = [UIColor blackColor];
+    self.messageLabel.textColor = [UIColor kg_blackColor];
     [self addSubview:self.messageLabel];
 }
 
@@ -77,18 +77,18 @@ static CGFloat const kLabelHeight = 20;
 }
 
 - (void)configureTypeWarning {
-    [self setupGradientForViewForTopColor:[UIColor kg_topOrangeColorForGradient] toBottomColor:[UIColor kg_bottomOrangeColorForGradient]];
+    [self setupGradientForViewForTopColor:[UIColor kg_topYellowColorForAlert] toBottomColor:[UIColor kg_bottomYellowColorForAlert]];
     self.imageType.image = [UIImage imageNamed:@"warning_alert"];
 }
 
 - (void)configureTypeError {
-    [self setupGradientForViewForTopColor:[UIColor kg_topRedColorForGradient] toBottomColor:[UIColor kg_bottomRedColorForGradient]];
+    [self setupGradientForViewForTopColor:[UIColor kg_topRedColorForAlert] toBottomColor:[UIColor kg_bottomRedColorForAlert]];
     self.imageType.image = [UIImage imageNamed:@"error_alert"];
     
 }
 
 - (void)configureTypeSuccess {
-    [self setupGradientForViewForTopColor:[UIColor kg_topGreenColorForGradient] toBottomColor:[UIColor kg_bottomGreenColorForGradient]];
+    [self setupGradientForViewForTopColor:[UIColor kg_topGreenColorForAlert] toBottomColor:[UIColor kg_bottomGreenColorForAlert]];
      self.imageType.image = [UIImage imageNamed:@"success_alert"];
 }
 
@@ -105,7 +105,7 @@ static CGFloat const kLabelHeight = 20;
 - (void)showAnimationAlertView{
     [UIView animateWithDuration:0.35
                           delay:0.00
-         usingSpringWithDamping:0.8
+         usingSpringWithDamping:0.9
           initialSpringVelocity:0.3
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
         CGRect frameNew = self.frame;
@@ -120,7 +120,7 @@ static CGFloat const kLabelHeight = 20;
 - (void) hideAnimationAlertView {
     [UIView animateWithDuration:0.35
                           delay:0.00
-         usingSpringWithDamping:0.8
+         usingSpringWithDamping:0.9
           initialSpringVelocity:0.3
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
                             CGRect frameNew = self.frame;

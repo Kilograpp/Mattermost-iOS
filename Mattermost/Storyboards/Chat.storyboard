@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -182,7 +182,7 @@
                         <outlet property="headerView" destination="px6-Ta-Ljn" id="ivD-kk-Hxp"/>
                         <outlet property="nicknameLabel" destination="JeU-20-hRd" id="MxZ-eP-xf6"/>
                         <outlet property="tableView" destination="1Tz-RJ-Dm5" id="Wcl-cZ-pZx"/>
-                        <segue destination="ExM-Qi-d3C" kind="presentation" identifier="presentProfile" id="8XZ-KO-uiL"/>
+                        <segue destination="ExM-Qi-d3C" kind="show" identifier="presentProfile" id="yA7-Ik-moW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpM-eI-LQE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -236,12 +236,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="ExM-Qi-d3C" kind="presentation" identifier="presentProfile" id="USz-Je-8BJ"/>
+                        <segue destination="ExM-Qi-d3C" kind="show" identifier="presentProfile" id="4M5-GR-Gmg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1060.5" y="546.5"/>
+            <point key="canvasLocation" x="947.5" y="505.5"/>
         </scene>
         <!--SettingsAccount-->
         <scene sceneID="O6e-oo-8mK">
@@ -257,6 +257,6 @@
         <image name="navbar_more_icon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="USz-Je-8BJ"/>
+        <segue reference="4M5-GR-Gmg"/>
     </inferredMetricsTieBreakers>
 </document>
