@@ -421,7 +421,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         }
     } else {
         //поставить кол-во юзеров
-        subtitleString = [NSString stringWithFormat:@"%lu members", self.channel.members.count];
+        subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
 
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName

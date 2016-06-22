@@ -11,6 +11,8 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGUser.h"
+#import "KGTeam.h"
+#import "KGPreferences.h"
 #import "KGConstants.h"
 #import "KGButton.h"
 #import "KGTextField.h"
@@ -141,8 +143,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 //    self.titleLabel.text = @"Kilograpp";
 //    self.loginPromtLabel.text = @"Email";
 //    self.passwordPromtLabel.text = @"Password";
-    self.titleLabel.text = @"Kilograpp";
-
+    self.titleLabel.text = [[KGPreferences sharedInstance] siteName];
 }
 
 
