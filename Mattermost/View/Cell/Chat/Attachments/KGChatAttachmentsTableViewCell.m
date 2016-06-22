@@ -70,6 +70,7 @@
     }];
     
     [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
+    self.backgroundColor = [UIColor kg_whiteColor];
 }
 
 
@@ -82,9 +83,12 @@
         self.post = post;
         self.nameLabel.text = post.author.username;
         self.dateLabel.text = [post.createdAt timeFormatForMessages];
-//        self.messageLabel.text = post.message;
         self.messageLabel.text = @"attacments";
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+        
+        for (UIView *view in self.subviews) {
+            view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+        }
         
         if (cachedImage) {
             [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
@@ -109,7 +113,7 @@
         
         [self.tableView reloadData];
         
-    //    self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+        self.backgroundColor = post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     }
 }
 
@@ -166,6 +170,10 @@
     if (self.photoTapHandler) {
         self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
     }
+}
+
+- (void)prepareForReuse {
+    self.avatarImageView.image = [[self class] placeholderBackground];
 }
 
 @end

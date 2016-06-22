@@ -53,12 +53,12 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 }
 
 - (void)test {
-    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
-    self.passwordTextField.text = @"9d331o26c39";
+//    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
+//    self.passwordTextField.text = @"9d331o26c39";
 //    self.loginTextField.text = @"maxim@kilograpp.com";
 //    self.passwordTextField.text = @"loladin";
-//    self.loginTextField.text = @"getmaxx@kilograpp.com";
-//    self.passwordTextField.text = @"102Aky5i";
+    self.loginTextField.text = @"getmaxx@kilograpp.com";
+    self.passwordTextField.text = @"102Aky5i";
     self.loginButton.enabled = YES;
 
 }

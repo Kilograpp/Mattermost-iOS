@@ -7,7 +7,6 @@
 //
 
 #import "KGImageCell.h"
-#import <AsyncDisplayKit/ASNetworkImageNode.h>
 #import <Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
@@ -22,7 +21,6 @@
     
 //    self.kg_imageView = [[ASNetworkImageNode alloc] init];
     self.kg_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.kg_imageView.backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.f];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
     self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -49,8 +47,8 @@
             return;
         }
 //        }
-        NSURL *url = file.thumbLink;
-//        self.kg_imageView.URL = url;
+//        NSURL *url = file.thumbLink;
+            NSURL *url = file.downloadLink;
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
         if (cachedImage) {
@@ -76,11 +74,11 @@
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-//        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
+        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+//        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
 
         [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:15.f] addClip];
+                                    cornerRadius:5.f] addClip];
         // Draw your image
         [image drawInRect:rect];
         
@@ -105,7 +103,8 @@
     CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:15].CGPath;
+    NSLog(@"%@", context);
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5].CGPath;
     CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
     CGContextFillPath(context);

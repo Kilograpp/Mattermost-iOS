@@ -58,9 +58,7 @@
     _avatarImageView.layer.drawsAsynchronously = YES;
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
-    [UIImage roundedImage:[[self class] placeholderBackground] completion:^(UIImage *image) {
-        self.avatarImageView.image = image;
-    }];
+    self.avatarImageView.image = [[self class] placeholderBackground];
     
     [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
@@ -195,7 +193,6 @@
 #pragma mark - Override
 
 - (void)prepareForReuse {
-    self.avatarImageView.image = nil;
     self.avatarImageView.image = [[self class] placeholderBackground];
 }
 
@@ -229,17 +226,6 @@
     });
 }
 
-+ (UIImage *)placeholderBackground {
-    CGRect rect = CGRectMake(0, 0, 40, 40);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:20].CGPath;
-    CGContextAddPath(context, ref);
-    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
-    CGContextFillPath(context);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
+
 
 @end
