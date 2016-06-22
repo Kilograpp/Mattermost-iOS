@@ -422,42 +422,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
-
-    KGUser *user;
-    if (self.channel.type == KGChannelTypePrivate) {
-        user = [KGUser managedObjectById:self.channel.interlocuterId];
-    } else {
-        user = [[KGBusinessLogic sharedInstance]currentUser];
-    }
-    
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 35, 35)];
-    
-    [imageView setImageWithURL:user.imageUrl
-              placeholderImage:nil
-                       options:SDWebImageHandleCookies
-   usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-
-    [imageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [UIImage roundedImage:imageView.image completion:^(UIImage *image) {
-        imageView.image = image;
-        [imageView setNeedsDisplay];
-    }];
-
-    imageView.clipsToBounds = YES;
-    button.clipsToBounds = YES;
-
-    [button addSubview:imageView];
-    
-    [button addTarget:self action:@selector(navigationToProfil) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
-
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
-                                                                               subtitle:subtitleString
-                                                                        shouldHighlight:shouldHighlight];
-
 }
 
 

@@ -20,6 +20,7 @@
 #import "KGUser.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
+#import "KGProfileTableViewController.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 //@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -29,6 +30,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, strong) NSArray *dataSource;
+
+- (IBAction)profileAction:(id)sender;
 
 @end
 
@@ -221,5 +224,17 @@
 }
 
 
+
+- (IBAction)profileAction:(id)sender {
+    [self performSegueWithIdentifier:@"presentProfile" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"presentProfile"]) {
+        UINavigationController *nc = segue.destinationViewController;
+        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
+    }
+}
 
 @end
