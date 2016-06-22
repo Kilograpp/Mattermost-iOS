@@ -7,6 +7,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage (Resize)
+
 - (UIImage *)croppedImage:(CGRect)bounds;
 - (UIImage *)thumbnailImage:(NSInteger)thumbnailSize
           transparentBorder:(NSUInteger)borderSize
@@ -22,6 +23,12 @@
 
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion;
-+ (void)roundedImage:(UIImage *)image whithRadius: (CGFloat)radius
+
++ (void)roundedImage:(UIImage *)image
+         whithRadius: (CGFloat)radius
           completion:(void (^)(UIImage *image))completion;
+
+- (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth;
+- (UIImage *)kg_resizedImageWithSize:(CGSize)size;
+
 @end

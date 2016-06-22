@@ -21,7 +21,7 @@
 @import Photos;
 
 
-@interface KGProfileTableViewController () <UIImagePickerControllerDelegate>
+@interface KGProfileTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 //FIXME: код стайл и названия
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameTitleLabel;
