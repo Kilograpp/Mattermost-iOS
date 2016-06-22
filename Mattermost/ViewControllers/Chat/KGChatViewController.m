@@ -416,7 +416,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             shouldHighlight = user.networkStatus == KGUserOnlineStatus;
         }
     } else {
-        subtitleString = self.channel.displayName;
+        //поставить кол-во юзеров
+        subtitleString = [NSString stringWithFormat:@"%lu members", self.channel.members.count];
     }
 
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName

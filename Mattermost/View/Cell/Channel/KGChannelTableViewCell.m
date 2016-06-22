@@ -124,7 +124,7 @@
     }
 }
 
--(void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
+- (void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
     switch (networkStatus) {
         case KGUserOnlineStatus:
             self.dotViewColor = [UIColor greenColor];
@@ -161,5 +161,7 @@
     self.sharpLabel.hidden = NO;
     self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
+
+
 
 @end
