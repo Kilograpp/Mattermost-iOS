@@ -143,7 +143,15 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 //    self.titleLabel.text = @"Kilograpp";
 //    self.loginPromtLabel.text = @"Email";
 //    self.passwordPromtLabel.text = @"Password";
-    self.titleLabel.text = [[KGPreferences sharedInstance] siteName];
+    NSString *siteName = [[KGPreferences sharedInstance] siteName];
+    if (!siteName) {
+        //действие при первом входе
+        NSString *siteURL = [[KGPreferences sharedInstance] serverBaseUrl];
+        NSArray *arraySiteURL = [siteURL componentsSeparatedByString:@"."];
+        siteName = [arraySiteURL objectAtIndex:1];
+        siteName = [siteName capitalizedString];
+    }
+            self.titleLabel.text = siteName;
 }
 
 
