@@ -57,4 +57,50 @@
     }];
 }
 
+
+//- (void)downloadFile:(KGFile *)file withCompletion:(void(^)(NSURL* localUrl, KGError *error))completion {
+//    RKObjectManager *manager = [RKObjectManager sharedManager];
+// 
+//    NSMutableURLRequest *downloadRequest = [manager requestWithObject:request method:RKRequestMethodPOST path:file.downloadLink.absoluteString parameters:nil];
+//    AFHTTPRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:downloadRequest];
+//    
+//    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        // Use my success callback with the binary data and MIME type string
+//        callback(operation.responseData, operation.response.MIMEType, nil);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        // Error callback
+//        callback(nil, nil, error);
+//    }];
+//    [manager.HTTPClient enqueueHTTPRequestOperation:requestOperation];
+//}
+
+
+- (void)downloadFile:(KGFile *)file progress:(void(^)(NSUInteger, long long , long long ))onProgress success:(void (^)(id))onSuccess error:(void (^)(NSError *))onError
+{
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:file.downloadLink];
+    AFHTTPRequestOperation *operation = [self.defaultObjectManager.HTTPClient HTTPRequestOperationWithRequest:request
+                                                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                 
+//                                                                                 NSURL *url = [NSURL fileURLWithPath:aPath];
+                                                                                 NSError *error;
+//                                                                                 [self skipBackupForURL:url error:&error];
+                                                                                 onSuccess(self);
+                                                                                 
+                                                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                 onError(error);
+                                                                             }];
+    [operation setDownloadProgressBlock:onProgress];
+    
+//    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:aPath
+//                                                               append:NO];
+    [operation start];
+}
+
+- (void)skipBackupForURL:(NSURL *)anURL error:(NSError **)anError
+{
+    [anURL setResourceValue:[NSNumber numberWithBool:YES]
+                     forKey:NSURLIsExcludedFromBackupKey error:anError];
+}
+
 @end

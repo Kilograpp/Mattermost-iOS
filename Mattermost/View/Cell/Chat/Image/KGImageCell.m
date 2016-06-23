@@ -27,7 +27,7 @@
     self.kg_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.kg_imageView.contentMode = UIViewContentModeCenter;
     [self addSubview:self.kg_imageView/*.view*/];
     self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
