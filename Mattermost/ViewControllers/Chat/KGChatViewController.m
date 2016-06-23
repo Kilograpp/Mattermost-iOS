@@ -50,13 +50,13 @@
 #import "KGProfileTableViewController.h"
 #import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
-#import <objc/runtime.h>
 #import <QuickLook/QuickLook.h>
+#import "NSMutableURLRequest+KGHandleCookies.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
-                            NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
+                            KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
@@ -214,15 +214,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         //ячейка для autoCompletionView
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
-        KGAutoCompletionCell *cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        KGAutoCompletionCell *cell = [self.tableView
+                                            dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
         [cell configureWithObject:user];
         return cell;
     }
+    
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     KGFile *f;
-    if ([post.files allObjects].count){
-   f = [[post.files allObjects] objectAtIndex:0];
+    if ([post.files allObjects].count) {
+        f = [[post.files allObjects] objectAtIndex:0];
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
@@ -233,7 +235,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-        if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
+        if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
             reuseIdentifier = post.files.count == 0 ?
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
@@ -243,35 +245,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-
-    cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
-        NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
-        [browser setInitialPageIndex:selectedPhoto];
-        [self presentViewController:browser animated:YES completion:nil];
-    };
-    
-    cell.fileTapHandler = ^(NSUInteger selectedFile) {
-        KGFile *file = post.sortedFiles[selectedFile];
-        
-        if (file.localLink) {
-            [self openFile:file];
-        } else {
-            [[KGAlertManager sharedManager] showProgressHud];
-            [[KGBusinessLogic sharedInstance] downloadFile:file
-              progress:^(NSUInteger persentValue) {
-                  NSLog(@"%d", persentValue);
-            } completion:^(KGError *error) {
-                [[KGAlertManager sharedManager] hideHud];
-                [self openFile:file];
-            }];
-        }
-    };
-
-    cell.mentionTapHandler = ^(NSString *nickname) {
-        self.selectedUsername = nickname;
-        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
-    };
+    [self assignBlocksForCell:cell post:post];
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
@@ -455,6 +429,38 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight];
+}
+
+- (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
+    cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
+        NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
+        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        [browser setInitialPageIndex:selectedPhoto];
+        [self presentViewController:browser animated:YES completion:nil];
+    };
+    
+    cell.fileTapHandler = ^(NSUInteger selectedFile) {
+        KGFile *file = post.sortedFiles[selectedFile];
+        
+        if (file.localLink) {
+            [self openFile:file];
+        } else {
+            [[KGAlertManager sharedManager] showProgressHud];
+            [[KGBusinessLogic sharedInstance] downloadFile:file
+                                                  progress:^(NSUInteger persentValue) {
+                                                      NSLog(@"%d", persentValue);
+                                                  } completion:^(KGError *error) {
+                                                      [[KGAlertManager sharedManager] hideHud];
+                                                      [self openFile:file];
+                                                  }];
+        }
+    };
+    
+    cell.mentionTapHandler = ^(NSString *nickname) {
+        self.selectedUsername = nickname;
+        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
+    };
+
 }
 
 

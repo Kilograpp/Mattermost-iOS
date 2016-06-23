@@ -54,8 +54,8 @@
             return;
         }
 //        }
-//        NSURL *url = file.thumbLink;
-            NSURL *url = file.downloadLink;
+        NSURL *url = file.thumbLink;
+//            NSURL *url = file.downloadLink;
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
         if (cachedImage) {
