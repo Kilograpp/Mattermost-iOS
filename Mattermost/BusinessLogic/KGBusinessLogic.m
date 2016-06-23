@@ -17,6 +17,7 @@
 #import "RKRequestDescriptor+Runtime.h"
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
+#import "KGBusinessLogic+Channel.h"
 
 
 @interface KGBusinessLogic ()
@@ -183,6 +184,7 @@
 - (void)applicationDidBecomeActive {
     [self openSocket];
     [self runTimerForStatusUpdate];
+    [self loadChannelsWithCompletion:nil];
 }
 
 
