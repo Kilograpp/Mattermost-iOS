@@ -534,14 +534,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.tableView slk_scrollToTopAnimated:NO];
 
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-        [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-            if (error) {
+        [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:^(KGError* error) {
+            [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+                if (error) {
+                    [self hideLoadingViewAnimated:YES];
+                }
+                [self setupFetchedResultsController];
+                [self.tableView reloadData];
                 [self hideLoadingViewAnimated:YES];
-            }
-            [self setupFetchedResultsController];
-            [self.tableView reloadData];
-            [self hideLoadingViewAnimated:YES];
+            }];
         }];
+
     }];
 }
 
