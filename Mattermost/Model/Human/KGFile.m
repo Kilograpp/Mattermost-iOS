@@ -33,6 +33,10 @@
      return [[KGBusinessLogic sharedInstance] thumbLinkForFile:self];
 }
 
+- (NSURL *)localUrl {
+    return [NSURL URLWithString:self.localLink];
+}
+
 
 #pragma mark - Response Mapping
 

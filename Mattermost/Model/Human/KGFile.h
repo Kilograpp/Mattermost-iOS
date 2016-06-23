@@ -4,6 +4,7 @@
 
 - (NSURL *)thumbLink;
 - (NSURL *)downloadLink;
+- (NSURL *)localUrl;
 - (BOOL)isImage;
 
 + (RKEntityMapping *)simpleEntityMapping;

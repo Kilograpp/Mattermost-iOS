@@ -21,8 +21,8 @@
 - (void)downloadFile:(KGFile *)file withCompletion:(void(^)(NSURL* localUrl, KGError *error))completion;
 
 - (void)downloadFile:(KGFile *)file
-            progress:(void(^)(NSUInteger, long long , long long ))onProgress
+            progress:(void(^)(NSUInteger persentValue))onProgress
              success:(void (^)(id))onSuccess
-               error:(void (^)(NSError *))onError;
+               error:(void (^)(KGError *))onError;
 
 @end
