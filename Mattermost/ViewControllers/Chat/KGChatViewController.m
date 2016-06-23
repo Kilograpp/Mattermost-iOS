@@ -51,6 +51,7 @@
 #import "KGProfileTableViewController.h"
 #import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
+#import <objc/runtime.h>
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
@@ -352,10 +353,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)loadLastPosts {
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         if (error) {
             //FIXME: обработка ошибок
         }
-
+        
         [self setupFetchedResultsController];
         [self.tableView reloadData];
     }];
@@ -421,7 +423,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         }
     } else {
         //поставить кол-во юзеров
-        subtitleString = [NSString stringWithFormat:@"%lu members", self.channel.members.count];
+        subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
 
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
@@ -705,7 +707,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-    [refreshControl endRefreshing];
+//    [refreshControl endRefreshing];
+    [self loadLastPosts];
 }
 
 

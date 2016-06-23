@@ -54,13 +54,15 @@
 
 - (void)setupAvatarImageView {
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self addSubview:_avatarImageView/*.view*/];
+    [self addSubview:_avatarImageView];
     _avatarImageView.layer.drawsAsynchronously = YES;
+    _avatarImageView.layer.cornerRadius = 20.f;
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.image = [[self class] placeholderBackground];
+    self.avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
     
-    [self.avatarImageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.top.equalTo(self).offset(kStandartPadding);
         make.width.height.equalTo(@(kAvatarDimension));
     }];
@@ -161,12 +163,15 @@
             }];
             [self.avatarImageView removeActivityIndicator];
         }
+//        [self.avatarImageView setImageWithURL:post.author.imageUrl
+//                             placeholderImage:[[self class] placeholderBackground]
+//                                      options:SDWebImageHandleCookies
+//                                    completed:nil
+//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        [self.avatarImageView removeActivityIndicator];
         
       //  self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
         
-        //        [self.avatarImageView setImageWithURL:post.author.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-        //                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-
     }
 }
 
@@ -180,7 +185,7 @@
         CGFloat screenWidth = CGRectGetWidth([[UIScreen mainScreen] bounds]);
         CGFloat messageLabelWidth = screenWidth - kAvatarDimension - kStandartPadding * 2 - kSmallPadding;
         CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-        CGFloat nameMessage = [post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
+        CGFloat nameMessage = 24.f;//[post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
         CGFloat heightCell = kStandartPadding + nameMessage + kSmallPadding + heightMessage + kStandartPadding;
         
         return  ceilf(heightCell);
@@ -193,6 +198,7 @@
 #pragma mark - Override
 
 - (void)prepareForReuse {
+    self.avatarImageView.image = nil;
     self.avatarImageView.image = [[self class] placeholderBackground];
 }
 
@@ -202,23 +208,16 @@
 + (void)roundedImage:(UIImage *)image
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Begin a new image that will be the new image with the rounded corners
-        // (here with the size of an UIImageView)
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
         CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
         
-        // Add a clip before drawing anything, in the shape of an rounded rect
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:image.size.width/2] addClip];
-        // Draw your image
         [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
         UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
         
-        // Lets forget about that we were drawing
         UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (completion) {
                 completion(roundedImage);
             }

@@ -170,7 +170,7 @@
 }
 
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
-- (CGAffineTransform)transformForOrientation:(CGSize)newSize {
+- (CGAffineTransform)kg_transformForOrientation:(CGSize)newSize {
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch (self.imageOrientation) {
@@ -236,5 +236,30 @@
         });
     });
 }
+
+
+- (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth
+{
+    if (self.size.width > maxWidth) {
+        CGFloat scale = maxWidth / self.size.width;
+        CGSize newSize = CGSizeMake(maxWidth, self.size.height * scale);
+        UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.0);
+        [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage;
+    }
+    
+    return self.copy;
+}
+
+- (UIImage *)kg_resizedImageWithSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
+}
+
 
 @end

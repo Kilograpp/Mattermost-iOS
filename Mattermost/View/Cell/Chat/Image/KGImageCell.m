@@ -10,9 +10,13 @@
 #import <Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
+#import "UIImage+Resize.h"
 
 #define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
+
+@interface KGImageCell ()
+@end
 
 @implementation KGImageCell
 
@@ -23,7 +27,7 @@
     self.kg_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.kg_imageView.contentMode = UIViewContentModeCenter;
     [self addSubview:self.kg_imageView/*.view*/];
     self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -36,6 +40,8 @@
         make.top.equalTo(self).offset(8.f);
     }];
 }
+
+
 
 
 - (void)configureWithObject:(id)object {
@@ -53,7 +59,7 @@
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
         if (cachedImage) {
-            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+            [[self class] roundedImage:[cachedImage kg_resizedImageWithSize:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT) ] completion:^(UIImage *image) {
                 self.kg_imageView.image = image;
             }];
         } else {
@@ -61,12 +67,12 @@
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                            [[self class] roundedImage:image completion:^(UIImage *image) {
+                            [[self class] roundedImage:[image kg_resizedImageWithSize:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)] completion:^(UIImage *image) {
                                 [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                 self.kg_imageView.image = image;
                             }];
                 }];
-            [self.kg_imageView removeActivityIndicator];
+//            [self.kg_imageView removeActivityIndicator];
         }
     }
 }
@@ -79,7 +85,7 @@
 //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
 
         [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:5.f] addClip];
+                                    cornerRadius:8.f] addClip];
         // Draw your image
         [image drawInRect:rect];
         
@@ -105,7 +111,7 @@
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     NSLog(@"%@", context);
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5].CGPath;
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:8].CGPath;
     CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
     CGContextFillPath(context);

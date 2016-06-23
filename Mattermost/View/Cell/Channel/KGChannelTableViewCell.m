@@ -28,6 +28,9 @@ const static CGFloat kHeightCellLeftMenu = 50;
 
 @end
 @implementation KGChannelTableViewCell
+
+#pragma mark - Init
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -37,49 +40,15 @@ const static CGFloat kHeightCellLeftMenu = 50;
     return self;
 }
 
+
+#pragma mark - Lifecycle
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setupChannelNameLabel];
     [self setupBachground];
     [self setupDotView];
     [self setupSelectedView];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    if (selected) {
-        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
-        self.channelNameLabel.textColor = [UIColor kg_blackColor];
-        self.sharpLabel.textColor = [UIColor kg_blackColor];
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
-        
-    } else {
-        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = self.labelColor;
-        self.sharpLabel.textColor = self.labelColor;
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
-    }
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-    
-    if (highlighted) {
-        self.selectedView.backgroundColor = [UIColor kg_whiteColor];
-        self.channelNameLabel.textColor = [UIColor kg_blackColor];
-        self.sharpLabel.textColor = [UIColor kg_blackColor];
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColorIfSelected.CGColor;
-    } else {
-        self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-        self.channelNameLabel.textColor = self.labelColor;
-        self.sharpLabel.textColor = self.labelColor;
-        self.dotView.backgroundColor = self.dotViewColor;
-        self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
-    }
 }
 
 
@@ -103,7 +72,7 @@ const static CGFloat kHeightCellLeftMenu = 50;
 }
 
 - (void)setupSelectedView {
-    self.selectedView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+    self.selectedView.backgroundColor = [UIColor kg_whiteColor];
     self.selectedView.layer.cornerRadius = 3;
 }
 
@@ -113,39 +82,51 @@ const static CGFloat kHeightCellLeftMenu = 50;
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGChannel class]]) {
         KGChannel *channel = object;
-       // [self setSelected:self.isSelectedCell animated:YES];
+        
+        self.selectedView.hidden = !self.isSelectedCell;
         self.channelNameLabel.text = channel.displayName;
-        if (channel.type == KGChannelTypePrivate){
+        
+        if (channel.type == KGChannelTypePrivate) {
             [self configureCellForChannelPrivate:channel.hasNewMessages];
             [self configureDotViewForNetworkStatus:channel.configureNetworkStatus];
         } else {
             [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
+        
+        [self configureForState:self.isSelectedCell];
     }
+}
+
+- (void)configureForState:(BOOL)isSelected {
+    self.selectedView.hidden = !isSelected;
+    self.channelNameLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.sharpLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.borderColor = (isSelected) ? self.dotViewBorderColorIfSelected.CGColor : self.dotViewBorderColor.CGColor;
 }
 
 - (void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
     switch (networkStatus) {
-        case KGUserOnlineStatus:
+        case KGUserOnlineStatus: {
             self.dotViewColor = [UIColor greenColor];
             self.dotViewBorderColor = [UIColor greenColor];
             self.dotViewBorderColorIfSelected = [UIColor greenColor];
             break;
-        case KGUserAwayStatus:
+        }
+            
+        case KGUserAwayStatus: {
             self.dotViewColor = [UIColor yellowColor];
             self.dotViewBorderColor = [UIColor yellowColor];
             self.dotViewBorderColorIfSelected = [UIColor yellowColor];
             break;
-        case KGUserOfflineStatus:
-            self.dotViewColor = [UIColor clearColor];
-            self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
-            self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
-        break;
-        default:
+        }
+            
+        default: {
             self.dotViewColor = [UIColor clearColor];
             self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
             self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
             break;
+        }
     }
 }
 
@@ -162,9 +143,11 @@ const static CGFloat kHeightCellLeftMenu = 50;
     self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
 }
 
-+(CGFloat)heightWithObject:(id)object {
+
+#pragma mark - Height
+
++ (CGFloat)heightWithObject:(id)object {
     return kHeightCellLeftMenu;
 }
-
 
 @end
