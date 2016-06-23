@@ -105,6 +105,7 @@
 		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
 		D6C915751D193B2F000DC072 /* KGAutoCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */; };
 		D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */; };
+		D6F607501D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */; };
 		D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */; };
 		D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */; };
 		D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */; };
@@ -304,6 +305,8 @@
 		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAutoCompletionCell.h; path = AutoCompletion/KGAutoCompletionCell.h; sourceTree = "<group>"; };
 		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAutoCompletionCell.m; path = AutoCompletion/KGAutoCompletionCell.m; sourceTree = "<group>"; };
 		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGAutoCompletionCell.xib; path = AutoCompletion/KGAutoCompletionCell.xib; sourceTree = "<group>"; };
+		D6F6074E1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableURLRequest+KGHandleCookies.h"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
+		D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableURLRequest+KGHandleCookies.m"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
 		D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatViewController.h; sourceTree = "<group>"; };
 		D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatViewController.m; sourceTree = "<group>"; };
 		D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatRootCell.h; sourceTree = "<group>"; };
@@ -554,6 +557,7 @@
 		7339B69CC14FAE271AFEB356 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D6F6074D1D1C2C5F007DDF39 /* NSMutableURLRequest */,
 				CD671BD41D12A3A7004CD55E /* CAGradientLayer */,
 				7339B84ED964B6992516D5B3 /* UIImage */,
 				7339BEFD7996248E8290A9A6 /* NSAttributedString */,
@@ -1199,6 +1203,15 @@
 			name = AutoCompletion;
 			sourceTree = "<group>";
 		};
+		D6F6074D1D1C2C5F007DDF39 /* NSMutableURLRequest */ = {
+			isa = PBXGroup;
+			children = (
+				D6F6074E1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.h */,
+				D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */,
+			);
+			name = NSMutableURLRequest;
+			sourceTree = "<group>";
+		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -1459,6 +1472,7 @@
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
+				D6F607501D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
 				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
