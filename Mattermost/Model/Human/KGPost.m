@@ -132,6 +132,10 @@
     }
 }
 
+- (NSArray *)sortedFiles {
+    NSSortDescriptor *description = [NSSortDescriptor sortDescriptorWithKey:@"isImage" ascending:YES];
+    return [[self.files allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject: description]];
+}
 
 #pragma mark - Request Descriptors
 

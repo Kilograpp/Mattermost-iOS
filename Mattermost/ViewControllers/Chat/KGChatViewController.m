@@ -51,6 +51,7 @@
 #import "KGProfileTableViewController.h"
 #import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
+#import <objc/runtime.h>
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 

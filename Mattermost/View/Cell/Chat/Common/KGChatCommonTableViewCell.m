@@ -146,29 +146,29 @@
             view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
         }
 
-//        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
-//        if (cachedImage) {
-//            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
-//                self.avatarImageView.image = image;
-//            }];
-//        } else {
-//            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
-//                                                                  options:SDWebImageDownloaderHandleCookies
-//                                                                 progress:nil
-//                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-//                        [[self class] roundedImage:image completion:^(UIImage *image) {
-//                            [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
-//                            self.avatarImageView.image = image;
-//                        }];
-//            }];
-//            [self.avatarImageView removeActivityIndicator];
-//        }
-        [self.avatarImageView setImageWithURL:post.author.imageUrl
-                             placeholderImage:[[self class] placeholderBackground]
-                                      options:SDWebImageHandleCookies
-                                    completed:nil
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [self.avatarImageView removeActivityIndicator];
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+        if (cachedImage) {
+            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
+                self.avatarImageView.image = image;
+            }];
+        } else {
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
+                                                                  options:SDWebImageDownloaderHandleCookies
+                                                                 progress:nil
+                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                        [[self class] roundedImage:image completion:^(UIImage *image) {
+                            [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
+                            self.avatarImageView.image = image;
+                        }];
+            }];
+            [self.avatarImageView removeActivityIndicator];
+        }
+//        [self.avatarImageView setImageWithURL:post.author.imageUrl
+//                             placeholderImage:[[self class] placeholderBackground]
+//                                      options:SDWebImageHandleCookies
+//                                    completed:nil
+//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//        [self.avatarImageView removeActivityIndicator];
         
       //  self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
         
