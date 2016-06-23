@@ -110,11 +110,7 @@
         }
         
         self.messageLabel.text = post.message;
-        //FIXME: Добавить деление файл - не файл и наличие заголовка
-//        self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
         self.files = [post sortedFiles];
-        KGFile *file = [self.files objectAtIndex:0];
-        NSLog (@"%@", file.name);
         [self.tableView reloadData];
         
         self.backgroundColor = post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
@@ -168,14 +164,10 @@
         [cell configureWithObject:file];
         return cell;
     } else {
-//        UITableViewCell * cell = [[UITableViewCell alloc] init];
-//        KGFile *file = self.files[indexPath.row];
-//        cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [file name], [file size] ];
-//
         KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
         KGFile *file = self.files[indexPath.row];
-        [cell configureWithObject:file];
-//        cell.textLabel.numberOfLines = 0;
+        
+        [cell configureWithObject:file];;
         return cell;
     }
     
@@ -193,8 +185,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.photoTapHandler) {
-        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+    KGFile *file = self.files[indexPath.row];
+    
+    if (file.isImage) {
+        if (self.photoTapHandler) {
+            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+        }
+    } else {
+        if (self.fileTapHandler) {
+            self.fileTapHandler(indexPath.row);
+        }
     }
 }
 

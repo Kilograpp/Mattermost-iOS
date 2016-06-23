@@ -133,8 +133,13 @@
 }
 
 - (NSArray *)sortedFiles {
-    NSSortDescriptor *description = [NSSortDescriptor sortDescriptorWithKey:@"isImage" ascending:YES];
-    return [[self.files allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject: description]];
+    NSSortDescriptor *isImageSortDesctiptor =
+            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(isImage)) ascending:YES];
+    NSSortDescriptor *idSortDesctiptor =
+            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(identifier)) ascending:YES];
+    
+    NSArray *sortDesctiptors = @[ isImageSortDesctiptor, idSortDesctiptor ];
+    return [[self.files allObjects] sortedArrayUsingDescriptors:sortDesctiptors];
 }
 
 #pragma mark - Request Descriptors

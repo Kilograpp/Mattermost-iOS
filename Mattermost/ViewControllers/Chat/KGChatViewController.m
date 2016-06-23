@@ -52,11 +52,12 @@
 #import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
 #import <objc/runtime.h>
+#import <QuickLook/QuickLook.h>
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
-                            NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate>
+                            NSFetchedResultsControllerDelegate, KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
@@ -243,11 +244,23 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
 
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
-        NSArray *array = [post.files.allObjects sortedArrayUsingSelector:@selector(downloadLink)];
-        NSArray *urls = [array valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
+        NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
+    };
+    
+    cell.fileTapHandler = ^(NSUInteger selectedFile) {
+        KGFile *file = post.sortedFiles[selectedFile];
+        [[KGBusinessLogic sharedInstance] downloadFile:file progress:nil success:^(id hz) {
+            BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:file.localLink];
+            NSError *err;
+//            NSArray *array = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[file.localLink stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] error:&err];
+            NSLog(@"%@", file.localLink);
+            [self openFile:file];
+        } error:^(KGError *error) {
+            NSLog(@"%@", error.message);
+        }];
     };
 
     cell.mentionTapHandler = ^(NSString *nickname) {
@@ -725,6 +738,31 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                 MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
         vc.userId = user.identifier;
     }
+}
+
+
+- (void)openFile:(KGFile *)file {
+    NSURL *URL = [NSURL fileURLWithPath:file.localLink];
+    
+    if (URL) {
+        // Initialize Document Interaction Controller
+        UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:URL];
+        
+        // Configure Document Interaction Controller
+        [documentInteractionController setDelegate:self];
+        
+        // Present Open In Menu
+//        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
+        [documentInteractionController presentPreviewAnimated:YES];
+    }
+}
+
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller {
+    return self;
+}
+
+- (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
+    return self.view;
 }
 
 @end

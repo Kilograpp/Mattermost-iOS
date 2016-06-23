@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)hasPreviewImageValue;
 - (void)setHasPreviewImageValue:(BOOL)value_;
 
+@property (nonatomic, strong, nullable) NSString* localLink;
+
 @property (nonatomic, strong, nullable) NSString* name;
 
 @property (nonatomic, strong, nullable) NSNumber* size;
@@ -65,6 +67,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)primitiveHasPreviewImageValue;
 - (void)setPrimitiveHasPreviewImageValue:(BOOL)value_;
 
+- (NSString*)primitiveLocalLink;
+- (void)setPrimitiveLocalLink:(NSString*)value;
+
 - (NSString*)primitiveName;
 - (void)setPrimitiveName:(NSString*)value;
 
@@ -84,6 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)backendMimeType;
 + (NSString *)extension;
 + (NSString *)hasPreviewImage;
++ (NSString *)localLink;
 + (NSString *)name;
 + (NSString *)size;
 @end
