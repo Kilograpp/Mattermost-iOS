@@ -550,7 +550,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - KGRightMenuDelegate
 
-- (void)navigationToProfil {
+- (void)navigationToProfile {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
     KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
     presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

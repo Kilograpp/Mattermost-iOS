@@ -139,28 +139,28 @@
                                                                      iconName:@"profile_name_icon"
                                                                   info:user.firstName
                                                                       handler:^{
-//                                                                          [wSelf.delegate navigationToProfil];
+//                                                                          [wSelf.delegate navigationToProfile];
                                                                           
                                                                       }]];
     [rightMenuDataSource addObject:[KGProfileDataSource entryWithTitle:@"Username"
                                                               iconName:@"profile_usename_icon"
                                                                   info:user.nickname
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     [rightMenuDataSource addObject:[KGProfileDataSource entryWithTitle:@"Nickname"
                                                               iconName:@"profile_nick_icon"
                                                                   info:user.nickname
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     [rightMenuDataSource addObject:[KGProfileDataSource entryWithTitle:@"Profile photo"
                                                               iconName:@"profile_photo_icon"
                                                                   info:nil
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     
@@ -172,21 +172,21 @@
                                                               iconName:@"profile_email_icon"
                                                                   info:user.email
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     [secondDataSource addObject:[KGProfileDataSource entryWithTitle:@"Change password"
                                                               iconName:@"profile_pass_icon"
                                                                   info:nil
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     [secondDataSource addObject:[KGProfileDataSource entryWithTitle:@"Notification"
                                                               iconName:@"profile_notification_icon"
                                                                   info:@"On"
                                                                handler:^{
-                                                                   //                                                                          [wSelf.delegate navigationToProfil];
+                                                                   //                                                                          [wSelf.delegate navigationToProfile];
                                                                    
                                                                }]];
     

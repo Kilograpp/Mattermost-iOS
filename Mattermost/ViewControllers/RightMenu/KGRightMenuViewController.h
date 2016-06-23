@@ -10,7 +10,7 @@
 
 @protocol KGRightMenuDelegate <NSObject>
 
-- (void) navigationToProfil;
+- (void)navigationToProfile;
 
 @end
 

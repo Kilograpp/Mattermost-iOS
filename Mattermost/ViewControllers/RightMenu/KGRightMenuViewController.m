@@ -122,7 +122,7 @@
 //                                                                     iconName:@"menu_switch_icon"
 //                                                                   titleColor:[UIColor kg_whiteColor]
 //                                                                      handler:^{
-//                                                                        [wSelf.delegate navigationToProfil];
+//                                                                        [wSelf.delegate navigationToProfile];
 //                                                                          
 //                                                                      }]];
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
