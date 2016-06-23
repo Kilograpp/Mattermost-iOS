@@ -111,7 +111,8 @@
         
         self.messageLabel.text = post.message;
         //FIXME: Добавить деление файл - не файл и наличие заголовка
-        self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
+//        self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
+        self.files = [post sortedFiles];
         KGFile *file = [self.files objectAtIndex:0];
         NSLog (@"%@", file.name);
         [self.tableView reloadData];
