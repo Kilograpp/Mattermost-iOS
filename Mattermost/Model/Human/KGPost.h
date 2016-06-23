@@ -7,5 +7,5 @@
 + (NSString*)listPathPattern;
 + (NSString*)creationPathPattern;
 + (NSString*)updatePathPattern;
-
+- (NSArray *)sortedFiles;
 @end
