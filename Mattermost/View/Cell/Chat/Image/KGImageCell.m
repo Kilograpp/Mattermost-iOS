@@ -27,7 +27,7 @@
     self.kg_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.kg_imageView.layer.drawsAsynchronously = YES;
     self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeCenter;
+    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.kg_imageView/*.view*/];
     self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -67,7 +67,7 @@
                                                                   options:SDWebImageDownloaderHandleCookies
                                                                  progress:nil
                 completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                            [[self class] roundedImage:[image kg_resizedImageWithSize:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)] completion:^(UIImage *image) {
+                            [[self class] roundedImage:image completion:^(UIImage *image) {
                                 [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                 self.kg_imageView.image = image;
                             }];
