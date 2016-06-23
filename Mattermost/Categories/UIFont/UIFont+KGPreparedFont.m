@@ -42,6 +42,11 @@ static NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay
     return font;
 }
 
++ (UIFont *)kg_boldText13Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldFontName size:13.f])
+    return font;
+}
+
 + (UIFont *)kg_boldText16Font {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldFontName size:16.f])
     return font;

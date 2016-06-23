@@ -66,11 +66,21 @@
 }
 
 - (void)toogleStatusBarState {
- 
+    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+    [self reverseStatusBarIsStatusBarHidden:isStatusBarHidden];
+   
 //    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
 //    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
     
   }
+
+- (void)reverseStatusBarIsStatusBarHidden:(BOOL)isStatusBarHidden {
+    if (!isStatusBarHidden) {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
+    } else {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar - 1 ;
+    }
+}
 
 
 #pragma mark - Orientations

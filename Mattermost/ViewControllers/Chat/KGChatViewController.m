@@ -557,16 +557,16 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                  name:self.channel.notificationsName
                                                object:nil];
     [self updateNavigationBarAppearance];
-    self.channel.lastViewDate = [NSDate date];
+    //self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
     
 
         [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-                if ([self.channel.firstLoaded boolValue]) {
+                if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
                     [self loadLastPostsWithRefreshing:NO];
+                    self.channel.lastViewDate = [NSDate date];
                     self.channel.firstLoadedValue = NO;
                     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                    
                 } else {
                     [self setupFetchedResultsController];
                     [self.tableView reloadData];

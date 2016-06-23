@@ -48,8 +48,8 @@ static CGFloat const kLabelHeight = 20;
                                                                  kImageMarginVertical + kImageHeight/4,
                                                                  (screenWidth - kImageMarginGorizontal - kImageWidth - kImageMarginGorizontal - kLabelMarginTralling),
                                                                  kLabelHeight)];
-    self.messageLabel.font = [UIFont kg_regular13Font];
-    self.messageLabel.textColor = [UIColor kg_blackColor];
+    self.messageLabel.font = [UIFont kg_boldText13Font];
+    self.messageLabel.textColor = [UIColor kg_whiteColor];
     [self addSubview:self.messageLabel];
 }
 
@@ -77,29 +77,23 @@ static CGFloat const kLabelHeight = 20;
 }
 
 - (void)configureTypeWarning {
-    [self setupGradientForViewForTopColor:[UIColor kg_topYellowColorForAlert] toBottomColor:[UIColor kg_bottomYellowColorForAlert]];
+    [self setupColorForView :[UIColor kg_yellowColorForAlert]];
     self.imageType.image = [UIImage imageNamed:@"warning_alert"];
 }
 
 - (void)configureTypeError {
-    [self setupGradientForViewForTopColor:[UIColor kg_topRedColorForAlert] toBottomColor:[UIColor kg_bottomRedColorForAlert]];
+    [self setupColorForView :[UIColor kg_redColorForAlert]];
     self.imageType.image = [UIImage imageNamed:@"error_alert"];
     
 }
 
 - (void)configureTypeSuccess {
-    [self setupGradientForViewForTopColor:[UIColor kg_topGreenColorForAlert] toBottomColor:[UIColor kg_bottomGreenColorForAlert]];
+    [self setupColorForView :[UIColor kg_greenColorForAlert]];
      self.imageType.image = [UIImage imageNamed:@"success_alert"];
 }
 
-- (void)setupGradientForViewForTopColor:(UIColor *)topColor toBottomColor:(UIColor *)bottomColor {
-    CAGradientLayer *bgLayer = [CAGradientLayer setupGradientForTopColor:topColor ToBottomColor:bottomColor];
-    bgLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-    [bgLayer animateLayerInfinitely:bgLayer];
-    [self.layer insertSublayer:bgLayer above:0];
-    [self bringSubviewToFront:self.messageLabel];
-    [self bringSubviewToFront:self.imageType];
-
+- (void)setupColorForView:(UIColor *)color {
+    self.backgroundColor = color;
 }
 
 - (void)showAnimationAlertView{
@@ -131,6 +125,8 @@ static CGFloat const kLabelHeight = 20;
                             if (self.callback) {
                                 [self callback];
                             }
+                            [self.messageLabel removeFromSuperview];
+                            [self.imageType removeFromSuperview];
                         }];
 }
 
