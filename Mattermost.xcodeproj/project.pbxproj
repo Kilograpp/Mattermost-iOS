@@ -46,6 +46,7 @@
 		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
 		9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228762344686CE2207B8C /* KGManagedObject.m */; };
 		9B8229555967AD0C8D3320E3 /* _KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8227F2CBC646A9EB03FA5A /* _KGFile.m */; };
+		9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */; };
 		9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221DC109842D726B603C6 /* KGBusinessLogic+ApplicationNotifications.m */; };
 		9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C6FC588149134FF2451 /* Login.storyboard */; };
 		9B822B929C3581984CF62D54 /* KGBusinessLogic+File.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82269BB71EB602FA7747FB /* KGBusinessLogic+File.m */; };
@@ -201,6 +202,7 @@
 		9B8227136A03D68E83AC0C8E /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		9B82276635BE51FB6CAFF1A9 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Preferences.plist; sourceTree = "<group>"; };
 		9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Channel.m"; sourceTree = "<group>"; };
+		9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStatusBar+SharedBar.m"; sourceTree = "<group>"; };
 		9B8227F2CBC646A9EB03FA5A /* _KGFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGFile.m; sourceTree = "<group>"; };
 		9B82282396E58AFD8C50835C /* KGBusinessLogic+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+File.h"; sourceTree = "<group>"; };
 		9B82282B314DA6557A5AA0DD /* KGPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPreferences.h; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGObjectManager.h; sourceTree = "<group>"; };
 		9B822A0EE158BC19DA56EB08 /* KGBusinessLogic+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Socket.h"; sourceTree = "<group>"; };
 		9B822A262E677040DD4EF48D /* KGPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPreferences.m; sourceTree = "<group>"; };
+		9B822A44924AABEF32054551 /* UIStatusBar+SharedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStatusBar+SharedBar.h"; sourceTree = "<group>"; };
 		9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Posts.m"; sourceTree = "<group>"; };
 		9B822BA2F5E3E10B3F0DAD90 /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		9B822BE95D060B2A944203CA /* KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannel.m; sourceTree = "<group>"; };
@@ -579,6 +582,7 @@
 				7339B4ADC392310CD29D92BE /* UIColor */,
 				7339B5886EB66CFD5B58086A /* UIFont */,
 				7339BFCE090DC8F80E1828CF /* UIWindow */,
+				9B822190E10D4ECDE625A0D7 /* UIStatusBar */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -639,6 +643,15 @@
 				7339B2A82334C5E018BA281C /* UIWindow+KGAdditions.m */,
 			);
 			path = UIWindow;
+			sourceTree = "<group>";
+		};
+		9B822190E10D4ECDE625A0D7 /* UIStatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */,
+				9B822A44924AABEF32054551 /* UIStatusBar+SharedBar.h */,
+			);
+			path = UIStatusBar;
 			sourceTree = "<group>";
 		};
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
@@ -1556,6 +1569,7 @@
 				7339B28E45A14BCC22EDC15E /* UIFont+KGPreparedFont.m in Sources */,
 				7339BF65257F6813487AAFFB /* UIWindow+KGAdditions.m in Sources */,
 				9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */,
+				9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
