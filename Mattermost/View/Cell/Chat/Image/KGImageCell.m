@@ -7,7 +7,7 @@
 //
 
 #import "KGImageCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "UIImage+Resize.h"

@@ -60,6 +60,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     NSString* message = userInfo[@"aps"][@"alert"];
+//    [message componentsSeparatedByString:<#(NSString *)separator#>]
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[KGBusinessLogic sharedInstance] saveNotificationsToken:deviceToken];

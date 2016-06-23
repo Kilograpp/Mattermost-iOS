@@ -19,7 +19,7 @@
 #import "KGUser.h"
 #import "KGBusinessLogic+Posts.h"
 #import "NSStringUtils.h"
-#import <SRWebSocket.h>
+#import <SocketRocket/SRWebSocket.h>
 
 
 
