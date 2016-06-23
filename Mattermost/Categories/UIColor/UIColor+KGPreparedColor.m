@@ -74,6 +74,17 @@
     return color;
 }
 
++ (UIColor *)kg_yellowColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FFCF63" alpha:1])
+    return color;
+}
+
++ (UIColor *)kg_greenColor {
+    //установить цвет
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#81C784" alpha:1])
+    return color;
+}
+
 + (UIColor *)kg_loginSubtitleColor {
     STATIC_ONCE(color, [UIColor colorWithRed:51/255.f green:70/255.f blue:89/255.f alpha:1.f])
     return color;
