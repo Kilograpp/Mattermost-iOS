@@ -59,9 +59,8 @@
 
 
 - (void)downloadFile:(KGFile *)file
-            progress:(void(^)(NSUInteger persentValue))onProgress
-             success:(void (^)(id))onSuccess
-               error:(void (^)(KGError *error))onError {
+            progress:(void(^)(NSUInteger persentValue))progress
+          completion:(void (^)(KGError *error))completion {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:file.downloadLink];
     [request setHTTPMethod:@"GET"];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -73,53 +72,29 @@
     [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     
     [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        if(onProgress) {
-            onProgress(totalBytesRead/totalBytesExpectedToRead * 100.0f);
+        if(progress) {
+            progress(totalBytesRead/totalBytesExpectedToRead * 100.0f);
         }
     }];
     
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *trimmedFilePath = [[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+        NSString *filePathLastComponent = [@"/" stringByAppendingString:fileName.lastPathComponent];
+        NSString *finalFilePath = [trimmedFilePath stringByAppendingString:filePathLastComponent];
         
-         file.localLink = [[[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByAppendingString:[@"/" stringByAppendingString:fileName.lastPathComponent]];
+        file.localLink = finalFilePath;
          [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
-        if(onSuccess) {
-            onSuccess(filePath);
+        if(completion) {
+            completion(nil);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"dsadasda");
-        if(onError) {
-            onError([KGError errorWithNSError:error]);
+        if(completion) {
+            completion([KGError errorWithNSError:error]);
         }
     }];
 
-    
-//    AFHTTPRequestOperation *operation = [self.defaultObjectManager.HTTPClient
-//                                         HTTPRequestOperationWithRequest:request
-//         success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//             NSURL *url = [NSURL fileURLWithPath:path];
-//             NSError *error;
-//             file.localLink = url.absoluteString;
-//             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-//             if (onSuccess) {
-//                 onSuccess(self);
-//             }
-//         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//             if (onError) {
-//                  onError(error);
-//             }
-//         }];
-//    [operation setDownloadProgressBlock:onProgress];
-//    
-//    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:path
-//                                                               append:NO];
     [operation start];
 }
-
-//- (void)skipBackupForURL:(NSURL *)anURL error:(NSError **)anError
-//{
-//    [anURL setResourceValue:[NSNumber numberWithBool:YES]
-//                     forKey:NSURLIsExcludedFromBackupKey error:anError];
-//}
 
 @end

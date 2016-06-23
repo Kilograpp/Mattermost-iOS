@@ -127,20 +127,21 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)setupTableView {
-    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class] forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
-    [self.tableView registerClass:[KGChatCommonTableViewCell class] forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
-//    [self.tableView registerNib:[KGChatRootCell nib] forCellReuseIdentifier:[KGChatRootCell reuseIdentifier] cacheSize:15];
-
-    [self.tableView registerNib:[KGFollowUpChatCell nib] forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
+           forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
+    [self.tableView registerClass:[KGChatCommonTableViewCell class]
+           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerNib:[KGFollowUpChatCell nib]
+         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
     
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
             forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
-    [self.tableView registerNib:[KGAutoCompletionCell nib] forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerNib:[KGAutoCompletionCell nib]
+         forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
-    
 }
 
 - (void)setupKeyboardToolbar {
@@ -252,15 +253,19 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     cell.fileTapHandler = ^(NSUInteger selectedFile) {
         KGFile *file = post.sortedFiles[selectedFile];
-        [[KGBusinessLogic sharedInstance] downloadFile:file progress:nil success:^(id hz) {
-            BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:file.localLink];
-            NSError *err;
-//            NSArray *array = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[file.localLink stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] error:&err];
-            NSLog(@"%@", file.localLink);
+        
+        if (file.localLink) {
             [self openFile:file];
-        } error:^(KGError *error) {
-            NSLog(@"%@", error.message);
-        }];
+        } else {
+            [[KGAlertManager sharedManager] showProgressHud];
+            [[KGBusinessLogic sharedInstance] downloadFile:file
+              progress:^(NSUInteger persentValue) {
+                  NSLog(@"%d", persentValue);
+            } completion:^(KGError *error) {
+                [[KGAlertManager sharedManager] hideHud];
+                [self openFile:file];
+            }];
+        }
     };
 
     cell.mentionTapHandler = ^(NSString *nickname) {
@@ -389,7 +394,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     [self.currentPost setBackendPendingId:
-            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId], [self.currentPost.createdAt timeIntervalSince1970]]];
+            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
+                                                 [self.currentPost.createdAt timeIntervalSince1970]]];
     
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
@@ -745,19 +751,15 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
     
     if (URL) {
-        // Initialize Document Interaction Controller
-        UIDocumentInteractionController *documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:URL];
-        
-        // Configure Document Interaction Controller
+        UIDocumentInteractionController *documentInteractionController =
+                [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
-        
-        // Present Open In Menu
-//        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
+        //        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
         [documentInteractionController presentPreviewAnimated:YES];
     }
 }
 
-- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller {
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
     return self;
 }
 
