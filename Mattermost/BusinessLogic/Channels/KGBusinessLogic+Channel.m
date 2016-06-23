@@ -12,6 +12,7 @@
 #import "KGObjectManager.h"
 #import "KGUtils.h"
 #import "KGNotificationValues.h"
+#import "KGBusinessLogic+Session.h"
 
 @implementation KGBusinessLogic (Channel)
 
@@ -50,9 +51,12 @@
 }
 
 - (void)updateChannelsState {
-    [self loadChannelsWithCompletion:^(KGError* error) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationChannelsStateUpdate object:nil];
-    }];
+    if ([self isSignedIn]) {
+        [self loadChannelsWithCompletion:^(KGError* error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationChannelsStateUpdate object:nil];
+        }];
+    }
+
 }
 
 @end
