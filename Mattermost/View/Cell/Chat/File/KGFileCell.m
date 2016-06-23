@@ -7,7 +7,7 @@
 //
 
 #import "KGFileCell.h"
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
 #import "KGFile.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"

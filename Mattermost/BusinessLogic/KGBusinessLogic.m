@@ -20,7 +20,6 @@
 #import "KGBusinessLogic+Channel.h"
 #import "KGNotificationValues.h"
 
-
 @interface KGBusinessLogic ()
 
 @property (assign) BOOL shouldReloadDefaultManager;
@@ -157,6 +156,15 @@
                                              selector: @selector(applicationDidBecomeActive)
                                                  name: UIApplicationDidBecomeActiveNotification
                                                object: nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleRemoteNotificationOpeningWithPayload:)
+                                                 name: KGNotificationDidReceiveRemoteNotification
+                                               object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(handleLaunchingWithOptionsNotification:)
+                                                 name: KGNotificationDidFinishLaunching
+                                               object: nil];
 }
 
 - (void)subscribeForServerBaseUrlChanges {
@@ -189,8 +197,8 @@
     [self openSocket];
     [self runTimerForStatusUpdate];
     [self updateChannelsState];
+//    [self clearPushNotificationsBadgeNumber];
 }
-
 
 - (void)applicationDidEnterBackground {
     UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
@@ -218,6 +226,10 @@
     if (taskId != UIBackgroundTaskInvalid) {
         [[UIApplication sharedApplication] endBackgroundTask:taskId];
     }
+}
+
+- (void)clearPushNotificationsBadgeNumber {
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 #pragma mark - Status Timer
