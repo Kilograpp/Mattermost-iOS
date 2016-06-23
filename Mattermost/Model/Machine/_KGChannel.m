@@ -29,6 +29,11 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"firstLoadedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"firstLoaded"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"messagesCountValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"messagesCount"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -43,6 +48,26 @@
 @dynamic createdAt;
 
 @dynamic displayName;
+
+@dynamic firstLoaded;
+
+- (BOOL)firstLoadedValue {
+	NSNumber *result = [self firstLoaded];
+	return [result boolValue];
+}
+
+- (void)setFirstLoadedValue:(BOOL)value_ {
+	[self setFirstLoaded:@(value_)];
+}
+
+- (BOOL)primitiveFirstLoadedValue {
+	NSNumber *result = [self primitiveFirstLoaded];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveFirstLoadedValue:(BOOL)value_ {
+	[self setPrimitiveFirstLoaded:@(value_)];
+}
 
 @dynamic header;
 
@@ -117,6 +142,9 @@
 }
 + (NSString *)displayName {
 	return @"displayName";
+}
++ (NSString *)firstLoaded {
+	return @"firstLoaded";
 }
 + (NSString *)header {
 	return @"header";

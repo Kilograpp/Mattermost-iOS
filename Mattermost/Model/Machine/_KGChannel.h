@@ -32,6 +32,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* displayName;
 
+@property (nonatomic, strong, nullable) NSNumber* firstLoaded;
+
+@property (atomic) BOOL firstLoadedValue;
+- (BOOL)firstLoadedValue;
+- (void)setFirstLoadedValue:(BOOL)value_;
+
 @property (nonatomic, strong, nullable) NSString* header;
 
 @property (nonatomic, strong, nullable) NSString* identifier;
@@ -93,6 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveDisplayName;
 - (void)setPrimitiveDisplayName:(NSString*)value;
 
+- (NSNumber*)primitiveFirstLoaded;
+- (void)setPrimitiveFirstLoaded:(NSNumber*)value;
+
+- (BOOL)primitiveFirstLoadedValue;
+- (void)setPrimitiveFirstLoadedValue:(BOOL)value_;
+
 - (NSString*)primitiveHeader;
 - (void)setPrimitiveHeader:(NSString*)value;
 
@@ -141,6 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)backendType;
 + (NSString *)createdAt;
 + (NSString *)displayName;
++ (NSString *)firstLoaded;
 + (NSString *)header;
 + (NSString *)identifier;
 + (NSString *)lastPostDate;

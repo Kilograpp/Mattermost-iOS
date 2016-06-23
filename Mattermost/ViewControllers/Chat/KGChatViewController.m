@@ -71,6 +71,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 
+
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
@@ -97,7 +98,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [IQKeyboardManager sharedManager].enable = NO;
 }
 
@@ -351,17 +352,25 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - Requests
 
-- (void)loadLastPosts {
+- (void)loadLastPostsWithRefreshing:(BOOL)isRefreshing {
     [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
-        if (error) {
-            //FIXME: обработка ошибок
+        if (isRefreshing) {
+            [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         }
-        
+        if (error) {
+            if (!isRefreshing) {
+                [self hideLoadingViewAnimated:YES];
+            }
+            [[KGAlertManager sharedManager] showError:error];
+        }
         [self setupFetchedResultsController];
         [self.tableView reloadData];
+        if (!isRefreshing) {
+            [self hideLoadingViewAnimated:YES];
+        }
     }];
 }
+
 
 - (void)sendPost {
     if (!self.currentPost) {
@@ -380,7 +389,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
-            //FIXME обработка ошибок
+           [[KGAlertManager sharedManager] showError:error];
         }
 
         self.currentPost = nil;
@@ -422,7 +431,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             shouldHighlight = user.networkStatus == KGUserOnlineStatus;
         }
     } else {
-        //поставить кол-во юзеров
         subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
 
@@ -532,17 +540,23 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self updateNavigationBarAppearance];
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
+    
 
-    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-        [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
-            if (error) {
-                [self hideLoadingViewAnimated:YES];
-            }
-            [self setupFetchedResultsController];
-            [self.tableView reloadData];
-            [self hideLoadingViewAnimated:YES];
+        [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+                if ([self.channel.firstLoaded boolValue]) {
+                    [self loadLastPostsWithRefreshing:NO];
+                    self.channel.firstLoadedValue = NO;
+                    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                    
+                } else {
+                    [self setupFetchedResultsController];
+                    [self.tableView reloadData];
+                    [self hideLoadingViewAnimated:YES];
+                }
+            
+
         }];
-    }];
+
 }
 
 #pragma mark - KGRightMenuDelegate
@@ -699,16 +713,19 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.tableView;
     
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self
                             action:@selector(refreshControlValueChanged:)
                   forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
+  //  [self.tableView addSubview:self.refreshControl];
+   // [self.tableView sendSubviewToBack: self.refreshControl];
+    
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-//    [refreshControl endRefreshing];
-    [self loadLastPosts];
+    [self loadLastPostsWithRefreshing:YES];
 }
 
 
