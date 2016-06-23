@@ -18,11 +18,8 @@
 - (NSURL *)downloadLinkForFile:(KGFile *)file;
 - (NSURL *)thumbLinkForFile:(KGFile*)file;
 
-- (void)downloadFile:(KGFile *)file withCompletion:(void(^)(NSURL* localUrl, KGError *error))completion;
-
 - (void)downloadFile:(KGFile *)file
-            progress:(void(^)(NSUInteger, long long , long long ))onProgress
-             success:(void (^)(id))onSuccess
-               error:(void (^)(NSError *))onError;
+            progress:(void(^)(NSUInteger persentValue))progress
+          completion:(void (^)(KGError *error))completion;
 
 @end

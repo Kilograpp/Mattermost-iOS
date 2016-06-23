@@ -58,49 +58,43 @@
 }
 
 
-//- (void)downloadFile:(KGFile *)file withCompletion:(void(^)(NSURL* localUrl, KGError *error))completion {
-//    RKObjectManager *manager = [RKObjectManager sharedManager];
-// 
-//    NSMutableURLRequest *downloadRequest = [manager requestWithObject:request method:RKRequestMethodPOST path:file.downloadLink.absoluteString parameters:nil];
-//    AFHTTPRequestOperation *requestOperation = [[AFImageRequestOperation alloc] initWithRequest:downloadRequest];
-//    
-//    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        // Use my success callback with the binary data and MIME type string
-//        callback(operation.responseData, operation.response.MIMEType, nil);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        // Error callback
-//        callback(nil, nil, error);
-//    }];
-//    [manager.HTTPClient enqueueHTTPRequestOperation:requestOperation];
-//}
-
-
-- (void)downloadFile:(KGFile *)file progress:(void(^)(NSUInteger, long long , long long ))onProgress success:(void (^)(id))onSuccess error:(void (^)(NSError *))onError
-{
+- (void)downloadFile:(KGFile *)file
+            progress:(void(^)(NSUInteger persentValue))progress
+          completion:(void (^)(KGError *error))completion {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:file.downloadLink];
+    [request setHTTPMethod:@"GET"];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *fileName = [file.downloadLink lastPathComponent];
+    NSString *filePath = [paths[0] stringByAppendingPathComponent:file.name];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:file.downloadLink];
-    AFHTTPRequestOperation *operation = [self.defaultObjectManager.HTTPClient HTTPRequestOperationWithRequest:request
-                                                                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                                                 
-//                                                                                 NSURL *url = [NSURL fileURLWithPath:aPath];
-                                                                                 NSError *error;
-//                                                                                 [self skipBackupForURL:url error:&error];
-                                                                                 onSuccess(self);
-                                                                                 
-                                                                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                                                                 onError(error);
-                                                                             }];
-    [operation setDownloadProgressBlock:onProgress];
+    AFHTTPRequestOperation* operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    NSString *fullPath = [paths[0] stringByAppendingPathComponent:fileName];
+    [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     
-//    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:aPath
-//                                                               append:NO];
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        if(progress) {
+            progress(totalBytesRead/totalBytesExpectedToRead * 100.0f);
+        }
+    }];
+    
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *trimmedFilePath = [[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+        NSString *filePathLastComponent = [@"/" stringByAppendingString:fileName.lastPathComponent];
+        NSString *finalFilePath = [trimmedFilePath stringByAppendingString:filePathLastComponent];
+        
+        file.localLink = finalFilePath;
+         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        
+        if(completion) {
+            completion(nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if(completion) {
+            completion([KGError errorWithNSError:error]);
+        }
+    }];
+
     [operation start];
-}
-
-- (void)skipBackupForURL:(NSURL *)anURL error:(NSError **)anError
-{
-    [anURL setResourceValue:[NSNumber numberWithBool:YES]
-                     forKey:NSURLIsExcludedFromBackupKey error:anError];
 }
 
 @end

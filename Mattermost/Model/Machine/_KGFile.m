@@ -69,6 +69,8 @@
 	[self setPrimitiveHasPreviewImage:@(value_)];
 }
 
+@dynamic localLink;
+
 @dynamic name;
 
 @dynamic size;
@@ -107,6 +109,9 @@
 }
 + (NSString *)hasPreviewImage {
 	return @"hasPreviewImage";
+}
++ (NSString *)localLink {
+	return @"localLink";
 }
 + (NSString *)name {
 	return @"name";
