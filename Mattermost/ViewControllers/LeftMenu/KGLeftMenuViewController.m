@@ -37,6 +37,7 @@
 
 @implementation KGLeftMenuViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     //[[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
@@ -175,6 +176,17 @@
     [self.tableView reloadData];
 }
 
+- (void)reselectCurrentIndexPath {
+    [self selectChannelAtIntexPath:self.selectedIndexPath];
+}
+
+- (void)selectChannel:(KGChannel*)channel {
+    NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
+    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+    self.selectedIndexPath = path;
+    [self.tableView reloadData];
+}
+
 - (void)setInitialSelectedChannel {
     NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self selectChannelAtIntexPath:firstChannelPath];
@@ -192,7 +204,12 @@
 
 - (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
     _delegate = delegate;
-    [self setInitialSelectedChannel];
+    if (self.selectedIndexPath == nil) {
+        [self setInitialSelectedChannel];
+    } else {
+        [self reselectCurrentIndexPath];
+    }
+    
 }
 
 @end
