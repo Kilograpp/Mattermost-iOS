@@ -74,6 +74,10 @@
                                              selector:@selector(updateTableView:)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableView:)
+                                                 name:KGNotificationChannelsStateUpdate
+                                               object:nil];
 }
 
 - (void)updateTableView:(NSNotification *)notification {

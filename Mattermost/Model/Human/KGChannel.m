@@ -156,7 +156,7 @@
 }
 
 - (KGUserNetworkStatus)configureNetworkStatus {
-    KGUserNetworkStatus userNetworkStatus;
+    KGUserNetworkStatus userNetworkStatus = KGUserOfflineStatus;
     if (self.type == KGChannelTypePrivate) {
         NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
         NSString *companionIdentifier;

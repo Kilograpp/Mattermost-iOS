@@ -58,7 +58,9 @@
     [[NSManagedObjectContext MR_defaultContext].parentContext MR_saveToPersistentStoreAndWait];
 }
 
-
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSString* message = userInfo[@"aps"][@"alert"];
+}
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[KGBusinessLogic sharedInstance] saveNotificationsToken:deviceToken];
 }

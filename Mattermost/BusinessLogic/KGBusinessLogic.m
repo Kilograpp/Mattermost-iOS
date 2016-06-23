@@ -18,6 +18,7 @@
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Channel.h"
+#import "KGNotificationValues.h"
 
 
 @interface KGBusinessLogic ()
@@ -184,7 +185,7 @@
 - (void)applicationDidBecomeActive {
     [self openSocket];
     [self runTimerForStatusUpdate];
-    [self loadChannelsWithCompletion:nil];
+    [self updateChannelsState];
 }
 
 
