@@ -17,6 +17,7 @@
 #import "NSString+HeightCalculation.h"
 #import "UIColor+KGPreparedColor.h"
 #import "SDWebImageDownloader.h"
+#import "UIImage+Resize.h"
 
 @interface KGChatRootCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel* messageLabel;
@@ -92,8 +93,8 @@
         for (UIView *view in self.subviews) {
             view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
         }
-        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
-        __weak typeof(self) wSelf = self;
+//        dispatch_queue_t bgQueue = dispatch_get_global_queue(0, 0);
+//        __weak typeof(self) wSelf = self;
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
         if (cachedImage) {
             [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
@@ -118,32 +119,6 @@
    // }
 }
 
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion {
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // Begin a new image that will be the new image with the rounded corners
-        // (here with the size of an UIImageView)
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-        
-        // Add a clip before drawing anything, in the shape of an rounded rect
-        [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:image.size.width/2] addClip];
-        // Draw your image
-        [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
-        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        // Lets forget about that we were drawing
-        UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(roundedImage);
-            }
-        });
-    });
-}
 
 #pragma mark - Height
 
