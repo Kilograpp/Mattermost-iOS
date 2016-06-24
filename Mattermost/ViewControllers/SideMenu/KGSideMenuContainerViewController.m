@@ -75,8 +75,8 @@
 }
 
 - (void)toogleStatusBarState {
-    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
-    [self reverseStatusBarIsStatusBarHidden:isStatusBarHidden];
+//    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+//    [self reverseStatusBarIsStatusBarHidden:isStatusBarHidden];
    
 //    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
 //    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];

@@ -102,6 +102,7 @@ static CGFloat const kLabelHeight = 20;
          usingSpringWithDamping:0.9
           initialSpringVelocity:0.3
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
         CGRect frameNew = self.frame;
         frameNew.origin.y = frameNew.origin.y + kAlertViewHeight;
         self.frame = frameNew;
@@ -117,6 +118,7 @@ static CGFloat const kLabelHeight = 20;
          usingSpringWithDamping:0.9
           initialSpringVelocity:0.3
                         options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
+                            [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelNormal;
                             CGRect frameNew = self.frame;
                             frameNew.origin.y = frameNew.origin.y - kAlertViewHeight;
                             self.frame = frameNew;
