@@ -69,9 +69,9 @@
         KGObjectManager *manager;
         NSURL *serverBaseUrl = [NSURL URLWithString:[[KGPreferences sharedInstance] serverBaseUrl]];
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
-        if (serverBaseUrl) {
+//        if (serverBaseUrl) {
             manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
-        }
+//        }
         [manager setManagedObjectStore:self.managedObjectStore];
 
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];

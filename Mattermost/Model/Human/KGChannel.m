@@ -11,7 +11,7 @@
 #import "DateTools.h"
 
 @interface KGChannel ()
-
+@property (nonatomic, assign) BOOL oldHasNewMessages;
 @end
 
 @implementation KGChannel
@@ -193,6 +193,15 @@
     }
 
     return companionIdentifier;
+}
+
+
+#pragma mark - KVO
+
+- (void)setLastViewDate:(NSDate *)lastViewDate {
+    [self willChangeValueForKey:[KGChannelAttributes lastViewDate]];
+    [self setPrimitiveLastViewDate:lastViewDate];
+    [self didChangeValueForKey:[KGChannelAttributes lastViewDate]];
 }
 
 @end

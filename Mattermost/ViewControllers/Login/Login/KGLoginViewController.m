@@ -146,9 +146,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 #pragma mark - Configuration
 
 - (void)configureLabels {
-//    self.titleLabel.text = @"Kilograpp";
-//    self.loginPromtLabel.text = @"Email";
-//    self.passwordPromtLabel.text = @"Password";
     NSString *siteName = [[KGPreferences sharedInstance] siteName];
     if (!siteName) {
         //действие при первом входе
