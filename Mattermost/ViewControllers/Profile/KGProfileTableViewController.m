@@ -16,6 +16,7 @@
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
 #import "KGImagePickerController.h"
+#import "UIStatusBar+SharedBar.h"
 
 @import AVFoundation;
 @import Photos;
@@ -31,6 +32,9 @@
 @property (nonatomic, strong) UIImage *updatedAvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *nickname;
 @property (weak, nonatomic) IBOutlet UILabel *email;
+@property (assign) BOOL isFirstLoad;
+
+
 
 @end
 
@@ -38,7 +42,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    self.isFirstLoad = YES;
     [self setup];
     [self setupNavigationBar];
     // Uncomment the following line to preserve selection between presentations.
@@ -61,7 +66,37 @@
 }
 
 - (void)backAction {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    [self dismissViewControllerAnimated:YES completion:^ {
+        [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    }];
+
+}
+
+
+
+- (void)viewWillAppear:(BOOL)animated {
+
+
+    [super viewWillAppear:animated];
+
+    if (self.isFirstLoad) {
+        [[UIStatusBar sharedStatusBar] moveToViewWithSnapshot:self.navigationController.view];
+    }
+
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    if (self.isFirstLoad) {
+        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+
+        self.isFirstLoad = NO;
+    }
+
+
 }
 
 - (void)setup {

@@ -52,6 +52,7 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
+#import "UIStatusBar+SharedBar.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
@@ -70,6 +71,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
+@property (assign) BOOL isFirstLoad;
 
 
 - (IBAction)rightBarButtonAction:(id)sender;
@@ -87,7 +89,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    _isFirstLoad = YES;
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -100,6 +103,16 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [super viewWillAppear:animated];
 
     [IQKeyboardManager sharedManager].enable = NO;
+
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (_isFirstLoad) {
+        [self replaceStatusBar];
+        _isFirstLoad = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -364,6 +377,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 
 - (void)sendPost {
+
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
@@ -465,6 +479,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 }
 
+- (void)replaceStatusBar {
+    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];
+}
 
 #pragma mark - Notifications
 
