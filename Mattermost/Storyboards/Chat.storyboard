@@ -9,6 +9,9 @@
         <mutableArray key="SF-UI-Text-Bold.otf">
             <string>SFUIText-Bold</string>
         </mutableArray>
+        <mutableArray key="SF-UI-Text-Semibold.otf">
+            <string>SFUIText-Semibold</string>
+        </mutableArray>
     </customFonts>
     <scenes>
         <!--Left Menu View Controller-->
@@ -215,7 +218,7 @@
             </objects>
             <point key="canvasLocation" x="503" y="506"/>
         </scene>
-        <!--Kilograpp-->
+        <!--Chat View Controller-->
         <scene sceneID="cWP-WO-cIe">
             <objects>
                 <viewController id="uKV-ME-BHi" customClass="KGChatViewController" sceneMemberID="viewController">
@@ -227,16 +230,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8Y-bH-UTD">
-                                <rect key="frame" x="166" y="323" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NO MESSAGES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8Y-bH-UTD">
+                                <rect key="frame" x="129" y="324" width="118" height="20"/>
+                                <fontDescription key="fontDescription" name="SFUIText-Semibold" family="SF UI Text" pointSize="16"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="J8Y-bH-UTD" firstAttribute="centerY" secondItem="d2q-N3-pwb" secondAttribute="centerY" id="95x-Ql-NRG"/>
+                            <constraint firstItem="J8Y-bH-UTD" firstAttribute="centerX" secondItem="d2q-N3-pwb" secondAttribute="centerX" id="yyo-gH-fNW"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3">
+                    <navigationItem key="navigationItem" id="GGU-Yz-pO3">
                         <barButtonItem key="rightBarButtonItem" image="navbar_more_icon" id="9jw-m2-vIB">
                             <connections>
                                 <action selector="rightBarButtonAction:" destination="uKV-ME-BHi" id="ZfT-fD-3nM"/>

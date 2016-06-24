@@ -92,14 +92,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
     _isFirstLoad = YES;
-
     self.textView.delegate = self;
-
 
     [self setup];
     [self setupTableView];
+    [self setupIsNoMessagesLabelShow:YES];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
@@ -113,9 +111,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
-
-
-
 
 }
 
@@ -201,6 +196,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
 
+- (void)setupIsNoMessagesLabelShow:(BOOL)isShow{
+    self.noMessadgesLabel.hidden = isShow;
+    if (isShow) {
+        [self.view bringSubviewToFront:self.noMessadgesLabel];
+    }
+    
+}
 
 #pragma mark - SLKViewController
 
@@ -370,12 +372,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self
                                      ];
-    if ([self.fetchedResultsController.fetchedObjects count] == 0) {
-        [self setupLabelIsNoMessages];
-    }
-}
-
-- (void)setupLabelIsNoMessages {
+    
+    ([self.fetchedResultsController.fetchedObjects count] == 0) ? [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
     
 }
 
