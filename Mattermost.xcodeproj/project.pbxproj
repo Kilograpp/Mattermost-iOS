@@ -46,12 +46,13 @@
 		9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8223CA8B69CED7D59257FD /* _KGChannel.m */; };
 		9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8228762344686CE2207B8C /* KGManagedObject.m */; };
 		9B8229555967AD0C8D3320E3 /* _KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8227F2CBC646A9EB03FA5A /* _KGFile.m */; };
+		9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */; };
+		9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8221DC109842D726B603C6 /* KGBusinessLogic+ApplicationNotifications.m */; };
 		9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B822C6FC588149134FF2451 /* Login.storyboard */; };
 		9B822B929C3581984CF62D54 /* KGBusinessLogic+File.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82269BB71EB602FA7747FB /* KGBusinessLogic+File.m */; };
 		9B822BF0DBC6C73D268F3B4E /* KGBusinessLogic+Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822971EC9F2BF77CF0D9D0 /* KGBusinessLogic+Socket.m */; };
 		9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8226FF7B005D985E9C9B4C /* KGPost.m */; };
 		9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */; };
-		9B822CE2D229E26B923629E3 /* UITableView+Cache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822CDF0B280F3DD7EEFD6F /* UITableView+Cache.m */; };
 		9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */; };
 		9B822D36FE33ED3BE423743B /* KGNotificationValues.h in Resources */ = {isa = PBXBuildFile; fileRef = 9B822F035019EEEB5552B10D /* KGNotificationValues.h */; };
 		9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82287569BAFA8E7E1DECF6 /* KGFile.m */; };
@@ -79,7 +80,6 @@
 		D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */; };
 		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
 		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
-		D63B2BE11D1197B30090D739 /* AsyncDisplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
@@ -105,7 +105,8 @@
 		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
 		D6C915751D193B2F000DC072 /* KGAutoCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */; };
 		D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */; };
-		D6F607501D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */; };
+		D80638C51D1C29970034E450 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
+		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
 		D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */; };
 		D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */; };
 		D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */; };
@@ -123,6 +124,7 @@
 		D8B429161D071969008BF955 /* KGConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B429151D071969008BF955 /* KGConstants.m */; };
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
 		D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291C1D083259008BF955 /* KGBusinessLogic.m */; };
+		D8CF0AAB1D1C325D00C7A126 /* UITableView_Cache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -184,10 +186,10 @@
 		7339BE2BB052113DFE235C05 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		7339BE469E40DDB9A0DAF1B4 /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
 		7339BF95CC05D9C6D2CBF4DE /* NSObject+DumpValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DumpValues.h"; sourceTree = "<group>"; };
-		9B822022BC7B5599A2FD01B6 /* UITableView+Cache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+Cache.h"; sourceTree = "<group>"; };
 		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B822174A12039F460C51401 /* KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFile.h; sourceTree = "<group>"; };
+		9B8221DC109842D726B603C6 /* KGBusinessLogic+ApplicationNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+ApplicationNotifications.m"; sourceTree = "<group>"; };
 		9B822270C21F2093C29CD196 /* KGBusinessLogic+Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Notifications.m"; sourceTree = "<group>"; };
 		9B8222F1E65BDE846AD32CCC /* _KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGFile.h; sourceTree = "<group>"; };
 		9B82238547742F610B40AF2A /* NSStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtils.m; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		9B8227136A03D68E83AC0C8E /* KGManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGManagedObject.h; sourceTree = "<group>"; };
 		9B82276635BE51FB6CAFF1A9 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Preferences.plist; sourceTree = "<group>"; };
 		9B822770E5CE917AF3BFCCCB /* KGBusinessLogic+Channel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Channel.m"; sourceTree = "<group>"; };
+		9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStatusBar+SharedBar.m"; sourceTree = "<group>"; };
 		9B8227F2CBC646A9EB03FA5A /* _KGFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGFile.m; sourceTree = "<group>"; };
 		9B82282396E58AFD8C50835C /* KGBusinessLogic+File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+File.h"; sourceTree = "<group>"; };
 		9B82282B314DA6557A5AA0DD /* KGPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPreferences.h; sourceTree = "<group>"; };
@@ -211,6 +214,7 @@
 		9B822A042E5ADA26CD0A0EA2 /* KGObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGObjectManager.h; sourceTree = "<group>"; };
 		9B822A0EE158BC19DA56EB08 /* KGBusinessLogic+Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Socket.h"; sourceTree = "<group>"; };
 		9B822A262E677040DD4EF48D /* KGPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPreferences.m; sourceTree = "<group>"; };
+		9B822A44924AABEF32054551 /* UIStatusBar+SharedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStatusBar+SharedBar.h"; sourceTree = "<group>"; };
 		9B822A94467D2E5C8005875F /* KGBusinessLogic+Posts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Posts.m"; sourceTree = "<group>"; };
 		9B822BA2F5E3E10B3F0DAD90 /* KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGError.h; sourceTree = "<group>"; };
 		9B822BE95D060B2A944203CA /* KGChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannel.m; sourceTree = "<group>"; };
@@ -218,9 +222,9 @@
 		9B822C6FC588149134FF2451 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelPostsWrapper.h; sourceTree = "<group>"; };
 		9B822C9B7C39B02B5EDC0DB5 /* KGChannelNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelNotification.m; sourceTree = "<group>"; };
-		9B822CDF0B280F3DD7EEFD6F /* UITableView+Cache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+Cache.m"; sourceTree = "<group>"; };
 		9B822D047156786CF9AA400F /* _KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGChannel.h; sourceTree = "<group>"; };
 		9B822DE7BEDDF6462930AE3B /* KGPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPost.h; sourceTree = "<group>"; };
+		9B822DFA67713274C82C43A0 /* KGBusinessLogic+ApplicationNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+ApplicationNotifications.h"; sourceTree = "<group>"; };
 		9B822E068632C717861972A7 /* KGUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUtils.h; sourceTree = "<group>"; };
 		9B822E38B0AEFE3B1C079CB1 /* KGChannelNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelNotification.h; sourceTree = "<group>"; };
 		9B822F035019EEEB5552B10D /* KGNotificationValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGNotificationValues.h; sourceTree = "<group>"; };
@@ -305,8 +309,9 @@
 		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAutoCompletionCell.h; path = AutoCompletion/KGAutoCompletionCell.h; sourceTree = "<group>"; };
 		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAutoCompletionCell.m; path = AutoCompletion/KGAutoCompletionCell.m; sourceTree = "<group>"; };
 		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGAutoCompletionCell.xib; path = AutoCompletion/KGAutoCompletionCell.xib; sourceTree = "<group>"; };
-		D6F6074E1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableURLRequest+KGHandleCookies.h"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
-		D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableURLRequest+KGHandleCookies.m"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
+		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
+		D80638C71D1C2A270034E450 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
+		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatViewController.h; sourceTree = "<group>"; };
 		D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatViewController.m; sourceTree = "<group>"; };
 		D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatRootCell.h; sourceTree = "<group>"; };
@@ -338,6 +343,7 @@
 		D8B429191D073740008BF955 /* KGBusinessLogic+Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KGBusinessLogic+Team.h"; sourceTree = "<group>"; };
 		D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Team.m"; sourceTree = "<group>"; };
 		D8B4291C1D083259008BF955 /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
+		D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UITableView_Cache.framework; path = Carthage/Build/iOS/UITableView_Cache.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,7 +351,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D63B2BE11D1197B30090D739 /* AsyncDisplayKit.framework in Frameworks */,
+				D8CF0AAB1D1C325D00C7A126 /* UITableView_Cache.framework in Frameworks */,
+				D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */,
+				D80638C51D1C29970034E450 /* SocketRocket.framework in Frameworks */,
 				D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */,
 				D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */,
 				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
@@ -358,6 +366,10 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */,
+				D80638C91D1C2ABF0034E450 /* Masonry.framework */,
+				D80638C71D1C2A270034E450 /* WebImage.framework */,
+				D80638C31D1C29970034E450 /* SocketRocket.framework */,
 				D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */,
 				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
@@ -557,7 +569,6 @@
 		7339B69CC14FAE271AFEB356 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				D6F6074D1D1C2C5F007DDF39 /* NSMutableURLRequest */,
 				CD671BD41D12A3A7004CD55E /* CAGradientLayer */,
 				7339B84ED964B6992516D5B3 /* UIImage */,
 				7339BEFD7996248E8290A9A6 /* NSAttributedString */,
@@ -571,7 +582,7 @@
 				7339B4ADC392310CD29D92BE /* UIColor */,
 				7339B5886EB66CFD5B58086A /* UIFont */,
 				7339BFCE090DC8F80E1828CF /* UIWindow */,
-				9B822973E2B00DB64F56900F /* UITableView */,
+				9B822190E10D4ECDE625A0D7 /* UIStatusBar */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -634,6 +645,15 @@
 			path = UIWindow;
 			sourceTree = "<group>";
 		};
+		9B822190E10D4ECDE625A0D7 /* UIStatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */,
+				9B822A44924AABEF32054551 /* UIStatusBar+SharedBar.h */,
+			);
+			path = UIStatusBar;
+			sourceTree = "<group>";
+		};
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +694,15 @@
 			path = Posts;
 			sourceTree = "<group>";
 		};
+		9B82293CFB88C59588025198 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9B822DFA67713274C82C43A0 /* KGBusinessLogic+ApplicationNotifications.h */,
+				9B8221DC109842D726B603C6 /* KGBusinessLogic+ApplicationNotifications.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		9B82294CA20E428FCC37B6D8 /* File */ = {
 			isa = PBXGroup;
 			children = (
@@ -681,15 +710,6 @@
 				9B82269BB71EB602FA7747FB /* KGBusinessLogic+File.m */,
 			);
 			path = File;
-			sourceTree = "<group>";
-		};
-		9B822973E2B00DB64F56900F /* UITableView */ = {
-			isa = PBXGroup;
-			children = (
-				9B822CDF0B280F3DD7EEFD6F /* UITableView+Cache.m */,
-				9B822022BC7B5599A2FD01B6 /* UITableView+Cache.h */,
-			);
-			path = UITableView;
 			sourceTree = "<group>";
 		};
 		9B822AE956F9663378049854 /* Fonts */ = {
@@ -1036,6 +1056,7 @@
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
+				9B82293CFB88C59588025198 /* Application */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -1201,15 +1222,6 @@
 				D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */,
 			);
 			name = AutoCompletion;
-			sourceTree = "<group>";
-		};
-		D6F6074D1D1C2C5F007DDF39 /* NSMutableURLRequest */ = {
-			isa = PBXGroup;
-			children = (
-				D6F6074E1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.h */,
-				D6F6074F1D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m */,
-			);
-			name = NSMutableURLRequest;
 			sourceTree = "<group>";
 		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
@@ -1437,7 +1449,10 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/ActiveLabel.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/AsyncDisplayKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SocketRocket.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Masonry.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MBProgressHUD.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/UITableView_Cache.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
@@ -1472,7 +1487,6 @@
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
-				D6F607501D1C2CCE007DDF39 /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
 				D6C154D81D07570B00B053CE /* KGNavigationController.m in Sources */,
@@ -1554,7 +1568,8 @@
 				7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */,
 				7339B28E45A14BCC22EDC15E /* UIFont+KGPreparedFont.m in Sources */,
 				7339BF65257F6813487AAFFB /* UIWindow+KGAdditions.m in Sources */,
-				9B822CE2D229E26B923629E3 /* UITableView+Cache.m in Sources */,
+				9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */,
+				9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1662,7 +1677,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1686,7 +1700,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

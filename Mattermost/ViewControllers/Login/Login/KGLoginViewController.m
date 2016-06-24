@@ -64,6 +64,9 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     self.passwordTextField.text = @"fynbkjgf99";
 //    self.loginTextField.text = @"dashagudenko@kilograpp.com";
 //    self.passwordTextField.text = @"";
+    self.loginTextField.text = @"maxim@kilograpp.com";
+    self.passwordTextField.text = @"loladin";
+
     self.loginButton.enabled = YES;
 
 }
