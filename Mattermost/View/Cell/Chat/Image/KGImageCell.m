@@ -110,7 +110,6 @@
     CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    NSLog(@"%@", context);
     CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.f].CGPath;
     CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
