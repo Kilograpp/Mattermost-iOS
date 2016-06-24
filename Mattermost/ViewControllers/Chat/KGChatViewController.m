@@ -342,7 +342,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if ([tableView isEqual:self.tableView]) {
-        return 50.f;
+        return [KGTableViewSectionHeader height];
     } else {
         //для autoCompletionView
         return CGFLOAT_MIN;

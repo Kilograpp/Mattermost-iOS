@@ -48,7 +48,7 @@
 }
 
 + (CGFloat)height {
-    return 44.0;
+    return 20.0;
 }
 
 + (UINib *)nib {
