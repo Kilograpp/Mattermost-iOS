@@ -18,6 +18,7 @@
 #import "KGProfileCell.h"
 #import "KGProfileDataSource.h"
 #import "KGProfileTableHeader.h"
+#import "UIStatusBar+SharedBar.h"
 
 @interface KGProfilViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -39,7 +40,6 @@
     [self setupTable];
     [self setupDataSource];
 }
-
 
 #pragma mark - Setup 
 

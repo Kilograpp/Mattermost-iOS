@@ -52,6 +52,7 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
+#import "UIStatusBar+SharedBar.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
@@ -71,7 +72,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
-
+@property (assign) BOOL isFirstLoad;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -88,8 +89,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.textView.delegate = self;
-//
+
+    _isFirstLoad = YES;
+
+    self.textView.delegate = self;
+    
 
     [self setup];
     [self setupTableView];
@@ -106,6 +110,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
+
+
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (_isFirstLoad) {
+        [self replaceStatusBar];
+        _isFirstLoad = NO;
+    }
 }
 
 
@@ -149,6 +164,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupKeyboardToolbar {
@@ -237,6 +253,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+//    if ([sectionInfo numberOfObjects] == 0) {
+//        NSLog(@"ЗДЕСЬ РЫБЫ НЕТ!");
+//    }
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
@@ -373,6 +392,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 
 - (void)sendPost {
+
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
@@ -458,6 +478,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                   progress:^(NSUInteger persentValue) {
                                                       NSLog(@"%d", persentValue);
                                                   } completion:^(KGError *error) {
+                                                      if (error) {
+                                                          [[KGAlertManager sharedManager]showError:error];
+                                                      }
                                                       [[KGAlertManager sharedManager] hideHud];
                                                       [self openFile:file];
                                                   }];
@@ -471,6 +494,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 }
 
+- (void)replaceStatusBar {
+    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];
+}
 
 #pragma mark - Notifications
 
@@ -578,6 +604,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
 
         [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+            if (error) {
+                [self hideLoadingViewAnimated:YES];
+                [[KGAlertManager sharedManager] showError:error];
+                
+            }
                 if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
                     [self loadLastPostsWithRefreshing:NO];
                     self.channel.lastViewDate = [NSDate date];
@@ -589,6 +620,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [self hideLoadingViewAnimated:YES];
                 }
         }];
+    
 
 }
 
