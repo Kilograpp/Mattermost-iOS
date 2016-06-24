@@ -256,10 +256,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
-//    if ([sectionInfo numberOfObjects] == 0) {
-//        NSLog(@"ЗДЕСЬ РЫБЫ НЕТ!");
-//    }
-    
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
                 [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
@@ -369,6 +365,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self
                                      ];
+    if ([self.fetchedResultsController.fetchedObjects count] == 0) {
+        [self setupLabelIsNoMessages];
+    }
+}
+
+- (void)setupLabelIsNoMessages {
+    
 }
 
 
