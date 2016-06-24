@@ -73,13 +73,11 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 
 - (void)showError:(KGError *)error {
     self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
-    
     self.messageView = [KGAlertView sharedMessage];
     [self.messageView showAlertViewWithMessage:NSLocalizedString(error.message, nil)
                                       withType:KGMessageTypeError
                                   withDuration:kStandartHudDismissDelay
                                   withCallback:nil];
-    
 }
 
 
@@ -96,7 +94,6 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 //    self.hud.labelText = title;
 //    self.hud.detailsLabelText = message;
 //    [self hideHudAnimated:YES afterDelay:kHUDDismissDelay];
-
     self.messageView = [KGAlertView sharedMessage];
     [self.messageView showAlertViewWithMessage:message
                                       withType:KGMessageTypeError
@@ -107,17 +104,14 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 
 
 - (void)showSuccessWithMessage:(NSString *)message {
-
     self.messageView = [KGAlertView sharedMessage];
     [self.messageView showAlertViewWithMessage:message
                                       withType:KGMessageTypeSuccess
                                   withDuration:kStandartHudDismissDelay
                                   withCallback:nil];
-    
 }
 
 - (void)showUnauthorizedError {
-
     self.messageView = [KGAlertView sharedMessage];
     [self.messageView showAlertViewWithMessage:NSLocalizedString(@"Недоступно для неавторизованного пользователя", nil)
                                       withType:KGMessageTypeError
@@ -139,6 +133,7 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 
 - (UIViewController *)presentingViewController {
     if (!_presentingViewController) {
+        
         return [UIWindow kg_visibleViewController];
     }
     return _presentingViewController;
@@ -172,6 +167,7 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 //        [self hideHudAnimated:NO];
 //    }];
 //}
+
 
 
 @end

@@ -12,18 +12,8 @@
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
 #import "UIStatusBar+SharedBar.h"
-#import <Masonry/Masonry.h>
-
-
-// Public Morozov
-@interface MFSideMenuContainerViewController()
-
-- (void) setCenterViewControllerOffset:(CGFloat)xOffset;
-
-@end
 
 @interface KGSideMenuContainerViewController ()
-@property (nonatomic, assign) CGFloat *oldX;
 @end
 
 @implementation KGSideMenuContainerViewController
@@ -37,6 +27,7 @@
     controller.leftMenuViewController = leftMenuViewController;
     controller.centerViewController = centerViewController;
     controller.rightMenuViewController = rightMenuViewController;
+
     return controller;
 }
 
@@ -69,27 +60,27 @@
         if (completion) {
             completion();
         }
-
-        [wSelf toogleStatusBarState];
+       // [wSelf toogleStatusBarState];
     }];
 }
 
 - (void)toogleStatusBarState {
- 
+//    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+//    [self reverseStatusBarIsStatusBarHidden:isStatusBarHidden];
+   
 //    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
 //    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
     
   }
 
-
-- (void) setCenterViewControllerOffset:(CGFloat)xOffset {
-    UIView *bar = [UIStatusBar sharedStatusBar];
-    CGRect frame = bar.frame;
-    frame.origin.x = xOffset;
-    [bar setFrame:frame];
-
-    [super setCenterViewControllerOffset:xOffset];
+- (void)reverseStatusBarIsStatusBarHidden:(BOOL)isStatusBarHidden {
+    if (!isStatusBarHidden) {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
+    } else {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar - 1 ;
+    }
 }
+
 #pragma mark - Orientations
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {

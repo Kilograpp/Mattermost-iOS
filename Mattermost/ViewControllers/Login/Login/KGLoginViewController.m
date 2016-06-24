@@ -54,18 +54,17 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 }
 
 - (void)test {
-//    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
-//    self.passwordTextField.text = @"9d331o26c39";
+    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
+    self.passwordTextField.text = @"9d331o26c39";
 //    self.loginTextField.text = @"maxim@kilograpp.com";
 //    self.passwordTextField.text = @"loladin";
 //    self.loginTextField.text = @"getmaxx@kilograpp.com";
 //    self.passwordTextField.text = @"102Aky5i";
-    self.loginTextField.text = @"beketova@kilograpp.com";
-    self.passwordTextField.text = @"fynbkjgf99";
+//    self.loginTextField.text = @"beketova@kilograpp.com";
+//    self.passwordTextField.text = @"fynbkjgf99";
 //    self.loginTextField.text = @"dashagudenko@kilograpp.com";
 //    self.passwordTextField.text = @"";
-    self.loginTextField.text = @"maxim@kilograpp.com";
-    self.passwordTextField.text = @"loladin";
+
 
     self.loginButton.enabled = YES;
 
@@ -147,9 +146,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 #pragma mark - Configuration
 
 - (void)configureLabels {
-//    self.titleLabel.text = @"Kilograpp";
-//    self.loginPromtLabel.text = @"Email";
-//    self.passwordPromtLabel.text = @"Password";
     NSString *siteName = [[KGPreferences sharedInstance] siteName];
     if (!siteName) {
         //действие при первом входе

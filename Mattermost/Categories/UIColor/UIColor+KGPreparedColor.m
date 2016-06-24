@@ -158,37 +158,24 @@
     return color;
 }
 
-#pragma mark - Gradient Alert
+#pragma mark - Color Alert
 
-+ (UIColor *)kg_topRedColorForAlert {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#CF2F41" alpha:1])
++ (UIColor *)kg_redColorForAlert {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F1453D" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_bottomRedColorForAlert{
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F5515F" alpha:1])
+
++ (UIColor *)kg_yellowColorForAlert {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F9A825" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_topYellowColorForAlert {
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F9BD4F" alpha:1])
++ (UIColor *)kg_greenColorForAlert{
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#43A047" alpha:1])
     return color;
 }
 
-+ (UIColor *)kg_bottomYellowColorForAlert{
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#FAD961" alpha:1])
-    return color;
-}
-
-+ (UIColor *)kg_topGreenColorForAlert{
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#429321" alpha:1])
-    return color;
-}
-
-+ (UIColor *)kg_bottomGreenColorForAlert{
-    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#6CB433" alpha:1])
-    return color;
-}
 
 
 

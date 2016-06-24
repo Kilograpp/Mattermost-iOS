@@ -54,11 +54,8 @@
 
 #pragma mark - Gradient Alert
 
-+ (UIColor *)kg_topRedColorForAlert;
-+ (UIColor *)kg_bottomRedColorForAlert;
-+ (UIColor *)kg_topYellowColorForAlert;
-+ (UIColor *)kg_bottomYellowColorForAlert;
-+ (UIColor *)kg_topGreenColorForAlert;
-+ (UIColor *)kg_bottomGreenColorForAlert;
++ (UIColor *)kg_redColorForAlert;
++ (UIColor *)kg_yellowColorForAlert;
++ (UIColor *)kg_greenColorForAlert;
 
 @end
