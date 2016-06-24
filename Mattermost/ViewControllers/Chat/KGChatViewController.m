@@ -269,7 +269,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-            if ([prevPost.author.identifier isEqualToString:post.author.identifier]) {
+            if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
                 return post.files.count == 0 ?
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
@@ -402,7 +402,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)assignPhotos {
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
         dispatch_async(dispatch_get_main_queue(), ^{
-
             CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
             picker.delegate = self;
 
