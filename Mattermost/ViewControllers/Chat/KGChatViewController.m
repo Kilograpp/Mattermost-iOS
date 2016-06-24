@@ -71,6 +71,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
+@property (assign) BOOL isFirstLoad;
 
 
 - (IBAction)rightBarButtonAction:(id)sender;
@@ -88,7 +89,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+    _isFirstLoad = YES;
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -101,6 +103,16 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [super viewWillAppear:animated];
 
     [IQKeyboardManager sharedManager].enable = NO;
+
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (_isFirstLoad) {
+        [self replaceStatusBar];
+        _isFirstLoad = NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -366,8 +378,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)sendPost {
 
-    [self replaceStatusBar];
-    return;
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
