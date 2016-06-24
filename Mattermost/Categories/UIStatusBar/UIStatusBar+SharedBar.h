@@ -11,4 +11,10 @@
 
 @interface UIStatusBar (SharedBar)
 + (instancetype)sharedStatusBar;
+
+- (void)moveToView:(UIView*)view;
+- (void)moveToViewWithSnapshot:(UIView*)view;
+- (void)moveToPreviousView;
+- (void)moveTemporaryToRootView;
+
 @end

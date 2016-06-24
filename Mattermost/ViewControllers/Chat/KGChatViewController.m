@@ -52,6 +52,7 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
+#import "UIStatusBar+SharedBar.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
@@ -364,6 +365,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 
 - (void)sendPost {
+
+    [self replaceStatusBar];
+    return;
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
@@ -462,6 +466,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 }
 
+- (void)replaceStatusBar {
+    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];
+}
 
 #pragma mark - Notifications
 
