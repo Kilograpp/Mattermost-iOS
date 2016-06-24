@@ -59,7 +59,7 @@
         
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
         if (cachedImage) {
-            [[self class] roundedImage:[cachedImage kg_resizedImageWithSize:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT) ] completion:^(UIImage *image) {
+            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
                 self.kg_imageView.image = image;
             }];
         } else {
@@ -85,7 +85,7 @@
 //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
 
         [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:8.f] addClip];
+                                    cornerRadius:5.f] addClip];
         // Draw your image
         [image drawInRect:rect];
         
@@ -111,7 +111,7 @@
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     NSLog(@"%@", context);
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:8].CGPath;
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.f].CGPath;
     CGContextAddPath(context, ref);
     CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
     CGContextFillPath(context);
