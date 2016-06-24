@@ -74,8 +74,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 
-
-
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
@@ -485,7 +483,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             [[KGAlertManager sharedManager] showProgressHud];
             [[KGBusinessLogic sharedInstance] downloadFile:file
                                                   progress:^(NSUInteger persentValue) {
-                                                      NSLog(@"%d", persentValue);
+                                                      NSLog(@"%lu", (unsigned long)persentValue);
                                                   } completion:^(KGError *error) {
                                                       if (error) {
                                                           [[KGAlertManager sharedManager]showError:error];
