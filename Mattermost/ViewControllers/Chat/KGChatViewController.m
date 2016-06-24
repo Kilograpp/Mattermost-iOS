@@ -168,6 +168,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupKeyboardToolbar {
@@ -255,6 +256,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+//    if ([sectionInfo numberOfObjects] == 0) {
+//        NSLog(@"ЗДЕСЬ РЫБЫ НЕТ!");
+//    }
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
