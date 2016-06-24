@@ -449,6 +449,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                   progress:^(NSUInteger persentValue) {
                                                       NSLog(@"%d", persentValue);
                                                   } completion:^(KGError *error) {
+                                                      if (error) {
+                                                          [[KGAlertManager sharedManager]showError:error];
+                                                      }
                                                       [[KGAlertManager sharedManager] hideHud];
                                                       [self openFile:file];
                                                   }];
@@ -566,6 +569,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
 
         [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+            if (error) {
+                [self hideLoadingViewAnimated:YES];
+                [[KGAlertManager sharedManager] showError:error];
+                
+            }
                 if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
                     [self loadLastPostsWithRefreshing:NO];
                     self.channel.lastViewDate = [NSDate date];
@@ -577,6 +585,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [self hideLoadingViewAnimated:YES];
                 }
         }];
+    
 
 }
 

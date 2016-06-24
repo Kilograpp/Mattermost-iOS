@@ -9,6 +9,8 @@
 #import <ActiveLabel/ActiveLabel-Swift.h>
 #import "UIColor+KGPreparedColor.h"
 #import "NSString+HeightCalculation.h"
+#import "KGPreferences.h"
+#import "KGUser.h"
 
 @interface KGFollowUpChatCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel *messageLabel;
@@ -25,10 +27,24 @@
 
 - (void)configure {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
-    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
     [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
+    [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
+    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+
+//    [self.messageLabel filterMention:^BOOL(NSString * nameString) {
+//        NSString *stringCurrentUserId = [[KGPreferences sharedInstance]currentUserId];
+//        KGUser *user = [KGUser managedObjectById:stringCurrentUserId];
+//        
+//        if ([nameString isEqualToString:@"channel"] || [nameString isEqualToString:@"all"]
+//            || [nameString isEqualToString:user.nickname]) {
+//            return YES;
+//        } else {
+//            [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+//            return YES;
+//        }
+//    }];
 
     [self.messageLabel handleMentionTap:^(NSString *string) {
         self.mentionTapHandler(string);

@@ -18,6 +18,8 @@
 #import "UIColor+KGPreparedColor.h"
 #import "SDWebImageDownloader.h"
 #import "UIImage+Resize.h"
+#import "KGPreferences.h"
+#import "KGUser.h"
 
 @interface KGChatRootCell ()
 @property (weak, nonatomic) IBOutlet ActiveLabel* messageLabel;
@@ -39,13 +41,29 @@
 
 - (void)setup {
     [self.messageLabel setFont:[UIFont kg_regular15Font]];
-    [self.messageLabel setMentionColor:[UIColor blueColor]];
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.backgroundColor = [UIColor kg_whiteColor];
     self.dateTimeLabel.backgroundColor = [UIColor kg_whiteColor];
     self.dateTimeLabel.font = [UIFont kg_regular13Font];
     [self.messageLabel setBackgroundColor:[UIColor kg_whiteColor]];
     self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
+    [self.messageLabel setURLColor:[UIColor kg_blueColor]];
+    [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
+    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+   
+//    [self.messageLabel filterMention:^BOOL(NSString * nameString) {
+//        NSString *stringCurrentUserId = [[KGPreferences sharedInstance]currentUserId];
+//        KGUser *user = [KGUser managedObjectById:stringCurrentUserId];
+//        
+//        if ([nameString isEqualToString:@"channel"] || [nameString isEqualToString:@"all"]
+//            || [nameString isEqualToString:user.nickname]) {
+//            return YES;
+//        } else {
+//            [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+//            return YES;
+//        }
+//    }];
+
     
     
     self.layer.shouldRasterize = YES;
