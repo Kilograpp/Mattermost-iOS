@@ -70,6 +70,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
+@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 
 
 - (IBAction)rightBarButtonAction:(id)sender;
@@ -87,8 +88,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.textView.delegate = self;
-    
+//    self.textView.delegate = self;
+//
+
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -104,7 +106,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
-//    [self.textView setDidNotResignFirstResponder:NO];
 }
 
 
@@ -156,9 +157,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
     [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
     [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
-    
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
+   
+    
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     self.textInputbar.textView.placeholder = @"Type something...";
     self.textInputbar.textView.layer.borderWidth = 0.f;
@@ -557,7 +559,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
 //    [self textFieldShouldReturn:self.textView];
     [self.textView resignFirstResponder];
-
+//    [self dismissKeyboard:YES];
     [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -729,6 +731,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
     CGFloat duration = animated ? KGStandartAnimationDuration : 0;
+    
     [UIView animateWithDuration:duration animations:^{
         self.loadingView.alpha = 0;
     } completion:^(BOOL finished) {
@@ -778,7 +781,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     if (URL) {
         
-    }UIDocumentInteractionController *documentInteractionController =
+    } UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
         //        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
