@@ -17,6 +17,8 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSString+HeightCalculation.h"
 #import "UIImage+Resize.h"
+#import <BOString.h>
+#import "KGPreferences.h"
 
 @import AsyncDisplayKit;
 
@@ -104,10 +106,30 @@
     self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
     [self addSubview:self.messageLabel];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
-    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
     [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
+    [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
+    [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+
+//    [self.messageLabel filterMention:^BOOL(NSString * nameString) {
+//        NSString *stringCurrentUserId = [[KGPreferences sharedInstance]currentUserId];
+//        KGUser *user = [KGUser managedObjectById:stringCurrentUserId];
+//        
+//        if ([nameString isEqualToString:@"channel"] || [nameString isEqualToString:@"all"]
+//                                                    || [nameString isEqualToString:user.nickname]) {
+//             return YES;
+//        } else {
+//           [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+//            return YES;
+//        }
+//    }];
+    
+    
+
+    
+
 
     self.messageLabel.textColor = [UIColor kg_blackColor];
     self.messageLabel.font = [UIFont kg_regular15Font];

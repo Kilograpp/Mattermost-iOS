@@ -90,7 +90,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     _isFirstLoad = YES;
+
+    self.textView.delegate = self;
+    
+
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -102,7 +107,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [self.textView isFirstResponder];
+    [self.textView resignFirstResponder];
+    [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
+
 
 
 }
@@ -113,7 +122,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
+
+//    [self.textView setDidNotResignFirstResponder:NO];
+
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -155,6 +168,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+    self.tableView.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (void)setupKeyboardToolbar {
@@ -172,6 +186,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
     [self registerPrefixesForAutoCompletion:@[@"@"]];
+    
 }
 
 - (void)setupLeftBarButtonItem {
@@ -241,6 +256,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+//    if ([sectionInfo numberOfObjects] == 0) {
+//        NSLog(@"ЗДЕСЬ РЫБЫ НЕТ!");
+//    }
     
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
@@ -463,6 +481,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                   progress:^(NSUInteger persentValue) {
                                                       NSLog(@"%d", persentValue);
                                                   } completion:^(KGError *error) {
+                                                      if (error) {
+                                                          [[KGAlertManager sharedManager]showError:error];
+                                                      }
                                                       [[KGAlertManager sharedManager] hideHud];
                                                       [self openFile:file];
                                                   }];
@@ -565,6 +586,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - KGLeftMenuDelegate
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+//    [self textFieldShouldReturn:self.textView];
+    [self.textView resignFirstResponder];
+
     [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -583,6 +607,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
 
         [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+            if (error) {
+                [self hideLoadingViewAnimated:YES];
+                [[KGAlertManager sharedManager] showError:error];
+                
+            }
                 if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
                     [self loadLastPostsWithRefreshing:NO];
                     self.channel.lastViewDate = [NSDate date];
@@ -594,6 +623,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [self hideLoadingViewAnimated:YES];
                 }
         }];
+    
 
 }
 
@@ -784,12 +814,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
     
     if (URL) {
-        UIDocumentInteractionController *documentInteractionController =
+        
+    }UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
         //        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
         [documentInteractionController presentPreviewAnimated:YES];
-    }
 }
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
