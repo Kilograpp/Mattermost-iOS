@@ -90,7 +90,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+
     _isFirstLoad = YES;
+
+    self.textView.delegate = self;
+    
+
     [self setup];
     [self setupTableView];
     [self setupKeyboardToolbar];
@@ -102,7 +107,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    [self.textView isFirstResponder];
+    [self.textView resignFirstResponder];
+    [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
+
 
 
 }
@@ -113,7 +122,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
+
+//    [self.textView setDidNotResignFirstResponder:NO];
+
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -172,6 +185,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
     [self registerPrefixesForAutoCompletion:@[@"@"]];
+    
 }
 
 - (void)setupLeftBarButtonItem {
@@ -568,6 +582,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - KGLeftMenuDelegate
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+//    [self textFieldShouldReturn:self.textView];
+    [self.textView resignFirstResponder];
+
     [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -793,12 +810,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
     
     if (URL) {
-        UIDocumentInteractionController *documentInteractionController =
+        
+    }UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
         //        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
         [documentInteractionController presentPreviewAnimated:YES];
-    }
 }
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
