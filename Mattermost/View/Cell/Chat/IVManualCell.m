@@ -18,6 +18,8 @@
 
 #define KG_SCREEN_WIDTH CGRectGetWidth([UIScreen mainScreen].bounds)
 
+static NSOperationQueue*  messageQueue;
+
 @interface IVManualCell () {
     CGRect _msgRect;
     NSString *_dateString;
@@ -27,7 +29,7 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UIImageView *avatarImageView;
-
+@property (strong, nonatomic) NSBlockOperation* messageOperation;
 @property (nonatomic, strong) KGPost *post;
 @end
 
@@ -49,6 +51,11 @@
 - (void)setup {
     self.backgroundColor = [UIColor whiteColor];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+
++ (void)load {
+    messageQueue = [[NSOperationQueue alloc] init];
+    [messageQueue setMaxConcurrentOperationCount:1];
 }
 
 - (void)setupTextLabel {
@@ -103,7 +110,21 @@
 
 - (void)configureWithObject:(id)object {
     _post = object;
-    _messageLabel.text = _post.message;
+
+    __weak typeof(self) wSelf = self;
+
+    self.messageOperation = [[NSBlockOperation alloc] init];
+    [self.messageOperation addExecutionBlock:^{
+        if (!wSelf.messageOperation.isCancelled) {
+            dispatch_sync(dispatch_get_main_queue(), ^(void)
+            {
+                wSelf.messageLabel.text = wSelf.post.message;
+            });
+        }
+    }];
+    [messageQueue addOperation:self.messageOperation];
+
+
     _nameLabel.text = _post.author.nickname;
     _dateString = [_post.createdAt dateFormatForMassage];
     _timeLabel.text = _dateString;
@@ -152,7 +173,7 @@
 
 
 + (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+    NSDictionary *attributes = @{NSFontAttributeName : font};
     return  ceilf([[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width);
 }
 
@@ -160,5 +181,7 @@
 - (void)prepareForReuse {
     _avatarImageView.image = nil;
     _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
+    _messageLabel.text = nil;
+    [_messageOperation cancel];
 }
 @end
