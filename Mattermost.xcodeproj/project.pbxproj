@@ -81,6 +81,7 @@
 		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
 		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
+		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
@@ -266,6 +267,8 @@
 		D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncDisplayKit.framework; path = Carthage/Build/iOS/AsyncDisplayKit.framework; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
+		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
+		D66328431D1F6AEB0043B7DD /* IVManualCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVManualCell.m; sourceTree = "<group>"; };
 		D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+KGRotate.h"; path = "UIImage/UIImage+KGRotate.h"; sourceTree = "<group>"; };
 		D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+KGRotate.m"; path = "UIImage/UIImage+KGRotate.m"; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
@@ -574,7 +577,6 @@
 			children = (
 				D6E6823F1D1D296F006F11CE /* NSMutableURLRequest */,
 				CD671BD41D12A3A7004CD55E /* CAGradientLayer */,
-				7339B84ED964B6992516D5B3 /* UIImage */,
 				7339BEFD7996248E8290A9A6 /* NSAttributedString */,
 				7339B2062A635809A5F63600 /* NSDate */,
 				7339BE02BFAB0E010AD7F32A /* NSError */,
@@ -585,8 +587,9 @@
 				7339B4C52B2449073F601CAD /* RKResponseDescriptor */,
 				7339B4ADC392310CD29D92BE /* UIColor */,
 				7339B5886EB66CFD5B58086A /* UIFont */,
-				7339BFCE090DC8F80E1828CF /* UIWindow */,
+				7339B84ED964B6992516D5B3 /* UIImage */,
 				9B822190E10D4ECDE625A0D7 /* UIStatusBar */,
+				7339BFCE090DC8F80E1828CF /* UIWindow */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1249,6 +1252,8 @@
 		D844A6E61D0AE35200B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D66328421D1F6AEB0043B7DD /* IVManualCell.h */,
+				D66328431D1F6AEB0043B7DD /* IVManualCell.m */,
 				41A80B8C1D1ABA0A00E8A0EA /* File */,
 				D6C915711D193B20000DC072 /* AutoCompletion */,
 				D67A24881D106E9A006579E8 /* Attachments */,
@@ -1517,6 +1522,7 @@
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
+				D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */,
 				D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */,
