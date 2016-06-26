@@ -19,6 +19,7 @@
 #define KG_SCREEN_WIDTH CGRectGetWidth([UIScreen mainScreen].bounds)
 
 static NSOperationQueue*  messageQueue;
+static NSOperationQueue*  imageQueue;
 
 @interface IVManualCell () {
     CGRect _msgRect;
@@ -30,6 +31,7 @@ static NSOperationQueue*  messageQueue;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (strong, nonatomic) NSBlockOperation* messageOperation;
+@property (strong, nonatomic) NSBlockOperation* imageOperation;
 @property (nonatomic, strong) KGPost *post;
 @end
 
@@ -39,6 +41,7 @@ static NSOperationQueue*  messageQueue;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) {
+        [self setup];
         [self setupNameLabel];
         [self setupTextLabel];
         [self setupImageView];
@@ -56,6 +59,9 @@ static NSOperationQueue*  messageQueue;
 + (void)load {
     messageQueue = [[NSOperationQueue alloc] init];
     [messageQueue setMaxConcurrentOperationCount:1];
+    
+    imageQueue = [[NSOperationQueue alloc] init];
+    [imageQueue setMaxConcurrentOperationCount:1];
 }
 
 - (void)setupTextLabel {
@@ -100,11 +106,10 @@ static NSOperationQueue*  messageQueue;
 
 - (void)setupImageView {
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 40, 40)];
-//    _avatarImageView.layer.cornerRadius = 20;
 //    _avatarImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _avatarImageView.backgroundColor = [UIColor whiteColor];
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-//    _avatarImageView.clipsToBounds = YES;
+    _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     [self addSubview:_avatarImageView];
 }
 
@@ -128,13 +133,31 @@ static NSOperationQueue*  messageQueue;
     _nameLabel.text = _post.author.nickname;
     _dateString = [_post.createdAt dateFormatForMassage];
     _timeLabel.text = _dateString;
-//    _avatarImageView.image =  KGRoundedImage([UIImage imageNamed:@"k132h3.jpg"], CGSizeMake(40.f, 40.f));
-    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:_post.author.imageUrl
-                                                          options:SDWebImageDownloaderHandleCookies
-                                                         progress:nil
-            completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                _avatarImageView.image = KGRoundedImage(image, CGSizeMake(40.f, 40.f));
-            }];
+    
+
+    self.imageOperation = [[NSBlockOperation alloc] init];
+    [self.imageOperation addExecutionBlock:^{
+        if (!wSelf.imageOperation.isCancelled) {
+//            dispatch_sync(dispatch_get_main_queue(), ^(void)
+//                          {
+            UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:wSelf.post.author.imageUrl.absoluteString];
+            if (cachedImage) {
+                wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40.f, 40.f));;
+            } else {
+                              [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:wSelf.post.author.imageUrl
+                                                                                    options:SDWebImageDownloaderHandleCookies
+                                                                                   progress:nil
+                                  completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                                      [[SDImageCache sharedImageCache] storeImage:image forKey:wSelf.post.author.imageUrl.absoluteString];
+                                      wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40.f, 40.f));
+                                      
+                                  }];
+            }
+//                          });
+        }
+    }];
+    [imageQueue addOperation:self.imageOperation];
+
 }
 
 + (NSString *)reuseIdentifier {
@@ -179,9 +202,9 @@ static NSOperationQueue*  messageQueue;
 
 
 - (void)prepareForReuse {
-    _avatarImageView.image = nil;
     _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     _messageLabel.text = nil;
     [_messageOperation cancel];
+    [_imageOperation cancel];
 }
 @end
