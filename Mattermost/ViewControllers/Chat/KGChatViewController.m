@@ -53,6 +53,7 @@
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGPreferences.h"
 
 #import "IVManualCell.h"
 
@@ -510,16 +511,22 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - Notifications
 
-- (void)test:(NSNotification *)notification {
+- (void)performFillingTypingIndicatorView:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
-        
+        //проверка на то, что текущий юзер != юзеру, который пишет
+
         if (kg_notification.action == KGActionTyping) {
+            NSString *currentUserID = [[KGPreferences sharedInstance]currentUserId];
             KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
-            [self.typingIndicatorView insertUsername:user.nickname];
+            if (![user.identifier isEqualToString:currentUserID]) {
+                  [self.typingIndicatorView insertUsername:user.nickname];
+            }
         }
     }
 }
+
+
 
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -605,7 +612,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(test:)
+                                             selector:@selector(performFillingTypingIndicatorView:)
                                                  name:self.channel.notificationsName
                                                object:nil];
     [self updateNavigationBarAppearance];
