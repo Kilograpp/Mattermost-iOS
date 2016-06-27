@@ -55,11 +55,12 @@
 #import "UIStatusBar+SharedBar.h"
 #import "KGPreferences.h"
 
+#import "KGImagePickerController.h"
 #import "IVManualCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
+@interface KGChatViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -450,6 +451,56 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             [self presentViewController:picker animated:YES completion:nil];
         });
     }];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    
+//    UIAlertAction *openCameraAction =
+//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//        
+////        switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
+////            case AVAuthorizationStatusRestricted:
+////            case AVAuthorizationStatusDenied:
+////                //                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
+////                //                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
+////                [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к камере. /nПожалуйста разрешите использовать камеру в настройках"];
+////                break;
+////                
+////            default:
+//                [self presentPickerControllerWithType:UIImagePickerControllerSourceTypeCamera];
+////                break;
+////        }
+//        
+//        
+//
+//    }];
+//    
+//    UIAlertAction *openGalleryAction =
+//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+//                picker.delegate = self;
+//                
+//                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
+//                
+//                [self presentViewController:picker animated:YES completion:nil];
+//            });
+//        }];
+//            }];
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+//    [alertController addAction:openCameraAction];
+//    [alertController addAction:openGalleryAction];
+//    [alertController addAction:cancelAction];
+//    
+//    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)presentPickerControllerWithType:(UIImagePickerControllerSourceType)type {
+    KGImagePickerController *pickerController = [[KGImagePickerController alloc] init];
+    pickerController.sourceType = type;
+    pickerController.delegate = self;
+    
+    [self presentViewController:pickerController animated:YES completion:nil];
 }
 
 - (void)updateNavigationBarAppearance {
