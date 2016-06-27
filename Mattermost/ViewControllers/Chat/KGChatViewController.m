@@ -209,13 +209,16 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - SLKViewController
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
-    //SLKTextViewController - поиск по предикату
+    //поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
         self.searchResultArray = [[self.usersArray valueForKey:@"username"]
                                   filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
-        
+    }
+    
+    if (word.length == 0) {
+        self.searchResultArray = [self.usersArray valueForKey:@"username"];
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -223,9 +226,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (CGFloat)heightForAutoCompletionView {
-    //SLKTextViewController
     CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
     return cellHeight*self.searchResultArray.count;
+}
+
+- (CGFloat)maximumHeightForAutoCompletionView {
+    return self.tableView.bounds.size.height;
 }
 
 
