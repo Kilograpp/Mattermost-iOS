@@ -82,6 +82,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @implementation KGChatViewController
 
+// Todo, Code Review: Что это делает вверху?
 + (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
     return UITableViewStyleGrouped;
 }
@@ -92,6 +93,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    // Todo, Code Review: Нарушение абстракции
     _isFirstLoad = YES;
     self.textView.delegate = self;
 
@@ -107,6 +109,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    // Todo, Code Review: Нарушение абстракции
     [self.textView isFirstResponder];
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
@@ -116,10 +119,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
+
+    // Todo, Code Review: Мертвый код
 
 //    [self.textView setDidNotResignFirstResponder:NO];
 
@@ -129,12 +135,14 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+
+    // Todo, Code Review: Нарушение абстракции
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
     }
 }
 
+// Todo, Code Review: Нарушение абстракции, вынести отписку в отдельный метод
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -142,6 +150,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - Setup
 
+// Todo, Code Review: Setup чего? Переименовать
 - (void)setup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -151,16 +160,19 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     rightVC.delegate = self;
 }
 
+// Todo, Code Review: Адаптировать размер кеша под реальные значения. Например 15 ячеек followup явно перебор
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
+    // Todo, Code Review: Мертвый код
 //    [self.tableView registerClass:[KGChatCommonTableViewCell class]
 //           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
     [self.tableView registerClass:[IVManualCell class]
            forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:15];
     [self.tableView registerNib:[KGFollowUpChatCell nib]
          forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
-    
+
+    // Todo, Code Review: Добавить метод получения nib внутрь класса
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
             forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
@@ -173,6 +185,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)setupKeyboardToolbar {
+    // Todo, Code Review: Разбить на подметоды, для конфигурации кнопки и textInputBar
+    // Todo, Code Review: локализация
     [self.rightButton setTitle:@"Send" forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
@@ -183,10 +197,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
    
     
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
+    // Todo, Code Review: Локализация
     self.textInputbar.textView.placeholder = @"Type something...";
     self.textInputbar.textView.layer.borderWidth = 0.f;
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
+    // Todo, Code Review: Нарушение абстракции
     [self registerPrefixesForAutoCompletion:@[@"@"]];
     
 }
@@ -198,6 +214,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
 
+// Todo, Code Review: Разделить на два разных метода, аргумент тут не к месту
 - (void)setupIsNoMessagesLabelShow:(BOOL)isShow{
     self.noMessadgesLabel.hidden = isShow;
     if (isShow) {
@@ -213,6 +230,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
+        // Todo, Code Review: Поменять username на название поля из аттрибутов
         self.searchResultArray = [[self.usersArray valueForKey:@"username"]
                                   filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
         
@@ -247,8 +265,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         //ячейка для autoCompletionView
+        // Todo, Code Review: Вынести в отдельный метод весь блок
+        // Todo, Code Review: Зачем mutable?
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         KGUser *user =[KGUser managedObjectByUserName:item];
         KGAutoCompletionCell *cell = [self.tableView
@@ -259,18 +281,27 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+
+    // Todo, Code Review: Мусорный код
     KGFile *f;
     if ([post.files allObjects].count) {
         f = [[post.files allObjects] objectAtIndex:0];
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
+    // Todo, Code Review: Не понятное условие
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
                 [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
+
+
+
+        // Todo, Code Review: TimeIntervalSinceDate заменить на minutesEarlierThan из DateTools и вставить пять минут. Вообще, следует вынести сравнение дат с пятиминутным интервалом в категорию даты дополнительно.
+        // Todo, Code Review: PrevPost и Post сравнение авторов надо сделать нормальным методов внутри поста, а не так в контроллере.
+        // Todo, Code Review: Двойные условия на проверку attachment. Ее надо вынести глобально, а не трижды(см. выше) проверять внутри каждого условия
         if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
             reuseIdentifier = post.files.count == 0 ?
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
@@ -281,10 +312,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    // Todo, Code Review: Мертвый код
 //    [self assignBlocksForCell:cell post:post];
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
+    // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     return cell;
 }
@@ -293,17 +326,20 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Todo, Code Review: Отдельная категория, см. выше
     if ([tableView isEqual:self.tableView]) {
         KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
         
         id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
-        
+
+        // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
             return post.files.count == 0 ?
                     [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
+            // Todo, Code Review: Условие на даты см. выше
             if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
                 return post.files.count == 0 ?
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
@@ -312,10 +348,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                         [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-        
+
+        // Todo, Code Review: Мертвое условие
         return 0.f;
     }
     //ячейка для autoCompletionView:
+    // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
     return [KGAutoCompletionCell heightWithObject:nil];
 }
 
@@ -323,6 +361,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    // Todo, Code Review: Формат даты надо выносить в глобальные
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
     NSDate *date = [formatter dateFromString:[sectionInfo name]];
     NSString *dateName = [date dateFormatForMessageTitle];
@@ -334,6 +373,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    // Todo, Code Review: Переменные должны быть названы нормально.
+    // Todo, Code Review: Переменная в данном случае избыточна
     UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
     
     v.backgroundView.backgroundColor = [UIColor whiteColor];
@@ -345,6 +386,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    // Todo, Code Review: Отдельная категоиря
     if ([tableView isEqual:self.tableView]) {
         return [KGTableViewSectionHeader height];
     } else {
@@ -354,8 +396,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Todo, Code Review: В отдельную категорию делегаты для autocompletion
     if ([tableView isEqual:self.autoCompletionView]) {
-        
+
+        // Todo, Code Review: В отдельный метод, который должен скрывать auto-completion view
+
         NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
         [item appendString:@" "]; // Adding a space helps dismissing the auto-completion view
         
@@ -368,13 +413,15 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)setupFetchedResultsController {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
+    // Todo, Code Review: Заменить селектор на аттрибут из могенератор
     self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
                                                       ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self
                                      ];
-    
+
+
     ([self.fetchedResultsController.fetchedObjects count] == 0) ? [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
     
 }
@@ -404,6 +451,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)sendPost {
 
+    // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
+    // Todo, Code Review: Вынести создание пустой сущности в геттер
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }
@@ -414,7 +463,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     self.textView.text = @"";
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    
+
+    // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
     [self.currentPost setBackendPendingId:
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
@@ -424,6 +474,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
            [[KGAlertManager sharedManager] showError:error];
         }
 
+        // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
         self.currentPost = nil;
     }];
 }
@@ -432,6 +483,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - Private
 
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    // Todo, Code Review: Лишнее, если конфигурация autocompletion будет из категории
     if ([cell isKindOfClass:[KGTableViewCell class]]) {
         [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
         cell.transform = self.tableView.transform;
@@ -452,6 +504,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }];
 }
 
+// Todo, Code Review: Каша из асбтракции
 - (void)updateNavigationBarAppearance {
     NSString *subtitleString;
     BOOL shouldHighlight = NO;
@@ -470,6 +523,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                         shouldHighlight:shouldHighlight];
 }
 
+// Todo, Code Review: Мертвый метод?
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
@@ -532,6 +586,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark -  CTAssetsPickerControllerDelegate
 
+// Todo, Code Review: Каша из абстракции
 - (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
     PHImageManager *manager = [PHImageManager defaultManager];
     self.requestOptions = [[PHImageRequestOptions alloc] init];
@@ -593,6 +648,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - KGLeftMenuDelegate
 
+// Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
 //    [self textFieldShouldReturn:self.textView];
     [self.textView resignFirstResponder];
@@ -610,6 +666,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                  name:self.channel.notificationsName
                                                object:nil];
     [self updateNavigationBarAppearance];
+    // Todo, Code Review: Мертвый код
     //self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
     
@@ -649,6 +706,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - NSFetchedResultsControllerDelegate
 
+// Todo, Code Review: Вынести в категорию.
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView beginUpdates];
 
@@ -758,6 +816,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)showLoadingView {
+    // Todo, Code Review: Почему вьюха каждый раз переинициализируется?
+    // Todo, Code Review: CGRectZero избыточен
     self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
     self.loadingView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.loadingView];
@@ -773,6 +833,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
+    // Todo, Code Review: Поменять флоат на NSTimeInterval
     CGFloat duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
@@ -796,6 +857,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                             action:@selector(refreshControlValueChanged:)
                   forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
+    // Todo, Code Review: Мертвый код
   //  [self.tableView addSubview:self.refreshControl];
    // [self.tableView sendSubviewToBack: self.refreshControl];
     
@@ -818,10 +880,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
 }
 
-
+// Todo, Code Review: Вынести в бизнес логику
 - (void)openFile:(KGFile *)file {
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
-    
+
+    // Todo, Code Review: Шта?
     if (URL) {
         
     } UIDocumentInteractionController *documentInteractionController =
