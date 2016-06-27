@@ -54,6 +54,8 @@
 #import "NSMutableURLRequest+KGHandleCookies.h"
 #import "UIStatusBar+SharedBar.h"
 
+#import "IVManualCell.h"
+
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
@@ -71,8 +73,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property NSMutableIndexSet *deletedSections, *insertedSections;
-@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 @property (assign) BOOL isFirstLoad;
+@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -91,12 +93,11 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [super viewDidLoad];
 
     _isFirstLoad = YES;
-
     self.textView.delegate = self;
-    
 
     [self setup];
     [self setupTableView];
+    [self setupIsNoMessagesLabelShow:YES];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
@@ -111,8 +112,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.textView refreshFirstResponder];
     [IQKeyboardManager sharedManager].enable = NO;
 
-
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -121,6 +120,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
+
+//    [self.textView setDidNotResignFirstResponder:NO];
+
+
 }
 
 
@@ -151,8 +154,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
-    [self.tableView registerClass:[KGChatCommonTableViewCell class]
-           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+//    [self.tableView registerClass:[KGChatCommonTableViewCell class]
+//           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerClass:[IVManualCell class]
+           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:15];
     [self.tableView registerNib:[KGFollowUpChatCell nib]
          forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
     
@@ -191,6 +196,13 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                                             action:@selector(toggleLeftSideMenuAction)];
 }
 
+- (void)setupIsNoMessagesLabelShow:(BOOL)isShow{
+    self.noMessadgesLabel.hidden = isShow;
+    if (isShow) {
+        [self.view bringSubviewToFront:self.noMessadgesLabel];
+    }
+    
+}
 
 #pragma mark - SLKViewController
 
@@ -251,13 +263,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     }
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
-//    if ([sectionInfo numberOfObjects] == 0) {
-//        NSLog(@"ЗДЕСЬ РЫБЫ НЕТ!");
-//    }
-    
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
-                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -266,12 +274,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
             reuseIdentifier = post.files.count == 0 ?
-                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                    [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    [self assignBlocksForCell:cell post:post];
+//    [self assignBlocksForCell:cell post:post];
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
@@ -291,7 +299,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
             return post.files.count == 0 ?
-                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                    [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -300,7 +308,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
                 return post.files.count == 0 ?
-                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                        [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
         
@@ -337,7 +345,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if ([tableView isEqual:self.tableView]) {
-        return 50.f;
+        return [KGTableViewSectionHeader height];
     } else {
         //для autoCompletionView
         return CGFLOAT_MIN;
@@ -365,6 +373,9 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                         groupBy:NSStringFromSelector(@selector(creationDay))
                                                        delegate:self
                                      ];
+    
+    ([self.fetchedResultsController.fetchedObjects count] == 0) ? [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
+    
 }
 
 
@@ -475,7 +486,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             [[KGAlertManager sharedManager] showProgressHud];
             [[KGBusinessLogic sharedInstance] downloadFile:file
                                                   progress:^(NSUInteger persentValue) {
-                                                      NSLog(@"%d", persentValue);
+                                                      NSLog(@"%lu", (unsigned long)persentValue);
                                                   } completion:^(KGError *error) {
                                                       if (error) {
                                                           [[KGAlertManager sharedManager]showError:error];

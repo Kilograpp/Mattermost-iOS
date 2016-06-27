@@ -31,4 +31,15 @@
 - (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth;
 - (UIImage *)kg_resizedImageWithSize:(CGSize)size;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+    UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size);
+    UIImage *KGRoundedPlaceholderImage(CGSize size);
+    
+#ifdef __cplusplus
+}
+#endif
+
 @end
