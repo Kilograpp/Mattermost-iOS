@@ -13,6 +13,7 @@
 @property (copy, nonatomic) NSString * currentUserId;
 @property (copy, nonatomic) NSString * currentTeamId;
 @property (copy, nonatomic) NSString * siteName;
+@property (copy, nonatomic) NSString * lastChannelId;
 
 + (instancetype)sharedInstance;
 - (void)save;
