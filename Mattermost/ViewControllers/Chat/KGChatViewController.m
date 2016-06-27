@@ -53,6 +53,8 @@
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGPreferences.h"
+
 #import "KGImagePickerController.h"
 #import "IVManualCell.h"
 
@@ -204,13 +206,16 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - SLKViewController
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
-    //SLKTextViewController - поиск по предикату
+    //поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
         self.searchResultArray = [[self.usersArray valueForKey:@"username"]
                                   filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
-        
+    }
+    
+    if (word.length == 0) {
+        self.searchResultArray = [self.usersArray valueForKey:@"username"];
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -218,9 +223,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (CGFloat)heightForAutoCompletionView {
-    //SLKTextViewController
     CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
     return cellHeight*self.searchResultArray.count;
+}
+
+- (CGFloat)maximumHeightForAutoCompletionView {
+    return self.tableView.bounds.size.height;
 }
 
 
@@ -545,16 +553,22 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
 #pragma mark - Notifications
 
-- (void)test:(NSNotification *)notification {
+- (void)performFillingTypingIndicatorView:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
-        
+        //проверка на то, что текущий юзер != юзеру, который пишет
+
         if (kg_notification.action == KGActionTyping) {
+            NSString *currentUserID = [[KGPreferences sharedInstance]currentUserId];
             KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
-            [self.typingIndicatorView insertUsername:user.nickname];
+            if (![user.identifier isEqualToString:currentUserID]) {
+                  [self.typingIndicatorView insertUsername:user.nickname];
+            }
         }
     }
 }
+
+
 
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -669,7 +683,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(test:)
+                                             selector:@selector(performFillingTypingIndicatorView:)
                                                  name:self.channel.notificationsName
                                                object:nil];
     [self updateNavigationBarAppearance];
