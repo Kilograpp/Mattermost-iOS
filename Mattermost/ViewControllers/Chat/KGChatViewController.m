@@ -175,8 +175,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
-   
-    
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     self.textInputbar.textView.placeholder = @"Type something...";
     self.textInputbar.textView.layer.borderWidth = 0.f;
@@ -278,6 +276,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+    
     return cell;
 }
 
@@ -584,8 +583,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
 //    [self textFieldShouldReturn:self.textView];
-    [self.textView resignFirstResponder];
-//    [self dismissKeyboard:YES];
+//    [self.textView resignFirstResponder];
+    [self dismissKeyboard:YES];
     [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
