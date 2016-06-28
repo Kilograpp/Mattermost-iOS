@@ -161,12 +161,14 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     // Todo, Code Review: Мертвый код
-//    [self.tableView registerClass:[KGChatCommonTableViewCell class]
-//           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerClass:[IVManualCell class]
-           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerNib:[KGFollowUpChatCell nib]
-         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerClass:[KGChatCommonTableViewCell class]
+           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:7];
+    [self.tableView registerClass:[KGFollowUpChatCell class]
+           forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
+//    [self.tableView registerClass:[IVManualCell class]
+//           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:8];
+//    [self.tableView registerNib:[KGFollowUpChatCell nib]
+//         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
     // Todo, Code Review: Добавить метод получения nib внутрь класса
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
@@ -292,7 +294,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     // Todo, Code Review: Не понятное условие
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
-                [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -307,7 +309,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
             reuseIdentifier = post.files.count == 0 ?
-                    [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
 
@@ -335,7 +337,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
             return post.files.count == 0 ?
-                    [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -345,7 +347,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
                 return post.files.count == 0 ?
-                        [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
 
