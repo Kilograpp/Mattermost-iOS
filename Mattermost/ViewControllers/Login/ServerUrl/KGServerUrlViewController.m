@@ -15,6 +15,7 @@
 #import "KGPreferences.h"
 #import "KGUtils.h"
 #import "NSString+Validation.h"
+#import "KGBusinessLogic+Session.h"
 
 static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
@@ -115,6 +116,19 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 - (void)setServerBaseUrl {
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
     KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
+    
+//    [[KGBusinessLogic sharedInstance] validateServerAddress:^(KGError *error){
+//        if (error) {
+////            NSLog(@"error! %@", error.message);
+//            [self hideProgressHud];
+//            [self highlightTextFieldsForError];
+//            [[KGAlertManager sharedManager] showError:error];
+//            [self hideProgressHud];
+//        } else {
+//            NSLog(@"OK");
+//        }
+////        [self hideProgressHud];
+//    }];
 }
 
 - (void)nextActionHandler {
@@ -126,6 +140,28 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     }
 }
 
+//- (void)nextActionHandler {
+//    if ([self.textField.text kg_isValidUrl]) {
+//        [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
+//        KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
+//        [[KGBusinessLogic sharedInstance] validateServerAddress:^(KGError *error){
+//            if (error) {
+//                           NSLog(@"error! %@", error.message);
+//                [self hideProgressHud];
+//                [self highlightTextFieldsForError];
+//                [[KGAlertManager sharedManager] showError:error];
+//                [self hideProgressHud];
+//            } else {
+//                NSLog(@"OK");
+//                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+//            }
+//            //        [self hideProgressHud];
+//        }];
+//
+//    } else {
+//        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
+//    }
+//}
 
 #pragma mark - UITextFieldDelegate
 

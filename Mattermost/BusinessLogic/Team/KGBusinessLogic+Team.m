@@ -64,4 +64,11 @@
     return [mappingResult.dictionary[@"teams"] count] == 1;
 }
 
+//- (NSInteger)numberOfTeam:(RKMappingResult *)mappingResult {
+//     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+//    return [mappingResult.dictionary[@"teams"] count];
+//     } failure:^(KGError *error) {
+//         safetyCall(nil, YES, error);
+//     }];
+//}
 @end

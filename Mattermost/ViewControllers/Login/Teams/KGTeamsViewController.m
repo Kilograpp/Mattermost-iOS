@@ -11,12 +11,19 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "CAGradientLayer+KGPreparedGradient.h"
-
-@interface KGTeamsViewController () <UITableViewDataSource, UITableViewDelegate>
+#import "KGBusinessLogic+Team.h"
+#import "KGTeam.h"
+#import "KGObjectManager.h"
+#import <MagicalRecord/MagicalRecord/NSManagedObject+MagicalFinders.h>
+//#import "KGBusinessLogic+Session.h"
+#import "KGBusinessLogic+Channel.h"
+#import "KGSideMenuContainerViewController.h"
+#import "KGPreferences.h"
+@interface KGTeamsViewController () <UITableViewDataSource, UITableViewDelegate, NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
-
+@property (nonatomic,strong) NSFetchedResultsController *fetchedResultsController;
 @end
 
 @implementation KGTeamsViewController
@@ -27,6 +34,8 @@
     [self setupTable];
     [self setup];
     [self setupNavigationBar];
+    [self setupFetchedResultsController];
+    [self.tableView reloadData];
 }
 
 
@@ -37,7 +46,8 @@
 }
 
 - (void)setup {
-    self.titleLabel.text = @"Kilograpp";
+    NSString *siteName = [[KGPreferences sharedInstance] siteName];
+    self.titleLabel.text = siteName;
     self.title = @"Choose your team";
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.font = [UIFont kg_bold28Font];
@@ -63,13 +73,38 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KGTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGTeamCell reuseIdentifier]];
-    [cell configureWithObject:nil];
+    KGTeam *team = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [cell configureWithObject:team];
    
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+        [self hideProgressHud];
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+            [self hideProgressHud];
+        } else {
+            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }];
+    
+
+}
+
+#pragma mark - NSFetchedResultsController
+
+- (void)setupFetchedResultsController {
+    self.fetchedResultsController = [KGTeam MR_fetchAllSortedBy:nil ascending:NO withPredicate:nil groupBy:nil delegate:self];
+}
+
 @end

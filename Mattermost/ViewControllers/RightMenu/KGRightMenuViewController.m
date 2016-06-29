@@ -24,8 +24,6 @@
 #import "UIStatusBar+SharedBar.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
-//@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-//@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
@@ -58,7 +56,9 @@
     
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
     self.avatarImageView.backgroundColor = [UIColor kg_rightMenuSeparatorColor];
-    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+    [self.avatarImageView setImageWithURL:user.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.nicknameLabel.textColor = [UIColor kg_whiteColor];
     self.nicknameLabel.font = [UIFont kg_semibold16Font];
@@ -106,10 +106,7 @@
     cell.preservesSuperviewLayoutMargins = NO;
     cell.separatorInset = UIEdgeInsetsZero;
     cell.layoutMargins = UIEdgeInsetsZero;
-//    if (indexPath.row == 0) {
-//        KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-//        [cell configureWithImageName:user.imageUrl];
-//    }
+
     return cell;
 }
 
@@ -118,14 +115,7 @@
 - (void)setupDataSource {
     NSMutableArray *rightMenuDataSource = [[NSMutableArray alloc] init];
     __weak typeof(self) wSelf = self;
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-//    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(user.nickname, nil)
-//                                                                     iconName:@"menu_switch_icon"
-//                                                                   titleColor:[UIColor kg_whiteColor]
-//                                                                      handler:^{
-//                                                                        [wSelf.delegate navigationToProfile];
-//                                                                          
-//                                                                      }]];
+
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
@@ -201,7 +191,7 @@
 }
 
 #pragma mark - Private Setters
-
+//fixme а зачем это?
 - (void)setDelegate:(id<KGRightMenuDelegate>)delegate {
     _delegate = delegate;
 }
@@ -213,6 +203,7 @@
     [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
         [[KGAlertManager sharedManager] hideHud];
         KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        [[KGAlertManager sharedManager] hideHud];
         [appDelegate loadInitialScreen];
         [[UIStatusBar sharedStatusBar] restoreState];
     }];

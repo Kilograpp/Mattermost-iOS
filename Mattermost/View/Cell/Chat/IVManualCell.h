@@ -14,6 +14,6 @@
 + (CGFloat)heightWithObject:(id)object;
 
 @property (copy, nonatomic) void(^fileTapHandler)(NSUInteger fileNumber);
-@property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
+@property (nonatomic, copy) void (^mentionTapHandler)(NSString *nickname);
 
 @end

@@ -24,6 +24,15 @@ static NSString *const KGErrorServerInternalMessage = @"Повторите по�
     if (self) {
         self.code = @(error.code);
         self.message = error.localizedDescription;
+        
+        NSData *data = [error.localizedRecoverySuggestion dataUsingEncoding:NSUTF8StringEncoding];
+        if (data) {
+            NSDictionary *messageDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            NSString *message = messageDict[@"message"];
+            if (message) {
+                self.message = message;
+            }
+        }
     }
     
     return self;

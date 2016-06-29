@@ -17,5 +17,5 @@
 - (KGTeam *)currentTeam;
 - (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context;
 - (NSString*)currentTeamId;
-
+- (NSInteger)numberOfTeam:(RKMappingResult *)mappingResult;
 @end
