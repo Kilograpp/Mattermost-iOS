@@ -36,8 +36,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
 
-@property (nonatomic, assign) BOOL shouldSelectTeam;
-
 @end
 
 @implementation KGLoginViewController
@@ -195,7 +193,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
             [self highlightTextFieldsForError];
             [self processError:error];
         } else {
-            if (!self.shouldSelectTeam) {
+            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                if (!userShouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
                         [self hideProgressHud];
                         if (error) {
@@ -209,7 +208,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
                 } else {
                     [self hideProgressHud];
                     [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
-            }
+                }
+            }];
         }
     }];
 }
@@ -220,10 +220,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
         if (error) {
             [self processError:error];
         } else {
-            self.shouldSelectTeam = userShouldSelectTeam;
             [self configureLabels];
         }
-        NSLog(@"%@", userShouldSelectTeam ? @"YES" : @"NO");
 
         [self hideLoadingViewAnimated:YES];
     }];
