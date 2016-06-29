@@ -9,7 +9,7 @@
 #import "KGTeamCell.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
-
+#import "KGTeam.h"
 @interface  KGTeamCell ()
 @property (weak, nonatomic) IBOutlet UILabel *teamNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *arrowImageView;
@@ -44,7 +44,10 @@
 }
 
 - (void)configureWithObject:(id)object {
-    self.teamNameLabel.text = @"Kilograpp";
+    if ([object isKindOfClass:[KGTeam class]]){
+        KGTeam *team = object;
+        self.teamNameLabel.text = team.name;
+    }
     self.circleView.backgroundColor = [UIColor kg_lightBlueColor];
     self.circleLabel.text = [self.teamNameLabel.text substringToIndex:1];
 }

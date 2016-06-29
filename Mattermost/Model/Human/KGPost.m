@@ -2,6 +2,7 @@
 #import "KGUser.h"
 #import "KGChannel.h"
 #import "KGFile.h"
+#import "DateTools.h"
 #import <RestKit.h>
 
 @interface KGPost ()
@@ -9,6 +10,10 @@
 @end
 
 @implementation KGPost
+
+- (BOOL)isUnread {
+    return ![self.createdAt isEarlierThan:self.channel.lastViewDate];
+}
 
 #pragma mark - Mappings
 
@@ -127,6 +132,14 @@
     }
 }
 
+- (NSArray *)sortedFiles {
+    NSSortDescriptor *isImageSortDesctiptor =
+            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(isImage)) ascending:YES];
+    NSSortDescriptor *idSortDesctiptor =
+            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(name)) ascending:YES];
+    NSArray *sortDesctiptors = @[ isImageSortDesctiptor, idSortDesctiptor ];
+    return [[self.files allObjects] sortedArrayUsingDescriptors:sortDesctiptors];
+}
 
 #pragma mark - Request Descriptors
 

@@ -30,13 +30,13 @@
                             <constraint firstAttribute="width" constant="34" id="cRx-R9-IDY"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wx2-9D-E03">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wx2-9D-E03">
                         <rect key="frame" x="50" y="16" width="44" height="20"/>
                         <fontDescription key="fontDescription" name="SFUIText-Bold" family="SF UI Text" pointSize="16"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwB-WF-Jmp">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KwB-WF-Jmp">
                         <rect key="frame" x="94" y="17" width="218" height="18"/>
                         <fontDescription key="fontDescription" name="SFUIText-Regular" family="SF UI Text" pointSize="15"/>
                         <color key="textColor" red="0.67843137249999996" green="0.69019607839999997" blue="0.71372549019999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -55,7 +55,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="avatarImagView" destination="xrh-1f-e4y" id="duz-ow-R0E"/>
+                <outlet property="avatarImageView" destination="xrh-1f-e4y" id="duz-ow-R0E"/>
                 <outlet property="nameUserLabel" destination="KwB-WF-Jmp" id="egT-u6-3t2"/>
                 <outlet property="nickUserLabel" destination="Wx2-9D-E03" id="M7R-QL-e26"/>
             </connections>

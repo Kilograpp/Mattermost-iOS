@@ -11,6 +11,7 @@
 #import <MFSideMenu/MFSideMenu.h>
 #import <Masonry/Masonry.h>
 #import "KGConstants.h"
+#import "KGAlertManager.h"
 
 @interface KGViewController () <UINavigationControllerDelegate>
 
@@ -39,7 +40,6 @@
 }
 
 
-
 #pragma mark - Progress
 
 - (void)showProgressHud {
@@ -54,17 +54,14 @@
 #pragma mark - Error processing
 
 - (void)processError:(KGError *)error {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:error.message delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil] ;
-    [alert show];
+    [[KGAlertManager sharedManager] showError:error];
 }
 
 - (void)processErrorWithTitle:(NSString *)title message:(NSString *)message {
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:title
-                                                     message:message
-                                                    delegate:nil
-                                           cancelButtonTitle:@"Cancel"
-                                           otherButtonTitles:nil, nil];
-    [alert show];
+   KGError *error = [[KGError alloc] init];
+    error.title = title;
+    error.message = message;
+    [[KGAlertManager sharedManager] showError:error];
 }
 
 - (void)test {

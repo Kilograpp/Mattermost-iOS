@@ -22,6 +22,15 @@ static NSString *const kBasisAnimationColorKey = @"colors";
     return [self makeGradientForTopColor:topColor ToBottomColor:bottomColor];
 }
 
++ (CAGradientLayer *)setupGradientForTopColor:(UIColor *)topColor ToBottomColor:(UIColor *)bottomColor {
+    
+    NSArray *colors = [NSArray arrayWithObjects:(id)topColor.CGColor, (id)bottomColor.CGColor, nil];
+    CAGradientLayer *headerLayer = [CAGradientLayer layer];
+    headerLayer.colors = colors;
+    
+    return headerLayer;
+}
+
 + (CAGradientLayer *)makeGradientForTopColor:(UIColor *)topColor ToBottomColor:(UIColor *)bottomColor {
     NSArray *colors = [NSArray arrayWithObjects:(id)topColor.CGColor, (id)bottomColor.CGColor, nil];
     NSNumber *stopTop = [NSNumber numberWithFloat:0.0];

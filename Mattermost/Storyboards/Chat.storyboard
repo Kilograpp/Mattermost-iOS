@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -8,6 +8,9 @@
     <customFonts key="customFonts">
         <mutableArray key="SF-UI-Text-Bold.otf">
             <string>SFUIText-Bold</string>
+        </mutableArray>
+        <mutableArray key="SF-UI-Text-Semibold.otf">
+            <string>SFUIText-Semibold</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -26,7 +29,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nil-Qf-8cS">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDl-Ww-PLV">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDl-Ww-PLV">
                                         <rect key="frame" x="20" y="22" width="255" height="20"/>
                                         <fontDescription key="fontDescription" name="SFUIText-Bold" family="SF UI Text" pointSize="16"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -129,7 +132,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="px6-Ta-Ljn">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDz-56-bVk">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XDz-56-bVk">
                                         <rect key="frame" x="21" y="15" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="XDz-56-bVk" secondAttribute="height" multiplier="1:1" id="0RJ-gt-lhe"/>
@@ -139,11 +142,12 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JeU-20-hRd">
                                         <rect key="frame" x="70" y="22" width="285" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="JeU-20-hRd" firstAttribute="leading" secondItem="XDz-56-bVk" secondAttribute="trailing" constant="14" id="0nf-oN-ZcQ"/>
                                     <constraint firstAttribute="height" constant="64" id="D3c-go-a7L"/>
@@ -152,6 +156,9 @@
                                     <constraint firstItem="XDz-56-bVk" firstAttribute="centerY" secondItem="px6-Ta-Ljn" secondAttribute="centerY" id="hpi-fR-c9G"/>
                                     <constraint firstAttribute="trailing" secondItem="JeU-20-hRd" secondAttribute="trailing" constant="20" id="lpU-dh-9tg"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="6r2-uf-XrV" appends="YES" id="QgO-1E-JHB"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -178,11 +185,17 @@
                         <outlet property="headerView" destination="px6-Ta-Ljn" id="ivD-kk-Hxp"/>
                         <outlet property="nicknameLabel" destination="JeU-20-hRd" id="MxZ-eP-xf6"/>
                         <outlet property="tableView" destination="1Tz-RJ-Dm5" id="Wcl-cZ-pZx"/>
+                        <segue destination="ExM-Qi-d3C" kind="show" identifier="presentProfile" id="yA7-Ik-moW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpM-eI-LQE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="6r2-uf-XrV">
+                    <connections>
+                        <action selector="profileAction:" destination="z8p-bN-Ad0" id="x31-ig-hmW"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="947.5" y="-217.5"/>
+            <point key="canvasLocation" x="1060.5" y="-191.5"/>
         </scene>
         <!--Chat Navigation Controller-->
         <scene sceneID="GMN-R0-Mnt">
@@ -205,7 +218,7 @@
             </objects>
             <point key="canvasLocation" x="503" y="506"/>
         </scene>
-        <!--Kilograpp-->
+        <!--Chat View Controller-->
         <scene sceneID="cWP-WO-cIe">
             <objects>
                 <viewController id="uKV-ME-BHi" customClass="KGChatViewController" sceneMemberID="viewController">
@@ -216,16 +229,50 @@
                     <view key="view" contentMode="scaleToFill" id="d2q-N3-pwb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="NO MESSAGES" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8Y-bH-UTD">
+                                <rect key="frame" x="129" y="324" width="118" height="20"/>
+                                <fontDescription key="fontDescription" name="SFUIText-Semibold" family="SF UI Text" pointSize="16"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="J8Y-bH-UTD" firstAttribute="centerY" secondItem="d2q-N3-pwb" secondAttribute="centerY" id="95x-Ql-NRG"/>
+                            <constraint firstItem="J8Y-bH-UTD" firstAttribute="centerX" secondItem="d2q-N3-pwb" secondAttribute="centerX" id="yyo-gH-fNW"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Kilograpp" id="GGU-Yz-pO3"/>
+                    <navigationItem key="navigationItem" id="GGU-Yz-pO3">
+                        <barButtonItem key="rightBarButtonItem" image="navbar_more_icon" id="9jw-m2-vIB">
+                            <connections>
+                                <action selector="rightBarButtonAction:" destination="uKV-ME-BHi" id="ZfT-fD-3nM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="noMessadgesLabel" destination="J8Y-bH-UTD" id="xHN-s5-kLp"/>
+                        <segue destination="ExM-Qi-d3C" kind="show" identifier="presentProfile" id="4M5-GR-Gmg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="947.5" y="505.5"/>
         </scene>
+        <!--SettingsAccount-->
+        <scene sceneID="O6e-oo-8mK">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SettingsAccount" id="ExM-Qi-d3C" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="biS-YQ-4Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1448.5" y="-32"/>
+        </scene>
     </scenes>
     <resources>
         <image name="menu_users_icon" width="20" height="13"/>
+        <image name="navbar_more_icon" width="22" height="22"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="4M5-GR-Gmg"/>
+    </inferredMetricsTieBreakers>
 </document>

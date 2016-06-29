@@ -20,9 +20,11 @@
 
 - (void)loadTeamsWithCompletion:(void(^)(BOOL userShouldSelectTeam, KGError *error))completion {
     NSString* path = [KGTeam initialLoadPathPattern];
-    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        BOOL hasSingleTeam = [self isMappingResultContainsOnlyOneTeam:mappingResult];
 
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        [self setSiteNameFromMappingResult:mappingResult];
+
+        BOOL hasSingleTeam = [self isMappingResultContainsOnlyOneTeam:mappingResult];
         if (hasSingleTeam) {
             [self setFirstTeamAsCurrentFromMappingResult:mappingResult];
         }
@@ -54,8 +56,19 @@
     [[KGPreferences sharedInstance] save];
 }
 
+- (void)setSiteNameFromMappingResult:(RKMappingResult*)mappingResult {
+    [[KGPreferences sharedInstance] setSiteName:mappingResult.dictionary[@"client_cfg"][@"siteName"]];
+}
+
 - (BOOL)isMappingResultContainsOnlyOneTeam:(RKMappingResult *)mappingResult {
     return [mappingResult.dictionary[@"teams"] count] == 1;
 }
 
+//- (NSInteger)numberOfTeam:(RKMappingResult *)mappingResult {
+//     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+//    return [mappingResult.dictionary[@"teams"] count];
+//     } failure:^(KGError *error) {
+//         safetyCall(nil, YES, error);
+//     }];
+//}
 @end

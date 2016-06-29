@@ -20,4 +20,7 @@ NSString * const KGAcceptLanguageHeader = @"Accept-Language";
 
 
 NSString*  const KGNotificationUsersStatusUpdate = @"maUsaDidStatusUpdateMon";
+NSString*  const KGNotificationChannelsStateUpdate = @"deChannelUpdateMonYe";
+NSString*  const KGNotificationDidReceiveRemoteNotification = @"datRmteNotifyBudForYa";
+NSString*  const KGNotificationDidFinishLaunching = @"justGotTherePal";
 

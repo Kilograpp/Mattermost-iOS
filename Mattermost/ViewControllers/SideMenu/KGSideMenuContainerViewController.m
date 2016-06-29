@@ -11,9 +11,9 @@
 #import "KGConstants.h"
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
+#import "UIStatusBar+SharedBar.h"
 
 @interface KGSideMenuContainerViewController ()
-@property (nonatomic, assign) CGFloat *oldX;
 @end
 
 @implementation KGSideMenuContainerViewController
@@ -27,12 +27,14 @@
     controller.leftMenuViewController = leftMenuViewController;
     controller.centerViewController = centerViewController;
     controller.rightMenuViewController = rightMenuViewController;
+
     return controller;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
 }
+
 
 + (instancetype)configuredContainerViewController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Chat" bundle:nil];
@@ -58,16 +60,26 @@
         if (completion) {
             completion();
         }
-
-        [wSelf toogleStatusBarState];
+       // [wSelf toogleStatusBarState];
     }];
 }
 
 - (void)toogleStatusBarState {
-    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
-    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationFade];
-}
+//    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+//    [self reverseStatusBarIsStatusBarHidden:isStatusBarHidden];
+   
+//    BOOL isStatusBarHidden = self.menuState == MFSideMenuStateClosed;
+//    [[UIApplication sharedApplication] setStatusBarHidden:!isStatusBarHidden withAnimation:UIStatusBarAnimationSlide];
+    
+  }
 
+- (void)reverseStatusBarIsStatusBarHidden:(BOOL)isStatusBarHidden {
+    if (!isStatusBarHidden) {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
+    } else {
+        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar - 1 ;
+    }
+}
 
 #pragma mark - Orientations
 

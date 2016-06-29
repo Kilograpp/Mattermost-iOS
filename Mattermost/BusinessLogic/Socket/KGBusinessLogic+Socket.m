@@ -1,4 +1,4 @@
-//
+ //
 // Created by Maxim Gubin on 11/06/16.
 // Copyright (c) 2016 Kilograpp. All rights reserved.
 //
@@ -19,7 +19,7 @@
 #import "KGUser.h"
 #import "KGBusinessLogic+Posts.h"
 #import "NSStringUtils.h"
-#import <SRWebSocket.h>
+#import <SocketRocket/SRWebSocket.h>
 
 
 
@@ -42,7 +42,7 @@ static NSString * const KGActionNameKey = @"action";
 
 - (void)openSocket {
     if ([self shouldOpenSocket]) {
-        [self rocketFuckingSocket];
+        [self startRocketSocket];
     }
 }
 
@@ -52,7 +52,7 @@ static NSString * const KGActionNameKey = @"action";
     self.socket = nil;
 }
 
-- (void)rocketFuckingSocket {
+- (void)startRocketSocket {
     SRWebSocket *socket = [[SRWebSocket alloc] initWithURL:[self socketURL]];
     [socket setRequestCookies:@[[self authCookie]]];
     [socket setDelegate:self];

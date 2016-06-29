@@ -144,8 +144,33 @@
     return newImage;
 }
 
++ (void)roundedImage:(UIImage *)image whithRadius: (CGFloat)radius
+          completion:(void (^)(UIImage *image))completion {
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+        //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
+        
+        [[UIBezierPath bezierPathWithRoundedRect:rect
+                                    cornerRadius:radius] addClip];
+        // Draw your image
+        [image drawInRect:rect];
+        
+        // Get the image, here setting the UIImageView image
+        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        // Lets forget about that we were drawing
+        UIGraphicsEndImageContext();
+        dispatch_async( dispatch_get_main_queue(), ^{
+            if (completion) {
+                completion(roundedImage);
+            }
+        });
+    });
+}
+
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
-- (CGAffineTransform)transformForOrientation:(CGSize)newSize {
+- (CGAffineTransform)kg_transformForOrientation:(CGSize)newSize {
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch (self.imageOrientation) {
@@ -210,6 +235,95 @@
             }
         });
     });
+}
+
+
+- (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth
+{
+    if (self.size.width > maxWidth) {
+        CGFloat scale = maxWidth / self.size.width;
+        CGSize newSize = CGSizeMake(maxWidth, self.size.height * scale);
+        UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.0);
+        [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+        UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage;
+    }
+    
+    return self.copy;
+}
+
+- (UIImage *)kg_resizedImageWithSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
+}
+
+UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size)
+{
+    UIGraphicsBeginImageContextWithOptions(size, false, 0.0f);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    [sourceImage drawInRect:CGRectMake(0.0f, 0.0f, size.width, size.height) blendMode:kCGBlendModeCopy alpha:1.0f];
+    
+    CGContextSetBlendMode(context, kCGBlendModeCopy);
+    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+    
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, 0.0f, size.height / 2.0f);
+    CGContextAddArcToPoint(context, 0.0f, 0.0f, size.width / 2.0f, 0.0f, size.width / 2.0f);
+    CGContextAddLineToPoint(context, 0.0f, 0.0f);
+    CGContextAddLineToPoint(context, 0.0f, size.height / 2.0f);
+    CGContextFillPath(context);
+    
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, size.width / 2.0f, 0.0f);
+    CGContextAddArcToPoint(context, size.width, 0.0f, size.width, size.height / 2.0f, size.width / 2.0f);
+    CGContextAddLineToPoint(context, size.width, 0.0f);
+    CGContextAddLineToPoint(context, size.width / 2.0f, 0.0f);
+    CGContextFillPath(context);
+    
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, size.width, size.height / 2.0f);
+    CGContextAddArcToPoint(context, size.width, size.height, size.width / 2.0f, size.height, size.width / 2.0f);
+    CGContextAddLineToPoint(context, size.width, size.height);
+    CGContextAddLineToPoint(context, size.width, size.height / 2.0f);
+    CGContextFillPath(context);
+    
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, size.width / 2.0f, size.height);
+    CGContextAddArcToPoint(context, 0.0f, size.height, 0.0f, size.height / 2.0f, size.width / 2.0f);
+    CGContextAddLineToPoint(context, 0.0f, size.height);
+    CGContextAddLineToPoint(context, size.width / 2.0f, size.height);
+    CGContextFillPath(context);
+    
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return result;
+}
+
+UIImage *KGRoundedPlaceholderImage(CGSize size)
+{
+    static dispatch_once_t once;
+    static id image;
+    dispatch_once(&once, ^{
+        CGRect rect = CGRectMake(0, 0, 40, 40);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:20].CGPath;
+        CGContextAddPath(context, ref);
+        CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
+        CGContextFillPath(context);
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    });
+    
+    
+    return image;
+
 }
 
 @end

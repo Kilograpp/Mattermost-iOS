@@ -33,4 +33,17 @@
     return 51.f;
 }
 
++ (UIImage *)placeholderBackground {
+    CGRect rect = CGRectMake(0, 0, 40, 40);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:20].CGPath;
+    CGContextAddPath(context, ref);
+    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
+    CGContextFillPath(context);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 @end

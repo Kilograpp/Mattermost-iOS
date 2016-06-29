@@ -26,9 +26,14 @@ extern NSString * const KGAuthTokenHeaderName;
 #pragma mark - Network
 
 
+- (void)validateServerAddress:(void(^)(KGError *error))completion {
+    [self.defaultObjectManager getObjectsAtPath:@"teams/all_team_listings" success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
+}
 
 - (void)updateStatusForUsers:(NSArray<KGUser*>*) users completion:(void(^)(KGError *error))completion {
-    [self updateStatusForUsersWithIds:[users valueForKey:@"identifier"] completion:completion];
+    [self updateStatusForUsersWithIds:[users valueForKey:[KGUserAttributes identifier]] completion:completion];
 }
 
 - (void)sendLogoutRequestWithCompletion:(void(^)(KGError *error))completion {
@@ -54,6 +59,14 @@ extern NSString * const KGAuthTokenHeaderName;
         [self openSocket];
     } failure:completion];
 }
+
+//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
+//    NSString *path = [KGUser authPathPattern];
+//    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
+//        NSLog(@"seccess");
+//    }
+//                                        failure:completion];
+//}
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
     NSString* path = [KGUser uploadAvatarPathPattern];

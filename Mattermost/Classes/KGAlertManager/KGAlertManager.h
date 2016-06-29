@@ -24,10 +24,9 @@
 //- (void)showError:(KGError *)error withActionBlock:(void(^)())actionBlock;
 
 - (void)showError:(KGError *)error;
-- (void)showSuccessWithTitle:(NSString*)title message:(NSString *)message;
-- (void)showErrorWithTitle:(NSString*)title message:(NSString *)message;
 - (void)showSuccessWithMessage:(NSString *)message;
-- (void)showWarningWithTitle:(NSString *)title message:(NSString *)message;
+- (void)showErrorWithMessage:(NSString *)message;
+- (void)showWarningWithMessage:(NSString *)message;
 - (void)showUnauthorizedError;
 
 @end

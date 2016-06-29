@@ -25,11 +25,16 @@
 }
 
 - (NSURL *)thumbLink {
-    if (self.hasPreviewImageValue){
-        return [[KGBusinessLogic sharedInstance] thumbLinkForFile:self];
-    } else {
-        return nil;
-    }
+//    if (self.hasPreviewImageValue){
+//        return [[KGBusinessLogic sharedInstance] thumbLinkForFile:self];
+//    } else {
+//        return nil;
+//    }
+     return [[KGBusinessLogic sharedInstance] thumbLinkForFile:self];
+}
+
+- (NSURL *)localUrl {
+    return [NSURL URLWithString:self.localLink];
 }
 
 
@@ -86,7 +91,7 @@
 }
 
 + (NSString*)thumbLinkPathPattern {
-    return @"teams/:post.channel.team.identifier/files/get:thumbPostfix.jpg";
+    return @"teams/:post.channel.team.identifier/files/get:thumbPostfix\\.jpg";
 }
 
 

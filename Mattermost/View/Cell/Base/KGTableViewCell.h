@@ -17,6 +17,11 @@
 - (void)awakeFromNib __attribute((objc_requires_super));
 - (void)configureWithObject:(id)object;
 
++ (UIImage *)placeholderBackground;
+
 @property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber, UIView *cell);
+@property (copy, nonatomic) void(^fileTapHandler)(NSUInteger fileNumber);
+@property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
+
 
 @end

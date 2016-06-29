@@ -11,11 +11,12 @@
 #import <Crashlytics/Crashlytics.h>
 #import <MagicalRecord.h>
 #import "KGPreferences.h"
+#import "KGSideMenuContainerViewController.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Notifications.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "KGBusinessLogic+Session.h"
-#import "KGSideMenuContainerViewController.h"
+#import "KGNotificationValues.h"
 
 @interface KGAppDelegate ()
 
@@ -29,7 +30,7 @@
     [self setupKeyboardManager];
     [self registerForRemoteNotifications];
     [self setupFabric];
-
+    [self sendLaunchNotificationWithOptions:launchOptions];
     return YES;
 }
 
@@ -58,7 +59,9 @@
     [[NSManagedObjectContext MR_defaultContext].parentContext MR_saveToPersistentStoreAndWait];
 }
 
-
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationDidReceiveRemoteNotification object:userInfo];
+}
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [[KGBusinessLogic sharedInstance] saveNotificationsToken:deviceToken];
 }
@@ -68,6 +71,7 @@
     if ([[KGBusinessLogic sharedInstance] isSignedIn]) {
         KGSideMenuContainerViewController *sideMenuContainer = [KGSideMenuContainerViewController configuredContainerViewController];
         self.window.rootViewController = sideMenuContainer;
+        _menuContainerViewController = sideMenuContainer;
         [self.window makeKeyAndVisible];
     } else {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
@@ -87,6 +91,10 @@
 
 - (void)registerForRemoteNotifications {
     [[KGBusinessLogic sharedInstance] registerForRemoteNotifications];
+}
+
+- (void)sendLaunchNotificationWithOptions:(NSDictionary* )options {
+    [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationDidFinishLaunching object:options];
 }
 
 @end

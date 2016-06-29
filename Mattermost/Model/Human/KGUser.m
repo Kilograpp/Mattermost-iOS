@@ -49,10 +49,10 @@ static NSString * const kOfflineNetworkString = @"offline";
 + (RKEntityMapping *)entityMapping {
     RKEntityMapping *mapping = [super entityMapping];
     [mapping addAttributeMappingsFromDictionary:@{
-            @"first_name" : @"firstName",
-            @"last_name"  : @"lastName"
+            @"first_name" : [KGUserAttributes firstName],
+            @"last_name"  : [KGUserAttributes lastName]
     }];
-    [mapping addAttributeMappingsFromArray:@[@"username", @"email", @"nickname"]];
+    [mapping addAttributeMappingsFromArray:@[[KGUserAttributes username], [KGUserAttributes email], [KGUserAttributes nickname]]];
     return mapping;
 }
 

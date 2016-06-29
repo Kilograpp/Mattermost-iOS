@@ -9,18 +9,17 @@
 #import "KGAlertManager.h"
 #import "UIWindow+KGAdditions.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-#import <TSMessage.h>
-#import "TSMessageView.h"
+#import "KGAlertView.h"
 
 static CGFloat const kHUDDimViewAlpha = 0.4f;
 static CGFloat const kHUDDismissDelay = 1.2f;
-static CGFloat const kStandartHudDismissDelay = 3.0f;
+static CGFloat const kStandartHudDismissDelay = 4.0f;
 
 
 @interface KGAlertManager ()
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, assign, getter=isHudHidden) BOOL hudHidden;
-@property (nonatomic, strong) TSMessage *message;
+@property (nonatomic, strong) KGAlertView *messageView;
 
 @end
 
@@ -74,36 +73,16 @@ static CGFloat const kStandartHudDismissDelay = 3.0f;
 
 - (void)showError:(KGError *)error {
     self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                      withTitle:NSLocalizedString(error.title, nil)
-                                    withMessage:NSLocalizedString(error.message, nil)
-                                       withType:TSMessageNotificationTypeError
-                                   withDuration:kStandartHudDismissDelay
-                                   withCallback:nil
-                                withButtonTitle:nil
-                             withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:NO];
-    [self showNavigationBar];
+    self.messageView = [KGAlertView sharedMessage];
+    [self.messageView showAlertViewWithMessage:NSLocalizedString(error.message, nil)
+                                      withType:KGMessageTypeError
+                                  withDuration:kStandartHudDismissDelay
+                                  withCallback:nil];
 }
 
-- (void)showSuccessWithTitle:(NSString*)title message:(NSString *)message {
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                      withTitle:title
-                                    withMessage:message
-                                       withType:TSMessageNotificationTypeSuccess
-                                   withDuration:kStandartHudDismissDelay
-                                   withCallback:nil
-                                withButtonTitle:nil
-                             withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:NO];
-    [self showNavigationBar];
-}
 
-- (void)showErrorWithTitle:(NSString*)title message:(NSString *)message {
+
+- (void)showErrorWithMessage:(NSString *)message {
 //    [self.hud hide:YES];
 //    self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
 //    self.hud.removeFromSuperViewOnHide = YES;
@@ -115,66 +94,37 @@ static CGFloat const kStandartHudDismissDelay = 3.0f;
 //    self.hud.labelText = title;
 //    self.hud.detailsLabelText = message;
 //    [self hideHudAnimated:YES afterDelay:kHUDDismissDelay];
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                      withTitle:title
-                                    withMessage:message
-                                       withType:TSMessageNotificationTypeError
-                                   withDuration:kStandartHudDismissDelay
-                                   withCallback:nil
-                                withButtonTitle:nil
-                             withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:NO];
-    
-    [self showNavigationBar];
+    self.messageView = [KGAlertView sharedMessage];
+    [self.messageView showAlertViewWithMessage:message
+                                      withType:KGMessageTypeError
+                                  withDuration:kStandartHudDismissDelay
+                                  withCallback:nil];
 }
 
 
 
 - (void)showSuccessWithMessage:(NSString *)message {
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                      withTitle:nil
-                                    withMessage:message
-                                       withType:TSMessageNotificationTypeSuccess
-                                   withDuration:kStandartHudDismissDelay
-                                   withCallback:nil
-                                withButtonTitle:nil
-                             withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:NO];
-    [self showNavigationBar];
+    self.messageView = [KGAlertView sharedMessage];
+    [self.messageView showAlertViewWithMessage:message
+                                      withType:KGMessageTypeSuccess
+                                  withDuration:kStandartHudDismissDelay
+                                  withCallback:nil];
 }
 
 - (void)showUnauthorizedError {
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                          withTitle:NSLocalizedString(@"Недоступно для неавторизованного пользователя", nil)
-                                       withMessage:nil
-                                           withType:TSMessageNotificationTypeError
-                                       withDuration:kStandartHudDismissDelay
-                                       withCallback:nil
-                                    withButtonTitle:nil
-                                 withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                           canBeDismisedByUser:NO];
-    [self showNavigationBar];
+    self.messageView = [KGAlertView sharedMessage];
+    [self.messageView showAlertViewWithMessage:NSLocalizedString(@"Недоступно для неавторизованного пользователя", nil)
+                                      withType:KGMessageTypeError
+                                  withDuration:kStandartHudDismissDelay
+                                  withCallback:nil];
 }
 
-- (void)showWarningWithTitle:(NSString *)title message:(NSString *)message {
-    [self hideNavigationBar];
-    [TSMessage showNotificationInViewController:[self presentingViewController]
-                                      withTitle:title
-                                    withMessage:message
-                                       withType:TSMessageNotificationTypeWarning
-                                   withDuration:kStandartHudDismissDelay
-                                   withCallback:nil
-                                withButtonTitle:nil
-                             withButtonCallback:nil
-                                     atPosition:TSMessageNotificationPositionTop
-                            canBeDismisedByUser:NO];
-    [self showNavigationBar];
+- (void)showWarningWithMessage:(NSString *)message {
+    self.messageView = [KGAlertView sharedMessage];
+    [self.messageView showAlertViewWithMessage:message
+                                      withType:KGMessageTypeWarning
+                                  withDuration:kStandartHudDismissDelay
+                                  withCallback:nil];
 }
 
 
@@ -183,21 +133,10 @@ static CGFloat const kStandartHudDismissDelay = 3.0f;
 
 - (UIViewController *)presentingViewController {
     if (!_presentingViewController) {
+        
         return [UIWindow kg_visibleViewController];
     }
     return _presentingViewController;
-}
-
-- (void)hideNavigationBar {
-     [self presentingViewController].navigationController.navigationBarHidden = ![self presentingViewController].navigationController.navigationBarHidden;
-}
-
-- (void)showNavigationBar {
-    int64_t timeDelay = kStandartHudDismissDelay;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, timeDelay * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self presentingViewController].navigationController.navigationBarHidden = ![self presentingViewController].navigationController.navigationBarHidden;
-    });
 }
 
 
@@ -228,5 +167,7 @@ static CGFloat const kStandartHudDismissDelay = 3.0f;
 //        [self hideHudAnimated:NO];
 //    }];
 //}
+
+
 
 @end

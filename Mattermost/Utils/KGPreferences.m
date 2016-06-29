@@ -10,19 +10,12 @@
 
 + (instancetype)sharedInstance {
     static dispatch_once_t once;
-    static id sharedInstance;
+    static KGPreferences*  sharedInstance;
     dispatch_once(&once, ^{
         sharedInstance = [[self alloc] init];
+        [sharedInstance load];
     });
     return sharedInstance;
-}
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self load];
-    }
-    return self;
 }
 
 - (void)load  {

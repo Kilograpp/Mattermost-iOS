@@ -9,4 +9,7 @@
 #import "KGTableViewCell.h"
 
 @interface KGChannelTableViewCell : KGTableViewCell
+
+@property (assign, nonatomic) BOOL isSelectedCell;
+
 @end

@@ -184,13 +184,6 @@
                                     <action selector="passwordChangeAction:" destination="Iuf-tQ-ZQM" eventType="editingChanged" id="eoU-s5-Y67"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jka-CP-SSI">
-                                <rect key="frame" x="251" y="311" width="46" height="30"/>
-                                <state key="normal" title="Teams"/>
-                                <connections>
-                                    <segue destination="86j-1I-OET" kind="show" id="p93-od-mpN"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -382,7 +375,4 @@
     <resources>
         <image name="login_arrow_icon_active" width="12" height="12"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="p93-od-mpN"/>
-    </inferredMetricsTieBreakers>
 </document>

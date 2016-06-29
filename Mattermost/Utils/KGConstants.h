@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 extern NSString             *const KGRestKitClassPrefix;
+
+// Todo, Code Review: Исправить опечатку в слове standard
 extern float                 const KGStandartCornerRadius;
 extern NSTimeInterval        const KGStandartAnimationDuration;
 

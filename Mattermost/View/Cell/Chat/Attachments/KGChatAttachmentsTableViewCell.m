@@ -19,13 +19,14 @@
 #import "KGImageCell.h"
 #import "KGFile.h"
 #import "UIImage+Resize.h"
+#import "KGFileCell.h"
+#import "KGUIUtils.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
-
+#define KG_FILE_HEIGHT  55.f
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) KGPost *post;
 @property (nonatomic, copy)   NSArray *files;
 @end
 
@@ -55,21 +56,12 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.contentView addSubview:self.tableView];
     
-    [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.nameLabel.mas_leading);
-        make.trailing.equalTo(self).offset(-kStandartPadding);
-        make.top.equalTo(self.nameLabel.mas_bottom);
-    }];
-    
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.equalTo(self.messageLabel);
-        make.top.equalTo(self.messageLabel.mas_bottom).offset(kStandartPadding);
-        make.bottom.equalTo(self).offset(-kStandartPadding);
-    }];
-    
     [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
+    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier]];
+    self.backgroundColor = [UIColor kg_whiteColor];
 }
 
 
@@ -77,37 +69,12 @@
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
+        [super configureWithObject:object];
         
-        self.post = post;
-        self.nameLabel.text = post.author.username;
-        self.dateLabel.text = [post.createdAt timeFormatForMessages];
-        self.messageLabel.text = post.message;
-        
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
-        
-        if (cachedImage) {
-            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
-                self.avatarImageView.image = image;
-            }];
-        } else {
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
-                                                                  options:SDWebImageDownloaderHandleCookies
-                                                                 progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                                                            [[self class] roundedImage:image completion:^(UIImage *image) {
-                                                                                [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
-                                                                                self.avatarImageView.image = image;
-                                                                            }];
-                                                                }];
-            [self.avatarImageView removeActivityIndicator];
-        }
-        
-        self.messageLabel.text = post.message;
-        //FIXME: Добавить деление файл - не файл и наличие заголовка
-        self.files = [[post.files allObjects] sortedArrayUsingSelector:@selector(name)];
-        
+        self.files = [self.post sortedFiles];
         [self.tableView reloadData];
+        
+        self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     }
 }
 
@@ -117,17 +84,10 @@
 + (CGFloat)heightWithObject:(id)object {
     if ([object isKindOfClass:[KGPost class]]) {
         KGPost *post = object;
+        CGFloat heightCell = [super heightWithObject:object];
+        heightCell += tableViewHeight(post.files.allObjects);
 
-        CGFloat screenWidth = CGRectGetWidth([[UIScreen mainScreen] bounds]);
-        CGFloat messageLabelWidth = screenWidth - kAvatarDimension - kStandartPadding * 2 - kSmallPadding;
-        CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-        CGFloat nameMessage = [post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
-        CGFloat heightCell = kStandartPadding + nameMessage + kSmallPadding + heightMessage + kStandartPadding + kStandartPadding;
-        
-        CGFloat heightImage = post.files.count * KG_IMAGE_HEIGHT;
-        heightCell += heightImage;
-        
-        return ceilf(heightCell);
+        return  ceilf(heightCell + 8);
     }
     
     return 0.f;
@@ -145,25 +105,73 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
+    if ([self.files[indexPath.row] isImage]){
+        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
     
-    KGFile *file = self.files[indexPath.row];
-    [cell configureWithObject:file];
-    
-    return cell;
+        KGFile *file = self.files[indexPath.row];
+        [cell configureWithObject:file];
+        return cell;
+    } else {
+        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
+        KGFile *file = self.files[indexPath.row];
+        
+        [cell configureWithObject:file];;
+        return cell;
+    }
 }
 
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return ceilf(KG_IMAGE_HEIGHT);
+    if ([self.files[indexPath.row] isImage]){
+        return ceilf(KG_IMAGE_HEIGHT);
+    } else {
+        return ceilf(KG_FILE_HEIGHT);
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.photoTapHandler) {
-        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+    KGFile *file = self.files[indexPath.row];
+    
+    if (file.isImage) {
+        if (self.photoTapHandler) {
+            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+        }
+    } else {
+        if (self.fileTapHandler) {
+            self.fileTapHandler(indexPath.row);
+        }
     }
+}
+
+
+#pragma mark - Override
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat bottomYCoordOfMessage = ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height : self.messageLabel.frame.origin.y;
+    CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
+    CGFloat width = KGScreenWidth() - 61;
+    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+}
+
+CGFloat tableViewHeight(NSArray *files) {
+    CGFloat heightImage;
+    for (KGFile *file in files) {
+        if ([file isImage]){
+            heightImage +=  KG_IMAGE_HEIGHT;
+        } else {
+            heightImage +=  KG_FILE_HEIGHT;
+        }
+    }
+
+    return heightImage;
 }
 
 @end
