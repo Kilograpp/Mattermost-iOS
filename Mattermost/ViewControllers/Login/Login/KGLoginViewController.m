@@ -222,7 +222,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
                             [[KGAlertManager sharedManager] showError:error];
                             [self hideProgressHud];
                         } else {
-                          //  [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
                             KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
                             [self presentViewController:vc animated:YES completion:nil];
                         }
