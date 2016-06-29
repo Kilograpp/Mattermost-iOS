@@ -29,6 +29,10 @@
     return dictionaryMapping;
 }
 
++ (NSString*)teamListingsPathPattern {
+    return @"teams/all_team_listings";
+}
+
 + (NSString*)initialLoadPathPattern {
     return @"users/initial_load";
 }
@@ -46,6 +50,15 @@
                                                         method:RKRequestMethodGET
                                                    pathPattern:[self initialLoadPathPattern]
                                                        keyPath:@"client_cfg"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
++ (RKResponseDescriptor*)teamListingsResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self teamListingsPathPattern]
+                                                       keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
