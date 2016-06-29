@@ -37,5 +37,5 @@
 - (NSHTTPCookie*)authCookie;
 
 - (void)updateStatusForAllUsers;
-- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion;
+//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion;
 @end

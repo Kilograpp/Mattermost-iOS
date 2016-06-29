@@ -60,13 +60,13 @@ extern NSString * const KGAuthTokenHeaderName;
     } failure:completion];
 }
 
-- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
-    NSString *path = [KGUser authPathPattern];
-    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
-        NSLog(@"seccess");
-    }
-                                        failure:completion];
-}
+//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
+//    NSString *path = [KGUser authPathPattern];
+//    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
+//        NSLog(@"seccess");
+//    }
+//                                        failure:completion];
+//}
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
     NSString* path = [KGUser uploadAvatarPathPattern];

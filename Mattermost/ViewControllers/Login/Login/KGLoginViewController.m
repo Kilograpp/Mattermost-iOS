@@ -117,7 +117,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)setupRecoveryButton {
     self.recoveryButton.layer.cornerRadius = KGStandartCornerRadius;
     self.recoveryButton.backgroundColor = [UIColor kg_whiteColor];
-    [self.recoveryButton setTitle:NSLocalizedString(@"Need a remember?", nil) forState:UIControlStateNormal];
+    [self.recoveryButton setTitle:NSLocalizedString(@"Forgot password?", nil) forState:UIControlStateNormal];
     [self.recoveryButton setTintColor:[UIColor kg_redColor]];
     [self.recoveryButton setTitleColor:[UIColor kg_redColor] forState:UIControlStateNormal];
     self.recoveryButton.titleLabel.font = [UIFont kg_regular16Font];
@@ -230,8 +230,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
                     
                 } else {
                     [self hideProgressHud];
-                    KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
-                    [self presentViewController:vc animated:YES completion:nil];
+                    [self performSegueWithIdentifier:@"showTeams" sender:nil];
                 }
             }];
         }
