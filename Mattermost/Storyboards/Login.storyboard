@@ -142,7 +142,7 @@
                                     <constraint firstAttribute="height" constant="30" id="0MR-xc-ESL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="loginChangeAction:" destination="Iuf-tQ-ZQM" eventType="editingChanged" id="W17-DW-wTp"/>
                                 </connections>
@@ -179,18 +179,11 @@
                                     <constraint firstAttribute="height" constant="30" id="D8q-Pq-QPA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="go"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="passwordChangeAction:" destination="Iuf-tQ-ZQM" eventType="editingChanged" id="eoU-s5-Y67"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jka-CP-SSI">
-                                <rect key="frame" x="251" y="311" width="46" height="30"/>
-                                <state key="normal" title="Teams"/>
-                                <connections>
-                                    <segue destination="86j-1I-OET" kind="show" id="p93-od-mpN"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -326,7 +319,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZb-9y-cvx" customClass="KGButton">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZb-9y-cvx" customClass="KGButton">
                                 <rect key="frame" x="144" y="349" width="88" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="JhS-bm-nA8"/>
@@ -382,7 +375,4 @@
     <resources>
         <image name="login_arrow_icon_active" width="12" height="12"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="p93-od-mpN"/>
-    </inferredMetricsTieBreakers>
 </document>

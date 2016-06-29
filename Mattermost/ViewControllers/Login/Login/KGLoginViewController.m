@@ -27,6 +27,7 @@
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
+
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
@@ -119,7 +120,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)setupRecoveryButton {
     self.recoveryButton.layer.cornerRadius = KGStandartCornerRadius;
     self.recoveryButton.backgroundColor = [UIColor kg_whiteColor];
-    [self.recoveryButton setTitle:NSLocalizedString(@"Need a remember?", nil) forState:UIControlStateNormal];
+    [self.recoveryButton setTitle:NSLocalizedString(@"Forgot password?", nil) forState:UIControlStateNormal];
     [self.recoveryButton setTintColor:[UIColor kg_redColor]];
     [self.recoveryButton setTitleColor:[UIColor kg_redColor] forState:UIControlStateNormal];
     self.recoveryButton.titleLabel.font = [UIFont kg_regular16Font];
@@ -192,8 +193,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
         if (error) {
             [self hideProgressHud];
             [self highlightTextFieldsForError];
-            [[KGAlertManager sharedManager] showError:error];
-            [self hideProgressHud];
+            [self processError:error];
         } else {
             if (!self.shouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
@@ -223,6 +223,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
             self.shouldSelectTeam = userShouldSelectTeam;
             [self configureLabels];
         }
+        NSLog(@"%@", userShouldSelectTeam ? @"YES" : @"NO");
 
         [self hideLoadingViewAnimated:YES];
     }];

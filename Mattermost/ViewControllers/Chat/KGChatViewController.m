@@ -742,15 +742,15 @@ dispatch_async(dispatch_get_main_queue(), ^{
                                                object:nil];
     [self updateNavigationBarAppearance];
     // Todo, Code Review: Мертвый код
-    //self.channel.lastViewDate = [NSDate date];
+    self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
-    
 
-        [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+
+    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
             if (error) {
                 [self hideLoadingViewAnimated:YES];
                 [[KGAlertManager sharedManager] showError:error];
-                
+
             }
                 if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
                     [self loadLastPostsWithRefreshing:NO];
@@ -762,8 +762,11 @@ dispatch_async(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                     [self hideLoadingViewAnimated:YES];
                 }
-        }];
-    
+    }];
+
+
+    [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
+
 
 }
 
