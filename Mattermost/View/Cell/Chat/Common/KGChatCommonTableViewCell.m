@@ -181,8 +181,12 @@
 
 
 + (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
-    NSDictionary *attributes = @{NSFontAttributeName : font};
-    return  ceilf([[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width);
+    if (string) {
+        NSDictionary *attributes = @{NSFontAttributeName : font};
+        return  ceilf([[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width);
+    }
+    
+    return 0.00001;
 }
 
 

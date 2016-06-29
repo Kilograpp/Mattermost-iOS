@@ -35,6 +35,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
 
+@property (nonatomic, assign) BOOL shouldSelectTeam;
+
 @end
 
 @implementation KGLoginViewController
@@ -45,21 +47,21 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadTeams];
     [self setupTitleLabel];
     [self setupLoginButton];
     [self setupRecoveryButton];
     [self setupLoginTextfield];
-    [self setupPasswordTextField];   
-    [self configureLabels];
+    [self setupPasswordTextField];
 }
 
 - (void)test {
-    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
-    self.passwordTextField.text = @"9d331o26c39";
+//    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
+//    self.passwordTextField.text = @"9d331o26c39";
 //    self.loginTextField.text = @"maxim@kilograpp.com";
 //    self.passwordTextField.text = @"loladin";
-//    self.loginTextField.text = @"getmaxx@kilograpp.com";
-//    self.passwordTextField.text = @"102Aky5i";
+    self.loginTextField.text = @"getmaxx@kilograpp.com";
+    self.passwordTextField.text = @"102Aky5i";
 //    self.loginTextField.text = @"beketova@kilograpp.com";
 //    self.passwordTextField.text = @"fynbkjgf99";
 //    self.loginTextField.text = @"dashagudenko@kilograpp.com";
@@ -127,7 +129,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
-//    self.loginTextField.placeholder = @"address@example.com";
     self.loginTextField.placeholder = @"Email";
     self.loginTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.loginTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -147,14 +148,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)configureLabels {
     NSString *siteName = [[KGPreferences sharedInstance] siteName];
-    if (!siteName) {
-        //действие при первом входе
-        NSString *siteURL = [[KGPreferences sharedInstance] serverBaseUrl];
-        NSArray *arraySiteURL = [siteURL componentsSeparatedByString:@"."];
-        siteName = [arraySiteURL objectAtIndex:1];
-        siteName = [siteName capitalizedString];
-    }
-            self.titleLabel.text = siteName;
+    self.titleLabel.text = siteName;
 }
 
 
@@ -197,28 +191,14 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         if (error) {
             [self hideProgressHud];
-            //[self processError:error];
             [self highlightTextFieldsForError];
             [[KGAlertManager sharedManager] showError:error];
             [self hideProgressHud];
-        }
-        else {
-            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-                if (error) {
-                   // [self processError:error];
-                    [[KGAlertManager sharedManager] showError:error];
-                    [self hideProgressHud];
-                } else if (!userShouldSelectTeam) {
+        } else {
+            if (!self.shouldSelectTeam) {
                     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
-
-//                        [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
-//
-//                        }];
-
                         [self hideProgressHud];
                         if (error) {
-                            
-                           //[self processError:error];
                             [[KGAlertManager sharedManager] showError:error];
                             [self hideProgressHud];
                         } else {
@@ -226,15 +206,39 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
                             [self presentViewController:vc animated:YES completion:nil];
                         }
                     }];
-                    
                 } else {
                     [self hideProgressHud];
-                    KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
-                    [self presentViewController:vc animated:YES completion:nil];
-                }
-            }];
+                    [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+            }
         }
     }];
+}
+
+- (void)loadTeams {
+    [self showLoadingView];
+    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+        if (error) {
+            [self processError:error];
+        } else {
+            self.shouldSelectTeam = userShouldSelectTeam;
+            [self configureLabels];
+        }
+
+        [self hideLoadingViewAnimated:YES];
+    }];
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.loginTextField]) {
+        [self.passwordTextField becomeFirstResponder];
+    } else if ([textField isEqual:self.passwordTextField]) {
+        [self loginAction:nil];
+    }
+    
+    return YES;
 }
 
 
