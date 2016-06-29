@@ -87,15 +87,21 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                                         NSFontAttributeName : [UIFont kg_semibold18Font] }];
     self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.title = @"Sign In";
     CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
     bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
     [bgLayer animateLayerInfinitely:bgLayer];
     [self.navigationView.layer insertSublayer:bgLayer above:0];
     [self.navigationView bringSubviewToFront:self.titleLabel];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self setNeedsStatusBarAppearanceUpdate];
 
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 
 #pragma mark - Setup
 

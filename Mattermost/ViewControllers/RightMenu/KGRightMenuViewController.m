@@ -21,6 +21,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 #import "KGProfileTableViewController.h"
+#import "UIStatusBar+SharedBar.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -200,9 +201,11 @@
 - (void)logout {
     [[KGAlertManager sharedManager] showProgressHud];
     [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
+        [[KGAlertManager sharedManager] hideHud];
         KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         [[KGAlertManager sharedManager] hideHud];
         [appDelegate loadInitialScreen];
+        [[UIStatusBar sharedStatusBar] restoreState];
     }];
 
 }

@@ -52,6 +52,13 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.tintColor = [UIColor kg_blackColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    [self setNeedsStatusBarAppearanceUpdate];
+}
+
 - (void)test {
     self.textField.text = @"https://mattermost.kilograpp.com";
     self.nextButton.enabled = YES;
@@ -99,6 +106,11 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     self.promtLabel.text = @"e.g. https://matttermost.example.com";
     self.subtitleLabel.text = @"All your team communication in one place, searchable and accessable anywhere.";
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 
 #pragma mark - Actions
 

@@ -115,6 +115,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.textView isFirstResponder];
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
+    [self setNeedsStatusBarAppearanceUpdate];
     [IQKeyboardManager sharedManager].enable = NO;
 
 }
@@ -598,6 +599,11 @@ dispatch_async(dispatch_get_main_queue(), ^{
     };
 
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 
 - (void)replaceStatusBar {
     [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];

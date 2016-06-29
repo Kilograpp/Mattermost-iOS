@@ -28,6 +28,11 @@ static UIStatusBar* sharedStatusBar;
     }
 }
 
+- (void)restoreState {
+    [self moveTemporaryToRootView];
+    [self.previousViews removeAllObjects];
+}
+
 - (void)moveToView:(UIView*)view {
     if (!self.previousViews) {
         [self setPreviousViews:[NSMutableArray array]];
