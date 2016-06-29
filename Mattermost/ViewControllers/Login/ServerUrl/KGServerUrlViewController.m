@@ -15,6 +15,7 @@
 #import "KGPreferences.h"
 #import "KGUtils.h"
 #import "NSString+Validation.h"
+#import "KGBusinessLogic+Session.h"
 
 static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
@@ -115,6 +116,20 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 - (void)setServerBaseUrl {
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
     KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
+    [self showProgressHud];
+    [[KGBusinessLogic sharedInstance] checkUrlWithCompletion:^(KGError *error){
+        if (error) {
+            [self hideProgressHud];
+//            //[self processError:error];
+//            [self highlightTextFieldsForError];
+//            [[KGAlertManager sharedManager] showError:error];
+//            [self hideProgressHud];
+            NSLog(@"error! %@", error.message);
+        }
+        else {
+            NSLog(@"OK");
+        }
+    }];
 }
 
 - (void)nextActionHandler {
