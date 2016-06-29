@@ -42,7 +42,7 @@ static NSString * const KGActionNameKey = @"action";
 
 - (void)openSocket {
     if ([self shouldOpenSocket]) {
-        [self rocketFuckingSocket];
+        [self startRocketSocket];
     }
 }
 
@@ -52,7 +52,7 @@ static NSString * const KGActionNameKey = @"action";
     self.socket = nil;
 }
 
-- (void)rocketFuckingSocket {
+- (void)startRocketSocket {
     SRWebSocket *socket = [[SRWebSocket alloc] initWithURL:[self socketURL]];
     [socket setRequestCookies:@[[self authCookie]]];
     [socket setDelegate:self];
