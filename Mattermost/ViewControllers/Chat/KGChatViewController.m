@@ -60,7 +60,7 @@
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
-@interface KGChatViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
+@interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -126,12 +126,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
-
-    // Todo, Code Review: Мертвый код
-
-//    [self.textView setDidNotResignFirstResponder:NO];
-
-
 }
 
 
@@ -167,12 +161,14 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     // Todo, Code Review: Мертвый код
-//    [self.tableView registerClass:[KGChatCommonTableViewCell class]
-//           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerClass:[IVManualCell class]
-           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:15];
-    [self.tableView registerNib:[KGFollowUpChatCell nib]
-         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerClass:[KGChatCommonTableViewCell class]
+           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:7];
+    [self.tableView registerClass:[KGFollowUpChatCell class]
+           forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
+//    [self.tableView registerClass:[IVManualCell class]
+//           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:8];
+//    [self.tableView registerNib:[KGFollowUpChatCell nib]
+//         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
     // Todo, Code Review: Добавить метод получения nib внутрь класса
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
@@ -298,7 +294,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     // Todo, Code Review: Не понятное условие
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
         reuseIdentifier = post.files.count == 0 ?
-                [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -313,13 +309,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
             reuseIdentifier = post.files.count == 0 ?
-                    [IVManualCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
+                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    // Todo, Code Review: Мертвый код
-//    [self assignBlocksForCell:cell post:post];
+    [self assignBlocksForCell:cell post:post];
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
@@ -342,7 +337,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
             return post.files.count == 0 ?
-                    [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
@@ -352,7 +347,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
             } else {
                 return post.files.count == 0 ?
-                        [IVManualCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
+                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
 
@@ -498,59 +493,46 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (void)assignPhotos {
-    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-            picker.delegate = self;
 
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                picker.modalPresentationStyle = UIModalPresentationFormSheet;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *openCameraAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 
-            [self presentViewController:picker animated:YES completion:nil];
-        });
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+dispatch_async(dispatch_get_main_queue(), ^{
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            picker.modalPresentationStyle = UIModalPresentationFormSheet;
+        
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
+});
+            }];
     }];
-//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//    
-//    UIAlertAction *openCameraAction =
-//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-//        
-////        switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
-////            case AVAuthorizationStatusRestricted:
-////            case AVAuthorizationStatusDenied:
-////                //                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
-////                //                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
-////                [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к камере. /nПожалуйста разрешите использовать камеру в настройках"];
-////                break;
-////                
-////            default:
-//                [self presentPickerControllerWithType:UIImagePickerControllerSourceTypeCamera];
-////                break;
-////        }
-//        
-//        
-//
-//    }];
-//    
-//    UIAlertAction *openGalleryAction =
-//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-//        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-//                picker.delegate = self;
-//                
-//                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
-//                
-//                [self presentViewController:picker animated:YES completion:nil];
-//            });
-//        }];
-//            }];
-//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-//    [alertController addAction:openCameraAction];
-//    [alertController addAction:openGalleryAction];
-//    [alertController addAction:cancelAction];
-//    
-//    [self presentViewController:alertController animated:YES completion:nil];
+    
+    UIAlertAction *openGalleryAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+                picker.delegate = self;
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
+                
+                [self presentViewController:picker animated:YES completion:nil];
+            });
+        }];
+            }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:openCameraAction];
+    [alertController addAction:openGalleryAction];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)presentPickerControllerWithType:(UIImagePickerControllerSourceType)type {
@@ -582,13 +564,14 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 // Todo, Code Review: Мертвый метод?
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
+    if (![cell isKindOfClass:[IVManualCell class]]){
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
-    
+    }
     cell.fileTapHandler = ^(NSUInteger selectedFile) {
         KGFile *file = post.sortedFiles[selectedFile];
         
@@ -691,7 +674,36 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     });
 }
 
-
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[KGAlertManager sharedManager] showProgressHud];
+    }];
+    
+    __weak typeof(self) wSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[KGAlertManager sharedManager] showProgressHud];
+    }];
+        dispatch_group_t group = dispatch_group_create();
+    if (!self.currentPost) {
+        self.currentPost = [KGPost MR_createEntity];
+    }
+    dispatch_group_enter(group);
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
+                                                                atChannel:wSelf.channel
+                                                           withCompletion:^(KGFile* file, KGError* error) {
+                                                               [self.currentPost addFilesObject:file];
+                                                               dispatch_group_leave(group);
+                                                           }];
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+    }
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [[KGAlertManager sharedManager] hideHud];
+        self.textInputbar.rightButton.enabled = YES;
+        [self sendPost];
+    });
+}
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController

@@ -13,79 +13,114 @@
 #import "KGUser.h"
 
 @interface KGFollowUpChatCell ()
-@property (weak, nonatomic) IBOutlet ActiveLabel *messageLabel;
-
 @end
 
 @implementation KGFollowUpChatCell
 
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self configure];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    if (self) {
+        [self setup];
+        [self setupMessageLabel];
+    }
+    
+    return self;
 }
 
-- (void)configure {
-    [self.messageLabel setFont:[UIFont kg_regular15Font]];
+
+
+#pragma mark - Setup
+
+- (void)setup {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+- (void)setupMessageLabel {
+    self.messageLabel = [[ActiveLabel alloc] init];
+    self.messageLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.messageLabel.numberOfLines = 0;
+    self.messageLabel.backgroundColor = [UIColor whiteColor];
+    self.messageLabel.font = [UIFont kg_regular15Font];
+    self.messageLabel.textColor = [UIColor kg_blackColor];
+    [self addSubview:self.messageLabel];
+    
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
     [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
     [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
-
-//    [self.messageLabel filterMention:^BOOL(NSString * nameString) {
-//        NSString *stringCurrentUserId = [[KGPreferences sharedInstance]currentUserId];
-//        KGUser *user = [KGUser managedObjectById:stringCurrentUserId];
-//        
-//        if ([nameString isEqualToString:@"channel"] || [nameString isEqualToString:@"all"]
-//            || [nameString isEqualToString:user.nickname]) {
-//            return YES;
-//        } else {
-//            [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
-//            return YES;
-//        }
-//    }];
-
+    
+    self.messageLabel.layer.shouldRasterize = YES;
+    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.messageLabel.layer.drawsAsynchronously = YES;
+    
+    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.messageLabel.preferredMaxLayoutWidth = 200.f;
+    
     [self.messageLabel handleMentionTap:^(NSString *string) {
         self.mentionTapHandler(string);
     }];
     [self.messageLabel handleURLTap:^(NSURL *url) {
         [[UIApplication sharedApplication] openURL:url];
     }];
-    self.messageLabel.layer.drawsAsynchronously = YES;
-    self.messageLabel.layer.shouldRasterize = YES;
-    self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
-    self.messageLabel.textColor = [UIColor kg_blackColor];
+}
+
+
++ (void)load {
+    messageQueue = [[NSOperationQueue alloc] init];
+    [messageQueue setMaxConcurrentOperationCount:1];
 }
 
 - (void)configureWithObject:(KGPost*)post {
     self.messageLabel.text = post.message;
     
-    for (UIView *view in self.subviews) {
-        view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
-        self.messageLabel.backgroundColor =
-                post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
+    if ([post isKindOfClass:[KGPost class]]) {
+        self.post = post;
+        
+        __weak typeof(self) wSelf = self;
+        
+        self.messageOperation = [[NSBlockOperation alloc] init];
+        [self.messageOperation addExecutionBlock:^{
+            if (!wSelf.messageOperation.isCancelled) {
+                dispatch_sync(dispatch_get_main_queue(), ^(void){
+                    wSelf.messageLabel.text = wSelf.post.message;
+                });
+            }
+        }];
+        [messageQueue addOperation:self.messageOperation];
     }
+}
+
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
+    CGFloat textWidth = KGScreenWidth() - 61.f;
+    self.backgroundColor = [UIColor kg_whiteColor];
     
-   // self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+                                               context:nil];
+    self.messageLabel.frame = CGRectMake(53, 8, ceilf(_msgRect.size.width), ceilf(_msgRect.size.height));
 }
 
 + (CGFloat)heightWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
-        
-        CGFloat verticalPaddings = 16.f;
-        CGFloat horizontalPaddings = 61.f;
-        CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-        CGFloat messageLabelWidth = screenWidth - horizontalPaddings;
-        CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-        CGFloat heightCell = heightMessage + verticalPaddings;
-        
-        return  ceilf(heightCell);
-    }
+    KGPost *adapter = object;
+    CGFloat textWidth = KGScreenWidth() - 61.f;
+    CGRect msg = [adapter.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+                                               context:nil];
     
-    return 0.f;
+    
+    return ceilf(msg.size.height) + 16;
+}
+
+
+- (void)prepareForReuse {
+    _messageLabel.text = nil;
+    [_messageOperation cancel];
 }
 
 @end

@@ -17,10 +17,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "NSString+HeightCalculation.h"
 #import "UIImage+Resize.h"
-#import <BOString.h>
 #import "KGPreferences.h"
-
-@import AsyncDisplayKit;
 
 @interface KGChatCommonTableViewCell ()
 
@@ -34,106 +31,74 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
+        [self setup];
         [self setupAvatarImageView];
         [self setupNameLabel];
         [self setupDateLabel];
         [self setupMessageLabel];
-        
-        for (UIView *view in self.subviews) {
-//            view.layer.drawsAsynchronously = YES;
-            view.layer.shouldRasterize = YES;
-            view.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        }
-        
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     return self;
 }
 
++ (void)load {
+    messageQueue = [[NSOperationQueue alloc] init];
+    [messageQueue setMaxConcurrentOperationCount:1];
+}
+
 
 #pragma mark - Setup
 
+- (void)setup {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+
 - (void)setupAvatarImageView {
-    _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self addSubview:_avatarImageView];
-    _avatarImageView.layer.drawsAsynchronously = YES;
-    _avatarImageView.layer.cornerRadius = 20.f;
-    self.avatarImageView.backgroundColor = [UIColor kg_whiteColor];
-    self.avatarImageView.clipsToBounds = YES;
-    self.avatarImageView.image = [[self class] placeholderBackground];
+    self.avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 40, 40)];
+    self.avatarImageView.backgroundColor = [UIColor whiteColor];
     self.avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-    
-    [self.avatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.top.equalTo(self).offset(kStandartPadding);
-        make.width.height.equalTo(@(kAvatarDimension));
-    }];
+    [self addSubview:self.avatarImageView];
 }
 
 - (void)setupNameLabel {
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self addSubview:self.nameLabel];
-    self.nameLabel.backgroundColor = [UIColor kg_whiteColor];
-    self.nameLabel.textColor = [UIColor kg_blackColor];
+    self.nameLabel = [[UILabel alloc] init];
+    self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.nameLabel.numberOfLines = 1;
+    self.nameLabel.backgroundColor = [UIColor whiteColor];
     self.nameLabel.font = [UIFont kg_semibold16Font];
-    self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-
-    [self.nameLabel setContentCompressionResistancePriority:749 forAxis:UILayoutConstraintAxisHorizontal];
-    [self.nameLabel setContentHuggingPriority:251 forAxis:UILayoutConstraintAxisHorizontal];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.avatarImageView.mas_trailing).offset(kSmallPadding);
-        make.top.equalTo(self).offset(8.f);
-    }];
+    self.nameLabel.textColor = [UIColor kg_blackColor];
+    [self addSubview:self.nameLabel];
 }
 
 - (void)setupDateLabel {
-    self.dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self addSubview:self.dateLabel];
-    self.dateLabel.backgroundColor = [UIColor kg_whiteColor];
-    self.dateLabel.textColor = [UIColor kg_lightGrayColor];
+    self.dateLabel = [[UILabel alloc] init];
+    self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.dateLabel.numberOfLines = 1;
+    self.dateLabel.backgroundColor = [UIColor whiteColor];
     self.dateLabel.font = [UIFont kg_regular13Font];
-    self.dateLabel.contentMode = UIViewContentModeLeft;
-    [self.dateLabel setContentCompressionResistancePriority:750 forAxis:UILayoutConstraintAxisHorizontal];
-    [self.dateLabel setContentHuggingPriority:250 forAxis:UILayoutConstraintAxisHorizontal];
-    [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.nameLabel.mas_trailing).offset(kSmallPadding);
-        make.centerY.equalTo(self.nameLabel);
-        make.trailing.equalTo(self).offset(-kStandartPadding);
-    }];
+    self.dateLabel.textColor = [UIColor kg_lightGrayColor];
+    [self addSubview:self.dateLabel];
 }
 
 - (void)setupMessageLabel {
-    self.messageLabel = [[ActiveLabel alloc] initWithFrame:CGRectZero];
+    self.messageLabel = [[ActiveLabel alloc] init];
+    self.messageLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.messageLabel.numberOfLines = 0;
+    self.messageLabel.backgroundColor = [UIColor whiteColor];
+    self.messageLabel.font = [UIFont kg_regular15Font];
+    self.messageLabel.textColor = [UIColor kg_blackColor];
     [self addSubview:self.messageLabel];
-    self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
-
+    
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
     [self.messageLabel setURLSelectedColor:[UIColor blueColor]];
     [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
     [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
-
-//    [self.messageLabel filterMention:^BOOL(NSString * nameString) {
-//        NSString *stringCurrentUserId = [[KGPreferences sharedInstance]currentUserId];
-//        KGUser *user = [KGUser managedObjectById:stringCurrentUserId];
-//        
-//        if ([nameString isEqualToString:@"channel"] || [nameString isEqualToString:@"all"]
-//                                                    || [nameString isEqualToString:user.nickname]) {
-//             return YES;
-//        } else {
-//           [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
-//            return YES;
-//        }
-//    }];
     
-    
+    self.messageLabel.layer.shouldRasterize = YES;
+    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.messageLabel.layer.drawsAsynchronously = YES;
 
-    
-
-
-    self.messageLabel.textColor = [UIColor kg_blackColor];
-    self.messageLabel.font = [UIFont kg_regular15Font];
-    self.messageLabel.numberOfLines = 0;
     self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.messageLabel.preferredMaxLayoutWidth = 200.f;
 
@@ -143,13 +108,6 @@
     [self.messageLabel handleURLTap:^(NSURL *url) {
         [[UIApplication sharedApplication] openURL:url];
     }];
-
-    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.nameLabel);
-        make.trailing.equalTo(self).offset(-kStandartPadding);
-        make.bottom.equalTo(self).offset(-kStandartPadding);
-        make.top.equalTo(self.nameLabel.mas_bottom);
-    }];
 }
 
 
@@ -157,96 +115,82 @@
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
+        self.post = object;
         
-        self.messageLabel.text = post.message;
-        self.nameLabel.text = post.author.nickname;
-        self.dateLabel.text = [post.createdAt timeFormatForMessages];
- 
+        __weak typeof(self) wSelf = self;
         
-        for (UIView *view in self.subviews) {
-            view.backgroundColor = post.identifier ? [UIColor kg_whiteColor] : [UIColor colorWithWhite:0.95f alpha:1.f];
-        }
-
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:post.author.imageUrl.absoluteString];
+        self.messageOperation = [[NSBlockOperation alloc] init];
+        [self.messageOperation addExecutionBlock:^{
+            if (!wSelf.messageOperation.isCancelled) {
+                dispatch_sync(dispatch_get_main_queue(), ^(void){
+                    wSelf.messageLabel.text = wSelf.post.message;
+              });
+            }
+        }];
+        [messageQueue addOperation:self.messageOperation];
+        
+        self.nameLabel.text = _post.author.nickname;
+        _dateString = [_post.createdAt timeFormatForMessages];
+        self.dateLabel.text = _dateString;
+        
+        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.post.author.imageUrl.absoluteString];
         if (cachedImage) {
-            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
-                self.avatarImageView.image = image;
-            }];
+            wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40, 40));
         } else {
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:post.author.imageUrl
-                                                                  options:SDWebImageDownloaderHandleCookies
-                                                                 progress:nil
-                                                                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                        [[self class] roundedImage:image completion:^(UIImage *image) {
-                            [[SDImageCache sharedImageCache] storeImage:image forKey:post.author.imageUrl.absoluteString];
-                            self.avatarImageView.image = image;
-                        }];
-            }];
+            [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
+                                          options:SDWebImageHandleCookies
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                            wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
+                                        } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
-//        [self.avatarImageView setImageWithURL:post.author.imageUrl
-//                             placeholderImage:[[self class] placeholderBackground]
-//                                      options:SDWebImageHandleCookies
-//                                    completed:nil
-//                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//        [self.avatarImageView removeActivityIndicator];
-        
-      //  self.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-        
     }
 }
 
 
-#pragma mark - Height
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat textWidth = KGScreenWidth() - 61.f;
+    self.backgroundColor = [UIColor kg_whiteColor];
+    
+    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                        attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+                                           context:nil];
+    
+    CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
+    CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
+    self.messageLabel.frame = CGRectMake(53, 36, ceilf(_msgRect.size.width), ceilf(_msgRect.size.height));
+    self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
+    self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
+}
 
 + (CGFloat)heightWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
-        
-        CGFloat screenWidth = CGRectGetWidth([[UIScreen mainScreen] bounds]);
-        CGFloat messageLabelWidth = screenWidth - kAvatarDimension - kStandartPadding * 2 - kSmallPadding;
-        CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
-        CGFloat nameMessage = 24.f;//[post.author.nickname heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_semibold16Font]];
-        CGFloat heightCell = kStandartPadding + nameMessage + kSmallPadding + heightMessage + kStandartPadding;
-        
-        return  ceilf(heightCell);
-    }
+    KGPost *adapter = object;
+    CGFloat textWidth = KGScreenWidth() - 61.f;
+    CGRect msg = [adapter.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+                                               context:nil];
     
-    return 0.f;
+    
+    return ceilf(msg.size.height) + 24 + 20;
 }
 
 
-#pragma mark - Override
++ (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
+    NSDictionary *attributes = @{NSFontAttributeName : font};
+    return  ceilf([[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width);
+}
+
 
 - (void)prepareForReuse {
-    self.avatarImageView.image = nil;
-    self.avatarImageView.image = [[self class] placeholderBackground];
+    _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
+    _messageLabel.text = nil;
+    [_messageOperation cancel];
 }
-
-
-#pragma mark - Images
-
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion {
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-        
-        [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:image.size.width/2] addClip];
-        [image drawInRect:rect];
-        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        UIGraphicsEndImageContext();
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(roundedImage);
-            }
-        });
-    });
-}
-
 
 
 @end

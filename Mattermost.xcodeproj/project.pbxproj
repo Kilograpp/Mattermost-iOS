@@ -87,6 +87,7 @@
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
 		D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */; };
 		D67A24931D108922006579E8 /* KGAsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24921D108922006579E8 /* KGAsyncImageView.m */; };
+		D686269B1D21E31A00FAC1CB /* KGUIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D686269A1D21E31A00FAC1CB /* KGUIUtils.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
 		D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7781D060FDD008341AF /* KGAppDelegate.m */; };
@@ -279,6 +280,8 @@
 		D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatAttachmentsTableViewCell.m; path = Attachments/KGChatAttachmentsTableViewCell.m; sourceTree = "<group>"; };
 		D67A24911D108922006579E8 /* KGAsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAsyncImageView.h; path = AsyncImageView/KGAsyncImageView.h; sourceTree = "<group>"; };
 		D67A24921D108922006579E8 /* KGAsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAsyncImageView.m; path = AsyncImageView/KGAsyncImageView.m; sourceTree = "<group>"; };
+		D68626991D21E31A00FAC1CB /* KGUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUIUtils.h; sourceTree = "<group>"; };
+		D686269A1D21E31A00FAC1CB /* KGUIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGUIUtils.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
 		D696F7711D060FDD008341AF /* Mattermost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mattermost.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D696F7751D060FDD008341AF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1301,6 +1304,8 @@
 				9B822FA5DE660473F9598FBA /* NSStringUtils.h */,
 				9B82238547742F610B40AF2A /* NSStringUtils.m */,
 				9B822F035019EEEB5552B10D /* KGNotificationValues.h */,
+				D68626991D21E31A00FAC1CB /* KGUIUtils.h */,
+				D686269A1D21E31A00FAC1CB /* KGUIUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1558,6 +1563,7 @@
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */,
+				D686269B1D21E31A00FAC1CB /* KGUIUtils.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
 				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
