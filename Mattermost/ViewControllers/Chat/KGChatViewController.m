@@ -161,15 +161,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
-    // Todo, Code Review: Мертвый код
     [self.tableView registerClass:[KGChatCommonTableViewCell class]
            forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:7];
     [self.tableView registerClass:[KGFollowUpChatCell class]
            forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
-//    [self.tableView registerClass:[IVManualCell class]
-//           forCellReuseIdentifier:[IVManualCell reuseIdentifier] cacheSize:8];
-//    [self.tableView registerNib:[KGFollowUpChatCell nib]
-//         forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
     // Todo, Code Review: Добавить метод получения nib внутрь класса
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
@@ -212,7 +207,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 // Todo, Code Review: Разделить на два разных метода, аргумент тут не к месту
-- (void)setupIsNoMessagesLabelShow:(BOOL)isShow{
+- (void)setupIsNoMessagesLabelShow:(BOOL)isShow {
     self.noMessadgesLabel.hidden = isShow;
     if (isShow) {
         [self.view bringSubviewToFront:self.noMessadgesLabel];
@@ -416,17 +411,15 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (void)setupFetchedResultsController {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
-    // Todo, Code Review: Заменить селектор на аттрибут из могенератор
-    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:NSStringFromSelector(@selector(createdAt))
+    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:[KGPostAttributes createdAt]
                                                       ascending:NO
                                                   withPredicate:predicate
-                                                        groupBy:NSStringFromSelector(@selector(creationDay))
+                                                        groupBy:[KGPostAttributes creationDay]
                                                        delegate:self
                                      ];
 
-
-    ([self.fetchedResultsController.fetchedObjects count] == 0) ? [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
-    
+    self.fetchedResultsController.fetchedObjects.count ?
+            [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
 }
 
 
@@ -501,17 +494,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
 
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-dispatch_async(dispatch_get_main_queue(), ^{
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-            picker.modalPresentationStyle = UIModalPresentationFormSheet;
-        
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:picker animated:YES completion:nil];
-});
-            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                    picker.delegate = self;
+                    
+                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                        picker.modalPresentationStyle = UIModalPresentationFormSheet;
+                    
+                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:picker animated:YES completion:nil];
+            });
+        }];
     }];
     
     UIAlertAction *openGalleryAction =
@@ -758,18 +751,18 @@ dispatch_async(dispatch_get_main_queue(), ^{
                 [[KGAlertManager sharedManager] showError:error];
 
             }
-                if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
-                    [self loadLastPostsWithRefreshing:NO];
-                    self.channel.lastViewDate = [NSDate date];
-                    self.channel.firstLoadedValue = NO;
-                    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                } else {
-                    [self setupFetchedResultsController];
-                    [self.tableView reloadData];
-                    [self hideLoadingViewAnimated:YES];
-                }
+        
+            if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
+                [self loadLastPostsWithRefreshing:NO];
+                self.channel.lastViewDate = [NSDate date];
+                self.channel.firstLoadedValue = NO;
+                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            } else {
+                [self setupFetchedResultsController];
+                [self.tableView reloadData];
+                [self hideLoadingViewAnimated:YES];
+            }
     }];
-
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
 
@@ -900,15 +893,16 @@ dispatch_async(dispatch_get_main_queue(), ^{
 }
 
 - (void)showLoadingView {
-    // Todo, Code Review: Почему вьюха каждый раз переинициализируется?
-    // Todo, Code Review: CGRectZero избыточен
-    self.loadingView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.loadingView.backgroundColor = [UIColor whiteColor];
+    if (!_loadingView) {
+        self.loadingView = [[UIView alloc] init];
+        self.loadingView.backgroundColor = [UIColor whiteColor];
+
+    }
+    
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-
     [self.loadingView addSubview:self.loadingActivityIndicator];
     [self.loadingActivityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.loadingView);
@@ -917,8 +911,7 @@ dispatch_async(dispatch_get_main_queue(), ^{
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
-    // Todo, Code Review: Поменять флоат на NSTimeInterval
-    CGFloat duration = animated ? KGStandartAnimationDuration : 0;
+    NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
         self.loadingView.alpha = 0;
@@ -941,10 +934,6 @@ dispatch_async(dispatch_get_main_queue(), ^{
                             action:@selector(refreshControlValueChanged:)
                   forControlEvents:UIControlEventValueChanged];
     tableViewController.refreshControl = self.refreshControl;
-    // Todo, Code Review: Мертвый код
-  //  [self.tableView addSubview:self.refreshControl];
-   // [self.tableView sendSubviewToBack: self.refreshControl];
-    
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
@@ -964,18 +953,19 @@ dispatch_async(dispatch_get_main_queue(), ^{
     }
 }
 
+
+
+#pragma mark - Files
 // Todo, Code Review: Вынести в бизнес логику
 - (void)openFile:(KGFile *)file {
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
 
-    // Todo, Code Review: Шта?
     if (URL) {
-        
-    } UIDocumentInteractionController *documentInteractionController =
+        UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
-        //        [documentInteractionController presentOpenInMenuFromRect:CGRectMake(200, 200, 100, 100) inView:self.view animated:YES];
         [documentInteractionController presentPreviewAnimated:YES];
+    }
 }
 
 - (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
