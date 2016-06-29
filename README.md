@@ -1,8 +1,9 @@
 # Mattermost iOS Native Application 
 
-This is fully native Mattermost iOS application made on pure Obj-C and blessed by Gods Of Apples.  
+This is fully native Mattermost iOS application made on pure Obj-C. 
 
-**Note** The iOS app is not an official and made by enthusiasts so any server changes might take a time to be implemented in the app.
+**Note** The iOS app is not [an official](https://github.com/mattermost/ios) and made by enthusiasts. So any backend changes might take some time to be implemented in the app.
+But no worries. Our company uses this app for own needs so an update will be not long in coming. 
 
 iOS application for use with Mattermost server 3.0 and higher (http://www.mattermost.org/download/) 
 
@@ -22,11 +23,11 @@ iOS application for use with Mattermost server 3.0 and higher (http://www.matter
 1. Install [Mattermost 3.0 or higher](http://www.mattermost.org/download/).
 2. Change the app bundle id to your own.
 3. Run `pod install` in the project's root directory. This will fetch Cocoapods dependencies.
-If CocoaPods is not already available it could be installed using command:
+If CocoaPods is not already available it could be installed by:
 ```
 $ [sudo] gem install cocoapods
 ```
-4. Run 'carthage update'. This will fetch Carthage dependencies.
+4. Run `carthage update`. This will fetch Carthage dependencies.
 If Carthage is not already available it could be installed using this [tutorial](https://github.com/Carthage/Carthage#installing-carthage) 
 5. Compile and deploy this iOS application to your Enterprise AppStore or publicly.
 6. Install [the latest stable release of the Mattermost Push Notifications Server](https://github.com/mattermost/push-proxy) using the private and public keys generated for your iOS application from step 2.
