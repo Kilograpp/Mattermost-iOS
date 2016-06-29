@@ -136,8 +136,7 @@
     NSSortDescriptor *isImageSortDesctiptor =
             [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(isImage)) ascending:YES];
     NSSortDescriptor *idSortDesctiptor =
-            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(identifier)) ascending:YES];
-    
+            [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(name)) ascending:YES];
     NSArray *sortDesctiptors = @[ isImageSortDesctiptor, idSortDesctiptor ];
     return [[self.files allObjects] sortedArrayUsingDescriptors:sortDesctiptors];
 }

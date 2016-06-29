@@ -53,12 +53,14 @@
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGPreferences.h"
 
+#import "KGImagePickerController.h"
 #import "IVManualCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
+@interface KGChatViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -194,8 +196,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
     self.textInputbar.autoHideRightButton = NO;
     self.shouldClearTextAtRightButtonPress = NO;
-   
-    
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     // Todo, Code Review: Локализация
     self.textInputbar.textView.placeholder = @"Type something...";
@@ -226,14 +226,17 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 #pragma mark - SLKViewController
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
-    //SLKTextViewController - поиск по предикату
+    //поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
     if ([prefix isEqualToString:@"@"] && word.length > 0) {
         // Todo, Code Review: Поменять username на название поля из аттрибутов
         self.searchResultArray = [[self.usersArray valueForKey:@"username"]
                                   filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
-        
+    }
+    
+    if (word.length == 0) {
+        self.searchResultArray = [self.usersArray valueForKey:@"username"];
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -241,9 +244,12 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 }
 
 - (CGFloat)heightForAutoCompletionView {
-    //SLKTextViewController
     CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
     return cellHeight*self.searchResultArray.count;
+}
+
+- (CGFloat)maximumHeightForAutoCompletionView {
+    return self.tableView.bounds.size.height;
 }
 
 
@@ -319,6 +325,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     cell.transform = self.tableView.transform;
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+    
     return cell;
 }
 
@@ -502,6 +509,56 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
             [self presentViewController:picker animated:YES completion:nil];
         });
     }];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    
+//    UIAlertAction *openCameraAction =
+//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//        
+////        switch ([AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]) {
+////            case AVAuthorizationStatusRestricted:
+////            case AVAuthorizationStatusDenied:
+////                //                [[KGAlertManager sharedManager] showErrorWithTitle:@"Нет доступа к камере"
+////                //                                                           message:@"Пожалуйста разрешите использовать камеру в настройках"];
+////                [[KGAlertManager sharedManager]showErrorWithMessage:@"Нет доступа к камере. /nПожалуйста разрешите использовать камеру в настройках"];
+////                break;
+////                
+////            default:
+//                [self presentPickerControllerWithType:UIImagePickerControllerSourceTypeCamera];
+////                break;
+////        }
+//        
+//        
+//
+//    }];
+//    
+//    UIAlertAction *openGalleryAction =
+//    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+//        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
+//                picker.delegate = self;
+//                
+//                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
+//                
+//                [self presentViewController:picker animated:YES completion:nil];
+//            });
+//        }];
+//            }];
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+//    [alertController addAction:openCameraAction];
+//    [alertController addAction:openGalleryAction];
+//    [alertController addAction:cancelAction];
+//    
+//    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)presentPickerControllerWithType:(UIImagePickerControllerSourceType)type {
+    KGImagePickerController *pickerController = [[KGImagePickerController alloc] init];
+    pickerController.sourceType = type;
+    pickerController.delegate = self;
+    
+    [self presentViewController:pickerController animated:YES completion:nil];
 }
 
 // Todo, Code Review: Каша из асбтракции
@@ -565,16 +622,22 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 #pragma mark - Notifications
 
-- (void)test:(NSNotification *)notification {
+- (void)performFillingTypingIndicatorView:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
-        
+        //проверка на то, что текущий юзер != юзеру, который пишет
+
         if (kg_notification.action == KGActionTyping) {
+            NSString *currentUserID = [[KGPreferences sharedInstance]currentUserId];
             KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
-            [self.typingIndicatorView insertUsername:user.nickname];
+            if (![user.identifier isEqualToString:currentUserID]) {
+                  [self.typingIndicatorView insertUsername:user.nickname];
+            }
         }
     }
 }
+
+
 
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -651,8 +714,8 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
 //    [self textFieldShouldReturn:self.textView];
-    [self.textView resignFirstResponder];
-//    [self dismissKeyboard:YES];
+//    [self.textView resignFirstResponder];
+    [self dismissKeyboard:YES];
     [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -662,7 +725,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(test:)
+                                             selector:@selector(performFillingTypingIndicatorView:)
                                                  name:self.channel.notificationsName
                                                object:nil];
     [self updateNavigationBarAppearance];

@@ -19,7 +19,7 @@
 #define KG_SCREEN_WIDTH CGRectGetWidth([UIScreen mainScreen].bounds)
 
 static NSOperationQueue*  messageQueue;
-static NSOperationQueue*  imageQueue;
+//static NSOperationQueue*  imageQueue;
 
 @interface IVManualCell () {
     CGRect _msgRect;
@@ -31,7 +31,7 @@ static NSOperationQueue*  imageQueue;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (strong, nonatomic) NSBlockOperation* messageOperation;
-@property (strong, nonatomic) NSBlockOperation* imageOperation;
+//@property (strong, nonatomic) NSBlockOperation* imageOperation;
 @property (nonatomic, strong) KGPost *post;
 @end
 
@@ -60,8 +60,8 @@ static NSOperationQueue*  imageQueue;
     messageQueue = [[NSOperationQueue alloc] init];
     [messageQueue setMaxConcurrentOperationCount:1];
     
-    imageQueue = [[NSOperationQueue alloc] init];
-    [imageQueue setMaxConcurrentOperationCount:1];
+//    imageQueue = [[NSOperationQueue alloc] init];
+//    [imageQueue setMaxConcurrentOperationCount:1];
 }
 
 - (void)setupTextLabel {
@@ -109,7 +109,7 @@ static NSOperationQueue*  imageQueue;
 //    _avatarImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _avatarImageView.backgroundColor = [UIColor whiteColor];
     _avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
+//    _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     [self addSubview:_avatarImageView];
 }
 
@@ -134,29 +134,18 @@ static NSOperationQueue*  imageQueue;
     _dateString = [_post.createdAt dateFormatForMassage];
     _timeLabel.text = _dateString;
     
-
-    self.imageOperation = [[NSBlockOperation alloc] init];
-    [self.imageOperation addExecutionBlock:^{
-        if (!wSelf.imageOperation.isCancelled) {
-//            dispatch_sync(dispatch_get_main_queue(), ^(void)
-//                          {
-            UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:wSelf.post.author.imageUrl.absoluteString];
-            if (cachedImage) {
-                wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40.f, 40.f));;
-            } else {
-                              [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:wSelf.post.author.imageUrl
-                                                                                    options:SDWebImageDownloaderHandleCookies
-                                                                                   progress:nil
-                                  completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                                      [[SDImageCache sharedImageCache] storeImage:image forKey:wSelf.post.author.imageUrl.absoluteString];
-                                      wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40.f, 40.f));
-                                      
-                                  }];
-            }
-//                          });
-        }
-    }];
-    [imageQueue addOperation:self.imageOperation];
+    UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.post.author.imageUrl.absoluteString];
+    if (cachedImage) {
+        wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40, 40));
+    } else {
+        [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
+                                      options:SDWebImageHandleCookies
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
+        } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.avatarImageView removeActivityIndicator];
+    }
 
 }
 
@@ -205,6 +194,5 @@ static NSOperationQueue*  imageQueue;
     _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     _messageLabel.text = nil;
     [_messageOperation cancel];
-    [_imageOperation cancel];
 }
 @end

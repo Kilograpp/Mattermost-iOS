@@ -22,6 +22,7 @@
 #import <UIImageView+UIActivityIndicatorForSDWebImage.h>
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGNotificationValues.h"
+#import "KGPreferences.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -172,6 +173,8 @@
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+    //сохранить выбранный канал в преференс
+    [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
     self.selectedIndexPath = indexPath;
     [self.tableView reloadData];
 }
@@ -188,8 +191,18 @@
 }
 
 - (void)setInitialSelectedChannel {
-    NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self selectChannelAtIntexPath:firstChannelPath];
+    if (![[KGPreferences sharedInstance] lastChannelId]) {
+        //первый вход
+        NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self selectChannelAtIntexPath:firstChannelPath];
+    } else {
+        //последний сохраненный канал
+        NSString *stringChannelId = [[KGPreferences sharedInstance] lastChannelId];
+        KGChannel *channel = [KGChannel managedObjectById:stringChannelId];
+        NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
+        [self selectChannelAtIntexPath:path];
+    }
+
 }
 
 
