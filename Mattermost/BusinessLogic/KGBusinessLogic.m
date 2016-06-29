@@ -197,7 +197,7 @@
     [self openSocket];
     [self runTimerForStatusUpdate];
     [self updateChannelsState];
-//    [self clearPushNotificationsBadgeNumber];
+    [self clearPushNotificationsBadgeNumber];
 }
 
 - (void)applicationDidEnterBackground {
