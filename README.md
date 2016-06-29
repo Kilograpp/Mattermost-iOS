@@ -1,9 +1,9 @@
 # Mattermost iOS Native Application 
 
-This is fully native Mattermost iOS application made on pure Obj-C. 
+This is fully native Mattermost iOS application written in pure Obj-C. 
 
-**Note** The iOS app is not [an official](https://github.com/mattermost/ios) and made by enthusiasts. So any backend changes might take some time to be implemented in the app.
-But no worries. Our company uses this app for own needs so an update will be not long in coming. 
+**Note** The iOS app is not an [official](https://github.com/mattermost/ios) and made by enthusiasts. So any backend changes might take some time to be implemented in the app.
+But no worries. We use the app for own needs so an update will be not long in coming. 
 
 iOS application for use with Mattermost server 3.0 and higher (http://www.mattermost.org/download/) 
 
