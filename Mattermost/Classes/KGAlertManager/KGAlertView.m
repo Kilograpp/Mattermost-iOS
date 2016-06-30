@@ -43,7 +43,7 @@ static CGFloat const kLabelHeight = 20;
 }
 
 
--(void)setupMessageLabelWithWidth:(CGFloat)screenWidth {
+- (void)setupMessageLabelWithWidth:(CGFloat)screenWidth {
     self.messageLabel = [[UILabel alloc]initWithFrame:CGRectMake((kImageMarginGorizontal + kImageWidth + kImageMarginGorizontal),
                                                                  kImageMarginVertical + kImageHeight/4,
                                                                  (screenWidth - kImageMarginGorizontal - kImageWidth - kImageMarginGorizontal - kLabelMarginTralling),

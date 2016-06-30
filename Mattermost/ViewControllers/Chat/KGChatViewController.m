@@ -418,7 +418,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
                                                        delegate:self
                                      ];
 
-    self.fetchedResultsController.fetchedObjects.count ?
+    self.fetchedResultsController.fetchedObjects.count == 0 ?
             [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
 }
 

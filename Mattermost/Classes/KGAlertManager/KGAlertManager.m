@@ -72,7 +72,6 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 }
 
 - (void)showError:(KGError *)error {
-    self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view.window animated:YES];
     self.messageView = [KGAlertView sharedMessage];
     [self.messageView showAlertViewWithMessage:NSLocalizedString(error.message, nil)
                                       withType:KGMessageTypeError
