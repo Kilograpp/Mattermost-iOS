@@ -1,0 +1,25 @@
+language: objective-c
+osx_image: xcode8.1
+xcode_scheme: Mattermost
+xcode_workspace: Mattermost.xcworkspace
+
+before_install:
+    - export LANG=en_US.UTF-8
+    - env
+    - locale
+    
+    - brew update
+    - brew install xctool
+    - brew install carthage
+    - carthage bootstrap --verbose
+    - carthage update --platform ios
+    
+    - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
+    - pod --version
+    - pod setup --silent > /dev/null
+    - pod repo update --silent
+    - pod install --silent
+
+
+script:
+    - xctool
