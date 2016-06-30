@@ -202,7 +202,6 @@
         NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
         [self selectChannelAtIntexPath:path];
     }
-
 }
 
 

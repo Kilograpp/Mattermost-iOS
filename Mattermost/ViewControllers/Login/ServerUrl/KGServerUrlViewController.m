@@ -17,6 +17,8 @@
 #import "NSString+Validation.h"
 #import "KGBusinessLogic+Session.h"
 
+#import "KGBusinessLogic+Team.h"
+
 static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 @interface KGServerUrlViewController ()
@@ -127,7 +129,6 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)setServerBaseUrl {
     [[KGPreferences sharedInstance] setServerBaseUrl:self.textField.text];
-    KGLog(@"%@", [KGPreferences sharedInstance].serverBaseUrl);
     
 //    [[KGBusinessLogic sharedInstance] validateServerAddress:^(KGError *error){
 //        if (error) {
@@ -145,8 +146,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)nextActionHandler {
     if ([self.textField.text kg_isValidUrl]) {
-        [self setServerBaseUrl];
-        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+        [self validateServerUrl];
     } else {
         [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
     }
@@ -174,6 +174,20 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 //        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
 //    }
 //}
+
+- (void)validateServerUrl {
+    [[KGAlertManager sharedManager] showProgressHud];
+    [self setServerBaseUrl];
+    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+        if (error) {
+            [self processError:error];
+        } else {
+            [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+        }
+        
+        [[KGAlertManager sharedManager] hideHud];
+    }];
+}
 
 #pragma mark - UITextFieldDelegate
 

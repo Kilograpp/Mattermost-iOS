@@ -46,7 +46,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadTeams];
+//    [self loadTeams];
+    [self configureLabels];
     [self setupTitleLabel];
     [self setupLoginButton];
     [self setupRecoveryButton];
@@ -220,18 +221,18 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     }];
 }
 
-- (void)loadTeams {
-    [self showLoadingView];
-    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-        if (error) {
-            [self processError:error];
-        } else {
-            [self configureLabels];
-        }
-
-        [self hideLoadingViewAnimated:YES];
-    }];
-}
+//- (void)loadTeams {
+//    [self showLoadingView];
+//    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+//        if (error) {
+//            [self processError:error];
+//        } else {
+//            [self configureLabels];
+//        }
+//
+//        [self hideLoadingViewAnimated:YES];
+//    }];
+//}
 
 
 #pragma mark - UITextFieldDelegate
