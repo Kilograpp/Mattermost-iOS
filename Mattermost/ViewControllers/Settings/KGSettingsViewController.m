@@ -41,12 +41,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    UITableViewHeaderFooterView *footer = view;
+    UITableViewHeaderFooterView *footer = (UITableViewHeaderFooterView *)view;
     footer.textLabel.font = [UIFont kg_regular13Font];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    UITableViewHeaderFooterView *header = view;
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     header.textLabel.font = [UIFont kg_regular14Font];
 }
 
