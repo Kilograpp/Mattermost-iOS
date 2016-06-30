@@ -20,4 +20,4 @@ before_script:
     - pod install
 
 script:
-    - xctool -workspace Mattermost.xcworkspace -scheme Mattermost -sdk iphonesimulator9.3 build
+    - xctool -workspace Mattermost.xcworkspace -scheme Mattermost -sdk iphonesimulator9.3 build -destination "platform=iOS Simulator,name=iPhone 6"
