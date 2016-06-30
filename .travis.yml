@@ -7,7 +7,7 @@ xcode_sdk: iphonesimulator9.3
 before_install:
     - export LANG=en_US.UTF-8
     - env
-    - eocale
+    - locale
     
     - brew update
     - brew outdated xctool || brew upgrade xctool
