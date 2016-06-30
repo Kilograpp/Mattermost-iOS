@@ -7,10 +7,10 @@ xcode_sdk: iphonesimulator9.3
 before_install:
     - export LANG=en_US.UTF-8
     - env
-    - locale
+    - eocale
     
     - brew update
-    - brew upgrade xctool
+    - brew outdated xctool || brew upgrade xctool
     - brew outdated carthage || brew upgrade carthage
     
     - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
