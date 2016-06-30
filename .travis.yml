@@ -13,7 +13,7 @@ before_install:
     - brew uninstall mogenerator || true
     - brew install mogenerator
     
-    - gem uninstall cocoapods || gem install cocoapods --version 0.38.2 --no-rdoc --no-ri --no-document --quiet
+    - gem uninstall cocoapods | gem install cocoapods --version 0.38.2 --no-rdoc --no-ri --no-document --quiet
     - pod --version
     - pod setup --silent > /dev/null
     - pod repo update --silent
