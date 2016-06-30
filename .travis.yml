@@ -10,6 +10,9 @@ before_install:
     - brew outdated xctool || brew upgrade xctool
     - brew outdated carthage || brew upgrade carthage
     
+    - brew uninstall mogenerator || true
+    - brew install mogenerator
+    
     - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
     - pod --version
     - pod setup --silent > /dev/null
