@@ -19,7 +19,3 @@ before_install:
     - pod setup --silent > /dev/null
     - pod repo update --silent
     - pod install --silent
-
-
-script:
-    - xctool
