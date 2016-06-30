@@ -18,4 +18,5 @@ before_install:
     - pod --version
     - pod setup --silent > /dev/null
     - pod repo update --silent
-    - pod install --silent
+    - pod install
+
