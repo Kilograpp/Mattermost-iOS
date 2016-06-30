@@ -117,7 +117,6 @@
     return ceilf(msg.size.height) + 16;
 }
 
-
 - (void)prepareForReuse {
     _messageLabel.text = nil;
     [_messageOperation cancel];

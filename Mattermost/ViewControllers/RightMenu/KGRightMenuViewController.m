@@ -22,6 +22,7 @@
 #import "UIImage+Resize.h"
 #import "KGProfileTableViewController.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGSideMenuContainerViewController.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -135,8 +136,8 @@
                                                                      iconName:@"menu_settings_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
+                                                                          [wSelf toggleRightSideMenuAction];
+                                                                          [wSelf.delegate navigateToSettings];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)

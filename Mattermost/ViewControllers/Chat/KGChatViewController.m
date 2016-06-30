@@ -59,6 +59,7 @@
 #import "IVManualCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
+static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
@@ -778,6 +779,10 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:presentNC animated:YES completion:nil];
     });
+}
+
+- (void)navigateToSettings {
+    [self performSegueWithIdentifier:kShowSettingsSegueIdentier sender:nil];
 }
 
 

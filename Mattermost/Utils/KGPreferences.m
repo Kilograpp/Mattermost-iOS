@@ -21,6 +21,13 @@
 - (void)load  {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
+        if ([propertyName isEqualToString:NSStringFromSelector(@selector(shouldCompressImages))]) {
+            if (![defaults valueForKey:propertyName]) {
+                [defaults setBool:YES forKey:propertyName];
+                [defaults synchronize];
+            }
+        }
+
         [self setValue:[defaults valueForKey:propertyName] forKey:propertyName];
     }];
 }
@@ -28,7 +35,14 @@
 - (void)save {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
-        [defaults setValue:[[self valueForKey:propertyName] description] forKey:propertyName];
+        if ([propertyName isEqualToString:NSStringFromSelector(@selector(shouldCompressImages))]) {
+            if (![defaults valueForKey:propertyName]) {
+                [defaults setBool:YES forKey:propertyName];
+            }
+            [defaults setBool:self.shouldCompressImages forKey:propertyName];
+        } else {
+            [defaults setValue:[[self valueForKey:propertyName] description] forKey:propertyName];
+        }
     }];
     [defaults synchronize];
 

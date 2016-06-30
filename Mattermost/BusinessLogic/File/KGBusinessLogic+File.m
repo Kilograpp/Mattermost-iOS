@@ -15,6 +15,8 @@
 #import "NSStringUtils.h"
 #import "SDImageCache.h"
 #import <MagicalRecord.h>
+#import "KGPreferences.h"
+#import "UIImage+Resize.h"
 
 @implementation KGBusinessLogic (File)
 
@@ -38,11 +40,12 @@
 
 - (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
+    UIImage *finalImage = [KGPreferences sharedInstance].shouldCompressImages ? image : [image kg_resizedImageWithSize:CGSizeMake(image.size.width * 0.25, image.size.height * 0.25)];
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]
     };
-    [self.defaultObjectManager postImage:image withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager postImage:finalImage withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
 
         KGFile *imageFile = [KGFile MR_createEntity];
         [imageFile setBackendLink:[[mappingResult.dictionary[@"filenames"] firstObject] valueForKey:@"backendLink"]];

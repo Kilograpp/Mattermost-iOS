@@ -129,6 +129,8 @@
     } else {
         return ceilf(KG_FILE_HEIGHT);
     }
+    
+    return 0.0001;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
