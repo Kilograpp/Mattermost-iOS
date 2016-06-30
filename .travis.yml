@@ -2,6 +2,7 @@ language: objective-c
 osx_image: xcode7.3
 xcode_scheme: Mattermost
 xcode_workspace: Mattermost.xcworkspace
+xcode_sdk: iphonesimulator9.3
 
 before_install:
     - export LANG=en_US.UTF-8
@@ -10,12 +11,14 @@ before_install:
     
     - brew update
     - brew upgrade xctool
-    - brew install carthage
-    - carthage bootstrap --verbose
+    - brew outdated carthage || brew upgrade carthage
     
     - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
     - pod --version
     - pod setup --silent > /dev/null
     - pod repo update --silent
+
+before_script:
+    - carthage bootstrap
     - pod install
 
