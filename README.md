@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Kilograpp/Mattermost-iOS.svg?branch=master)](https://travis-ci.org/Kilograpp/Mattermost-iOS)
+
 # Mattermost iOS Native Application 
 
 This is fully native Mattermost iOS application written in pure Obj-C. 
