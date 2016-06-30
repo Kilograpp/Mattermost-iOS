@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="OpenSans-Light.ttf">
+            <string>OpenSans-Light</string>
+        </mutableArray>
+        <mutableArray key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="253" id="KGk-i7-Jjw" customClass="KGImageChatCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="253"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="252"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1wv-qu-kN0" customClass="KGAvatarImageView">
+                        <rect key="frame" x="8" y="5" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="inh-NB-G6c"/>
+                            <constraint firstAttribute="height" constant="40" id="vj1-aL-xcF"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Очень длинный длинный текс куда уж еще длиннее" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wqz-nC-Cks">
+                        <rect key="frame" x="56" y="5" width="189" height="22"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJ0-Hv-hp4">
+                        <rect key="frame" x="56" y="35" width="256" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ccv-8b-0Uq">
+                        <rect key="frame" x="56" y="63" width="256" height="171"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="ccv-8b-0Uq" secondAttribute="height" multiplier="75:50" id="FKa-oe-vjK"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="8:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sVE-Hg-Qkn">
+                        <rect key="frame" x="253" y="5" width="59" height="22"/>
+                        <fontDescription key="fontDescription" name="OpenSans-Light" family="Open Sans" pointSize="16"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1wv-qu-kN0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="5dP-Hk-ErG"/>
+                    <constraint firstItem="lJ0-Hv-hp4" firstAttribute="leading" secondItem="Wqz-nC-Cks" secondAttribute="leading" id="7Jb-fD-PLg"/>
+                    <constraint firstItem="lJ0-Hv-hp4" firstAttribute="top" secondItem="Wqz-nC-Cks" secondAttribute="bottom" constant="8" id="9lr-EL-jA6"/>
+                    <constraint firstItem="Wqz-nC-Cks" firstAttribute="top" secondItem="1wv-qu-kN0" secondAttribute="top" id="DfQ-zX-DBq"/>
+                    <constraint firstItem="ccv-8b-0Uq" firstAttribute="top" secondItem="lJ0-Hv-hp4" secondAttribute="bottom" constant="8" id="H0F-Tl-weM"/>
+                    <constraint firstItem="1wv-qu-kN0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="aPY-Cw-Tec"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="lJ0-Hv-hp4" secondAttribute="trailing" id="b3S-jW-f3e"/>
+                    <constraint firstItem="ccv-8b-0Uq" firstAttribute="leading" secondItem="lJ0-Hv-hp4" secondAttribute="leading" id="cEL-v6-zhz"/>
+                    <constraint firstItem="Wqz-nC-Cks" firstAttribute="leading" secondItem="1wv-qu-kN0" secondAttribute="trailing" constant="8" id="gEs-aM-kxa"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ccv-8b-0Uq" secondAttribute="trailing" id="gcr-js-bZ4"/>
+                    <constraint firstItem="sVE-Hg-Qkn" firstAttribute="leading" secondItem="Wqz-nC-Cks" secondAttribute="trailing" constant="8" id="ljB-Eq-mA6"/>
+                    <constraint firstItem="sVE-Hg-Qkn" firstAttribute="top" secondItem="Wqz-nC-Cks" secondAttribute="top" id="rHC-Jk-q6X"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="ccv-8b-0Uq" secondAttribute="bottom" constant="2" id="u9C-ki-m08"/>
+                    <constraint firstAttribute="trailing" secondItem="sVE-Hg-Qkn" secondAttribute="trailing" constant="8" id="ur2-7n-LqI"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="u9C-ki-m08"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarImageView" destination="1wv-qu-kN0" id="jxq-er-KjO"/>
+                <outlet property="imageChatView" destination="ccv-8b-0Uq" id="snC-al-LcM"/>
+                <outlet property="nameLabel" destination="Wqz-nC-Cks" id="MmC-kH-GOe"/>
+                <outlet property="subtitleLabel" destination="lJ0-Hv-hp4" id="iUM-js-usq"/>
+                <outlet property="timeLabel" destination="sVE-Hg-Qkn" id="rtw-hk-xla"/>
+            </connections>
+            <point key="canvasLocation" x="590" y="285.5"/>
+        </tableViewCell>
+    </objects>
+</document>

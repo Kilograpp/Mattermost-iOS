@@ -1,0 +1,30 @@
+fastlane_version "1.94.0"
+
+default_platform :ios
+
+platform :ios do
+  before_all do 
+    cocoapods
+    carthage
+    match(force: true)
+    gym
+  end
+
+  lane :Development do |options|
+    crashlytics(ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
+                groups: ["Testers"])
+  end
+
+  lane :Production do |options|
+    crashlytics(ipa_path: "./" + ENV['APP_NAME'] + ".ipa",
+                groups: [ENV['APP_NAME']])
+  end 
+
+  after_all do |lane|
+    
+  end
+
+  error do |lane, exception|
+    raise 'Jenkins Must Die'
+  end
+end

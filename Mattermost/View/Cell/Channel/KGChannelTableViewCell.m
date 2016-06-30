@@ -1,0 +1,156 @@
+//
+//  KGChannelTableViewCell.m
+//  Mattermost
+//
+//  Created by Tatiana on 09/06/16.
+//  Copyright © 2016 Kilograpp. All rights reserved.
+//
+
+#import "KGChannelTableViewCell.h"
+#import "UIColor+KGPreparedColor.h"
+#import "UIFont+KGPreparedFont.h"
+#import "KGChannel.h"
+#import "KGUser.h"
+
+const static CGFloat kHeightCellLeftMenu = 50;
+
+@interface KGChannelTableViewCell()
+
+@property (weak, nonatomic) IBOutlet UIImageView *typeImageView;
+@property (weak, nonatomic) IBOutlet UIView *dotView;
+@property (weak, nonatomic) IBOutlet UILabel *sharpLabel;
+@property (weak, nonatomic) IBOutlet UILabel *channelNameLabel;
+@property (weak, nonatomic) IBOutlet UIView *selectedView;
+@property (strong, nonatomic) UIColor *labelColor;
+@property (strong, nonatomic) UIColor *dotViewColor;
+@property (strong, nonatomic) UIColor *dotViewBorderColor;
+@property (strong, nonatomic) UIColor *dotViewBorderColorIfSelected;
+
+@end
+@implementation KGChannelTableViewCell
+
+#pragma mark - Init
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    }
+    
+    return self;
+}
+
+
+#pragma mark - Lifecycle
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+  //  [self setupChannelNameLabel];
+    [self setupBachground];
+    [self setupDotView];
+    [self setupSelectedView];
+}
+
+
+#pragma mark - Setup
+
+- (void)setupBachground {
+    self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
+}
+
+//- (void)setupChannelNameLabel {
+//    self.channelNameLabel.font = [UIFont kg_regular18Font];
+//    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+//    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+//}
+
+- (void)setupDotView {
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.cornerRadius = self.dotView.bounds.size.height / 2;
+    self.dotView.layer.borderWidth = 1.2f;
+    self.dotView.layer.borderColor = self.dotViewBorderColor.CGColor;
+}
+
+- (void)setupSelectedView {
+    self.selectedView.backgroundColor = [UIColor kg_whiteColor];
+    self.selectedView.layer.cornerRadius = 3;
+}
+
+
+#pragma mark - Configuration
+
+- (void)configureWithObject:(id)object {
+    if ([object isKindOfClass:[KGChannel class]]) {
+        KGChannel *channel = object;
+        
+        self.selectedView.hidden = !self.isSelectedCell;
+        self.channelNameLabel.text = channel.displayName;
+        
+        if (channel.type == KGChannelTypePrivate) {
+            [self configureCellForChannelPrivate:channel.hasNewMessages];
+            [self configureDotViewForNetworkStatus:channel.configureNetworkStatus];
+        } else {
+            [self configureCellForCnannelPublic:channel.hasNewMessages];
+        }
+        
+        [self configureForState:self.isSelectedCell];
+    }
+}
+
+- (void)configureForState:(BOOL)isSelected {
+    self.selectedView.hidden = !isSelected;
+    self.channelNameLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.sharpLabel.textColor = (isSelected) ? [UIColor kg_blackColor] : self.labelColor;
+    self.dotView.backgroundColor = self.dotViewColor;
+    self.dotView.layer.borderColor = (isSelected) ? self.dotViewBorderColorIfSelected.CGColor : self.dotViewBorderColor.CGColor;
+}
+
+- (void)configureDotViewForNetworkStatus:(KGUserNetworkStatus)networkStatus {
+    switch (networkStatus) {
+        case KGUserOnlineStatus: {
+            self.dotViewColor = [UIColor kg_greenColor];
+            self.dotViewBorderColor = [UIColor kg_greenColor];
+            self.dotViewBorderColorIfSelected = [UIColor kg_greenColor];
+            break;
+        }
+            
+        case KGUserAwayStatus: {
+            self.dotViewColor = [UIColor clearColor];
+            self.dotViewBorderColor = [UIColor kg_yellowColor];
+            self.dotViewBorderColorIfSelected = [UIColor kg_yellowColor];
+            break;
+        }
+            
+        default: {
+            self.dotViewColor = [UIColor clearColor];
+            self.dotViewBorderColor = [UIColor kg_sectionColorLeftMenu];
+            self.dotViewBorderColorIfSelected = [UIColor kg_blackColor];
+            break;
+        }
+    }
+}
+
+- (void)configureCellForChannelPrivate:(BOOL)boolIsNewMessage {
+    self.dotView.hidden = NO;
+    self.sharpLabel.hidden = YES;
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
+    self.channelNameLabel.font = (boolIsNewMessage) ? [UIFont kg_boldText18Font] : [UIFont kg_regular18Font];
+
+}
+
+- (void)configureCellForCnannelPublic:(BOOL)boolIsNewMessage{
+    self.dotView.hidden = YES;
+    self.sharpLabel.hidden = NO;
+    self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
+    self.channelNameLabel.font = (boolIsNewMessage) ? [UIFont kg_boldText18Font] : [UIFont kg_regular18Font];
+    self.sharpLabel.font = (boolIsNewMessage) ? [UIFont kg_boldText18Font] : [UIFont kg_regular18Font];
+}
+
+
+#pragma mark - Height
+
++ (CGFloat)heightWithObject:(id)object {
+    return kHeightCellLeftMenu;
+}
+
+@end
