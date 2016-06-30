@@ -8,8 +8,9 @@
 
 #import "KGSettingsViewController.h"
 #import "KGPreferences.h"
+#import "UIFont+KGPreparedFont.h"
 
-@interface KGSettingsViewController ()
+@interface KGSettingsViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *compressImagesSwitch;
 @end
 
@@ -37,6 +38,16 @@
 - (void)toggleShouldCompressValue {
     [KGPreferences sharedInstance].shouldCompressImages = self.compressImagesSwitch.isOn;
     [[KGPreferences sharedInstance] save];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *footer = view;
+    footer.textLabel.font = [UIFont kg_regular13Font];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = view;
+    header.textLabel.font = [UIFont kg_regular14Font];
 }
 
 @end
