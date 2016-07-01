@@ -11,8 +11,12 @@
 #import "NSString+HeightCalculation.h"
 #import "KGPreferences.h"
 #import "KGUser.h"
+#import "NSAttributedStringMarkdownParser.h"
+#import "markdown_lib.h"
+#import "markdown_peg.h"
 
 @interface KGFollowUpChatCell ()
+@property (nonatomic, strong) NSAttributedString *attributedText;
 @end
 
 @implementation KGFollowUpChatCell
@@ -82,8 +86,8 @@
         self.messageOperation = [[NSBlockOperation alloc] init];
         [self.messageOperation addExecutionBlock:^{
             if (!wSelf.messageOperation.isCancelled) {
-                dispatch_sync(dispatch_get_main_queue(), ^(void){
-                    wSelf.messageLabel.text = wSelf.post.message;
+                              dispatch_sync(dispatch_get_main_queue(), ^(void){
+                    wSelf.messageLabel.attributedText = attributedTextfromText(wSelf.post.message);
                 });
             }
         }];
@@ -98,21 +102,25 @@
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     
-    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                               context:nil];
+//    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+//                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+//                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+//                                               context:nil];
+    NSAttributedString  *str = attributedTextfromText(self.post.message);
+     _msgRect = [str boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     self.messageLabel.frame = CGRectMake(53, 8, ceilf(_msgRect.size.width), ceilf(_msgRect.size.height));
 }
 
 + (CGFloat)heightWithObject:(id)object {
     KGPost *adapter = object;
     CGFloat textWidth = KGScreenWidth() - 61.f;
-    CGRect msg = [adapter.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                               context:nil];
-    
+    NSAttributedString  *str = attributedTextfromText(adapter.message);
+    CGRect msg = [str boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+//    CGRect msg = [str boundingRectWithSize:
+//                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+//                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
+//                                               context:nil];
+//    
     
     return ceilf(msg.size.height) + 16;
 }
@@ -120,6 +128,11 @@
 - (void)prepareForReuse {
     _messageLabel.text = nil;
     [_messageOperation cancel];
+}
+
+NSAttributedString *attributedTextfromText(NSString *text) {
+    NSAttributedStringMarkdownParser* parser = [[NSAttributedStringMarkdownParser alloc] init];
+    return [parser attributedStringFromMarkdownString:text];
 }
 
 @end

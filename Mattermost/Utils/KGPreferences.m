@@ -48,4 +48,16 @@
 
 }
 
+- (void)reset {
+    [self resetDefaults];
+}
+
+- (void)resetDefaults {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [userDefaults synchronize];
+    [self load];
+}
+
+
 @end

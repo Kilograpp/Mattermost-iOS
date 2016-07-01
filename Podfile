@@ -18,6 +18,7 @@ target 'Mattermost' do
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
   pod 'IDMPhotoBrowser'
+  pod 'AttributedMarkdown', :git => 'https://github.com/dreamwieber/AttributedMarkdown.git'
 end
 
 post_install do |installer_representation|

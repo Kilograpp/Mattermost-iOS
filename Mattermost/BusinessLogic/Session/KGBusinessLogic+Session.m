@@ -113,6 +113,7 @@ extern NSString * const KGAuthTokenHeaderName;
         [self resetPersistentStore];
         [self clearCookies];
         [self closeSocket];
+        [[KGPreferences sharedInstance] reset];
         safetyCall(completion, nil);
     }];
 
@@ -165,7 +166,6 @@ extern NSString * const KGAuthTokenHeaderName;
         }];
         
     }
-
 }
 
 @end

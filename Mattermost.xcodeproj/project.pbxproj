@@ -71,8 +71,12 @@
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
 		CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
-		CDB050701D1400A200594A8C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CDB0506E1D1400A200594A8C /* KGTeamCell.m */; };
-		CDB050711D1400A200594A8C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB0506F1D1400A200594A8C /* KGTeamCell.xib */; };
+		D605F7641D26E2BB00C4D84C /* MarkdownTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */; };
+		D605F7651D26E2BB00C4D84C /* MarkdownTokens.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */; };
+		D605F7661D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */; };
+		D605F76A1D26E66000C4D84C /* fmemopen.c in Sources */ = {isa = PBXBuildFile; fileRef = D605F7671D26E66000C4D84C /* fmemopen.c */; };
+		D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F76C1D26EE1200C4D84C /* KGTeamCell.m */; };
+		D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */; };
 		D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */; };
 		D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */; };
 		D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */; };
@@ -87,6 +91,7 @@
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
 		D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */; };
 		D67A24931D108922006579E8 /* KGAsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24921D108922006579E8 /* KGAsyncImageView.m */; };
+		D67A539D1D25C7390039A201 /* KGImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A539C1D25C7390039A201 /* KGImageView.m */; };
 		D686269B1D21E31A00FAC1CB /* KGUIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D686269A1D21E31A00FAC1CB /* KGUIUtils.m */; };
 		D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */; };
 		D696F7761D060FDD008341AF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D696F7751D060FDD008341AF /* main.m */; };
@@ -134,26 +139,23 @@
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		411169EE1D09DE0D00448145 /* KGChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelTableViewCell.h; sourceTree = "<group>"; };
 		411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelTableViewCell.m; sourceTree = "<group>"; };
-		415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTableViewSectionHeader.h; path = TableSectionHeader/KGTableViewSectionHeader.h; sourceTree = "<group>"; };
-		415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTableViewSectionHeader.m; path = TableSectionHeader/KGTableViewSectionHeader.m; sourceTree = "<group>"; };
+		415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTableViewSectionHeader.h; sourceTree = "<group>"; };
+		415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTableViewSectionHeader.m; sourceTree = "<group>"; };
 		415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTableViewSectionHeader.xib; sourceTree = "<group>"; };
-		419096D91D13DD8500725440 /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamCell.h; path = Team/KGTeamCell.h; sourceTree = "<group>"; };
-		419096DA1D13DD8500725440 /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamCell.m; path = Team/KGTeamCell.m; sourceTree = "<group>"; };
-		419096DB1D13DD8500725440 /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGTeamCell.xib; path = Team/KGTeamCell.xib; sourceTree = "<group>"; };
-		419096E11D14117800725440 /* KGProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileCell.h; path = Profile/KGProfileCell.h; sourceTree = "<group>"; };
-		419096E21D14117800725440 /* KGProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileCell.m; path = Profile/KGProfileCell.m; sourceTree = "<group>"; };
+		419096E11D14117800725440 /* KGProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileCell.h; sourceTree = "<group>"; };
+		419096E21D14117800725440 /* KGProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileCell.m; sourceTree = "<group>"; };
 		419096E41D14118800725440 /* KGProfileCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGProfileCell.xib; sourceTree = "<group>"; };
-		419096E71D1427EB00725440 /* KGProfileDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileDataSource.h; path = ProfileDataSource/KGProfileDataSource.h; sourceTree = "<group>"; };
-		419096E81D1427EB00725440 /* KGProfileDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileDataSource.m; path = ProfileDataSource/KGProfileDataSource.m; sourceTree = "<group>"; };
-		419096EB1D1435C800725440 /* KGProfileTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGProfileTableHeader.h; path = TableHeader/KGProfileTableHeader.h; sourceTree = "<group>"; };
-		419096EC1D1435C800725440 /* KGProfileTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGProfileTableHeader.m; path = TableHeader/KGProfileTableHeader.m; sourceTree = "<group>"; };
+		419096E71D1427EB00725440 /* KGProfileDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileDataSource.h; sourceTree = "<group>"; };
+		419096E81D1427EB00725440 /* KGProfileDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileDataSource.m; sourceTree = "<group>"; };
+		419096EB1D1435C800725440 /* KGProfileTableHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileTableHeader.h; sourceTree = "<group>"; };
+		419096EC1D1435C800725440 /* KGProfileTableHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileTableHeader.m; sourceTree = "<group>"; };
 		419096EE1D1435D900725440 /* KGProfileTableHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGProfileTableHeader.xib; sourceTree = "<group>"; };
 		419096F31D1455B400725440 /* KGProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfileTableViewController.h; sourceTree = "<group>"; };
 		419096F41D1455B400725440 /* KGProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileTableViewController.m; sourceTree = "<group>"; };
-		41A80B8D1D1ABA3400E8A0EA /* KGFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGFileCell.h; path = File/KGFileCell.h; sourceTree = "<group>"; };
-		41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGFileCell.m; path = File/KGFileCell.m; sourceTree = "<group>"; };
-		41B020B71D19946900594995 /* KGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGImagePickerController.h; path = KGImagePickerController/KGImagePickerController.h; sourceTree = "<group>"; };
-		41B020B81D19946900594995 /* KGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGImagePickerController.m; path = KGImagePickerController/KGImagePickerController.m; sourceTree = "<group>"; };
+		41A80B8D1D1ABA3400E8A0EA /* KGFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFileCell.h; sourceTree = "<group>"; };
+		41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGFileCell.m; sourceTree = "<group>"; };
+		41B020B71D19946900594995 /* KGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePickerController.h; sourceTree = "<group>"; };
+		41B020B81D19946900594995 /* KGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePickerController.m; sourceTree = "<group>"; };
 		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
 		41FC94B41D07FA87009E1090 /* KGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGButton.m; sourceTree = "<group>"; };
 		41FC94B71D07FAA5009E1090 /* KGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTextField.h; sourceTree = "<group>"; };
@@ -247,17 +249,26 @@
 		CD7D11811D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuDataSourceEntry.h; sourceTree = "<group>"; };
 		CD7D11821D0C6BB4002EED4E /* KGRightMenuDataSourceEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuDataSourceEntry.m; sourceTree = "<group>"; };
 		CD7D11851D0C91D4002EED4E /* SettingsAccount.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SettingsAccount.storyboard; sourceTree = "<group>"; };
-		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPresentNavigationController.h; path = ../ViewControllers/KGPresentNavigationController.h; sourceTree = "<group>"; };
-		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPresentNavigationController.m; path = ../ViewControllers/KGPresentNavigationController.m; sourceTree = "<group>"; };
+		CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPresentNavigationController.h; sourceTree = "<group>"; };
+		CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPresentNavigationController.m; sourceTree = "<group>"; };
 		CD8D69051D0C510A00AFA198 /* KGSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGSettingsViewController.h; sourceTree = "<group>"; };
 		CD8D69061D0C510A00AFA198 /* KGSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGSettingsViewController.m; sourceTree = "<group>"; };
 		CD8D69091D0C514800AFA198 /* KGProfilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGProfilViewController.h; sourceTree = "<group>"; };
 		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfilViewController.m; sourceTree = "<group>"; };
 		CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuViewController.h; sourceTree = "<group>"; };
 		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuViewController.m; sourceTree = "<group>"; };
-		CDB0506D1D1400A200594A8C /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGTeamCell.h; path = Team/KGTeamCell.h; sourceTree = "<group>"; };
-		CDB0506E1D1400A200594A8C /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGTeamCell.m; path = Team/KGTeamCell.m; sourceTree = "<group>"; };
-		CDB0506F1D1400A200594A8C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGTeamCell.xib; path = Team/KGTeamCell.xib; sourceTree = "<group>"; };
+		D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkdownTokenizer.m; sourceTree = "<group>"; };
+		D605F75F1D26E2BB00C4D84C /* MarkdownTokens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkdownTokens.h; sourceTree = "<group>"; };
+		D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkdownTokens.m; sourceTree = "<group>"; };
+		D605F7611D26E2BB00C4D84C /* NimbusMarkdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NimbusMarkdown.h; sourceTree = "<group>"; };
+		D605F7621D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedStringMarkdownParser.h; sourceTree = "<group>"; };
+		D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedStringMarkdownParser.m; sourceTree = "<group>"; };
+		D605F7671D26E66000C4D84C /* fmemopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fmemopen.c; sourceTree = "<group>"; };
+		D605F7681D26E66000C4D84C /* fmemopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmemopen.h; sourceTree = "<group>"; };
+		D605F7691D26E66000C4D84C /* NimbusMemoryMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NimbusMemoryMapping.h; sourceTree = "<group>"; };
+		D605F76B1D26EE1200C4D84C /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeamCell.h; sourceTree = "<group>"; };
+		D605F76C1D26EE1200C4D84C /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeamCell.m; sourceTree = "<group>"; };
+		D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTeamCell.xib; sourceTree = "<group>"; };
 		D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
 		D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
 		D636DBEC1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Medium.otf"; sourceTree = "<group>"; };
@@ -270,16 +281,18 @@
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
 		D66328431D1F6AEB0043B7DD /* IVManualCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVManualCell.m; sourceTree = "<group>"; };
-		D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+KGRotate.h"; path = "UIImage/UIImage+KGRotate.h"; sourceTree = "<group>"; };
-		D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+KGRotate.m"; path = "UIImage/UIImage+KGRotate.m"; sourceTree = "<group>"; };
+		D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+KGRotate.h"; sourceTree = "<group>"; };
+		D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+KGRotate.m"; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
 		D67923F01D09439E00481694 /* KGResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGResetPasswordViewController.m; sourceTree = "<group>"; };
-		D67A24851D10448B006579E8 /* KGChatCommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatCommonTableViewCell.h; path = Common/KGChatCommonTableViewCell.h; sourceTree = "<group>"; };
-		D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatCommonTableViewCell.m; path = Common/KGChatCommonTableViewCell.m; sourceTree = "<group>"; };
-		D67A24891D106ECC006579E8 /* KGChatAttachmentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChatAttachmentsTableViewCell.h; path = Attachments/KGChatAttachmentsTableViewCell.h; sourceTree = "<group>"; };
-		D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChatAttachmentsTableViewCell.m; path = Attachments/KGChatAttachmentsTableViewCell.m; sourceTree = "<group>"; };
-		D67A24911D108922006579E8 /* KGAsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAsyncImageView.h; path = AsyncImageView/KGAsyncImageView.h; sourceTree = "<group>"; };
-		D67A24921D108922006579E8 /* KGAsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAsyncImageView.m; path = AsyncImageView/KGAsyncImageView.m; sourceTree = "<group>"; };
+		D67A24851D10448B006579E8 /* KGChatCommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatCommonTableViewCell.h; sourceTree = "<group>"; };
+		D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatCommonTableViewCell.m; sourceTree = "<group>"; };
+		D67A24891D106ECC006579E8 /* KGChatAttachmentsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatAttachmentsTableViewCell.h; sourceTree = "<group>"; };
+		D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatAttachmentsTableViewCell.m; sourceTree = "<group>"; };
+		D67A24911D108922006579E8 /* KGAsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAsyncImageView.h; sourceTree = "<group>"; };
+		D67A24921D108922006579E8 /* KGAsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAsyncImageView.m; sourceTree = "<group>"; };
+		D67A539B1D25C7390039A201 /* KGImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageView.h; sourceTree = "<group>"; };
+		D67A539C1D25C7390039A201 /* KGImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageView.m; sourceTree = "<group>"; };
 		D68626991D21E31A00FAC1CB /* KGUIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGUIUtils.h; sourceTree = "<group>"; };
 		D686269A1D21E31A00FAC1CB /* KGUIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGUIUtils.m; sourceTree = "<group>"; };
 		D68BAFFD1D0B215800B4564B /* KGChannelTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChannelTableViewCell.xib; sourceTree = "<group>"; };
@@ -313,11 +326,11 @@
 		D6C154D71D07570B00B053CE /* KGNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGNavigationController.m; sourceTree = "<group>"; };
 		D6C154D91D07572200B053CE /* KGLoginNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginNavigationController.h; sourceTree = "<group>"; };
 		D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginNavigationController.m; sourceTree = "<group>"; };
-		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGAutoCompletionCell.h; path = AutoCompletion/KGAutoCompletionCell.h; sourceTree = "<group>"; };
-		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGAutoCompletionCell.m; path = AutoCompletion/KGAutoCompletionCell.m; sourceTree = "<group>"; };
-		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGAutoCompletionCell.xib; path = AutoCompletion/KGAutoCompletionCell.xib; sourceTree = "<group>"; };
-		D6E682401D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableURLRequest+KGHandleCookies.h"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
-		D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableURLRequest+KGHandleCookies.m"; path = "NSMutableURLRequest/NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
+		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAutoCompletionCell.h; sourceTree = "<group>"; };
+		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAutoCompletionCell.m; sourceTree = "<group>"; };
+		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGAutoCompletionCell.xib; sourceTree = "<group>"; };
+		D6E682401D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
+		D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
 		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
 		D80638C71D1C2A270034E450 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
@@ -390,14 +403,13 @@
 		411169EC1D09DDD800448145 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				CDB0506C1D14009300594A8C /* Team */,
-				419096E01D14115000725440 /* Profile */,
-				419096D81D13DD3D00725440 /* Team */,
 				D844A6EF1D0AF9DC00B53BB3 /* Base */,
 				411169ED1D09DDDD00448145 /* Channel */,
 				D844A6E61D0AE35200B53BB3 /* Chat */,
+				419096E01D14115000725440 /* Profile */,
 				CD7D117A1D0C643D002EED4E /* RightMenu */,
 				CD7D11791D0C6421002EED4E /* Settings */,
+				419096D81D13DD3D00725440 /* Team */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -419,17 +431,17 @@
 				415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */,
 				415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */,
 			);
-			name = TableSectionHeader;
+			path = TableSectionHeader;
 			sourceTree = "<group>";
 		};
 		419096D81D13DD3D00725440 /* Team */ = {
 			isa = PBXGroup;
 			children = (
-				419096D91D13DD8500725440 /* KGTeamCell.h */,
-				419096DA1D13DD8500725440 /* KGTeamCell.m */,
-				419096DB1D13DD8500725440 /* KGTeamCell.xib */,
+				D605F76B1D26EE1200C4D84C /* KGTeamCell.h */,
+				D605F76C1D26EE1200C4D84C /* KGTeamCell.m */,
+				D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */,
 			);
-			name = Team;
+			path = Team;
 			sourceTree = "<group>";
 		};
 		419096E01D14115000725440 /* Profile */ = {
@@ -439,7 +451,7 @@
 				419096E21D14117800725440 /* KGProfileCell.m */,
 				419096E41D14118800725440 /* KGProfileCell.xib */,
 			);
-			name = Profile;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		419096E61D1427B100725440 /* ProfileDataSource */ = {
@@ -448,7 +460,7 @@
 				419096E71D1427EB00725440 /* KGProfileDataSource.h */,
 				419096E81D1427EB00725440 /* KGProfileDataSource.m */,
 			);
-			name = ProfileDataSource;
+			path = ProfileDataSource;
 			sourceTree = "<group>";
 		};
 		419096EA1D14358800725440 /* TableHeader */ = {
@@ -458,7 +470,7 @@
 				419096EC1D1435C800725440 /* KGProfileTableHeader.m */,
 				419096EE1D1435D900725440 /* KGProfileTableHeader.xib */,
 			);
-			name = TableHeader;
+			path = TableHeader;
 			sourceTree = "<group>";
 		};
 		41A80B8C1D1ABA0A00E8A0EA /* File */ = {
@@ -467,7 +479,7 @@
 				41A80B8D1D1ABA3400E8A0EA /* KGFileCell.h */,
 				41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */,
 			);
-			name = File;
+			path = File;
 			sourceTree = "<group>";
 		};
 		41B020B51D19940E00594995 /* KGImagePickerController */ = {
@@ -476,17 +488,17 @@
 				41B020B71D19946900594995 /* KGImagePickerController.h */,
 				41B020B81D19946900594995 /* KGImagePickerController.m */,
 			);
-			name = KGImagePickerController;
+			path = KGImagePickerController;
 			sourceTree = "<group>";
 		};
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				415FFC041D182E99003F9E23 /* TableSectionHeader */,
-				419096EA1D14358800725440 /* TableHeader */,
-				D67A248F1D1088BE006579E8 /* New Group */,
 				41FC94B21D07FA73009E1090 /* Button */,
 				411169EC1D09DDD800448145 /* Cell */,
+				D67A248F1D1088BE006579E8 /* New Group */,
+				419096EA1D14358800725440 /* TableHeader */,
+				415FFC041D182E99003F9E23 /* TableSectionHeader */,
 				41FC94B61D07FA8C009E1090 /* TextField */,
 			);
 			path = View;
@@ -578,12 +590,12 @@
 		7339B69CC14FAE271AFEB356 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				D6E6823F1D1D296F006F11CE /* NSMutableURLRequest */,
 				CD671BD41D12A3A7004CD55E /* CAGradientLayer */,
 				7339BEFD7996248E8290A9A6 /* NSAttributedString */,
 				7339B2062A635809A5F63600 /* NSDate */,
 				7339BE02BFAB0E010AD7F32A /* NSError */,
 				7339B4539193B48F7FE2AB5F /* NSManagedObject */,
+				D6E6823F1D1D296F006F11CE /* NSMutableURLRequest */,
 				7339BEA98E28EB3A5347298C /* NSObject */,
 				7339B29F55CC49F92FC67383 /* NSString */,
 				7339B7FE3FBC526652FD164F /* RKRequestDescriptor */,
@@ -609,12 +621,12 @@
 		7339B84ED964B6992516D5B3 /* UIImage */ = {
 			isa = PBXGroup;
 			children = (
-				7339BC54353B47F71B763777 /* UIImage+Resize.h */,
-				7339B307C5032AD1958D0DF4 /* UIImage+Resize.m */,
 				D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */,
 				D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */,
+				7339BC54353B47F71B763777 /* UIImage+Resize.h */,
+				7339B307C5032AD1958D0DF4 /* UIImage+Resize.m */,
 			);
-			name = UIImage;
+			path = UIImage;
 			sourceTree = "<group>";
 		};
 		7339BE02BFAB0E010AD7F32A /* NSError */ = {
@@ -658,8 +670,8 @@
 		9B822190E10D4ECDE625A0D7 /* UIStatusBar */ = {
 			isa = PBXGroup;
 			children = (
-				9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */,
 				9B822A44924AABEF32054551 /* UIStatusBar+SharedBar.h */,
+				9B8227906CB0CA57C68403BD /* UIStatusBar+SharedBar.m */,
 			);
 			path = UIStatusBar;
 			sourceTree = "<group>";
@@ -667,12 +679,14 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				41B020B51D19940E00594995 /* KGImagePickerController */,
 				D69FB1741D097F3200043C2D /* KGAlertManager */,
 				D844A7051D0B348A00B53BB3 /* KGAvatarImageView */,
 				9B822AF8F1E38A1254268D42 /* KGChannelNotification */,
 				9B822755ADDFDC7B4B9D5F05 /* KGError */,
+				41B020B51D19940E00594995 /* KGImagePickerController */,
+				D67A539A1D25C7100039A201 /* KGImageView */,
 				9B822F9BC10946A08F87993F /* KGObjectManager */,
+				D605F75D1D26E26F00C4D84C /* MarkdownParser */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -864,14 +878,20 @@
 			path = RightMenu;
 			sourceTree = "<group>";
 		};
-		CDB0506C1D14009300594A8C /* Team */ = {
+		D605F75D1D26E26F00C4D84C /* MarkdownParser */ = {
 			isa = PBXGroup;
 			children = (
-				CDB0506D1D1400A200594A8C /* KGTeamCell.h */,
-				CDB0506E1D1400A200594A8C /* KGTeamCell.m */,
-				CDB0506F1D1400A200594A8C /* KGTeamCell.xib */,
+				D605F7671D26E66000C4D84C /* fmemopen.c */,
+				D605F7681D26E66000C4D84C /* fmemopen.h */,
+				D605F7691D26E66000C4D84C /* NimbusMemoryMapping.h */,
+				D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */,
+				D605F75F1D26E2BB00C4D84C /* MarkdownTokens.h */,
+				D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */,
+				D605F7621D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.h */,
+				D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */,
+				D605F7611D26E2BB00C4D84C /* NimbusMarkdown.h */,
 			);
-			name = Team;
+			path = MarkdownParser;
 			sourceTree = "<group>";
 		};
 		D63B2BDD1D118C570090D739 /* Popover */ = {
@@ -880,14 +900,14 @@
 				CD7D11871D0C9556002EED4E /* KGPresentNavigationController.h */,
 				CD7D11881D0C9556002EED4E /* KGPresentNavigationController.m */,
 			);
-			name = Popover;
+			path = Popover;
 			sourceTree = "<group>";
 		};
 		D63B2BDE1D118C6F0090D739 /* Test */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Test;
+			path = Test;
 			sourceTree = "<group>";
 		};
 		D65E5AC71D0F519400D5E0C6 /* Image */ = {
@@ -914,7 +934,7 @@
 				D67A24851D10448B006579E8 /* KGChatCommonTableViewCell.h */,
 				D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */,
 			);
-			name = Common;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		D67A24881D106E9A006579E8 /* Attachments */ = {
@@ -923,7 +943,7 @@
 				D67A24891D106ECC006579E8 /* KGChatAttachmentsTableViewCell.h */,
 				D67A248A1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m */,
 			);
-			name = Attachments;
+			path = Attachments;
 			sourceTree = "<group>";
 		};
 		D67A248D1D107378006579E8 /* Helpers */ = {
@@ -931,14 +951,14 @@
 			children = (
 				D67A248E1D107381006579E8 /* UIHelper */,
 			);
-			name = Helpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		D67A248E1D107381006579E8 /* UIHelper */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = UIHelper;
+			path = UIHelper;
 			sourceTree = "<group>";
 		};
 		D67A248F1D1088BE006579E8 /* New Group */ = {
@@ -947,7 +967,16 @@
 				D67A24911D108922006579E8 /* KGAsyncImageView.h */,
 				D67A24921D108922006579E8 /* KGAsyncImageView.m */,
 			);
-			name = "New Group";
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		D67A539A1D25C7100039A201 /* KGImageView */ = {
+			isa = PBXGroup;
+			children = (
+				D67A539B1D25C7390039A201 /* KGImageView.h */,
+				D67A539C1D25C7390039A201 /* KGImageView.m */,
+			);
+			path = KGImageView;
 			sourceTree = "<group>";
 		};
 		D696F7681D060FDD008341AF = {
@@ -1057,6 +1086,7 @@
 		D696F7991D061301008341AF /* BusinessLogic */ = {
 			isa = PBXGroup;
 			children = (
+				9B82293CFB88C59588025198 /* Application */,
 				9B822D190D7E79A75E3533DE /* Channels */,
 				9B82294CA20E428FCC37B6D8 /* File */,
 				9B82279F2329C139228A2068 /* Notifications */,
@@ -1066,7 +1096,6 @@
 				D8B429181D073729008BF955 /* Team */,
 				D696F79A1D061331008341AF /* KGBusinessLogic.h */,
 				D8B4291C1D083259008BF955 /* KGBusinessLogic.m */,
-				9B82293CFB88C59588025198 /* Application */,
 			);
 			path = BusinessLogic;
 			sourceTree = "<group>";
@@ -1143,7 +1172,6 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D63B2BDE1D118C6F0090D739 /* Test */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
@@ -1152,6 +1180,7 @@
 				CD8D690C1D0C51D600AFA198 /* RightMenu */,
 				CD8D69041D0C50D600AFA198 /* Settings */,
 				D69FB19A1D09C62200043C2D /* SideMenu */,
+				D63B2BDE1D118C6F0090D739 /* Test */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1198,10 +1227,10 @@
 		D6C154D31D0756DC00B053CE /* NavigationControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D63B2BDD1D118C570090D739 /* Popover */,
 				D6C154D41D0756F500B053CE /* Base */,
 				D69FB1901D09C5AC00043C2D /* Chat */,
 				D6C154D51D07570000B053CE /* Login */,
+				D63B2BDD1D118C570090D739 /* Popover */,
 			);
 			path = NavigationControllers;
 			sourceTree = "<group>";
@@ -1231,7 +1260,7 @@
 				D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */,
 				D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */,
 			);
-			name = AutoCompletion;
+			path = AutoCompletion;
 			sourceTree = "<group>";
 		};
 		D6E6823F1D1D296F006F11CE /* NSMutableURLRequest */ = {
@@ -1240,7 +1269,7 @@
 				D6E682401D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.h */,
 				D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */,
 			);
-			name = NSMutableURLRequest;
+			path = NSMutableURLRequest;
 			sourceTree = "<group>";
 		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
@@ -1255,13 +1284,13 @@
 		D844A6E61D0AE35200B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				D67A24881D106E9A006579E8 /* Attachments */,
+				D6C915711D193B20000DC072 /* AutoCompletion */,
+				D67A24841D104443006579E8 /* Common */,
+				41A80B8C1D1ABA0A00E8A0EA /* File */,
+				D65E5AC71D0F519400D5E0C6 /* Image */,
 				D66328421D1F6AEB0043B7DD /* IVManualCell.h */,
 				D66328431D1F6AEB0043B7DD /* IVManualCell.m */,
-				41A80B8C1D1ABA0A00E8A0EA /* File */,
-				D6C915711D193B20000DC072 /* AutoCompletion */,
-				D67A24881D106E9A006579E8 /* Attachments */,
-				D67A24841D104443006579E8 /* Common */,
-				D65E5AC71D0F519400D5E0C6 /* Image */,
 				D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */,
 				D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */,
 				D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */,
@@ -1298,14 +1327,14 @@
 			children = (
 				D8B429141D071969008BF955 /* KGConstants.h */,
 				D8B429151D071969008BF955 /* KGConstants.m */,
+				9B822F035019EEEB5552B10D /* KGNotificationValues.h */,
 				9B82282B314DA6557A5AA0DD /* KGPreferences.h */,
 				9B822A262E677040DD4EF48D /* KGPreferences.m */,
+				D68626991D21E31A00FAC1CB /* KGUIUtils.h */,
+				D686269A1D21E31A00FAC1CB /* KGUIUtils.m */,
 				9B822E068632C717861972A7 /* KGUtils.h */,
 				9B822FA5DE660473F9598FBA /* NSStringUtils.h */,
 				9B82238547742F610B40AF2A /* NSStringUtils.m */,
-				9B822F035019EEEB5552B10D /* KGNotificationValues.h */,
-				D68626991D21E31A00FAC1CB /* KGUIUtils.h */,
-				D686269A1D21E31A00FAC1CB /* KGUIUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1400,6 +1429,7 @@
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
 				D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
+				D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */,
 				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
 				419096E51D14118800725440 /* KGProfileCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
@@ -1411,7 +1441,6 @@
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
 				D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */,
 				D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */,
-				CDB050711D1400A200594A8C /* KGTeamCell.xib in Resources */,
 				CD7D11861D0C91D4002EED4E /* SettingsAccount.storyboard in Resources */,
 				D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */,
 				9B822D36FE33ED3BE423743B /* KGNotificationValues.h in Resources */,
@@ -1529,6 +1558,7 @@
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
+				D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */,
 				D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */,
 				D67A248B1D106ECC006579E8 /* KGChatAttachmentsTableViewCell.m in Sources */,
 				41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */,
@@ -1547,16 +1577,20 @@
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
 				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
+				D605F7661D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m in Sources */,
 				CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
 				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
+				D605F7641D26E2BB00C4D84C /* MarkdownTokenizer.m in Sources */,
 				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
+				D605F76A1D26E66000C4D84C /* fmemopen.c in Sources */,
 				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
 				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
+				D67A539D1D25C7390039A201 /* KGImageView.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */,
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
@@ -1567,7 +1601,6 @@
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
 				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
-				CDB050701D1400A200594A8C /* KGTeamCell.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
 				41B020B91D19946900594995 /* KGImagePickerController.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
@@ -1589,6 +1622,7 @@
 				7339BA2EF501D676B9E8E03F /* NSObject+EnumerateProperties.m in Sources */,
 				7339B5A3DAE9BB47863A7BA8 /* NSString+HeightCalculation.m in Sources */,
 				7339BCDB4A93DA8A1438C38F /* NSString+Validation.m in Sources */,
+				D605F7651D26E2BB00C4D84C /* MarkdownTokens.m in Sources */,
 				7339B79E1D4A4CCF5C54FCB4 /* RKRequestDescriptor+Runtime.m in Sources */,
 				7339B10D1047D9B9CFBD00EE /* RKResponseDescriptor+Runtime.m in Sources */,
 				7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */,

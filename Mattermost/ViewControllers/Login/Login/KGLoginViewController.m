@@ -113,11 +113,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)setupLoginButton {
     self.loginButton.layer.cornerRadius = KGStandartCornerRadius;
-//    self.loginButton.backgroundColor = [UIColor kg_blueColor];
     [self.loginButton setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
-//    [self.loginButton setTintColor:[UIColor whiteColor]];
     self.loginButton.titleLabel.font = [UIFont kg_medium18Font];
-//    self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
     self.loginButton.enabled = NO;
     self.loginButton.shouldDrawImageAtRightSide = YES;
 }
@@ -220,19 +217,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
         }
     }];
 }
-
-//- (void)loadTeams {
-//    [self showLoadingView];
-//    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-//        if (error) {
-//            [self processError:error];
-//        } else {
-//            [self configureLabels];
-//        }
-//
-//        [self hideLoadingViewAnimated:YES];
-//    }];
-//}
 
 
 #pragma mark - UITextFieldDelegate

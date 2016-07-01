@@ -627,6 +627,8 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
                                              selector:@selector(updateNavigationBarAppearance)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
+    
+    
 }
 
 
@@ -725,8 +727,6 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
-//    [self textFieldShouldReturn:self.textView];
-//    [self.textView resignFirstResponder];
     [self dismissKeyboard:YES];
     [self showLoadingView];
     if (self.channel) {
@@ -750,7 +750,6 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
             if (error) {
                 [self hideLoadingViewAnimated:YES];
                 [[KGAlertManager sharedManager] showError:error];
-
             }
         
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
@@ -898,11 +897,10 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 - (void)showLoadingView {
-    if (!_loadingView) {
+//    if (!_loadingView) {
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
-
-    }
+//    }
     
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
