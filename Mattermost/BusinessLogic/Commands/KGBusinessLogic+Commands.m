@@ -20,7 +20,6 @@
     KGTeam *currentTeam = [self currentTeam];
     NSString* path = SOCStringFromStringWithObject([KGCommand listPathPattern], currentTeam);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        NSLog(@"MappingResult: %@", mappingResult.array);
         safetyCall(completion, nil);
     } failure:completion];
 }
