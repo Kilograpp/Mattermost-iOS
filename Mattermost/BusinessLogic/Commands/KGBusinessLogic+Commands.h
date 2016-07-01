@@ -6,8 +6,12 @@
 #import <Foundation/Foundation.h>
 #import "KGBusinessLogic.h"
 
+@class KGCommand;
+@class KGChannel;
+
 @interface KGBusinessLogic (Commands)
 
 - (void)updateCommandsList:(void (^)(KGError* error))completion;
 
+- (void)executeCommandWithMessage:(NSString *)message inChannel:(KGChannel *)channel withCompletion:(void (^)(KGError *error))completion;
 @end

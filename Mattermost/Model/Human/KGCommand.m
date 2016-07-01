@@ -21,6 +21,11 @@
     return mapping;
 }
 
+
++ (NSString*)executePathPattern {
+    return @"teams/:identifier/commands/execute";
+}
+
 + (NSString*)listPathPattern {
     return @"teams/:identifier/commands/list";
 }
@@ -32,5 +37,14 @@
                                                        keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
++ (RKResponseDescriptor*)executeResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self executePathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 
 @end

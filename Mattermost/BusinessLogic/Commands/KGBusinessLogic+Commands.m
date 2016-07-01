@@ -10,6 +10,8 @@
 #import "KGBusinessLogic+Team.h"
 #import "KGObjectManager.h"
 #import "KGUtils.h"
+#import "_KGChannel.h"
+#import "KGChannel.h"
 
 
 @implementation KGBusinessLogic (Commands)
@@ -20,6 +22,23 @@
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
         NSLog(@"MappingResult: %@", mappingResult.array);
         safetyCall(completion, nil);
+    } failure:completion];
+}
+
+- (void)executeCommandWithMessage:(NSString*)message
+                        inChannel:(KGChannel*)channel
+                   withCompletion:(void (^)(KGError* error))completion {
+
+    KGTeam *currentTeam = [self currentTeam];
+    NSString* path = SOCStringFromStringWithObject([KGCommand executePathPattern], currentTeam);
+
+    NSDictionary *parameters = @{
+            @"channelId" : channel.identifier,
+            @"command" : message
+    };
+
+    [self.defaultObjectManager postObjectAtPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
+
     } failure:completion];
 }
 
