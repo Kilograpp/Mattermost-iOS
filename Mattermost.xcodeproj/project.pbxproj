@@ -26,7 +26,7 @@
 		7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B307C5032AD1958D0DF4 /* UIImage+Resize.m */; };
 		7339B28E45A14BCC22EDC15E /* UIFont+KGPreparedFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BCFDB32C4FF1672B945E /* UIFont+KGPreparedFont.m */; };
 		7339B5A3DAE9BB47863A7BA8 /* NSString+HeightCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BCCFC030BEF15AD70916 /* NSString+HeightCalculation.m */; };
-		7339B68420588BA2A754078D /* NSObject+DumpValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B7197C27E795F862322B /* NSObject+DumpValues.m */; };
+		7339B68420588BA2A754078D /* NSObject+RuntimeMethodsValues.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B7197C27E795F862322B /* NSObject+RuntimeMethodsValues.m */; };
 		7339B79E1D4A4CCF5C54FCB4 /* RKRequestDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BDDDA71D244E9A7844CF /* RKRequestDescriptor+Runtime.m */; };
 		7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B6846308211FDC4C1804 /* NSDate+DateFormatter.m */; };
 		7339B8D8DCD6FF65DA04A185 /* NSError+KGError.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B599D70623AC24A8719F /* NSError+KGError.m */; };
@@ -176,7 +176,7 @@
 		7339B67914F6582D1C6BC418 /* UIWindow+KGAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+KGAdditions.h"; sourceTree = "<group>"; };
 		7339B6846308211FDC4C1804 /* NSDate+DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateFormatter.m"; sourceTree = "<group>"; };
 		7339B68F5DF71EA05A44B25F /* NSAttributedString+FormattedTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+FormattedTitle.m"; sourceTree = "<group>"; };
-		7339B7197C27E795F862322B /* NSObject+DumpValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+DumpValues.m"; sourceTree = "<group>"; };
+		7339B7197C27E795F862322B /* NSObject+RuntimeMethodsValues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+RuntimeMethodsValues.m"; sourceTree = "<group>"; };
 		7339B71DD0FD6AFCCDE53A93 /* NSManagedObject+CustomFinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+CustomFinder.h"; sourceTree = "<group>"; };
 		7339B794BEC169BA9225AAD8 /* NSObject+EnumerateProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+EnumerateProperties.h"; sourceTree = "<group>"; };
 		7339B8F7D4F688E7FC303885 /* NSManagedObject+CustomFinder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+CustomFinder.m"; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 		7339BDDDA71D244E9A7844CF /* RKRequestDescriptor+Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKRequestDescriptor+Runtime.m"; sourceTree = "<group>"; };
 		7339BE2BB052113DFE235C05 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		7339BE469E40DDB9A0DAF1B4 /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
-		7339BF95CC05D9C6D2CBF4DE /* NSObject+DumpValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+DumpValues.h"; sourceTree = "<group>"; };
+		7339BF95CC05D9C6D2CBF4DE /* NSObject+RuntimeMethodsValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RuntimeMethodsValues.h"; sourceTree = "<group>"; };
 		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B822174A12039F460C51401 /* KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFile.h; sourceTree = "<group>"; };
@@ -638,8 +638,8 @@
 		7339BEA98E28EB3A5347298C /* NSObject */ = {
 			isa = PBXGroup;
 			children = (
-				7339BF95CC05D9C6D2CBF4DE /* NSObject+DumpValues.h */,
-				7339B7197C27E795F862322B /* NSObject+DumpValues.m */,
+				7339BF95CC05D9C6D2CBF4DE /* NSObject+RuntimeMethodsValues.h */,
+				7339B7197C27E795F862322B /* NSObject+RuntimeMethodsValues.m */,
 				7339B794BEC169BA9225AAD8 /* NSObject+EnumerateProperties.h */,
 				7339B9175E76DDC603118126 /* NSObject+EnumerateProperties.m */,
 			);
@@ -1608,7 +1608,7 @@
 				7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */,
 				7339B8D8DCD6FF65DA04A185 /* NSError+KGError.m in Sources */,
 				7339BA1F4FAF21BCC09EB831 /* NSManagedObject+CustomFinder.m in Sources */,
-				7339B68420588BA2A754078D /* NSObject+DumpValues.m in Sources */,
+				7339B68420588BA2A754078D /* NSObject+RuntimeMethodsValues.m in Sources */,
 				7339BA2EF501D676B9E8E03F /* NSObject+EnumerateProperties.m in Sources */,
 				7339B5A3DAE9BB47863A7BA8 /* NSString+HeightCalculation.m in Sources */,
 				7339BCDB4A93DA8A1438C38F /* NSString+Validation.m in Sources */,

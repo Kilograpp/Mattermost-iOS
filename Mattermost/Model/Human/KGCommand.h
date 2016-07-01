@@ -2,7 +2,5 @@
 
 @interface KGCommand : _KGCommand
 + (NSString *)executePathPattern;
-
-// Custom logic goes here.
 + (NSString *)listPathPattern;
 @end
