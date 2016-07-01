@@ -18,7 +18,6 @@ static NSOperationQueue*  messageQueue;
 
 
 @interface KGChatCommonTableViewCell : KGTableViewCell {
-        CGRect _msgRect;
         NSString *_dateString;
 }
 

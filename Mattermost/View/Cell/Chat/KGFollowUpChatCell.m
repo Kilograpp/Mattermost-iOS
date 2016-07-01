@@ -10,6 +10,7 @@
 #import "UIColor+KGPreparedColor.h"
 #import "NSString+HeightCalculation.h"
 #import "KGPreferences.h"
+#import <TSMarkdownParser/TSMarkdownParser.h>
 #import "KGUser.h"
 
 @interface KGFollowUpChatCell ()
@@ -72,7 +73,7 @@
 }
 
 - (void)configureWithObject:(KGPost*)post {
-    self.messageLabel.text = post.message;
+    
     
     if ([post isKindOfClass:[KGPost class]]) {
         self.post = post;
@@ -83,7 +84,7 @@
         [self.messageOperation addExecutionBlock:^{
             if (!wSelf.messageOperation.isCancelled) {
                 dispatch_sync(dispatch_get_main_queue(), ^(void){
-                    wSelf.messageLabel.text = wSelf.post.message;
+                    wSelf.messageLabel.attributedText = wSelf.post.attributedMessage;
                 });
             }
         }];
@@ -94,27 +95,16 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    CGFloat textWidth = KGScreenWidth() - 61.f;
+
     self.backgroundColor = [UIColor kg_whiteColor];
+    CGFloat textWidth = KGScreenWidth() - 61.f;
     
-    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                               context:nil];
-    self.messageLabel.frame = CGRectMake(53, 8, ceilf(_msgRect.size.width), ceilf(_msgRect.size.height));
+    self.messageLabel.frame = CGRectMake(53, 8, ceilf(textWidth), self.post.heightValue);
 }
 
 + (CGFloat)heightWithObject:(id)object {
     KGPost *adapter = object;
-    CGFloat textWidth = KGScreenWidth() - 61.f;
-    CGRect msg = [adapter.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                               context:nil];
-    
-    
-    return ceilf(msg.size.height) + 16;
+    return adapter.heightValue + 16;
 }
 
 - (void)prepareForReuse {

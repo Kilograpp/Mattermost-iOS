@@ -36,11 +36,13 @@
         <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="files" inverseEntity="Post" syncable="YES"/>
     </entity>
     <entity name="Post" representedClassName="KGPost" syncable="YES">
+        <attribute name="attributedMessage" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="backendPendingId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="creationDay" optional="YES" transient="YES" attributeType="Date" syncable="YES"/>
         <attribute name="deletedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="height" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -72,7 +74,7 @@
         <element name="Channel" positionX="25" positionY="-108" width="128" height="300"/>
         <element name="Command" positionX="-180" positionY="45" width="128" height="105"/>
         <element name="File" positionX="169" positionY="207" width="128" height="148"/>
-        <element name="Post" positionX="-173" positionY="128" width="128" height="240"/>
+        <element name="Post" positionX="-74" positionY="179" width="128" height="268"/>
         <element name="Team" positionX="-180" positionY="-18" width="128" height="103"/>
         <element name="User" positionX="-389" positionY="128" width="128" height="193"/>
     </elements>

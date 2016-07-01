@@ -29,8 +29,16 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"heightValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"height"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+
 	return keyPaths;
 }
+
+@dynamic attributedMessage;
 
 @dynamic backendPendingId;
 
@@ -41,6 +49,26 @@
 @dynamic creationDay;
 
 @dynamic deletedAt;
+
+@dynamic height;
+
+- (int16_t)heightValue {
+	NSNumber *result = [self height];
+	return [result shortValue];
+}
+
+- (void)setHeightValue:(int16_t)value_ {
+	[self setHeight:@(value_)];
+}
+
+- (int16_t)primitiveHeightValue {
+	NSNumber *result = [self primitiveHeight];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveHeightValue:(int16_t)value_ {
+	[self setPrimitiveHeight:@(value_)];
+}
 
 @dynamic identifier;
 
@@ -70,6 +98,9 @@
 @end
 
 @implementation KGPostAttributes 
++ (NSString *)attributedMessage {
+	return @"attributedMessage";
+}
 + (NSString *)backendPendingId {
 	return @"backendPendingId";
 }
@@ -84,6 +115,9 @@
 }
 + (NSString *)deletedAt {
 	return @"deletedAt";
+}
++ (NSString *)height {
+	return @"height";
 }
 + (NSString *)identifier {
 	return @"identifier";

@@ -1,3 +1,4 @@
+github "laptobbe/TSMarkdownParser" "master"
 github "optonaut/ActiveLabel.swift" "master"
 github "Kilograpp/UITableView-Cache" "master"
 github "facebook/SocketRocket"
