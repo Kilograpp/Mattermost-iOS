@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSObject (DumpValues)
+@interface NSObject (RuntimeMethodsValues)
 
 + (NSArray*)dumpValuesFromRootClass:(Class)rootClass withClassPrefix:(const NSString*)prefixToTrim;
 

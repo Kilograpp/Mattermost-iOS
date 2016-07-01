@@ -10,7 +10,6 @@
 static NSOperationQueue*  messageQueue;
 
 @interface KGFollowUpChatCell : KGTableViewCell {
-    CGRect _msgRect;
     NSString *_dateString;
 }
 

@@ -123,7 +123,7 @@
         [self.messageOperation addExecutionBlock:^{
             if (!wSelf.messageOperation.isCancelled) {
                 dispatch_sync(dispatch_get_main_queue(), ^(void){
-                    wSelf.messageLabel.text = wSelf.post.message;
+                    wSelf.messageLabel.attributedText = wSelf.post.attributedMessage;
               });
             }
         }];
@@ -154,29 +154,18 @@
     
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
-    
-    _msgRect = [self.post.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                        attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                           context:nil];
+
     
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
-    self.messageLabel.frame = CGRectMake(53, 36, ceilf(_msgRect.size.width), ceilf(_msgRect.size.height));
+    self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth), self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
 }
 
 + (CGFloat)heightWithObject:(id)object {
     KGPost *adapter = object;
-    CGFloat textWidth = KGScreenWidth() - 61.f;
-    CGRect msg = [adapter.message boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                               options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                            attributes:@{ NSFontAttributeName : [UIFont kg_regular15Font] }
-                                               context:nil];
-    
-    
-    return ceilf(msg.size.height) + 24 + 20;
+    return adapter.heightValue + 24 + 20;
 }
 
 

@@ -3,14 +3,17 @@
 #import "KGChannel.h"
 #import "KGFile.h"
 #import "DateTools.h"
+#import "NSStringUtils.h"
+#import "KGUIUtils.h"
 #import <RestKit.h>
+#import <TSMarkdownParser/TSMarkdownParser.h>
 
 @interface KGPost ()
 
 @end
 
 @implementation KGPost
-
+@dynamic attributedMessage;
 - (BOOL)isUnread {
     return ![self.createdAt isEarlierThan:self.channel.lastViewDate];
 }
@@ -153,6 +156,17 @@
 
 #pragma mark - Public Getters
 
+#pragma mark - Core Data
 
+
+- (void)willSave {
+    if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
+        self.attributedMessage = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message];
+        CGFloat textWidth = KGScreenWidth() - 61.f;
+        self.height =  @([self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                              context:nil].size.height);
+    }
+}
 
 @end
