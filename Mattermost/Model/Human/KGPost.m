@@ -161,11 +161,12 @@
 
 - (void)willSave {
     if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        self.attributedMessage = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message];
         CGFloat textWidth = KGScreenWidth() - 61.f;
-        self.height =  @([self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                              context:nil].size.height);
+        self.attributedMessage = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message];        
+        CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                                            options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                            context:nil];
+        self.height =  @(ceilf(frame.size.height));
     }
 }
 
