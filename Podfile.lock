@@ -21,6 +21,7 @@ PODS:
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
   - MFSideMenu (0.5.5.1)
+  - NSStringEmojize (0.2.0)
   - ObjectiveSugar (1.1.0)
   - pop (1.0.9)
   - PureLayout (3.0.2)
@@ -65,6 +66,7 @@ DEPENDENCIES:
   - JVFloatLabeledTextField
   - MagicalRecord
   - MFSideMenu (from `http://git.kilograpp.com/iOS/MFSideMenu.git`)
+  - NSStringEmojize
   - ObjectiveSugar
   - RestKit
   - SlackTextViewController
@@ -99,6 +101,7 @@ SPEC CHECKSUMS:
   JVFloatLabeledTextField: ea4a3d8387ddd43724c472bb2b8ab39b79af05d4
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   MFSideMenu: 8d504bcd6d4dc97a51da11a2a7c9011a4e08feb5
+  NSStringEmojize: bd60199a25d745365b393fb95a2c6471bb9a2e99
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   PureLayout: 4d550abe49a94f24c2808b9b95db9131685fe4cd

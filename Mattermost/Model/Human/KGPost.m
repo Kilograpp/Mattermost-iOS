@@ -1,3 +1,4 @@
+#import <RestKit/RestKit.h>
 #import "KGPost.h"
 #import "KGUser.h"
 #import "KGChannel.h"
@@ -5,9 +6,9 @@
 #import "DateTools.h"
 #import "NSStringUtils.h"
 #import "KGUIUtils.h"
-#import <RestKit.h>
 #import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
+#import <NSStringEmojize/NSString+Emojize.h>
 
 @interface KGPost ()
 
@@ -163,7 +164,7 @@
 - (void)willSave {
     if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
         [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
-
+        self.message = [self.message emojizedString];
         NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
         [string beginEditing];
         __block BOOL found = NO;
