@@ -86,8 +86,46 @@ static CGFloat const kIconSize = 45.f;
         self.iconImageView.image = icon;
         NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
         self.nameLabel.text = name;
-        self.sizeLabel.text = @"0KB";
+        self.sizeLabel.text = fileSizeString(file);
     }
+}
+
+NSString *fileSizeString(KGFile *file) {
+    float size = file.sizeValue;
+    int pow = 0;
+    
+    while (size / 1024 >= 1) {
+        size = size / 1024.f;
+        pow++;
+    }
+    
+    NSString *suffix;
+    switch (pow) {
+        case 0: {
+            suffix = @"B";
+            break;
+        }
+            
+        case 1: {
+            suffix = @"KB";
+            break;
+        }
+            
+        case 2: {
+            suffix = @"MB";
+            break;
+        }
+            
+        case 3: {
+            suffix = @"GB";
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+                return [NSString stringWithFormat:@"%.1F%@", size, suffix];
 }
 
 @end

@@ -98,9 +98,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // Todo, Code Review: Нарушение абстракции
-    _isFirstLoad = YES;
-
     [self initialSetup];
     [self setupTableView];
     [self setupAutocompletionView];
@@ -152,6 +149,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 // Todo, Code Review: Setup чего? Переименовать
 - (void)initialSetup {
+      _isFirstLoad = YES;
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
@@ -302,7 +300,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     // Todo, Code Review: Не понятное условие
-    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
+    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {//для первой ячейки
         reuseIdentifier = post.files.count == 0 ?
                 [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
@@ -323,6 +321,10 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     [self assignBlocksForCell:cell post:post];
     
+    if (post.nonImageFiles) {
+        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
+    }
+
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
@@ -494,6 +496,23 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
         self.currentPost = nil;
     }];
+}
+
+- (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
+    NSArray *files = post.nonImageFiles;
+    
+    for (KGFile *file in files) {
+        if (file.sizeValue == 0) {
+            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
+                if (error) {
+                    [[KGAlertManager sharedManager] showError:error];
+                } else {
+                    KGTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+                    [cell configureWithObject:post];
+                }
+            }];
+        }
+    }
 }
 
 

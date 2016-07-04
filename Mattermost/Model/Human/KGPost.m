@@ -16,6 +16,7 @@
 
 @implementation KGPost
 @dynamic attributedMessage;
+@synthesize nonImageFiles = _nonImageFiles;
 - (BOOL)isUnread {
     return ![self.createdAt isEarlierThan:self.channel.lastViewDate];
 }
@@ -140,10 +141,23 @@
 - (NSArray *)sortedFiles {
     NSSortDescriptor *isImageSortDesctiptor =
             [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(isImage)) ascending:YES];
-    NSSortDescriptor *idSortDesctiptor =
+    NSSortDescriptor *nameSortDesctiptor =
             [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(name)) ascending:YES];
-    NSArray *sortDesctiptors = @[ isImageSortDesctiptor, idSortDesctiptor ];
-    return [[self.files allObjects] sortedArrayUsingDescriptors:sortDesctiptors];
+    NSArray *sortDesctiptors = @[ isImageSortDesctiptor, nameSortDesctiptor ];
+    return [self.files.allObjects sortedArrayUsingDescriptors:sortDesctiptors];
+}
+
+- (NSArray *)nonImageFiles {
+    if (!_nonImageFiles) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isImage == %@", @NO];
+        NSSet *set = [self.files filteredSetUsingPredicate:predicate];
+        NSSortDescriptor *nameSortDesctiptor =
+        [NSSortDescriptor sortDescriptorWithKey:NSStringFromSelector(@selector(name)) ascending:YES];
+        
+        _nonImageFiles = [set.allObjects sortedArrayUsingDescriptors:@[ nameSortDesctiptor ]];
+    }
+
+    return _nonImageFiles;
 }
 
 #pragma mark - Request Descriptors

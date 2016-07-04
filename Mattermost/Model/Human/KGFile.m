@@ -152,19 +152,19 @@
     }
 }
 
-- (void)willChangeValueForKey:(NSString *)key {
-    [super willChangeValueForKey:key];
-    if ([key isEqualToString:[KGFileAttributes size]]) {
-        [self.post willChangeValueForKey:[KGPostRelationships files]];
-    }
-}
-
-- (void)didChangeValueForKey:(NSString *)key {
-    [super didChangeValueForKey:key];
-    if ([key isEqualToString:[KGFileAttributes size]]) {
-        [self.post didChangeValueForKey:[KGPostRelationships files]];
-    }
-}
+//- (void)willChangeValueForKey:(NSString *)key {
+//    [super willChangeValueForKey:key];
+//    if ([key isEqualToString:[KGFileAttributes size]]) {
+//        [self.post willChangeValueForKey:[KGPostRelationships files]];
+//    }
+//}
+//
+//- (void)didChangeValueForKey:(NSString *)key {
+//    [super didChangeValueForKey:key];
+//    if ([key isEqualToString:[KGFileAttributes size]]) {
+//        [self.post didChangeValueForKey:[KGPostRelationships files]];
+//    }
+//}
 
 - (void)prepareForDeletion {
     [[SDImageCache sharedImageCache] removeImageForKey:self.backendLink];
