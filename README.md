@@ -41,6 +41,17 @@ If Carthage is not already available it could be installed using this [tutorial]
 Mind that the application is in beta state. A lot of bugs and lack on functionality may be faced. 
 If you find any obstacle while using our app feel free to open a ticket. 
 
+#### Roadmap
+* Markdown support
+* Emoji smiles
+* Chat history
+* Commands support
+* Outgoing message activity indicator
+* Outgoing message failure indicator
+* Unread messages highlighting
+* Files history
+* Private Channels 
+
 #### Frameworks and Instruments 
 
 * [Cocoapods](https://cocoapods.org/)
