@@ -54,14 +54,17 @@
 #import "NSMutableURLRequest+KGHandleCookies.h"
 #import "UIStatusBar+SharedBar.h"
 #import "KGPreferences.h"
-
-#import "KGImagePickerController.h"
-#import "IVManualCell.h"
 #import "KGBusinessLogic+Commands.h"
+#import "KGImagePickerController.h"
 #import "KGAction.h"
+#import "KGChatViewController+KGCoreData.h"
+#import "KGCommand.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
+
+static NSString *const kUsernameAutocompletionPrefix = @"@";
+static NSString *const kCommandAutocompletionPrefix = @"/";
 
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
@@ -77,21 +80,18 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 @property (nonatomic, strong) NSArray *searchResultArray;
 @property (nonatomic, strong) NSArray *usersArray;
 @property (nonatomic, copy) NSString *selectedUsername;
-@property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+
+@property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
+@property (nonatomic, assign) BOOL shouldShowCommands;
+@property (nonatomic, strong) KGCommand *selectedCommand;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
 
 @implementation KGChatViewController
-
-// Todo, Code Review: Что это делает вверху?
-+ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
-    return UITableViewStyleGrouped;
-}
-
 
 #pragma mark - Lifecycle
 
@@ -100,10 +100,10 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
     // Todo, Code Review: Нарушение абстракции
     _isFirstLoad = YES;
-    self.textView.delegate = self;
 
-    [self setup];
+    [self initialSetup];
     [self setupTableView];
+    [self setupAutocompletionView];
     [self setupIsNoMessagesLabelShow:YES];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
@@ -151,16 +151,16 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 #pragma mark - Setup
 
 // Todo, Code Review: Setup чего? Переименовать
-- (void)setup {
+- (void)initialSetup {
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     leftVC.delegate = self;
     rightVC.delegate = self;
+    self.shouldClearTextAtRightButtonPress = NO;
 }
 
-// Todo, Code Review: Адаптировать размер кеша под реальные значения. Например 15 ячеек followup явно перебор
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
@@ -169,8 +169,7 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
     [self.tableView registerClass:[KGFollowUpChatCell class]
            forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
-    // Todo, Code Review: Добавить метод получения nib внутрь класса
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([KGTableViewSectionHeader class]) bundle:nil]
+    [self.tableView registerNib:[KGTableViewSectionHeader nib]
             forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
     [self.tableView registerNib:[KGAutoCompletionCell nib]
@@ -182,24 +181,34 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 - (void)setupKeyboardToolbar {
-    // Todo, Code Review: Разбить на подметоды, для конфигурации кнопки и textInputBar
-    // Todo, Code Review: локализация
-    [self.rightButton setTitle:@"Send" forState:UIControlStateNormal];
-    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
-    [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
-    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
-    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
+    [self setupTextView];
+    [self setupInputBarRightButton];
+    [self setupTextInputBar];
+}
+
+- (void)setupTextInputBar {
     self.textInputbar.autoHideRightButton = NO;
-    self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
-    // Todo, Code Review: Локализация
-    self.textInputbar.textView.placeholder = @"Type something...";
+    self.textInputbar.textView.placeholder = NSLocalizedString(@"Type something...", nil);
     self.textInputbar.textView.layer.borderWidth = 0.f;
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
-    // Todo, Code Review: Нарушение абстракции
-    [self registerPrefixesForAutoCompletion:@[@"@"]];
-    
+}
+
+- (void)setupInputBarRightButton {
+    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
+    [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
+    [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
+    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
+    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setupTextView {
+    self.textView.delegate = self;
+}
+
+- (void)setupAutocompletionView {
+    [self registerPrefixesForAutoCompletion:@[ kUsernameAutocompletionPrefix, kCommandAutocompletionPrefix ]];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -220,18 +229,28 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 #pragma mark - SLKViewController
 
-- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
++ (UITableViewStyle)tableViewStyleForCoder:(NSCoder *)decoder{
+    return UITableViewStyleGrouped;
+}
+
+- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word {
     //поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
-    if ([prefix isEqualToString:@"@"] && word.length > 0) {
-        // Todo, Code Review: Поменять username на название поля из аттрибутов
-        self.searchResultArray = [[self.usersArray valueForKey:@"username"]
-                                  filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+    if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
+        if (word.length > 0) {
+            self.searchResultArray =
+                    [[self.usersArray valueForKey:[KGUserAttributes username]]
+                            filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        } else {
+            self.searchResultArray = [self.usersArray valueForKey:[KGUserAttributes username]];
+        }
+        
     }
     
-    if (word.length == 0) {
-        self.searchResultArray = [self.usersArray valueForKey:@"username"];
+    if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
+        self.shouldShowCommands = YES;
+        self.searchResultArray = [KGCommand MR_findAll];
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -269,15 +288,7 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
-        //ячейка для autoCompletionView
-        // Todo, Code Review: Вынести в отдельный метод весь блок
-        // Todo, Code Review: Зачем mutable?
-        NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
-        KGUser *user =[KGUser managedObjectByUserName:item];
-        KGAutoCompletionCell *cell = [self.tableView
-                                            dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
-        [cell configureWithObject:user];
-        return cell;
+        return [self autoCompletionCellAtIndexPath:indexPath];
     }
     
     NSString *reuseIdentifier;
@@ -374,16 +385,11 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    // Todo, Code Review: Переменные должны быть названы нормально.
-    // Todo, Code Review: Переменная в данном случае избыточна
-    UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
-    
-    v.backgroundView.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGFLOAT_MIN;
-    //return 50.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -401,11 +407,14 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
     if ([tableView isEqual:self.autoCompletionView]) {
 
         // Todo, Code Review: В отдельный метод, который должен скрывать auto-completion view
-
-        NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
-        [item appendString:@" "]; // Adding a space helps dismissing the auto-completion view
-        
-        [self acceptAutoCompletionWithString:item keepPrefix:YES];
+        if (self.shouldShowCommands) {
+            KGCommand *command = self.searchResultArray[indexPath.row];
+            [self acceptAutoCompletionWithString:command.trigger keepPrefix:YES];
+        } else {
+            NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
+            [item appendString:@" "]; // Adding a space helps dismissing the auto-completion view
+            [self acceptAutoCompletionWithString:item keepPrefix:YES];
+        }
     }
 }
 
@@ -454,7 +463,7 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
     // Todo, Code Review: Вынести создание пустой сущности в геттер
 
 
-    if ([self.textInputbar.textView.text hasPrefix:@"/"]) {
+    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
 
         [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
                                                           inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
@@ -492,6 +501,23 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 
 #pragma mark - Private
+
+- (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath {
+    KGAutoCompletionCell *cell;
+    
+    if (self.shouldShowCommands) {
+        KGCommand *command = self.searchResultArray[indexPath.row];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        [cell configureWithObject:command];
+    } else {
+        NSString *item = self.searchResultArray[indexPath.row];
+        KGUser *user =[KGUser managedObjectByUserName:item];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        [cell configureWithObject:user];
+    }
+    
+    return cell;
+}
 
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Todo, Code Review: Лишнее, если конфигурация autocompletion будет из категории
@@ -571,16 +597,13 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
                                                                         shouldHighlight:shouldHighlight];
 }
 
-// Todo, Code Review: Мертвый метод?
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
-    if (![cell isKindOfClass:[IVManualCell class]]){
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
-    }
     cell.fileTapHandler = ^(NSUInteger selectedFile) {
         KGFile *file = post.sortedFiles[selectedFile];
         
@@ -799,91 +822,6 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 
-#pragma mark - NSFetchedResultsControllerDelegate
-
-// Todo, Code Review: Вынести в категорию.
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView beginUpdates];
-
-    self.deletedSections = [[NSMutableIndexSet alloc] init];
-    self.insertedSections = [[NSMutableIndexSet alloc] init];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView endUpdates];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-  didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex
-     forChangeType:(NSFetchedResultsChangeType)type {
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
-
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.deletedSections addIndexes:indexSet];
-            break;
-
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.insertedSections addIndexes:indexSet];
-            break;
-
-        default:
-            break;
-    }
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-
-        case NSFetchedResultsChangeMove:
-            // iOS 9.0b5 sends the same index path twice instead of delete
-            if(![indexPath isEqual:newIndexPath]) {
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else if([self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
-                // Really the only way is to delete and insert the same index path...
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-            else if([self.deletedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: same index path reported after section was removed
-                // we can ignore item deletion here because the whole section was removed anyway
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }
-
-            break;
-
-        case NSFetchedResultsChangeUpdate:
-            // On iOS 9.0b5 NSFetchedResultsController may not even contain such indexPath anymore
-            // when removing last item from section.
-            if(![self.deletedSections containsIndex:indexPath.section] && ![self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 sends update before delete therefore we cannot use reload
-                // this will never work correctly but at least no crash.
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-            }
-
-            break;
-    }
-}
-
-
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
@@ -991,6 +929,12 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 - (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
     return self.view;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    [super textView:textView shouldChangeTextInRange:range replacementText:text];
+    
+    return YES;
 }
 
 @end

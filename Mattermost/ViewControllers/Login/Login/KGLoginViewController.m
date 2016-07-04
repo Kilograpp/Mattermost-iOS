@@ -23,10 +23,13 @@
 #import "KGSideMenuContainerViewController.h"
 #import "CAGradientLayer+KGPreparedGradient.h"
 #import "KGAlertManager.h"
+#import "KGBusinessLogic+Commands.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
+
+static dispatch_group_t channelAndAdditionsGroup;
 
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
@@ -35,6 +38,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
+@property (nonatomic, strong) __block KGError *channelAndAdditionsError;
 
 @end
 
@@ -46,7 +50,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self loadTeams];
     [self configureLabels];
     [self setupTitleLabel];
     [self setupLoginButton];
@@ -197,24 +200,43 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
             [self highlightTextFieldsForError];
             [self processError:error];
         } else {
-            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-                if (!userShouldSelectTeam) {
-                    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
-                        [self hideProgressHud];
-                        if (error) {
-                            [[KGAlertManager sharedManager] showError:error];
-                            [self hideProgressHud];
-                        } else {
-                            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
-                            [self presentViewController:vc animated:YES completion:nil];
-                        }
-                    }];
-                } else {
-                    [self hideProgressHud];
-                    [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
-                }
-            }];
+            [self loadTeams];
         }
+    }];
+}
+
+- (void)loadTeams {
+    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+        if (!userShouldSelectTeam) {
+            [self setupChannelsAndCommandsGroup];
+            [self loadChannels];
+            [self loadCommands];
+            [self setupDispatchGroup];
+        } else {
+            [self hideProgressHud];
+            [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+        }
+    }];
+}
+
+- (void)loadChannels {
+    dispatch_group_enter(channelAndAdditionsGroup);
+    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+        if (error) {
+            self.channelAndAdditionsError = error;
+        }
+        dispatch_group_leave(channelAndAdditionsGroup);
+    }];
+}
+
+- (void)loadCommands {
+    dispatch_group_enter(channelAndAdditionsGroup);
+    [[KGBusinessLogic sharedInstance] updateCommandsList:^(KGError *error) {
+        if (error) {
+            self.channelAndAdditionsError = error;
+        }
+        
+        dispatch_group_leave(channelAndAdditionsGroup);
     }];
 }
 
@@ -231,5 +253,24 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     return YES;
 }
 
+
+#pragma mark - Private
+
+- (void)setupChannelsAndCommandsGroup {
+    channelAndAdditionsGroup = dispatch_group_create();
+}
+
+//FIXME: REFACTOR ASAP
+- (void)setupDispatchGroup {
+    dispatch_group_notify(channelAndAdditionsGroup, dispatch_get_main_queue(), ^{
+        [self hideProgressHud];
+        if (self.channelAndAdditionsError) {
+            [self processError:self.channelAndAdditionsError];
+        } else {
+            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    });
+}
 
 @end

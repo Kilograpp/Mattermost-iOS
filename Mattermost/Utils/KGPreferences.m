@@ -54,7 +54,7 @@
 
 - (void)resetDefaults {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+    [NSUserDefaults resetStandardUserDefaults];
     [userDefaults synchronize];
     [self load];
 }
