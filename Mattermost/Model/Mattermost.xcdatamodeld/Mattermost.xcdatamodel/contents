@@ -56,7 +56,7 @@
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="channels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Channel" inverseName="team" inverseEntity="Channel" syncable="YES"/>
+        <relationship name="channels" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Channel" inverseName="team" inverseEntity="Channel" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="KGUser" syncable="YES">
         <attribute name="backendStatus" optional="YES" attributeType="String" syncable="YES"/>
@@ -73,8 +73,8 @@
     <elements>
         <element name="Channel" positionX="25" positionY="-108" width="128" height="300"/>
         <element name="Command" positionX="-137" positionY="-63" width="128" height="103"/>
-        <element name="File" positionX="169" positionY="207" width="128" height="148"/>
-        <element name="Post" positionX="-74" positionY="179" width="128" height="268"/>
+        <element name="File" positionX="457" positionY="342" width="128" height="163"/>
+        <element name="Post" positionX="-56" positionY="218" width="128" height="268"/>
         <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
         <element name="User" positionX="-549" positionY="131" width="128" height="193"/>
     </elements>
