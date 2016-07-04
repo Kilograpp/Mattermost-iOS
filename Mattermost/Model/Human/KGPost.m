@@ -180,7 +180,6 @@
         self.attributedMessage = string.copy;
         [string endEditing];
         CGFloat textWidth = KGScreenWidth() - 61.f;
-//        self.attributedMessage = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message];        
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                             context:nil];

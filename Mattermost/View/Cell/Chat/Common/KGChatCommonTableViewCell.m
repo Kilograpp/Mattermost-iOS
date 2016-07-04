@@ -154,7 +154,7 @@
     
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
-    self.messageLabel.backgroundColor = [UIColor greenColor];
+    self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];

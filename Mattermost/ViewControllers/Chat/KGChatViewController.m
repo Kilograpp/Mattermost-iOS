@@ -56,10 +56,12 @@
 #import "KGPreferences.h"
 
 #import "KGImagePickerController.h"
-#import "IVManualCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
+
+static NSString *const kUsernameAutocompletionPrefix = @"@";
+static NSString *const kCommandAutocompletionPrefix = @"/";
 
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
@@ -78,6 +80,8 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 @property NSMutableIndexSet *deletedSections, *insertedSections;
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+
+@property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -98,10 +102,10 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
     // Todo, Code Review: Нарушение абстракции
     _isFirstLoad = YES;
-    self.textView.delegate = self;
 
     [self setup];
     [self setupTableView];
+    [self setupAutocompletionView];
     [self setupIsNoMessagesLabelShow:YES];
     [self setupKeyboardToolbar];
     [self setupLeftBarButtonItem];
@@ -156,9 +160,9 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     leftVC.delegate = self;
     rightVC.delegate = self;
+    self.shouldClearTextAtRightButtonPress = NO;
 }
 
-// Todo, Code Review: Адаптировать размер кеша под реальные значения. Например 15 ячеек followup явно перебор
 - (void)setupTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
@@ -180,24 +184,34 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 - (void)setupKeyboardToolbar {
-    // Todo, Code Review: Разбить на подметоды, для конфигурации кнопки и textInputBar
-    // Todo, Code Review: локализация
-    [self.rightButton setTitle:@"Send" forState:UIControlStateNormal];
-    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
-    [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
-    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
-    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
+    [self setupTextView];
+    [self setupInputBarRightButton];
+    [self setupTextInputBar];
+}
+
+- (void)setupTextInputBar {
     self.textInputbar.autoHideRightButton = NO;
-    self.shouldClearTextAtRightButtonPress = NO;
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
-    // Todo, Code Review: Локализация
-    self.textInputbar.textView.placeholder = @"Type something...";
+    self.textInputbar.textView.placeholder = NSLocalizedString(@"Type something...", nil);
     self.textInputbar.textView.layer.borderWidth = 0.f;
     self.textInputbar.translucent = NO;
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
-    // Todo, Code Review: Нарушение абстракции
-    [self registerPrefixesForAutoCompletion:@[@"@"]];
-    
+}
+
+- (void)setupInputBarRightButton {
+    self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
+    [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
+    [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
+    [self.leftButton setImage:[UIImage imageNamed:@"icn_upload"] forState:UIControlStateNormal];
+    [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setupTextView {
+    self.textView.delegate = self;
+}
+
+- (void)setupAutocompletionView {
+    [self registerPrefixesForAutoCompletion:@[ kUsernameAutocompletionPrefix, kCommandAutocompletionPrefix ]];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -218,18 +232,23 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 #pragma mark - SLKViewController
 
-- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word{
+- (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word {
     //поиск по предикату
     self.usersArray = [KGUser MR_findAll];
     
-    if ([prefix isEqualToString:@"@"] && word.length > 0) {
-        // Todo, Code Review: Поменять username на название поля из аттрибутов
-        self.searchResultArray = [[self.usersArray valueForKey:@"username"]
-                                  filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+    if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
+        if (word.length > 0) {
+            self.searchResultArray =
+                    [[self.usersArray valueForKey:[KGUserAttributes username]]
+                            filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
+        } else {
+            self.searchResultArray = [self.usersArray valueForKey:[KGUserAttributes username]];
+        }
+        
     }
     
-    if (word.length == 0) {
-        self.searchResultArray = [self.usersArray valueForKey:@"username"];
+    if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
+        NSLog(@"todo//");
     }
     
     BOOL show = (self.searchResultArray.count > 0);
@@ -372,16 +391,11 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    // Todo, Code Review: Переменные должны быть названы нормально.
-    // Todo, Code Review: Переменная в данном случае избыточна
-    UITableViewHeaderFooterView *v = (UITableViewHeaderFooterView *)view;
-    
-    v.backgroundView.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return CGFLOAT_MIN;
-    //return 50.f;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -557,16 +571,13 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
                                                                         shouldHighlight:shouldHighlight];
 }
 
-// Todo, Code Review: Мертвый метод?
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
-    if (![cell isKindOfClass:[IVManualCell class]]){
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
-    }
     cell.fileTapHandler = ^(NSUInteger selectedFile) {
         KGFile *file = post.sortedFiles[selectedFile];
         
@@ -977,6 +988,12 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 - (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
     return self.view;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    [super textView:textView shouldChangeTextInRange:range replacementText:text];
+    
+    return YES;
 }
 
 @end
