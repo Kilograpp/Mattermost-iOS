@@ -135,7 +135,6 @@ const static CGFloat kHeightCellLeftMenu = 50;
     self.sharpLabel.hidden = YES;
     self.labelColor = (boolIsNewMessage) ? [UIColor kg_whiteColor]:[UIColor kg_sectionColorLeftMenu];
     self.channelNameLabel.font = (boolIsNewMessage) ? [UIFont kg_boldText18Font] : [UIFont kg_regular18Font];
-
 }
 
 - (void)configureCellForCnannelPublic:(BOOL)boolIsNewMessage{
@@ -151,6 +150,15 @@ const static CGFloat kHeightCellLeftMenu = 50;
 
 + (CGFloat)heightWithObject:(id)object {
     return kHeightCellLeftMenu;
+}
+
+
+#pragma mark - Override
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    
+    self.backgroundColor = [[UIColor kg_leftMenuBackgroundColor] colorWithAlphaComponent:0.8];
 }
 
 @end

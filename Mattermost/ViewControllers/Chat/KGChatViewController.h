@@ -7,7 +7,11 @@
 //
 
 #import "SLKTextViewController.h"
+@class KGTableViewCell;
 
 @interface KGChatViewController : SLKTextViewController
 
+@property NSMutableIndexSet *deletedSections, *insertedSections;
+
+- (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
