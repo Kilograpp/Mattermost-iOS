@@ -133,6 +133,10 @@
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
 		D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291C1D083259008BF955 /* KGBusinessLogic.m */; };
 		D8CF0AAB1D1C325D00C7A126 /* UITableView_Cache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */; };
+		D8F4C3131D29CD1E008BCCB2 /* KGMoveAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */; };
+		D8F4C3161D29CD3A008BCCB2 /* KGPostAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */; };
+		D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */; };
+		D8F4C31D1D29E338008BCCB2 /* KGAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C31C1D29E338008BCCB2 /* KGAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,6 +368,14 @@
 		D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Team.m"; sourceTree = "<group>"; };
 		D8B4291C1D083259008BF955 /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
 		D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UITableView_Cache.framework; path = Carthage/Build/iOS/UITableView_Cache.framework; sourceTree = "<group>"; };
+		D8F4C3111D29CD1E008BCCB2 /* KGMoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGMoveAction.h; sourceTree = "<group>"; };
+		D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGMoveAction.m; sourceTree = "<group>"; };
+		D8F4C3141D29CD3A008BCCB2 /* KGPostAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPostAction.h; sourceTree = "<group>"; };
+		D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPostAction.m; sourceTree = "<group>"; };
+		D8F4C3171D29CDF1008BCCB2 /* KGErrorAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGErrorAction.h; sourceTree = "<group>"; };
+		D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGErrorAction.m; sourceTree = "<group>"; };
+		D8F4C31B1D29E338008BCCB2 /* KGAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAction.h; sourceTree = "<group>"; };
+		D8F4C31C1D29E338008BCCB2 /* KGAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -763,6 +775,14 @@
 			children = (
 				9B8227136A03D68E83AC0C8E /* KGManagedObject.h */,
 				9B8228762344686CE2207B8C /* KGManagedObject.m */,
+				D8F4C3111D29CD1E008BCCB2 /* KGMoveAction.h */,
+				D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */,
+				D8F4C3141D29CD3A008BCCB2 /* KGPostAction.h */,
+				D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */,
+				D8F4C3171D29CDF1008BCCB2 /* KGErrorAction.h */,
+				D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */,
+				D8F4C31B1D29E338008BCCB2 /* KGAction.h */,
+				D8F4C31C1D29E338008BCCB2 /* KGAction.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1538,6 +1558,7 @@
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
+				D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */,
 				D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */,

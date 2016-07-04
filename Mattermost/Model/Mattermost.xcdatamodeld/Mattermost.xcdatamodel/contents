@@ -72,10 +72,10 @@
     </entity>
     <elements>
         <element name="Channel" positionX="25" positionY="-108" width="128" height="300"/>
-        <element name="Command" positionX="-180" positionY="45" width="128" height="105"/>
+        <element name="Command" positionX="-137" positionY="-63" width="128" height="103"/>
         <element name="File" positionX="169" positionY="207" width="128" height="148"/>
         <element name="Post" positionX="-74" positionY="179" width="128" height="268"/>
-        <element name="Team" positionX="-180" positionY="-18" width="128" height="103"/>
-        <element name="User" positionX="-389" positionY="128" width="128" height="193"/>
+        <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
+        <element name="User" positionX="-549" positionY="131" width="128" height="193"/>
     </elements>
 </model>
