@@ -10,7 +10,6 @@
 #import "KGBusinessLogic+Team.h"
 #import "KGObjectManager.h"
 #import "KGUtils.h"
-#import "_KGChannel.h"
 #import "KGChannel.h"
 
 
