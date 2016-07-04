@@ -56,6 +56,8 @@
 #import "KGPreferences.h"
 
 #import "KGImagePickerController.h"
+#import "KGBusinessLogic+Commands.h"
+#import "KGAction.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
@@ -464,6 +466,18 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
     // Todo, Code Review: Вынести создание пустой сущности в геттер
+
+
+    if ([self.textInputbar.textView.text hasPrefix:@"/"]) {
+
+        [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
+                                                          inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
+                    [action execute];
+                }];
+        self.textView.text = @"";
+        return;
+    }
+
     if (!self.currentPost) {
         self.currentPost = [KGPost MR_createEntity];
     }

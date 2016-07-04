@@ -26,7 +26,7 @@
 
 - (void)executeCommandWithMessage:(NSString*)message
                         inChannel:(KGChannel*)channel
-                   withCompletion:(void (^)(KGError* error))completion {
+                   withCompletion:(void (^)(KGAction* action, KGError* error))completion {
 
     KGTeam *currentTeam = [self currentTeam];
     NSString* path = SOCStringFromStringWithObject([KGCommand executePathPattern], currentTeam);
@@ -37,8 +37,10 @@
     };
 
     [self.defaultObjectManager postObjectAtPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
-
-    } failure:completion];
+        safetyCall(completion, mappingResult.firstObject, nil);
+    } failure:^(KGError* error) {
+        safetyCall(completion, nil, error);
+    }];
 }
 
 @end

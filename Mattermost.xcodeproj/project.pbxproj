@@ -74,10 +74,6 @@
 		CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */; };
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
 		CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
-		D605F7641D26E2BB00C4D84C /* MarkdownTokenizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */; };
-		D605F7651D26E2BB00C4D84C /* MarkdownTokens.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */; };
-		D605F7661D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */; };
-		D605F76A1D26E66000C4D84C /* fmemopen.c in Sources */ = {isa = PBXBuildFile; fileRef = D605F7671D26E66000C4D84C /* fmemopen.c */; };
 		D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F76C1D26EE1200C4D84C /* KGTeamCell.m */; };
 		D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */; };
 		D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */; };
@@ -137,6 +133,10 @@
 		D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */; };
 		D8B4291D1D083259008BF955 /* KGBusinessLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B4291C1D083259008BF955 /* KGBusinessLogic.m */; };
 		D8CF0AAB1D1C325D00C7A126 /* UITableView_Cache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */; };
+		D8F4C3131D29CD1E008BCCB2 /* KGMoveAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */; };
+		D8F4C3161D29CD3A008BCCB2 /* KGPostAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */; };
+		D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */; };
+		D8F4C31D1D29E338008BCCB2 /* KGAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C31C1D29E338008BCCB2 /* KGAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -267,15 +267,6 @@
 		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfilViewController.m; sourceTree = "<group>"; };
 		CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuViewController.h; sourceTree = "<group>"; };
 		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuViewController.m; sourceTree = "<group>"; };
-		D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkdownTokenizer.m; sourceTree = "<group>"; };
-		D605F75F1D26E2BB00C4D84C /* MarkdownTokens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkdownTokens.h; sourceTree = "<group>"; };
-		D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkdownTokens.m; sourceTree = "<group>"; };
-		D605F7611D26E2BB00C4D84C /* NimbusMarkdown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NimbusMarkdown.h; sourceTree = "<group>"; };
-		D605F7621D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSAttributedStringMarkdownParser.h; sourceTree = "<group>"; };
-		D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSAttributedStringMarkdownParser.m; sourceTree = "<group>"; };
-		D605F7671D26E66000C4D84C /* fmemopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fmemopen.c; sourceTree = "<group>"; };
-		D605F7681D26E66000C4D84C /* fmemopen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fmemopen.h; sourceTree = "<group>"; };
-		D605F7691D26E66000C4D84C /* NimbusMemoryMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NimbusMemoryMapping.h; sourceTree = "<group>"; };
 		D605F76B1D26EE1200C4D84C /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeamCell.h; sourceTree = "<group>"; };
 		D605F76C1D26EE1200C4D84C /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeamCell.m; sourceTree = "<group>"; };
 		D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTeamCell.xib; sourceTree = "<group>"; };
@@ -377,6 +368,14 @@
 		D8B4291A1D073740008BF955 /* KGBusinessLogic+Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KGBusinessLogic+Team.m"; sourceTree = "<group>"; };
 		D8B4291C1D083259008BF955 /* KGBusinessLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGBusinessLogic.m; sourceTree = "<group>"; };
 		D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UITableView_Cache.framework; path = Carthage/Build/iOS/UITableView_Cache.framework; sourceTree = "<group>"; };
+		D8F4C3111D29CD1E008BCCB2 /* KGMoveAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGMoveAction.h; sourceTree = "<group>"; };
+		D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGMoveAction.m; sourceTree = "<group>"; };
+		D8F4C3141D29CD3A008BCCB2 /* KGPostAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPostAction.h; sourceTree = "<group>"; };
+		D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPostAction.m; sourceTree = "<group>"; };
+		D8F4C3171D29CDF1008BCCB2 /* KGErrorAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGErrorAction.h; sourceTree = "<group>"; };
+		D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGErrorAction.m; sourceTree = "<group>"; };
+		D8F4C31B1D29E338008BCCB2 /* KGAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAction.h; sourceTree = "<group>"; };
+		D8F4C31C1D29E338008BCCB2 /* KGAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAction.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -699,7 +698,6 @@
 				41B020B51D19940E00594995 /* KGImagePickerController */,
 				D67A539A1D25C7100039A201 /* KGImageView */,
 				9B822F9BC10946A08F87993F /* KGObjectManager */,
-				D605F75D1D26E26F00C4D84C /* MarkdownParser */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -777,6 +775,14 @@
 			children = (
 				9B8227136A03D68E83AC0C8E /* KGManagedObject.h */,
 				9B8228762344686CE2207B8C /* KGManagedObject.m */,
+				D8F4C3111D29CD1E008BCCB2 /* KGMoveAction.h */,
+				D8F4C3121D29CD1E008BCCB2 /* KGMoveAction.m */,
+				D8F4C3141D29CD3A008BCCB2 /* KGPostAction.h */,
+				D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */,
+				D8F4C3171D29CDF1008BCCB2 /* KGErrorAction.h */,
+				D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */,
+				D8F4C31B1D29E338008BCCB2 /* KGAction.h */,
+				D8F4C31C1D29E338008BCCB2 /* KGAction.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -900,22 +906,6 @@
 			path = RightMenu;
 			sourceTree = "<group>";
 		};
-		D605F75D1D26E26F00C4D84C /* MarkdownParser */ = {
-			isa = PBXGroup;
-			children = (
-				D605F7671D26E66000C4D84C /* fmemopen.c */,
-				D605F7681D26E66000C4D84C /* fmemopen.h */,
-				D605F7691D26E66000C4D84C /* NimbusMemoryMapping.h */,
-				D605F75E1D26E2BB00C4D84C /* MarkdownTokenizer.m */,
-				D605F75F1D26E2BB00C4D84C /* MarkdownTokens.h */,
-				D605F7601D26E2BB00C4D84C /* MarkdownTokens.m */,
-				D605F7621D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.h */,
-				D605F7631D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m */,
-				D605F7611D26E2BB00C4D84C /* NimbusMarkdown.h */,
-			);
-			path = MarkdownParser;
-			sourceTree = "<group>";
-		};
 		D63B2BDD1D118C570090D739 /* Popover */ = {
 			isa = PBXGroup;
 			children = (
@@ -968,21 +958,6 @@
 			path = Attachments;
 			sourceTree = "<group>";
 		};
-		D67A248D1D107378006579E8 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				D67A248E1D107381006579E8 /* UIHelper */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		D67A248E1D107381006579E8 /* UIHelper */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIHelper;
-			sourceTree = "<group>";
-		};
 		D67A248F1D1088BE006579E8 /* New Group */ = {
 			isa = PBXGroup;
 			children = (
@@ -1026,7 +1001,6 @@
 				D696F7991D061301008341AF /* BusinessLogic */,
 				7339B69CC14FAE271AFEB356 /* Categories */,
 				9B822306C2CC8C4F7F4B8DD9 /* Classes */,
-				D67A248D1D107378006579E8 /* Helpers */,
 				D696F78F1D061099008341AF /* Model */,
 				D6C154D31D0756DC00B053CE /* NavigationControllers */,
 				D696F79E1D061368008341AF /* Resources */,
@@ -1584,6 +1558,7 @@
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
+				D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */,
 				D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */,
@@ -1605,20 +1580,19 @@
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
 				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
-				D605F7661D26E2BB00C4D84C /* NSAttributedStringMarkdownParser.m in Sources */,
 				CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */,
+				D8F4C3161D29CD3A008BCCB2 /* KGPostAction.m in Sources */,
 				9B82285ACCAFC44B1963E1B4 /* _KGChannel.m in Sources */,
 				CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */,
-				D605F7641D26E2BB00C4D84C /* MarkdownTokenizer.m in Sources */,
 				9B82287272B8C039D6218B76 /* KGManagedObject.m in Sources */,
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
-				D605F76A1D26E66000C4D84C /* fmemopen.c in Sources */,
 				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
 				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				D67A539D1D25C7390039A201 /* KGImageView.m in Sources */,
+				D8F4C3131D29CD1E008BCCB2 /* KGMoveAction.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */,
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
@@ -1650,9 +1624,9 @@
 				7339BA2EF501D676B9E8E03F /* NSObject+EnumerateProperties.m in Sources */,
 				7339B5A3DAE9BB47863A7BA8 /* NSString+HeightCalculation.m in Sources */,
 				7339BCDB4A93DA8A1438C38F /* NSString+Validation.m in Sources */,
-				D605F7651D26E2BB00C4D84C /* MarkdownTokens.m in Sources */,
 				7339B79E1D4A4CCF5C54FCB4 /* RKRequestDescriptor+Runtime.m in Sources */,
 				7339B10D1047D9B9CFBD00EE /* RKResponseDescriptor+Runtime.m in Sources */,
+				D8F4C31D1D29E338008BCCB2 /* KGAction.m in Sources */,
 				7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */,
 				7339B28E45A14BCC22EDC15E /* UIFont+KGPreparedFont.m in Sources */,
 				7339BF65257F6813487AAFFB /* UIWindow+KGAdditions.m in Sources */,

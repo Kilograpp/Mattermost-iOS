@@ -6,8 +6,8 @@
 
 - (BOOL)isUnread;
 
-+ (NSString*)listPathPattern;
-+ (NSString*)creationPathPattern;
-+ (NSString*)updatePathPattern;
-- (NSArray *)sortedFiles;
++ (NSString* _Nonnull)listPathPattern;
++ (NSString* _Nonnull)creationPathPattern;
++ (NSString* _Nonnull)updatePathPattern;
+- (NSArray*  _Nonnull)sortedFiles;
 @end
