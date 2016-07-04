@@ -38,7 +38,7 @@ static NSString * const kOfflineNetworkString = @"offline";
             return KGUserOfflineStatus;
         }
         DEFAULT {
-            return KGUserOfflineStatus;
+            return KGUserUnknownStatus;
         };
     }
 }
@@ -183,14 +183,17 @@ static NSString * const kOfflineNetworkString = @"offline";
 
 - (NSString *)stringFromNetworkStatus {
     switch (self.networkStatus) {
-        case KGUserOnlineStatus:
+        case KGUserOnlineStatus:{
             return @"online";
-            
-        case KGUserAwayStatus:
+        }
+        case KGUserAwayStatus:{
             return @"away";
-            
+        }
         case KGUserOfflineStatus: {
             return @"offline";
+        }
+        case KGUserUnknownStatus: {
+            return @"updating";
         }
     }
 }

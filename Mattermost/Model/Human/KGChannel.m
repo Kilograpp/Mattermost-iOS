@@ -11,7 +11,6 @@
 #import "DateTools.h"
 
 @interface KGChannel ()
-@property (nonatomic, assign) BOOL oldHasNewMessages;
 @end
 
 @implementation KGChannel

@@ -3,7 +3,8 @@
 typedef NS_ENUM(NSInteger, KGUserNetworkStatus) {
     KGUserOnlineStatus,
     KGUserAwayStatus,
-    KGUserOfflineStatus
+    KGUserOfflineStatus,
+    KGUserUnknownStatus
 };
 
 @interface KGUser : _KGUser
