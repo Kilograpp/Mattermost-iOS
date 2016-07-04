@@ -663,12 +663,24 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         KGChannelNotification *kg_notification = notification.object;
         //проверка на то, что текущий юзер != юзеру, который пишет
 
-        if (kg_notification.action == KGActionTyping) {
-            NSString *currentUserID = [[KGPreferences sharedInstance]currentUserId];
-            KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
-            if (![user.identifier isEqualToString:currentUserID]) {
-                  [self.typingIndicatorView insertUsername:user.nickname];
+        switch (kg_notification.action) {
+            case KGActionTyping: {
+                NSString *currentUserID = [[KGPreferences sharedInstance] currentUserId];
+                KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
+                if (![user.identifier isEqualToString:currentUserID]) {
+                    [self.typingIndicatorView insertUsername:user.nickname];
+                }
+                break;
             }
+
+            case KGActionPosted: {
+                KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
+                [self.typingIndicatorView removeUsername: user.nickname];
+                break;
+            }
+
+            default:
+                break;
         }
     }
 }
