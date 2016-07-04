@@ -6,7 +6,7 @@
 #import "NSStringUtils.h"
 #import "KGUIUtils.h"
 #import <RestKit.h>
-#import <TSMarkdownParser/TSMarkdownParser.h>
+#import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
 
 @interface KGPost ()
@@ -162,8 +162,9 @@
 
 - (void)willSave {
     if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        [TSMarkdownParser standardParser].defaultAttributes = @{ NSFontAttributeName : [UIFont kg_regular15Font ]};
-        NSMutableAttributedString *string = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message].mutableCopy;
+        [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
+
+        NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
         [string beginEditing];
         __block BOOL found = NO;
         [string enumerateAttribute:NSFontAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
@@ -179,8 +180,7 @@
         }
         self.attributedMessage = string.copy;
         [string endEditing];
-        CGFloat textWidth = KGScreenWidth() - 61.f;
-//        self.attributedMessage = [[TSMarkdownParser standardParser] attributedStringFromMarkdown:self.message];        
+        CGFloat textWidth = KGScreenWidth() - 61.f;      
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                             context:nil];
