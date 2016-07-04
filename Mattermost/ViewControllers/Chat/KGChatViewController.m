@@ -308,9 +308,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-
-
-
         // Todo, Code Review: TimeIntervalSinceDate заменить на minutesEarlierThan из DateTools и вставить пять минут. Вообще, следует вынести сравнение дат с пятиминутным интервалом в категорию даты дополнительно.
         // Todo, Code Review: PrevPost и Post сравнение авторов надо сделать нормальным методов внутри поста, а не так в контроллере.
         // Todo, Code Review: Двойные условия на проверку attachment. Ее надо вынести глобально, а не трижды(см. выше) проверять внутри каждого условия

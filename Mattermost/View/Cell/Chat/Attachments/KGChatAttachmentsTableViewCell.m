@@ -115,7 +115,7 @@
         KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
         KGFile *file = self.files[indexPath.row];
         
-        [cell configureWithObject:file];;
+        [cell configureWithObject:file];
         return cell;
     }
 }

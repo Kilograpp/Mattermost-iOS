@@ -9,15 +9,15 @@
 #import "UIFont+KGPreparedFont.h"
 #import "KGUtils.h"
 
-static NSString *const KGPreparedFontsRegularFontName            = @"SFUIText-Regular";
-static NSString *const KGPreparedFontsSemiboldFontName           = @"SFUIText-Semibold";
-static NSString *const KGPreparedFontsMediumFontName             = @"SFUIText-Medium";
-static NSString *const KGPreparedFontsBoldFontName               = @"SFUIText-Bold";
+NSString *const KGPreparedFontsRegularFontName            = @"SFUIText-Regular";
+NSString *const KGPreparedFontsSemiboldFontName           = @"SFUIText-Semibold";
+NSString *const KGPreparedFontsMediumFontName             = @"SFUIText-Medium";
+NSString *const KGPreparedFontsBoldFontName               = @"SFUIText-Bold";
 
-static NSString *const KGPreparedFontsRegularDisplayFontName     = @"SFUIDisplay-Regular";
-static NSString *const KGPreparedFontsSemiboldDisplayFontName    = @"SFUIDisplay-Semibold";
-static NSString *const KGPreparedFontsBoldDisplayFontName        = @"SFUIDisplay-Bold";
-static NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay-Medium";
+NSString *const KGPreparedFontsRegularDisplayFontName     = @"SFUIDisplay-Regular";
+NSString *const KGPreparedFontsSemiboldDisplayFontName    = @"SFUIDisplay-Semibold";
+NSString *const KGPreparedFontsBoldDisplayFontName        = @"SFUIDisplay-Bold";
+NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay-Medium";
 
 @implementation UIFont (CustomFonts)
 

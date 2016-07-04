@@ -168,7 +168,8 @@
         __block BOOL found = NO;
         [string enumerateAttribute:NSFontAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
             if (value) {
-                UIFont *newFont = [UIFont kg_regular15Font];
+                UIFont *oldFont = value;
+                UIFont *newFont = [UIFont fontWithName:KGPreparedFontsRegularFontName  size:oldFont.pointSize + 3];
                 [string removeAttribute:NSFontAttributeName range:range];
                 [string addAttribute:NSFontAttributeName value:newFont range:range];
                 found = YES;
