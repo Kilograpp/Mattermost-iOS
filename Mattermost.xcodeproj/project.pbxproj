@@ -20,7 +20,6 @@
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
-		5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */; };
 		7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BAE03187F83966A82A1E /* UIColor+KGPreparedColor.m */; };
 		7339B10D1047D9B9CFBD00EE /* RKResponseDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B6110EDAF3A46C9DC98F /* RKResponseDescriptor+Runtime.m */; };
 		7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B307C5032AD1958D0DF4 /* UIImage+Resize.m */; };
@@ -61,6 +60,7 @@
 		9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82287569BAFA8E7E1DECF6 /* KGFile.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
+		A895144B2C33754F4B80D1BB /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B9D61710301C816AF5A0980 /* libPods-Mattermost.a */; };
 		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
 		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */; };
@@ -148,6 +148,7 @@
 		2C24A40AEDEF9607FD9E5FA2 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		411169EE1D09DE0D00448145 /* KGChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelTableViewCell.h; sourceTree = "<group>"; };
 		411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelTableViewCell.m; sourceTree = "<group>"; };
+		412DE2CE1D2BDF8A0038F709 /* NVActivityIndicatorView.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NVActivityIndicatorView.framework; path = Carthage/Build/iOS/NVActivityIndicatorView.framework; sourceTree = "<group>"; };
 		415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTableViewSectionHeader.h; sourceTree = "<group>"; };
 		415FFC061D182EEC003F9E23 /* KGTableViewSectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTableViewSectionHeader.m; sourceTree = "<group>"; };
 		415FFC081D182F06003F9E23 /* KGTableViewSectionHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTableViewSectionHeader.xib; sourceTree = "<group>"; };
@@ -200,6 +201,7 @@
 		7339BE2BB052113DFE235C05 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		7339BE469E40DDB9A0DAF1B4 /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
 		7339BF95CC05D9C6D2CBF4DE /* NSObject+RuntimeMethodsValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RuntimeMethodsValues.h"; sourceTree = "<group>"; };
+		8B9D61710301C816AF5A0980 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B822174A12039F460C51401 /* KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFile.h; sourceTree = "<group>"; };
@@ -250,7 +252,6 @@
 		9B822F245AEA295A19F304B4 /* KGCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGCommand.m; sourceTree = "<group>"; };
 		9B822FA5DE660473F9598FBA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtils.h; sourceTree = "<group>"; };
 		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
-		BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
 		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
@@ -402,7 +403,7 @@
 				D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */,
 				D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */,
 				D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */,
-				5770A48DB59B63CBBD52A5BD /* libPods-Mattermost.a in Frameworks */,
+				A895144B2C33754F4B80D1BB /* libPods-Mattermost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +413,7 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				412DE2CE1D2BDF8A0038F709 /* NVActivityIndicatorView.framework */,
 				D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */,
 				D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */,
 				D80638C91D1C2ABF0034E450 /* Masonry.framework */,
@@ -420,7 +422,7 @@
 				D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */,
 				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
-				BA0529A0A68760E247CF5036 /* libPods-Mattermost.a */,
+				8B9D61710301C816AF5A0980 /* libPods-Mattermost.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1811,6 +1813,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kilograpp.mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Mattermost/View/Mattermost-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1838,6 +1841,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kilograpp.mattermost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "$(sigh_com.kilograpp.mattermost_adhoc)";
+				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Mattermost/View/Mattermost-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";

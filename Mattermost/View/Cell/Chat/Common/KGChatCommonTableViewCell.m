@@ -18,9 +18,13 @@
 #import "NSString+HeightCalculation.h"
 #import "UIImage+Resize.h"
 #import "KGPreferences.h"
+#import <DGActivityIndicatorView.h>
+//#import <NVActivityIndicatorView/NVActivityIndicatorView-Swift.h>
 
+//#define KG_LOADING_VIEW_SIZE  25.f
+static CGFloat const kLoadingViewSize = 25.f;
 @interface KGChatCommonTableViewCell ()
-
+@property BOOL firstLoad;
 @end
 
 @implementation KGChatCommonTableViewCell
@@ -36,6 +40,7 @@
         [self setupNameLabel];
         [self setupDateLabel];
         [self setupMessageLabel];
+        [self setupLoadingView];
     }
     
     return self;
@@ -51,6 +56,7 @@
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.firstLoad = YES;
 }
 
 - (void)setupAvatarImageView {
@@ -110,10 +116,17 @@
     }];
 }
 
+- (void)setupLoadingView {
+    self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor kg_blueColor] size:kLoadingViewSize - kSmallPadding];
+//    self.loadingView.type = ;
+    //self.loadingView
+    [self addSubview:self.loadingView];
+}
 
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
+    
     if ([object isKindOfClass:[KGPost class]]) {
         self.post = object;
         
@@ -132,7 +145,7 @@
         self.nameLabel.text = _post.author.nickname;
         _dateString = [_post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
-        
+       
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.post.author.imageUrl.absoluteString];
         if (cachedImage) {
             wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40, 40));
@@ -145,9 +158,25 @@
                                         } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
+        if (!self.post.identifier) {
+            [self startAnimation];
+        } else {
+            [self finishAnimation];
+        }
     }
 }
 
+- (void)startAnimation {
+    if (self.firstLoad){
+        [self addSubview:self.loadingView];
+        [self.loadingView startAnimating];
+        self.firstLoad = NO;
+    }
+}
+
+- (void)finishAnimation {
+    [self.loadingView removeFromSuperview];
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -161,6 +190,7 @@
     self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth), self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
+    self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize, _nameLabel.center.y, kLoadingViewSize, 20);
 }
 
 + (CGFloat)heightWithObject:(id)object {

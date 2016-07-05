@@ -326,6 +326,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+//    [cell startAnimation];
     [self assignBlocksForCell:cell post:post];
     
     if (post.nonImageFiles) {
@@ -333,10 +334,11 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     }
 
     [cell configureWithObject:post];
+    
     cell.transform = self.tableView.transform;
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    
+    //[cell finishAnimation];
     return cell;
 }
 
@@ -468,7 +470,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
     // Todo, Code Review: Вынести создание пустой сущности в геттер
 
-
+    
     if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
 
         [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
@@ -494,9 +496,9 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     [self.currentPost setBackendPendingId:
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
-    
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
+            
            [[KGAlertManager sharedManager] showError:error];
         }
 
@@ -504,6 +506,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         self.currentPost = nil;
     }];
 }
+
+
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
     NSArray *files = post.nonImageFiles;
@@ -545,6 +549,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Todo, Code Review: Лишнее, если конфигурация autocompletion будет из категории
     if ([cell isKindOfClass:[KGTableViewCell class]]) {
+//        [cell startAnimation];
         [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
         cell.transform = self.tableView.transform;
     }

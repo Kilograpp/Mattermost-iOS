@@ -23,5 +23,6 @@
 @property (copy, nonatomic) void(^fileTapHandler)(NSUInteger fileNumber);
 @property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
 
-
+- (void)startAnimation;
+- (void)finishAnimation;
 @end
