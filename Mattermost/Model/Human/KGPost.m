@@ -77,7 +77,11 @@
 
 #pragma mark - Path Patterns
 
-+ (NSString*)listPathPattern {
++ (NSString*)nextPageListPathPattern {
+    return @"teams/:team.identifier/channels/:identifier/posts/:lastPostId/before/:page/:size";
+}
+
++ (NSString*)firstPagePathPattern {
     return @"teams/:team.identifier/channels/:identifier/posts/page/:page/:size";
 }
 
@@ -95,7 +99,15 @@
 + (RKResponseDescriptor*)listResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self listEntityMapping]
                                                         method:RKRequestMethodGET
-                                                   pathPattern:[self listPathPattern]
+                                                   pathPattern:[self firstPagePathPattern]
+                                                       keyPath:@"posts"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)nextPageResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self listEntityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self nextPageListPathPattern]
                                                        keyPath:@"posts"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }

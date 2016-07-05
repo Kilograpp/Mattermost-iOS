@@ -10,10 +10,15 @@
 
 @interface KGChannelPostsWrapper : NSObject
 
+@property (copy, nonatomic) NSString* lastPostId;
 @property (strong, nonatomic) NSNumber* size;
 @property (strong, nonatomic) NSNumber* page;
 @property (strong, nonatomic) KGTeam* team;
-@property (strong, nonatomic) NSString* identifier;
+@property (copy, nonatomic) NSString* identifier;
+
++ (instancetype)wrapperForChannel:(KGChannel*)channel;
+
++ (instancetype)wrapperForChannel:(KGChannel*)channel lastPostId:(NSString*)lastPostId;
 
 + (instancetype)wrapperForChannel:(KGChannel *)channel page:(NSNumber *)page size:(NSNumber*)size;
 

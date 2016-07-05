@@ -438,7 +438,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 #pragma mark - Requests
 
 - (void)loadLastPostsWithRefreshing:(BOOL)isRefreshing {
-    [[KGBusinessLogic sharedInstance] loadPostsForChannel:self.channel page:@0 size:@60 completion:^(KGError *error) {
+    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(KGError *error) {
         if (isRefreshing) {
             [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         }
@@ -613,7 +613,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
             [[KGAlertManager sharedManager] showProgressHud];
             [[KGBusinessLogic sharedInstance] downloadFile:file
                                                   progress:^(NSUInteger persentValue) {
-                                                      NSLog(@"%lu", (unsigned long)persentValue);
                                                   } completion:^(KGError *error) {
                                                       if (error) {
                                                           [[KGAlertManager sharedManager]showError:error];

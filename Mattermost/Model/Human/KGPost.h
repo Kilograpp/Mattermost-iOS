@@ -6,7 +6,8 @@
 
 - (BOOL)isUnread;
 
-+ (NSString* _Nonnull)listPathPattern;
++ (NSString* _Nonnull)nextPageListPathPattern;
++ (NSString* _Nonnull)firstPagePathPattern;
 + (NSString* _Nonnull)creationPathPattern;
 + (NSString* _Nonnull)updatePathPattern;
 - (NSArray*  _Nonnull)sortedFiles;
