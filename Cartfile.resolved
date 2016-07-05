@@ -1,6 +1,7 @@
 github "optonaut/ActiveLabel.swift" "fa897a0d1a9db9faf62a694caf844892527cf43d"
 github "jdg/MBProgressHUD" "0.9.2"
 github "SnapKit/Masonry" "1eb3cd39e58cbca6ef644e41ea60e245681aebcb"
+github "ninjaprox/NVActivityIndicatorView" "v2.9"
 github "rs/SDWebImage" "c012fc9bb2e5b1775a8a4a847938352187496a05"
 github "facebook/SocketRocket" "0.5.1"
 github "laptobbe/TSMarkdownParser" "cdfb56c4ad589f6a63a9299ba75ac7a53dc9a959"

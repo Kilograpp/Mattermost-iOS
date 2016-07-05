@@ -1,7 +1,6 @@
 platform :ios, '8.1'
 
-inhibit_all_warnings!	
-
+inhibit_all_warnings!
 target 'Mattermost' do
   pod 'MagicalRecord'
   pod 'RestKit'
@@ -19,6 +18,7 @@ target 'Mattermost' do
   pod 'JVFloatLabeledTextField'
   pod 'NSStringEmojize'
   pod 'IDMPhotoBrowser'
+  pod 'DGActivityIndicatorView'
 end
 
 post_install do |installer_representation|

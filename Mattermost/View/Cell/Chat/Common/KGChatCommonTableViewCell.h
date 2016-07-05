@@ -8,7 +8,7 @@
 
 #import "KGTableViewCell.h"
 #import "KGUIUtils.h"
-@class ActiveLabel, KGPost;
+@class ActiveLabel, KGPost, DGActivityIndicatorView;
 
 static CGFloat const kAvatarDimension = 40.f;
 static CGFloat const kStandartPadding = 8.f;
@@ -25,7 +25,9 @@ static NSOperationQueue*  messageQueue;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) ActiveLabel *messageLabel;
+@property (nonatomic, strong) DGActivityIndicatorView *loadingView;
 @property (strong, nonatomic) NSBlockOperation* messageOperation;
 @property (nonatomic, strong) KGPost *post;
-
+- (void)startAnimation;
+- (void)finishAnimation;
 @end
