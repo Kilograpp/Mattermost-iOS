@@ -7,15 +7,16 @@
 #import "KGTeam.h"
 #import "KGChannel.h"
 
+extern const NSInteger kDefaultPageSize;
 
 @implementation KGChannelPostsWrapper
 
 + (instancetype)wrapperForChannel:(KGChannel *)channel {
-    return [self wrapperForChannel:channel page:@0 size:@60 lastPostId:nil];
+    return [self wrapperForChannel:channel page:@0 size:@(kDefaultPageSize) lastPostId:nil];
 }
 
 + (instancetype)wrapperForChannel:(KGChannel *)channel lastPostId:(NSString*)lastPostId {
-    return [self wrapperForChannel:channel page:@0 size:@60 lastPostId:lastPostId];
+    return [self wrapperForChannel:channel page:@0 size:@(kDefaultPageSize) lastPostId:lastPostId];
 }
 + (instancetype)wrapperForChannel:(KGChannel *)channel page:(NSNumber *)page size:(NSNumber*)size {
     return [self wrapperForChannel:channel page:page size:size lastPostId:nil];
