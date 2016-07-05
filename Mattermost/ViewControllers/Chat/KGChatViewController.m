@@ -83,7 +83,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 @property (nonatomic, copy) NSString *selectedUsername;
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
-@property (nonatomic, assign) BOOL loadingInProgress;
+@property (assign) BOOL loadingInProgress;
+@property (assign) BOOL hasNextPage;
 
 @property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
 @property (nonatomic, assign) BOOL shouldShowCommands;
@@ -469,17 +470,18 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         [self.tableView reloadData];
         [self hideLoadingViewAnimated:YES];
             self.loadingInProgress = NO;
+        self.hasNextPage = YES;
     }];
 }
 
 - (void)loadNextPageOfData {
-    if (self.loadingInProgress) {
+    if (self.loadingInProgress || !self.hasNextPage) {
         return;
     }
     
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
-    [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(KGError *error) {
+    [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
@@ -488,6 +490,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         [self.tableView reloadData];
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
+        self.hasNextPage = isLastPage;
     }];
 }
 
