@@ -12,7 +12,7 @@
 
 - (void)loadNextPageForChannel:(KGChannel*)channel completion:(void (^)(BOOL isLastPage, KGError* error))completion;
 
-- (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void (^)(KGError* error))completion;
+- (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void (^)(BOOL isLastPage, KGError* error))completion;
 
 - (void)loadPostsForChannel:(KGChannel*)channel
                        page:(NSNumber *)page

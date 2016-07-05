@@ -31,12 +31,14 @@
 
 }
 
-- (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void(^)(KGError *error))completion{
+- (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void(^)(BOOL isLastPage, KGError *error))completion{
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel];
     NSString * path = SOCStringFromStringWithObject([KGPost firstPagePathPattern], wrapper);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, nil);
-    } failure:completion];
+        safetyCall(completion, mappingResult.count == 0, nil);
+    } failure:^(KGError* error) {
+        safetyCall(completion, NO, error);
+    }];
 }
 
 - (void)loadPostsForChannel:(KGChannel*)channel
