@@ -10,13 +10,13 @@
 
 @interface KGBusinessLogic (Posts)
 
-- (void)loadNextPageForChannel:(KGChannel*)channel completion:(void (^)(KGError* error))completion;
+- (void)loadNextPageForChannel:(KGChannel*)channel completion:(void (^)(BOOL isLastPage, KGError* error))completion;
 
 - (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void (^)(KGError* error))completion;
 
 - (void)loadPostsForChannel:(KGChannel*)channel
                        page:(NSNumber *)page
-                       size:(NSNumber *)size // Recommended - 60
+                       size:(NSNumber *)size
                  completion:(void(^)(KGError *error))completion;
 
 - (void)updatePost:(KGPost*)post completion:(void(^)(KGError *error))completion;

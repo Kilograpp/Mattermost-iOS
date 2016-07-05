@@ -17,15 +17,17 @@
 
 #pragma mark - Network
 
-- (void)loadNextPageForChannel:(KGChannel*)channel completion:(void(^)(KGError *error))completion {
+- (void)loadNextPageForChannel:(KGChannel*)channel completion:(void(^)(BOOL isLastPage, KGError *error))completion {
     NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[KGPostAttributes createdAt] ascending:NO];
     NSString* lastPostId = [[[channel.posts sortedArrayUsingDescriptors:@[sortDescriptor]] lastObject] identifier];
                              
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel lastPostId:lastPostId];
     NSString * path = SOCStringFromStringWithObject([KGPost nextPageListPathPattern], wrapper);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, nil);
-    } failure:completion];
+        safetyCall(completion, mappingResult.count == 0, nil);
+    } failure:^(KGError* error) {
+        safetyCall(completion, NO, error);
+    }];
 
 }
 
