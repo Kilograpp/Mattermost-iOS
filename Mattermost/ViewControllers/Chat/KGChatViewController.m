@@ -79,7 +79,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) KGPost *currentPost;
 @property (nonatomic, strong) NSArray *searchResultArray;
-@property (nonatomic, strong) NSArray *usersArray;
+@property (nonatomic, strong) NSArray *autocompletionDataSource;
 @property (nonatomic, copy) NSString *selectedUsername;
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
@@ -148,7 +148,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 #pragma mark - Setup
 
-// Todo, Code Review: Setup чего? Переименовать
 - (void)initialSetup {
       _isFirstLoad = YES;
     self.navigationController.delegate = self;
@@ -237,34 +236,29 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word {
-    //поиск по предикату
-    self.usersArray = [KGUser MR_findAll];
+    NSString *filterTerm;
     
     if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
-        if (word.length > 0) {
-            self.searchResultArray =
-                    [[self.usersArray valueForKey:[KGUserAttributes username]]
-                            filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self BEGINSWITH[c] %@", word]];
-        } else {
-            self.searchResultArray = [self.usersArray valueForKey:[KGUserAttributes username]];
-        }
-        
+        filterTerm = [KGUserAttributes username];
+        self.autocompletionDataSource = [KGUser MR_findAll];
+    } else  if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
+        filterTerm = [KGCommandAttributes trigger];
+        self.autocompletionDataSource = [KGCommand MR_findAll];
     }
-    
+
+    if (word.length) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.%@ BEGINSWITH[c] %@", filterTerm, word];
+        self.autocompletionDataSource = [self.autocompletionDataSource filteredArrayUsingPredicate:predicate];
+    }
+
+    BOOL show = (self.autocompletionDataSource.count > 0);
     self.shouldShowCommands = [prefix isEqualToString:kCommandAutocompletionPrefix];
-    if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
-        self.searchResultArray = [KGCommand MR_findAll];
-    }
-    
-    self.autoCompletionView.separatorStyle = self.shouldShowCommands ? UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
-    BOOL show = (self.searchResultArray.count > 0);
-    [self.autoCompletionView reloadData];
     [self showAutoCompletionView:show];
 }
 
 - (CGFloat)heightForAutoCompletionView {
-    CGFloat cellHeight = [KGAutoCompletionCell heightWithObject:nil];
-    return cellHeight*self.searchResultArray.count;
+    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
+    return cellHeight * self.autocompletionDataSource.count;
 }
 
 - (CGFloat)maximumHeightForAutoCompletionView {
@@ -286,11 +280,11 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
         return [sectionInfo numberOfObjects];
     }
-    return self.searchResultArray.count;
+    
+    return self.autocompletionDataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         return [self autoCompletionCellAtIndexPath:indexPath];
@@ -391,21 +385,19 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return CGFLOAT_MIN;
+    return [self.tableView isEqual:self.tableView] ? CGFLOAT_MIN : 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    // Todo, Code Review: Отдельная категоиря
     if ([tableView isEqual:self.tableView]) {
         return [KGTableViewSectionHeader height];
-    } else {
-        //для autoCompletionView
-        return CGFLOAT_MIN;
     }
+    
+    return 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -414,12 +406,12 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
         // Todo, Code Review: В отдельный метод, который должен скрывать auto-completion view
         if (self.shouldShowCommands) {
-            KGCommand *command = self.searchResultArray[indexPath.row];
-            [self acceptAutoCompletionWithString:command.trigger keepPrefix:YES];
+            KGCommand *command = self.autocompletionDataSource[indexPath.row];
+            [self acceptAutoCompletionWithString:[command.trigger stringByAppendingString:@" "] keepPrefix:YES];
+            [self cancelAutoCompletion];
         } else {
-            NSMutableString *item = [self.searchResultArray[indexPath.row] mutableCopy];
-            [item appendString:@" "]; // Adding a space helps dismissing the auto-completion view
-            [self acceptAutoCompletionWithString:item keepPrefix:YES];
+            KGUser *user = self.autocompletionDataSource[indexPath.row];
+            [self acceptAutoCompletionWithString:[user.username stringByAppendingString:@" "] keepPrefix:YES];
         }
     }
 }
@@ -528,16 +520,21 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath {
     KGAutoCompletionCell *cell;
     
-    if (self.shouldShowCommands) {
-        KGCommand *command = self.searchResultArray[indexPath.row];
-        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGCommandTableViewCell reuseIdentifier]];
-        [cell configureWithObject:command];
-    } else {
-        NSString *item = self.searchResultArray[indexPath.row];
-        KGUser *user =[KGUser managedObjectByUserName:item];
-        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
-        [cell configureWithObject:user];
-    }
+//    if (self.shouldShowCommands) {
+//        KGCommand *command = self.searchResultArray[indexPath.row];
+//        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGCommandTableViewCell reuseIdentifier]];
+//        [cell configureWithObject:command];
+//    } else {
+//        NSString *item = self.searchResultArray[indexPath.row];
+//        KGUser *user =[KGUser managedObjectByUserName:item];
+//        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+//        [cell configureWithObject:user];
+//    }
+    NSString *reuseIdentifier = self.shouldShowCommands ?
+                                        [KGCommandTableViewCell reuseIdentifier] : [KGAutoCompletionCell reuseIdentifier];
+    
+    cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    [cell configureWithObject:self.autocompletionDataSource[indexPath.row]];
     
     return cell;
 }
@@ -946,6 +943,18 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     }
 }
 
+
+#pragma mark - Private Setters
+
+- (void)setShouldShowCommands:(BOOL)shouldShowCommands {
+    if (shouldShowCommands != _shouldShowCommands) {
+        [self.autoCompletionView reloadData];
+    }
+    self.autoCompletionView.separatorStyle = shouldShowCommands ?
+            UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
+
+    _shouldShowCommands = shouldShowCommands;
+}
 
 
 #pragma mark - Files
