@@ -83,10 +83,12 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 @property (nonatomic, copy) NSString *selectedUsername;
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+@property (nonatomic, assign) BOOL loadingInProgress;
 
 @property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
 @property (nonatomic, assign) BOOL shouldShowCommands;
 @property (nonatomic, strong) KGCommand *selectedCommand;
+@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -290,15 +292,15 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         return [self autoCompletionCellAtIndexPath:indexPath];
     }
     
+    
+
+    
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-
-    // Todo, Code Review: Мусорный код
-    KGFile *f;
-    if ([post.files allObjects].count) {
-        f = [[post.files allObjects] objectAtIndex:0];
+    if (/*self.hasNextPage && */(self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
+        [self loadNextPageOfData];
     }
-    
+
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     // Todo, Code Review: Не понятное условие
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {//для первой ячейки
@@ -453,6 +455,39 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         if (!isRefreshing) {
             [self hideLoadingViewAnimated:YES];
         }
+    }];
+}
+
+- (void)loadFirstPageOfData {
+    self.loadingInProgress = YES;
+    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(KGError *error) {
+            [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+        }
+        [self setupFetchedResultsController];
+        [self.tableView reloadData];
+        [self hideLoadingViewAnimated:YES];
+            self.loadingInProgress = NO;
+    }];
+}
+
+- (void)loadNextPageOfData {
+    if (self.loadingInProgress) {
+        return;
+    }
+    
+    self.loadingInProgress = YES;
+    [self showTopActivityIndicator];
+    [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(KGError *error) {
+        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+        }
+        [self setupFetchedResultsController];
+        [self.tableView reloadData];
+        [self hideTopActivityIndicator];
+        self.loadingInProgress = NO;
     }];
 }
 
@@ -829,14 +864,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
         //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
-                [self loadLastPostsWithRefreshing:NO];
+                [self loadFirstPageOfData];
                 self.channel.lastViewDate = [NSDate date];
                 self.channel.firstLoadedValue = NO;
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
             } else {
                 [self setupFetchedResultsController];
                 [self.tableView reloadData];
-                [self hideLoadingViewAnimated:YES];
+//                [self hideLoadingViewAnimated:YES];
             }
     }];
 
@@ -931,7 +966,35 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-    [self loadLastPostsWithRefreshing:YES];
+    [self loadFirstPageOfData];
+}
+
+
+#pragma mark - ActivityIndicator
+
+- (void)showTopActivityIndicator {
+    CGFloat bottomActivityIndicatorHeight = CGRectGetHeight(self.topActivityIndicator.bounds);
+    UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 2 * bottomActivityIndicatorHeight)];
+    self.topActivityIndicator.center = CGPointMake(tableFooterView.center.x, tableFooterView.center.y - bottomActivityIndicatorHeight / 5);
+    [tableFooterView addSubview:self.topActivityIndicator];
+    self.tableView.tableFooterView = tableFooterView;
+    [self.topActivityIndicator startAnimating];
+}
+
+- (void)hideTopActivityIndicator {
+    [self.topActivityIndicator stopAnimating];
+//    if (!self.hasNextPage) {
+        self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+//    }
+}
+
+- (UIActivityIndicatorView *)topActivityIndicator {
+    if (!_topActivityIndicator) {
+        _topActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _topActivityIndicator.transform = self.tableView.transform;
+    }
+    
+    return _topActivityIndicator;
 }
 
 
