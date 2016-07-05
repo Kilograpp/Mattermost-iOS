@@ -17,9 +17,7 @@
 @property (copy, nonatomic) NSString* identifier;
 
 + (instancetype)wrapperForChannel:(KGChannel*)channel;
-
 + (instancetype)wrapperForChannel:(KGChannel*)channel lastPostId:(NSString*)lastPostId;
-
 + (instancetype)wrapperForChannel:(KGChannel *)channel page:(NSNumber *)page size:(NSNumber*)size;
 
 @end

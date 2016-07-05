@@ -13,6 +13,8 @@
 #import "KGObjectManager.h"
 #import "KGUtils.h"
 
+const NSInteger kDefaultPageSize = 60;
+
 @implementation KGBusinessLogic (Posts)
 
 #pragma mark - Network
@@ -24,7 +26,7 @@
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel lastPostId:lastPostId];
     NSString * path = SOCStringFromStringWithObject([KGPost nextPageListPathPattern], wrapper);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, mappingResult.count == 0, nil);
+        safetyCall(completion, mappingResult.count < [wrapper.size intValue], nil);
     } failure:^(KGError* error) {
         safetyCall(completion, NO, error);
     }];
@@ -35,7 +37,7 @@
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel];
     NSString * path = SOCStringFromStringWithObject([KGPost firstPagePathPattern], wrapper);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
-        safetyCall(completion, mappingResult.count == 0, nil);
+        safetyCall(completion, mappingResult.count < [wrapper.size intValue], nil);
     } failure:^(KGError* error) {
         safetyCall(completion, NO, error);
     }];
