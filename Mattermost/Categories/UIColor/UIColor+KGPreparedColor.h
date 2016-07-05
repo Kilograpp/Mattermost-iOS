@@ -26,6 +26,8 @@
 
 + (UIColor *)kg_rightMenuSeparatorColor;
 
++ (UIColor *)kg_autocompletionViewBackgroundColor;
+
 #pragma mark - Left menu
 
 + (UIColor *)kg_leftMenuBackgroundColor;

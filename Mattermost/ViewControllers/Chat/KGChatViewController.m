@@ -59,6 +59,7 @@
 #import "KGAction.h"
 #import "KGChatViewController+KGCoreData.h"
 #import "KGCommand.h"
+#import "KGCommandTableViewCell.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
@@ -157,6 +158,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     leftVC.delegate = self;
     rightVC.delegate = self;
     self.shouldClearTextAtRightButtonPress = NO;
+    self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
 - (void)setupTableView {
@@ -172,6 +175,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
     [self.tableView registerNib:[KGAutoCompletionCell nib]
          forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
+    [self.tableView registerNib:[KGCommandTableViewCell nib]
+         forCellReuseIdentifier:[KGCommandTableViewCell reuseIdentifier] cacheSize:15];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
@@ -246,12 +251,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         
     }
     
+    self.shouldShowCommands = [prefix isEqualToString:kCommandAutocompletionPrefix];
     if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
-        self.shouldShowCommands = YES;
         self.searchResultArray = [KGCommand MR_findAll];
     }
     
+    self.autoCompletionView.separatorStyle = self.shouldShowCommands ? UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
     BOOL show = (self.searchResultArray.count > 0);
+    [self.autoCompletionView reloadData];
     [self showAutoCompletionView:show];
 }
 
@@ -365,7 +372,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     }
     //ячейка для autoCompletionView:
     // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
-    return [KGAutoCompletionCell heightWithObject:nil];
+    return  self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -523,7 +530,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     
     if (self.shouldShowCommands) {
         KGCommand *command = self.searchResultArray[indexPath.row];
-        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGCommandTableViewCell reuseIdentifier]];
         [cell configureWithObject:command];
     } else {
         NSString *item = self.searchResultArray[indexPath.row];
@@ -817,7 +824,10 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                 [[KGAlertManager sharedManager] showError:error];
             }
         
-            if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages ) {
+        
+        NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
+        //FIXME: refactor
+            if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
                 [self loadLastPostsWithRefreshing:NO];
                 self.channel.lastViewDate = [NSDate date];
                 self.channel.firstLoadedValue = NO;

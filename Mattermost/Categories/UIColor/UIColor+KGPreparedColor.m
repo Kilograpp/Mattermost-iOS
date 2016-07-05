@@ -177,6 +177,11 @@
 }
 
 
+#pragma mark - Rest
 
++ (UIColor *)kg_autocompletionViewBackgroundColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#E7F0F6" alpha:1])
+    return color;
+}
 
 @end

@@ -74,10 +74,6 @@ static CGFloat const kHeightCell = 44;
                                                                 }];
             [self.avatarImageView removeActivityIndicator];
         }
-    } else if ([object isKindOfClass:[KGCommand class]]) {
-        KGCommand *command = object;
-        self.nickUserLabel.text = [@"/" stringByAppendingString:command.trigger];
-        self.nameUserLabel.text = command.message;
     }
 }
 
