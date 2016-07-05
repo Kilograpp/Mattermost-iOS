@@ -117,12 +117,8 @@ static NSString * const KGActionNameKey = @"action";
 
         NSDictionary *postDict = [NSJSONSerialization JSONObjectWithData:[postString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        KGPost *post = [KGPost managedObjectById:postDict[@"id"]] ?: [KGPost MR_findFirstByAttribute:@"backendPendingId" withValue:postDict[@"pending_post_id"]];
-        if (post) {
-            return;
-        } else {
-            post = [KGPost MR_createEntity];
-        }
+        KGPost *post = [KGPost managedObjectById:postDict[@"id"]] ?: [KGPost MR_findFirstOrCreateByAttribute:@"backendPendingId"
+                                                                                                   withValue:postDict[@"pending_post_id"]];
         [post setIdentifier:postDict[@"id"]];
         [post setChannel:[KGChannel managedObjectById:channelId]];
         [self updatePost:post completion:^(KGError *error) {

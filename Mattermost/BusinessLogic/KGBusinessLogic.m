@@ -19,6 +19,7 @@
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Channel.h"
 #import "KGNotificationValues.h"
+#import "KGPost.h"
 
 @interface KGBusinessLogic ()
 
@@ -69,9 +70,7 @@
         KGObjectManager *manager;
         NSURL *serverBaseUrl = [NSURL URLWithString:[[KGPreferences sharedInstance] serverBaseUrl]];
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
-//        if (serverBaseUrl) {
-            manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
-//        }
+        manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
 
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
@@ -93,7 +92,21 @@
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
 
-
+        
+        NSFetchRequest* (^singleFetchRequestBlock) (NSURL* ) = ^NSFetchRequest*(NSURL* URL) {
+            RKPathMatcher *userPathMatcher = [RKPathMatcher pathMatcherWithPattern:[KGPost firstPagePathPattern]];
+            BOOL match = [userPathMatcher matchesPath:[URL relativePath] tokenizeQueryStrings:NO parsedArguments:nil];
+            if(match) {
+                NSString* channelId = [[[URL relativePath] pathComponents] objectAtIndex:3];
+                NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
+                if([KGPost MR_countOfEntitiesWithPredicate:predicate] > 0) {
+                    return [KGPost MR_requestAllWithPredicate:predicate];
+                }
+            }
+            return nil;
+        };
+        
+        [manager addFetchRequestBlock:singleFetchRequestBlock];
         _defaultObjectManager = manager;
         _shouldReloadDefaultManager = NO;
     }
