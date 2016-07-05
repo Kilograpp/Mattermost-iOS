@@ -13,6 +13,7 @@ NSString *const KGPreparedFontsRegularFontName            = @"SFUIText-Regular";
 NSString *const KGPreparedFontsSemiboldFontName           = @"SFUIText-Semibold";
 NSString *const KGPreparedFontsMediumFontName             = @"SFUIText-Medium";
 NSString *const KGPreparedFontsBoldFontName               = @"SFUIText-Bold";
+NSString *const KGPreparedFontsItalicFontName             = @"SFUIText-LightItalic";
 
 NSString *const KGPreparedFontsRegularDisplayFontName     = @"SFUIDisplay-Regular";
 NSString *const KGPreparedFontsSemiboldDisplayFontName    = @"SFUIDisplay-Semibold";
@@ -142,6 +143,19 @@ NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay-Medium
 
 + (UIFont *)kg_navigationBarSubtitleFont {
     STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsRegularDisplayFontName size:13.f])
+    return font;
+}
+
+
+#pragma mark - Markdown
+
++ (UIFont *)kg_semiboldFontOfSize:(CGFloat)size {
+    return [UIFont fontWithName:KGPreparedFontsSemiboldFontName size:size];
+}
+
+
++ (UIFont *)kg_italic15Font {
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsItalicFontName size:15])
     return font;
 }
 

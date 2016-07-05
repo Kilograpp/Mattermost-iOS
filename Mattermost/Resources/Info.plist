@@ -43,6 +43,7 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>SF-UI-Text-LightItalic.otf</string>
 		<string>SF-UI-Display-Bold.otf</string>
 		<string>SF-UI-Display-Medium</string>
 		<string>SF-UI-Display-Regular.otf</string>

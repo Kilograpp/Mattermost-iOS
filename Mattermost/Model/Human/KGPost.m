@@ -8,6 +8,7 @@
 #import "KGUIUtils.h"
 #import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
+#import "UIColor+KGPreparedColor.h"
 #import <NSStringEmojize/NSString+Emojize.h>
 
 @interface KGPost ()
@@ -180,23 +181,9 @@
         [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
         self.message = [self.message emojizedString];
         NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
-        [string beginEditing];
-        __block BOOL found = NO;
-        [string enumerateAttribute:NSFontAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(id value, NSRange range, BOOL *stop) {
-            if (value) {
-                UIFont *oldFont = value;
-                UIFont *newFont = [UIFont fontWithName:KGPreparedFontsRegularFontName  size:oldFont.pointSize + 3];
-                [string removeAttribute:NSFontAttributeName range:range];
-                [string addAttribute:NSFontAttributeName value:newFont range:range];
-                found = YES;
-            }
-        }];
-        if (!found) {
-            // No font was found - do something else?
-        }
         self.attributedMessage = string.copy;
-        [string endEditing];
-        CGFloat textWidth = KGScreenWidth() - 61.f;      
+        
+        CGFloat textWidth = KGScreenWidth() - 61.f;
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                             context:nil];
