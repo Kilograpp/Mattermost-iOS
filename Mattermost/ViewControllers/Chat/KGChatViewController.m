@@ -438,7 +438,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 #pragma mark - Requests
 
 - (void)loadLastPostsWithRefreshing:(BOOL)isRefreshing {
-    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(KGError *error) {
+    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         if (isRefreshing) {
             [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         }
