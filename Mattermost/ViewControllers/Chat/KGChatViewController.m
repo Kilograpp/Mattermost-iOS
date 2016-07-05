@@ -298,7 +298,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (/*self.hasNextPage && */(self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
         [self loadNextPageOfData];
     }
 
@@ -461,7 +461,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 - (void)loadFirstPageOfData {
     self.loadingInProgress = YES;
-    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(KGError *error) {
+    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
             [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
@@ -469,8 +469,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         [self setupFetchedResultsController];
         [self.tableView reloadData];
         [self hideLoadingViewAnimated:YES];
-            self.loadingInProgress = NO;
-        self.hasNextPage = YES;
+        self.loadingInProgress = NO;
+        self.hasNextPage = !isLastPage;
     }];
 }
 
@@ -482,15 +482,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
     [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
+//        [self setupFetchedResultsController];
+//        [self.tableView reloadData];
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
-        self.hasNextPage = isLastPage;
+        self.hasNextPage = !isLastPage;
     }];
 }
 
