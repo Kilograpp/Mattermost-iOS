@@ -985,9 +985,9 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 - (void)hideTopActivityIndicator {
     [self.topActivityIndicator stopAnimating];
-//    if (!self.hasNextPage) {
+    if (!self.hasNextPage) {
         self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-//    }
+    }
 }
 
 - (UIActivityIndicatorView *)topActivityIndicator {
