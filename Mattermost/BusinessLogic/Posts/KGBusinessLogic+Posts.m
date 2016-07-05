@@ -6,6 +6,7 @@
 #import "KGBusinessLogic+Posts.h"
 #import <SOCKit.h>
 #import <RestKit.h>
+#import <RestKit/ObjectMapping/RKMappingErrors.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import "KGChannel.h"
 #import "KGPost.h"
@@ -28,7 +29,13 @@ const NSInteger kDefaultPageSize = 60;
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, mappingResult.count < [wrapper.size intValue], nil);
     } failure:^(KGError* error) {
-        safetyCall(completion, NO, error);
+        
+        // Empty posts array is returned as null instead of an empty array. That fixes it.
+        if ([error.code intValue] == RKMappingErrorNotFound) {
+            safetyCall(completion, YES, nil);
+        } else {
+            safetyCall(completion, NO, error);
+        }
     }];
 
 }
