@@ -118,8 +118,6 @@ static CGFloat const kLoadingViewSize = 25.f;
 
 - (void)setupLoadingView {
     self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor kg_blueColor] size:kLoadingViewSize - kSmallPadding];
-//    self.loadingView.type = ;
-    //self.loadingView
     self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.loadingView];
 }
@@ -127,7 +125,6 @@ static CGFloat const kLoadingViewSize = 25.f;
 - (void)setupErrorView {
     self.errorView = [[UIButton alloc] init];
     [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
-    // [self addSubview:self.errorView];
 }
 
 #pragma mark - Configuration
@@ -202,8 +199,8 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
-    self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - 8,ceilf((self.messageLabel.frame.origin.y + self.post.heightValue)/2),20 ,20);
+    self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8,ceilf((self.messageLabel.frame.origin.y + self.post.heightValue)/2),20 ,20);
 }
 
 + (CGFloat)heightWithObject:(id)object {

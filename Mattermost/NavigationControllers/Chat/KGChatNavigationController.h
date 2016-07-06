@@ -12,6 +12,8 @@
 @property (nonatomic, copy) NSString *kg_title;
 @property (nonatomic, copy) NSString *kg_subtitle;
 
-//- (void)setupTitleViewWithUserName:(NSString *)userName online:(BOOL)online;
-- (void)setupTitleViewWithUserName:(NSString *)userName subtitle:(NSString *)subtitle shouldHighlight:(BOOL)shouldHighlight;
+- (void)setupTitleViewWithUserName:(NSString *)userName
+                          subtitle:(NSString *)subtitle
+                   shouldHighlight:(BOOL)shouldHighlight
+                 loadingInProgress:(BOOL)loadingInProgress;
 @end

@@ -608,7 +608,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 // Todo, Code Review: Каша из асбтракции
-- (void)updateNavigationBarAppearance {
+- (void)updateNavigationBarAppearance:(BOOL)loadingInProgress {
     NSString *subtitleString;
     BOOL shouldHighlight = NO;
     if (self.channel.type == KGChannelTypePrivate) {
@@ -623,7 +623,12 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
-                                                                        shouldHighlight:shouldHighlight];
+                                                                        shouldHighlight:shouldHighlight
+                                                                      loadingInProgress:loadingInProgress];
+}
+
+- (void)updateNavigationBarAppearanceFromNotification {
+    [self updateNavigationBarAppearance:NO];
 }
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
@@ -701,11 +706,9 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateNavigationBarAppearance)
+                                             selector:@selector(updateNavigationBarAppearanceFromNotification)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
-    
-    
 }
 
 
@@ -816,7 +819,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                                              selector:@selector(performFillingTypingIndicatorView:)
                                                  name:self.channel.notificationsName
                                                object:nil];
-    [self updateNavigationBarAppearance];
+    [self updateNavigationBarAppearance:YES];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
@@ -825,7 +828,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         } else {
-            [self updateNavigationBarAppearance];
+            [self updateNavigationBarAppearance:NO];
             NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
             //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
