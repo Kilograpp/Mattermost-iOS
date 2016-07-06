@@ -18,7 +18,7 @@
     return sharedInstance;
 }
 
-- (void)load  {
+- (void)load {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
         if ([propertyName isEqualToString:NSStringFromSelector(@selector(shouldCompressImages))]) {
@@ -27,8 +27,12 @@
                 [defaults synchronize];
             }
         }
-
-        [self setValue:[defaults valueForKey:propertyName] forKey:propertyName];
+        
+        if (defaults.dictionaryRepresentation[propertyName]) {
+            [self setValue:[defaults valueForKey:propertyName] forKey:propertyName];
+        } else {
+            [self setValue:nil forKey:propertyName];
+        }
     }];
 }
 
@@ -57,9 +61,7 @@
     [NSUserDefaults resetStandardUserDefaults];
     [userDefaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [userDefaults synchronize];
-//    [self load];
-//    [self save];
-    NSLog(@"%@", self.lastChannelId);
+    [self load];
 }
 
 
