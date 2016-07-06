@@ -92,7 +92,7 @@ static NSString *const kImageCellReuseIdentifier = @"cellReuseIdentifier";
     CGFloat labelWidht = KG_CONTENT_WIDTH;//screenWidth - horizontalPadding - avatarImageHeight - horizontalPadding - horizontalPadding;
     
     NSString *subtitleText = post.message;
-    CGFloat heightSubtitleText = [subtitleText heightForTextWithWidth:labelWidht withFont:[UIFont kg_regular15Font]];
+    CGFloat heightSubtitleText = [subtitleText kg_heightForTextWidth:labelWidht font:[UIFont kg_regular15Font]];
     
     CGFloat heightImage = post.files.count * KG_IMAGE_HEIGHT;
     

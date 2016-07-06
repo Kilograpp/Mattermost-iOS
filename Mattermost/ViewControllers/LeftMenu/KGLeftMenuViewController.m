@@ -19,7 +19,6 @@
 #import "KGChannelTableViewCell.h"
 #import "KGUtils.h"
 #import "NSManagedObject+CustomFinder.h"
-#import <UIImageView+UIActivityIndicatorForSDWebImage.h>
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGNotificationValues.h"
 #import "KGPreferences.h"
@@ -41,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
+
     [self setup];
     [self setupTableView];
     [self setupTeamLabel];

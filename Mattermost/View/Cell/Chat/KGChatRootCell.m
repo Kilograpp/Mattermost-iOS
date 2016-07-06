@@ -154,7 +154,7 @@
         
         CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
         CGFloat messageLabelWidth = screenWidth - kAvatarUser - kGorizontalPadding*3;
-        CGFloat heightMessage = [post.message heightForTextWithWidth:messageLabelWidth withFont:[UIFont kg_regular15Font]];
+        CGFloat heightMessage = [post.message kg_heightForTextWidth:messageLabelWidth font:[UIFont kg_regular15Font]];
         CGFloat heightCell = kTopPadding + kNameHeight + kNameToMessagePadding + heightMessage + kBottomPadding;
         
         return  ceilf(heightCell);

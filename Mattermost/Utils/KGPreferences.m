@@ -55,8 +55,11 @@
 - (void)resetDefaults {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [NSUserDefaults resetStandardUserDefaults];
+    [userDefaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [userDefaults synchronize];
-    [self load];
+//    [self load];
+//    [self save];
+    NSLog(@"%@", self.lastChannelId);
 }
 
 
