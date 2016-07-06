@@ -19,7 +19,6 @@
 #import "UIImage+Resize.h"
 #import "KGPreferences.h"
 #import <DGActivityIndicatorView.h>
-//#import <NVActivityIndicatorView/NVActivityIndicatorView-Swift.h>
 
 //#define KG_LOADING_VIEW_SIZE  25.f
 static CGFloat const kLoadingViewSize = 25.f;

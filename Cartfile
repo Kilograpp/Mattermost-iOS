@@ -5,4 +5,3 @@ github "facebook/SocketRocket"
 github "rs/SDWebImage" "master"
 github "SnapKit/Masonry" "master"
 github "jdg/MBProgressHUD" ~> 0.9.2
-github "ninjaprox/NVActivityIndicatorView" ~> 2.9

@@ -41,7 +41,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
     [self setup];
     [self setupTableView];
     [self setupTeamLabel];
@@ -109,8 +108,9 @@
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier]];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    BOOL shouldHightlight = indexPath.row == _selectedIndexPath.row && indexPath.section == _selectedIndexPath.section;
-    cell.isSelectedCell = shouldHightlight;
+    
+    BOOL shouldHighlight = indexPath.row == _selectedIndexPath.row && indexPath.section == _selectedIndexPath.section;
+    cell.isSelectedCell = shouldHighlight;
     [cell configureWithObject:channel];
     
     return cell;
