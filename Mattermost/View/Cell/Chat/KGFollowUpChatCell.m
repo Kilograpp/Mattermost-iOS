@@ -13,6 +13,7 @@
 #import <TSMarkdownParser/TSMarkdownParser.h>
 #import "KGUser.h"
 #import <DGActivityIndicatorView.h>
+
 static CGFloat const kLoadingViewSize = 25.f;
 @interface KGFollowUpChatCell ()
 @property BOOL firstLoad;
@@ -33,14 +34,13 @@ static CGFloat const kLoadingViewSize = 25.f;
     return self;
 }
 
-
-
 #pragma mark - Setup
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.firstLoad = YES;
 }
+
 - (void)setupMessageLabel {
     self.messageLabel = [[ActiveLabel alloc] init];
     self.messageLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -83,6 +83,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.errorView = [[UIButton alloc] init];
     [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
    // [self addSubview:self.errorView];
+    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
 + (void)load {
@@ -107,12 +108,11 @@ static CGFloat const kLoadingViewSize = 25.f;
             }
         }];
         [messageQueue addOperation:self.messageOperation];
-        
+
         if (self.post.error){
             [self addSubview:self.errorView];
             [self finishAnimation];
         } else {
-           // [self.errorView removeFromSuperview];
             if (!self.post.identifier) {
                 [self startAnimation];
             } else {
@@ -122,26 +122,12 @@ static CGFloat const kLoadingViewSize = 25.f;
     }
 }
 
-//- (void)startAnimation {
-//    if (self.firstLoad){
-//        [self addSubview:self.loadingView];
-//        [self.loadingView startAnimating];
-//        
-//    }
-//}
-//
-//- (void)finishAnimation {
-//    if (self.firstLoad){
-//    [self.loadingView removeFromSuperview];
-//    self.firstLoad = NO;
-//    }
-//}
 - (void)startAnimation {
-    //if (self.firstLoad){
+    if (self.firstLoad){
         [self addSubview:self.loadingView];
         [self.loadingView startAnimating];
         self.firstLoad = NO;
-    //}
+    }
 }
 
 - (void)finishAnimation {
@@ -155,8 +141,8 @@ static CGFloat const kLoadingViewSize = 25.f;
     CGFloat textWidth = KGScreenWidth() - 61.f;
     
     self.messageLabel.frame = CGRectMake(53, 8, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
-    self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - 8, 10, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - 8,ceilf(self.post.heightValue/2),20 ,20);
+    self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8, 10, kLoadingViewSize, 20);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8,ceilf(self.post.heightValue/2),20 ,20);
 }
 
 + (CGFloat)heightWithObject:(id)object {
@@ -167,9 +153,29 @@ static CGFloat const kLoadingViewSize = 25.f;
 - (void)prepareForReuse {
     _messageLabel.text = nil;
     [_messageOperation cancel];
-    //[_loadingView removeFromSuperview];
-    _loadingView = nil;
-    //_errorView = nil;
+    [_loadingView removeFromSuperview];
+    [_errorView removeFromSuperview];
+    
 }
 
+- (void)errorAction {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *resendAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        
+        
+    }];
+    
+    UIAlertAction *deleteAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:resendAction];
+    [alertController addAction:deleteAction];
+    [alertController addAction:cancelAction];
+    //[self.superview pre
+    //[self presentViewController:alertController animated:YES completion:nil];
+
+}
 @end

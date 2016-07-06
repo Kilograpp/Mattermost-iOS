@@ -195,7 +195,7 @@
         NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
         self.attributedMessage = string.copy;
         
-        CGFloat textWidth = KGScreenWidth() - 61.f;
+        CGFloat textWidth = KGScreenWidth() - 88;
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
                                                             options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                                                             context:nil];

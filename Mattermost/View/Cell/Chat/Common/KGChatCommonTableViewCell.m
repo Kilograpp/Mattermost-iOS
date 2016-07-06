@@ -41,6 +41,7 @@ static CGFloat const kLoadingViewSize = 25.f;
         [self setupDateLabel];
         [self setupMessageLabel];
         [self setupLoadingView];
+        [self setupErrorView];
     }
     
     return self;
@@ -124,6 +125,12 @@ static CGFloat const kLoadingViewSize = 25.f;
     [self addSubview:self.loadingView];
 }
 
+- (void)setupErrorView {
+    self.errorView = [[UIButton alloc] init];
+    [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
+    // [self addSubview:self.errorView];
+}
+
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
@@ -159,10 +166,15 @@ static CGFloat const kLoadingViewSize = 25.f;
                                         } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
-        if (!self.post.identifier) {
-            [self startAnimation];
-        } else {
+        if (self.post.error){
+            [self addSubview:self.errorView];
             [self finishAnimation];
+        } else {
+            if (!self.post.identifier) {
+                [self startAnimation];
+            } else {
+                [self finishAnimation];
+            }
         }
     }
 }
@@ -192,6 +204,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
     self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
+    self.errorView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - 8,ceilf((self.messageLabel.frame.origin.y + self.post.heightValue)/2),20 ,20);
 }
 
 + (CGFloat)heightWithObject:(id)object {
@@ -214,6 +227,8 @@ static CGFloat const kLoadingViewSize = 25.f;
     _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     _messageLabel.text = nil;
     [_messageOperation cancel];
+    [_loadingView removeFromSuperview];
+    [_errorView removeFromSuperview];
 }
 
 
