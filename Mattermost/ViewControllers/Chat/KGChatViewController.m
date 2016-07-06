@@ -527,12 +527,15 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
-            
+            self.currentPost.error = @YES;
+            //self.currentPost.
            [[KGAlertManager sharedManager] showError:error];
+             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
 
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
-        self.currentPost = nil;
+            self.currentPost = nil;
+
     }];
 }
 
@@ -873,7 +876,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
             } else {
                 [self setupFetchedResultsController];
                 [self.tableView reloadData];
-//                [self hideLoadingViewAnimated:YES];
+                [self hideLoadingViewAnimated:YES];
             }
     }];
 

@@ -29,6 +29,11 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"errorValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"error"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"heightValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"height"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -49,6 +54,26 @@
 @dynamic creationDay;
 
 @dynamic deletedAt;
+
+@dynamic error;
+
+- (BOOL)errorValue {
+	NSNumber *result = [self error];
+	return [result boolValue];
+}
+
+- (void)setErrorValue:(BOOL)value_ {
+	[self setError:@(value_)];
+}
+
+- (BOOL)primitiveErrorValue {
+	NSNumber *result = [self primitiveError];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveErrorValue:(BOOL)value_ {
+	[self setPrimitiveError:@(value_)];
+}
 
 @dynamic height;
 
@@ -115,6 +140,9 @@
 }
 + (NSString *)deletedAt {
 	return @"deletedAt";
+}
++ (NSString *)error {
+	return @"error";
 }
 + (NSString *)height {
 	return @"height";

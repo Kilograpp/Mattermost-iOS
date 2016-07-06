@@ -35,7 +35,7 @@
     }];
 }
 
--(void)getObjectsAtPath:(NSString *)path
+- (void)getObjectsAtPath:(NSString *)path
                 success:(void (^)(RKMappingResult *mappingResult))success
                 failure:(void (^)(KGError *error))failure{
     [self getObjectsAtPath:path parameters:nil success:success failure:failure];

@@ -106,7 +106,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.messageLabel.layer.drawsAsynchronously = YES;
 
     self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    self.messageLabel.preferredMaxLayoutWidth = 200.f;
+    self.messageLabel.preferredMaxLayoutWidth = 200.f - kLoadingViewSize;
 
     [self.messageLabel handleMentionTap:^(NSString *string) {
         self.mentionTapHandler(string);
@@ -120,6 +120,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor kg_blueColor] size:kLoadingViewSize - kSmallPadding];
 //    self.loadingView.type = ;
     //self.loadingView
+    self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.loadingView];
 }
 
@@ -187,10 +188,10 @@ static CGFloat const kLoadingViewSize = 25.f;
     
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
-    self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth), self.post.heightValue);
+    self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
-    self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize, _nameLabel.center.y, kLoadingViewSize, 20);
+    self.loadingView.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
 }
 
 + (CGFloat)heightWithObject:(id)object {

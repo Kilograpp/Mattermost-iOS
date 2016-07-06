@@ -40,6 +40,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* deletedAt;
 
+@property (nonatomic, strong, nullable) NSNumber* error;
+
+@property (atomic) BOOL errorValue;
+- (BOOL)errorValue;
+- (void)setErrorValue:(BOOL)value_;
+
 @property (nonatomic, strong, nullable) NSNumber* height;
 
 @property (atomic) int16_t heightValue;
@@ -93,6 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveDeletedAt;
 - (void)setPrimitiveDeletedAt:(NSDate*)value;
 
+- (NSNumber*)primitiveError;
+- (void)setPrimitiveError:(NSNumber*)value;
+
+- (BOOL)primitiveErrorValue;
+- (void)setPrimitiveErrorValue:(BOOL)value_;
+
 - (NSNumber*)primitiveHeight;
 - (void)setPrimitiveHeight:(NSNumber*)value;
 
@@ -129,6 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)createdAt;
 + (NSString *)creationDay;
 + (NSString *)deletedAt;
++ (NSString *)error;
 + (NSString *)height;
 + (NSString *)identifier;
 + (NSString *)message;
