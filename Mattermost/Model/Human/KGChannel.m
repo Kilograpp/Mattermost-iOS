@@ -8,6 +8,7 @@
 #import "NSStringUtils.h"
 #import "KGBusinessLogic+Session.h"
 #import "KGBusinessLogic+Channel.h"
+#import <MagicalRecord/MagicalRecord.h>
 #import "DateTools.h"
 
 @interface KGChannel ()
@@ -154,13 +155,15 @@
     }
 }
 
-- (KGUserNetworkStatus)configureNetworkStatus {
-    KGUserNetworkStatus userNetworkStatus = KGUserOfflineStatus;
+- (KGUserNetworkStatus)networkStatus {
+    KGUserNetworkStatus userNetworkStatus = KGUserUnknownStatus;
     if (self.type == KGChannelTypePrivate) {
         NSArray *sideIds = [self.name componentsSeparatedByString:@"__"];
         NSString *companionIdentifier;
         companionIdentifier = (![sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) ? sideIds.firstObject : sideIds.lastObject;
-        KGUser *user = [KGUser managedObjectById:companionIdentifier];
+        
+        KGUser *user = [KGUser managedObjectById:companionIdentifier inContext:[NSManagedObjectContext MR_defaultContext] ];
+        [[NSManagedObjectContext MR_defaultContext] refreshObject:user mergeChanges:YES];
         userNetworkStatus = [user networkStatus];
     }
     return userNetworkStatus;

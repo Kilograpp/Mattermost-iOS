@@ -108,8 +108,9 @@
     KGChannelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGChannelTableViewCell reuseIdentifier]];
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    BOOL shouldHightlight = indexPath.row == _selectedIndexPath.row && indexPath.section == _selectedIndexPath.section;
-    cell.isSelectedCell = shouldHightlight;
+    
+    BOOL shouldHighlight = indexPath.row == _selectedIndexPath.row && indexPath.section == _selectedIndexPath.section;
+    cell.isSelectedCell = shouldHighlight;
     [cell configureWithObject:channel];
     
     return cell;
@@ -220,7 +221,6 @@
     } else {
         [self reselectCurrentIndexPath];
     }
-    
 }
 
 @end

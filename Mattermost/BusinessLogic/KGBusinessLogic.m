@@ -7,6 +7,8 @@
 //
 
 #import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Session.h"
+#import "KGBusinessLogic+ApplicationNotifications.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <RKObjectManager.h>
@@ -83,6 +85,7 @@
             } else {
                 [self openSocket];
             }
+            
         }];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
@@ -249,7 +252,7 @@
 
 - (void)runTimerForStatusUpdate {
     if (![self.statusTimer isValid] || !self.statusTimer)
-        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 10
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 5
                                      target:self
                                    selector:@selector(updateStatusForAllUsers)
                                    userInfo:nil

@@ -47,7 +47,37 @@ extern NSString * const KGAuthTokenHeaderName;
     NSString* path = [KGUser usersStatusPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:userIds  success:^(RKMappingResult* mappingResult) {
         safetyCall(completion, nil);
-    } failure:completion];
+    } failure:^(KGError* error) {
+        NSBatchUpdateRequest *batchUpdate = [[NSBatchUpdateRequest alloc] initWithEntityName:@"User"];
+        batchUpdate.propertiesToUpdate = @{ @"backendStatus": @(0) };
+        batchUpdate.resultType = NSUpdatedObjectIDsResultType;
+        batchUpdate.affectedStores = @[[NSPersistentStore MR_defaultPersistentStore]];
+        NSError *err;
+        NSBatchUpdateResult     *batchResult    = nil;
+        batchResult = (NSBatchUpdateResult *)[[NSManagedObjectContext MR_defaultContext] executeRequest:batchUpdate error:&err];
+        
+//        
+//        if ([[batchResult result] respondsToSelector:@selector(count)]){
+//            if ([[batchResult result] count] > 0){
+//                [[NSManagedObjectContext MR_defaultContext] performBlock:^{
+//                    for (NSManagedObjectID *objectID in [batchResult result]){
+//                        NSError         *faultError = nil;
+//                        NSManagedObject *object     = [[NSManagedObjectContext MR_defaultContext] existingObjectWithID:objectID error:&faultError];
+//                        // Observers of this context will be notified to refresh this object.
+//                        // If it was deleted, well.... not so much.
+//                        [[NSManagedObjectContext MR_defaultContext] refreshObject:object mergeChanges:YES];
+//                    }
+//                }];
+//            } else {
+//                // We got back nothing!
+//            }
+//        } else {
+//            // We got back something other than a collection
+//        }
+        
+        
+        safetyCall(completion, error);
+    }];
 }
 
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
