@@ -9,6 +9,8 @@
 #import "KGChatNavigationController.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
+#import "KGUIUtils.h"
+
 
 @interface KGChatNavigationController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) UILabel *kg_titleLabel;
@@ -20,7 +22,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.delegate = self;
     [self setupNavigationBar];
 }
 
@@ -31,20 +32,15 @@
 }
 
 
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
-
 #pragma mark - Setup
 
 - (void)setupNavigationBar {
     UINavigationBar *navBar = self.navigationBar;
     navBar.translucent = NO;
     
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 44.f)];
-    self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
-    self.kg_subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 22.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, KGScreenWidth() * 0.6f, 44.f)];
+    self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, KGScreenWidth() * 0.6f, 22.f)];
+    self.kg_subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 22.f, KGScreenWidth() * 0.6f, 22.f)];
     
     self.kg_titleLabel.font = [UIFont kg_navigationBarTitleFont];
     self.kg_titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -53,7 +49,6 @@
     self.kg_subtitleLabel.font = [UIFont kg_navigationBarSubtitleFont];
     self.kg_subtitleLabel.textAlignment = NSTextAlignmentCenter;
     self.kg_subtitleLabel.textColor = [UIColor kg_blueColor];
-
     
     [titleView addSubview:self.kg_titleLabel];
     [titleView addSubview:self.kg_subtitleLabel];
@@ -79,11 +74,5 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
-
-
-
-//- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
-//    return UIBarPositionTopAttached;
-//}
 
 @end

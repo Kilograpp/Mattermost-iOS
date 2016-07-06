@@ -440,29 +440,10 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 #pragma mark - Requests
 
-- (void)loadLastPostsWithRefreshing:(BOOL)isRefreshing {
-    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-        if (isRefreshing) {
-            [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
-        }
-        if (error) {
-            if (!isRefreshing) {
-                [self hideLoadingViewAnimated:YES];
-            }
-            [[KGAlertManager sharedManager] showError:error];
-        }
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
-        if (!isRefreshing) {
-            [self hideLoadingViewAnimated:YES];
-        }
-    }];
-}
-
 - (void)loadFirstPageOfData {
     self.loadingInProgress = YES;
     [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-            [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
@@ -485,8 +466,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
-//        [self setupFetchedResultsController];
-//        [self.tableView reloadData];
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
@@ -528,17 +507,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
             self.currentPost.error = @YES;
-            //self.currentPost.
-           [[KGAlertManager sharedManager] showError:error];
-             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            [[KGAlertManager sharedManager] showError:error];
+            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
 
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
             self.currentPost = nil;
-
     }];
 }
-
 
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
@@ -563,17 +539,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath {
     KGAutoCompletionCell *cell;
-    
-//    if (self.shouldShowCommands) {
-//        KGCommand *command = self.searchResultArray[indexPath.row];
-//        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGCommandTableViewCell reuseIdentifier]];
-//        [cell configureWithObject:command];
-//    } else {
-//        NSString *item = self.searchResultArray[indexPath.row];
-//        KGUser *user =[KGUser managedObjectByUserName:item];
-//        cell = [self.tableView dequeueReusableCellWithIdentifier:[KGAutoCompletionCell reuseIdentifier]];
-//        [cell configureWithObject:user];
-//    }
     NSString *reuseIdentifier = self.shouldShowCommands ?
                                         [KGCommandTableViewCell reuseIdentifier] : [KGAutoCompletionCell reuseIdentifier];
     
@@ -593,7 +558,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)assignPhotos {
-
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction *openCameraAction =
@@ -841,7 +805,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self dismissKeyboard:YES];
-    [self showLoadingView];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:self.channel.notificationsName
@@ -858,31 +821,27 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
 
-
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-            if (error) {
-                [self hideLoadingViewAnimated:YES];
-                [[KGAlertManager sharedManager] showError:error];
-            }
-        
-        
-        NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
-        //FIXME: refactor
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+        } else {
+            [self updateNavigationBarAppearance];
+            NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
+            //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
-                [self loadFirstPageOfData];
                 self.channel.lastViewDate = [NSDate date];
                 self.channel.firstLoadedValue = NO;
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                [self showLoadingView];
+                [self loadFirstPageOfData];
             } else {
                 [self setupFetchedResultsController];
                 [self.tableView reloadData];
-                [self hideLoadingViewAnimated:YES];
             }
+        }
     }];
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
-
-
 }
 
 #pragma mark - KGRightMenuDelegate
@@ -932,7 +891,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-    
+
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -961,7 +920,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (void)setupRefreshControl {
     UITableViewController *tableViewController = [[UITableViewController alloc] init];
     tableViewController.tableView = self.tableView;
-    
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self
@@ -1049,6 +1007,9 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
     return self.view;
 }
+
+
+#pragma mark - UITextViewDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     [super textView:textView shouldChangeTextInRange:range replacementText:text];
