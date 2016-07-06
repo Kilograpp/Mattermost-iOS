@@ -90,6 +90,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 @property (nonatomic, assign) BOOL shouldShowCommands;
 @property (nonatomic, strong) KGCommand *selectedCommand;
 @property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
+@property (assign) BOOL errorOccured;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -452,6 +453,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         [self hideLoadingViewAnimated:YES];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
+        self.errorOccured = error ? YES : NO;
     }];
 }
 
@@ -469,6 +471,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
+        self.errorOccured = error ? YES : NO;
     }];
 }
 
@@ -608,7 +611,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 // Todo, Code Review: Каша из асбтракции
-- (void)updateNavigationBarAppearance:(BOOL)loadingInProgress {
+- (void)updateNavigationBarAppearance:(BOOL)loadingInProgress errorOccured:(BOOL)errorOccured {
     NSString *subtitleString;
     BOOL shouldHighlight = NO;
     if (self.channel.type == KGChannelTypePrivate) {
@@ -624,11 +627,12 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
                                                                                subtitle:subtitleString
                                                                         shouldHighlight:shouldHighlight
-                                                                      loadingInProgress:loadingInProgress];
+                                                                      loadingInProgress:loadingInProgress
+                                                                           errorOccured:errorOccured];
 }
 
-- (void)updateNavigationBarAppearanceFromNotification {
-    [self updateNavigationBarAppearance:NO];
+- (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
+    [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
 }
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
@@ -703,10 +707,9 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 
-
 - (void)registerObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateNavigationBarAppearanceFromNotification)
+                                             selector:@selector(updateNavigationBarAppearanceFromNotification:)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
 }
@@ -819,7 +822,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                                              selector:@selector(performFillingTypingIndicatorView:)
                                                  name:self.channel.notificationsName
                                                object:nil];
-    [self updateNavigationBarAppearance:YES];
+    [self updateNavigationBarAppearance:YES errorOccured:NO];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
@@ -828,7 +831,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         } else {
-            [self updateNavigationBarAppearance:NO];
             NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
             //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
@@ -842,6 +844,8 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                 [self.tableView reloadData];
             }
         }
+        self.errorOccured = error ? YES : NO;
+        [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
     }];
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];

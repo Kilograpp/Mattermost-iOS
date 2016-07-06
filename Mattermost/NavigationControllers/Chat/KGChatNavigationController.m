@@ -65,10 +65,11 @@
 - (void)setupTitleViewWithUserName:(NSString *)userName
                           subtitle:(NSString *)subtitle
                    shouldHighlight:(BOOL)shouldHighlight
-                 loadingInProgress:(BOOL)loadingInProgress {
+                 loadingInProgress:(BOOL)loadingInProgress
+                      errorOccured:(BOOL)errorOccured {
     self.kg_titleLabel.text = userName;
-    self.kg_subtitleLabel.text = subtitle;
-    self.kg_subtitleLabel.textColor = shouldHighlight ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
+    self.kg_subtitleLabel.text = errorOccured ? NSLocalizedString(@"No connection", nil) : subtitle;
+    self.kg_subtitleLabel.textColor = shouldHighlight && !errorOccured ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
     self.kg_subtitleLabel.hidden = loadingInProgress;
     self.loadingView.hidden = !loadingInProgress;
     if (loadingInProgress) {

@@ -15,5 +15,6 @@
 - (void)setupTitleViewWithUserName:(NSString *)userName
                           subtitle:(NSString *)subtitle
                    shouldHighlight:(BOOL)shouldHighlight
-                 loadingInProgress:(BOOL)loadingInProgress;
+                 loadingInProgress:(BOOL)loadingInProgress
+                      errorOccured:(BOOL)errorOccured;
 @end
