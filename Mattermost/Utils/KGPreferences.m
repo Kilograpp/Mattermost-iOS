@@ -62,6 +62,9 @@
     [userDefaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
     [userDefaults synchronize];
     [self load];
+    self.currentTeamId = nil;
+    self.currentUserId = nil;
+    self.lastChannelId = nil;
 }
 
 
