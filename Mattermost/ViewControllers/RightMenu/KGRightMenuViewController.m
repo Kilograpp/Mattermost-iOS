@@ -23,6 +23,7 @@
 #import "KGProfileTableViewController.h"
 #import "UIStatusBar+SharedBar.h"
 #import "KGSideMenuContainerViewController.h"
+#import "KGSettingsViewController.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -45,8 +46,14 @@
     [self setup];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //fixme abstraction
+    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    [self.avatarImageView setImageWithURL:user.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
 
 #pragma mark - Setup
@@ -136,8 +143,7 @@
                                                                      iconName:@"menu_settings_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf toggleRightSideMenuAction];
-                                                                          [wSelf.delegate navigateToSettings];
+                                                                          [wSelf navigateToSettings];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)
@@ -184,20 +190,20 @@
 
 }
 
+- (void)navigateToSettings {
+    UINavigationController *nc = self.menuContainerViewController.centerViewController;
+    if (![nc.topViewController isKindOfClass:[KGSettingsViewController class]]) {
+        [self toggleRightSideMenuAction];
+        [self.delegate navigateToSettings];
+    }
+}
+
 
 #pragma mark - Actions
 
 - (void)toggleRightSideMenuAction {
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
-
-#pragma mark - Private Setters
-//fixme а зачем это?
-- (void)setDelegate:(id<KGRightMenuDelegate>)delegate {
-    _delegate = delegate;
-}
-
-#pragma mark - Navigation
 
 - (void)logout {
     [[KGAlertManager sharedManager] showProgressHud];
@@ -208,18 +214,17 @@
         [appDelegate loadInitialScreen];
         [[UIStatusBar sharedStatusBar] restoreState];
     }];
-
-}
-
-#pragma mark - Alert
-
--(void) alertUnderDevelopment {
-    KGAlertManager *alertView = [[KGAlertManager alloc]init];
-    [alertView showWarningWithMessage:@"This section is under development"];
-
+    
 }
 
 
+#pragma mark - Private Setters
+//fixme а зачем это?
+- (void)setDelegate:(id<KGRightMenuDelegate>)delegate {
+    _delegate = delegate;
+}
+
+#pragma mark - Navigation
 
 - (IBAction)profileAction:(id)sender {
     [self performSegueWithIdentifier:@"presentProfile" sender:nil];
@@ -232,5 +237,17 @@
         vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
     }
 }
+
+#pragma mark - Alert
+
+-(void) alertUnderDevelopment {
+    KGAlertManager *alertView = [[KGAlertManager alloc]init];
+    [alertView showWarningWithMessage:@"This section is under development"];
+
+}
+
+
+
+
 
 @end

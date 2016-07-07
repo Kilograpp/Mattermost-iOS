@@ -354,6 +354,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
+//            NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
+//                  [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post]);
             return post.files.count == 0 ?
                     [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
@@ -361,15 +363,20 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
             // Todo, Code Review: Условие на даты см. выше
             if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
+//                NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
+//                      [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post]);
                 return post.files.count == 0 ?
-                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
+                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
+//                NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
+//                      [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post]);
                 return post.files.count == 0 ?
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
 
         // Todo, Code Review: Мертвое условие
+//        NSLog(@"CHAT_TABLE AAAAAAA");
         return 0.f;
     }
     //ячейка для autoCompletionView:
