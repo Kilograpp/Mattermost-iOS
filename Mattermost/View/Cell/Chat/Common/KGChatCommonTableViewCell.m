@@ -129,6 +129,8 @@ static CGFloat const kErrorViewSize = 34.f;
     [self.errorView setImage:[UIImage imageNamed:@"message_fail_button"] forState:UIControlStateNormal];
     [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
     self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
+    [self addSubview:self.errorView];
+    self.errorView.hidden = YES;
 }
 
 #pragma mark - Configuration
@@ -160,15 +162,15 @@ static CGFloat const kErrorViewSize = 34.f;
         } else {
             [self.avatarImageView setImageWithURL:self.post.author.imageUrl
                                  placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
-                                          options:SDWebImageHandleCookies
+                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                             wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
                                         } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
         if (self.post.error){
-            [self addSubview:self.errorView];
-            [self finishAnimation];
+            self.errorView.hidden = NO;
+//            [self finishAnimation];
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -181,18 +183,19 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)startAnimation {
     if (self.firstLoad){
-        [self addSubview:self.loadingView];
         [self.loadingView startAnimating];
+        self.loadingView.hidden = NO;
         self.firstLoad = NO;
     }
 }
 
 - (void)finishAnimation {
-    [self.loadingView removeFromSuperview];
+    [self.loadingView stopAnimating];
+    self.loadingView.hidden = YES;
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
+//    [super layoutSubviews];
     
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
@@ -204,7 +207,7 @@ static CGFloat const kErrorViewSize = 34.f;
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-   self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
 }
 
 + (CGFloat)heightWithObject:(id)object {
@@ -227,8 +230,8 @@ static CGFloat const kErrorViewSize = 34.f;
     _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     _messageLabel.text = nil;
     [_messageOperation cancel];
-    [_loadingView removeFromSuperview];
-    [self.errorView removeFromSuperview];
+    _loadingView.hidden = YES;
+    self.errorView.hidden = YES;
 }
 
 - (void)errorAction {
