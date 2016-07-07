@@ -15,6 +15,8 @@
 #import <DGActivityIndicatorView.h>
 
 static CGFloat const kLoadingViewSize = 25.f;
+static CGFloat const kErrorViewSize = 34.f;
+
 @interface KGFollowUpChatCell ()
 @property BOOL firstLoad;
 @end
@@ -82,8 +84,10 @@ static CGFloat const kLoadingViewSize = 25.f;
 - (void)setupErrorView {
     self.errorView = [[UIButton alloc] init];
     [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
-   // [self addSubview:self.errorView];
-    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self addSubview:self.errorView];
+    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:
+     UIControlEventTouchUpInside];
+    self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
 }
 
 + (void)load {
@@ -142,7 +146,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     
     self.messageLabel.frame = CGRectMake(53, 8, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8, 10, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8,ceilf(self.post.heightValue/2),20 ,20);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
 }
 
 + (CGFloat)heightWithObject:(id)object {
@@ -154,28 +158,15 @@ static CGFloat const kLoadingViewSize = 25.f;
     _messageLabel.text = nil;
     [_messageOperation cancel];
     [_loadingView removeFromSuperview];
-    [_errorView removeFromSuperview];
+    [self.errorView removeFromSuperview];
     
 }
 
 - (void)errorAction {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    UIAlertAction *resendAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        
-        
-    }];
-    
-    UIAlertAction *deleteAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:resendAction];
-    [alertController addAction:deleteAction];
-    [alertController addAction:cancelAction];
-    //[self.superview pre
-    //[self presentViewController:alertController animated:YES completion:nil];
+    if (self.errorTapHandler) {
+//        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+        self.errorTapHandler(self.post);
+    }
 
 }
 @end

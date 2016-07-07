@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "KGPost.h"
 @interface KGTableViewCell : UITableViewCell
 
 + (NSString *)reuseIdentifier;
@@ -21,8 +21,9 @@
 
 @property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber, UIView *cell);
 @property (copy, nonatomic) void(^fileTapHandler)(NSUInteger fileNumber);
+@property (copy, nonatomic) void(^errorTapHandler)(KGPost *post);
 @property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
-
+@property (nonatomic, strong) UIButton *errorView;
 - (void)startAnimation;
 - (void)finishAnimation;
 @end

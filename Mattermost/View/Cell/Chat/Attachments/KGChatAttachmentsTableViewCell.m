@@ -25,6 +25,7 @@
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
 #define KG_FILE_HEIGHT  55.f
+static CGFloat const kErrorViewSize = 34.f;
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, copy)   NSArray *files;
@@ -64,7 +65,12 @@
     self.backgroundColor = [UIColor kg_whiteColor];
 }
 
-
+- (void)setupErrorView {
+    self.errorView = [[UIButton alloc] init];
+    [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
+    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
+    self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
+}
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
