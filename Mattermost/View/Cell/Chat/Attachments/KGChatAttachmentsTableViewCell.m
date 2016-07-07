@@ -23,7 +23,7 @@
 #import "KGUIUtils.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
 #define KG_FILE_HEIGHT  55.f
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,7 +43,6 @@
     
     return self;
 }
-
 
 
 #pragma mark - Setup
@@ -153,7 +152,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat bottomYCoordOfMessage = ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height : self.messageLabel.frame.origin.y;
+    CGFloat bottomYCoordOfMessage =
+            ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
+                                                            self.messageLabel.frame.origin.y;
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
     self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));

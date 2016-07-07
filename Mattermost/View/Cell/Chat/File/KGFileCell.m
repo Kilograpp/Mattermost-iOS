@@ -7,11 +7,12 @@
 //
 
 #import "KGFileCell.h"
-#import <Masonry/Masonry.h>
+//#import <Masonry/Masonry.h>
 #import "KGFile.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIImage+Resize.h" 
+#import "KGUIUtils.h"
 
 static CGFloat const kSmallPadding = 5.f;
 static CGFloat const kStandartPadding = 15.f;
@@ -32,17 +33,17 @@ static CGFloat const kIconSize = 45.f;
 }
 
 - (void)setupIconImageView {
-    self.iconImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+    self.iconImageView = [[UIImageView alloc]init];
     self.iconImageView.layer.drawsAsynchronously = YES;
     self.iconImageView.clipsToBounds = YES;
     
     [self addSubview:self.iconImageView];
-    
-    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self);
-        make.centerY.equalTo(self);
-        make.width.height.equalTo(@45);
-    }];
+//    
+//    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self);
+//        make.centerY.equalTo(self);
+//        make.width.height.equalTo(@45);
+//    }];
 }
 
 - (void)setupNameLabel {
@@ -54,11 +55,11 @@ static CGFloat const kIconSize = 45.f;
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
 
     [self addSubview:self.nameLabel];
-    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kSmallPadding);
-        make.centerY.equalTo(self).offset(-kStandartPadding);
-        make.trailing.equalTo(self).offset(kStandartPadding);
-    }];
+//    [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kSmallPadding);
+//        make.centerY.equalTo(self).offset(-kStandartPadding);
+//        make.trailing.equalTo(self).offset(kStandartPadding);
+//    }];
 }
 
 - (void)setupSizeLabel {
@@ -70,10 +71,10 @@ static CGFloat const kIconSize = 45.f;
     self.sizeLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     
     [self addSubview:self.sizeLabel];
-    [self.sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kSmallPadding);
-        make.centerY.equalTo(self).offset(kStandartPadding);
-    }];
+//    [self.sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.leading.equalTo(self.iconImageView.mas_trailing).offset(kSmallPadding);
+//        make.centerY.equalTo(self).offset(kStandartPadding);
+//    }];
 }
 
 - (void)configureWithObject:(id)object {
@@ -89,6 +90,18 @@ static CGFloat const kIconSize = 45.f;
         self.sizeLabel.text = fileSizeString(file);
     }
 }
+
+
+#pragma mark - Lifecycle
+
+- (void)layoutSubviews {
+    self.iconImageView.frame = CGRectMake(8, 8, 45, 45);
+    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, KGScreenWidth() - 64, 20);
+    self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
+}
+
+
+#pragma mark - Private
 
 NSString *fileSizeString(KGFile *file) {
     float size = file.sizeValue;
@@ -125,7 +138,7 @@ NSString *fileSizeString(KGFile *file) {
             break;
     }
     
-                return [NSString stringWithFormat:@"%.1F%@", size, suffix];
+    return [NSString stringWithFormat:@"%.1F%@", size, suffix];
 }
 
 @end

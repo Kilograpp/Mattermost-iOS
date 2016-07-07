@@ -323,7 +323,28 @@ UIImage *KGRoundedPlaceholderImage(CGSize size)
     
     
     return image;
+}
 
+
+UIImage *KGRoundedPlaceholderImageForAttachmentsCell(CGSize size)
+{
+    static dispatch_once_t once;
+    static id image;
+    dispatch_once(&once, ^{
+        CGRect rect = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f, (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f);
+        UIGraphicsBeginImageContext(rect.size);
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5].CGPath;
+        CGContextAddPath(context, ref);
+        CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
+        CGContextFillPath(context);
+        image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    });
+    
+    
+    return image;
+    
 }
 
 @end
