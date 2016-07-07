@@ -360,8 +360,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 return post.files.count == 0 ?
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
-//                NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
-//                      [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post]);
                 return post.files.count == 0 ?
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
@@ -1063,11 +1061,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)openFile:(KGFile *)file {
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
 
-    if (URL) {
+    if (URL && [self canOpenDocumentWithURL:URL inView:self.view]) {
         UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
         [documentInteractionController presentPreviewAnimated:YES];
+    } else {
+        [[KGAlertManager sharedManager] showError:[KGError errorWithCode:@10000 title:nil message:@"cannot open file"]];
     }
 }
 
@@ -1078,6 +1078,21 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
     return self.view;
 }
+
+-(BOOL)canOpenDocumentWithURL:(NSURL*)url inView:(UIView*)view {
+    BOOL canOpen = NO;
+    UIDocumentInteractionController* docController = [UIDocumentInteractionController
+                                                      interactionControllerWithURL:url];
+    if (docController)
+    {
+        docController.delegate = self;
+        canOpen = [docController presentOpenInMenuFromRect:CGRectZero
+                                                    inView:self.view animated:NO];
+        [docController dismissMenuAnimated:NO];
+    }
+    return canOpen;
+}
+
 
 
 #pragma mark - UITextViewDelegate
