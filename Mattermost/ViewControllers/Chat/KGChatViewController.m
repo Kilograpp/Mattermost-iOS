@@ -11,6 +11,7 @@
 #import "KGPost.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
+#import "UIStatusBar+SharedBar.h"
 #import "KGChannel.h"
 #import <MagicalRecord.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -294,9 +295,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         return [self autoCompletionCellAtIndexPath:indexPath];
     }
     
-    
-
-    
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
@@ -366,9 +364,6 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-
-        // Todo, Code Review: Мертвое условие
-        return 0.f;
     }
     //ячейка для autoCompletionView:
     // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию

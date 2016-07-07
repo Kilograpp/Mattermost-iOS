@@ -67,29 +67,24 @@
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        [super configureWithObject:object];
-        
-        self.files = [self.post sortedFiles];
-        [self.tableView reloadData];
-        
-        self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    }
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
+
+    [super configureWithObject:object];
+    self.files = [self.post sortedFiles];
+    [self.tableView reloadData];
+    self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
 
 
 #pragma mark - Height
 
 + (CGFloat)heightWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
-        CGFloat heightCell = [super heightWithObject:object];
-        heightCell += tableViewHeight(post.files.allObjects);
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's heightWithObject method!");
 
-        return  ceilf(heightCell + 8);
-    }
-    
-    return 0.f;
+    KGPost *post = object;
+    CGFloat heightCell = [super heightWithObject:object];
+    heightCell += tableViewHeight(post.files.allObjects);
+    return  ceilf(heightCell + 8);
 }
 
 
@@ -125,11 +120,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.files[indexPath.row] isImage]){
         return ceilf(KG_IMAGE_HEIGHT);
-    } else {
-        return ceilf(KG_FILE_HEIGHT);
     }
-    
-    return 0.0001;
+    return ceilf(KG_FILE_HEIGHT);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
