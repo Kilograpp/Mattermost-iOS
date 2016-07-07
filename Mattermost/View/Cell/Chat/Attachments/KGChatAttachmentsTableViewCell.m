@@ -157,7 +157,7 @@
 }
 
 CGFloat tableViewHeight(NSArray *files) {
-    CGFloat heightImage;
+    CGFloat heightImage = 0;
     for (KGFile *file in files) {
         if ([file isImage]){
             heightImage +=  KG_IMAGE_HEIGHT;
