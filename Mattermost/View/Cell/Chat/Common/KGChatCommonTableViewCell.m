@@ -22,6 +22,8 @@
 
 //#define KG_LOADING_VIEW_SIZE  25.f
 static CGFloat const kLoadingViewSize = 25.f;
+static CGFloat const kErrorViewSize = 34.f;
+
 @interface KGChatCommonTableViewCell ()
 @property BOOL firstLoad;
 @end
@@ -124,7 +126,9 @@ static CGFloat const kLoadingViewSize = 25.f;
 
 - (void)setupErrorView {
     self.errorView = [[UIButton alloc] init];
-    [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
+    [self.errorView setImage:[UIImage imageNamed:@"message_fail_button"] forState:UIControlStateNormal];
+    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
+    self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
 }
 
 #pragma mark - Configuration
@@ -200,7 +204,7 @@ static CGFloat const kLoadingViewSize = 25.f;
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8,ceilf((self.messageLabel.frame.origin.y + self.post.heightValue)/2),20 ,20);
+   self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
 }
 
 + (CGFloat)heightWithObject:(id)object {
@@ -224,8 +228,15 @@ static CGFloat const kLoadingViewSize = 25.f;
     _messageLabel.text = nil;
     [_messageOperation cancel];
     [_loadingView removeFromSuperview];
-    [_errorView removeFromSuperview];
+    [self.errorView removeFromSuperview];
 }
 
+- (void)errorAction {
+    if (self.errorTapHandler) {
+        //        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+        self.errorTapHandler(self.post);
+    }
+    
+}
 
 @end

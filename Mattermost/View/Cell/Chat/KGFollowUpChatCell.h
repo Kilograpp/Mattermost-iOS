@@ -17,5 +17,5 @@ static NSOperationQueue*  messageQueue;
 @property (strong, nonatomic) NSBlockOperation* messageOperation;
 @property (nonatomic, strong) KGPost *post;
 @property (nonatomic, strong) DGActivityIndicatorView *loadingView;
-@property (nonatomic, strong) UIButton *errorView;
+//@property (nonatomic, strong) UIButton *errorView;
 @end

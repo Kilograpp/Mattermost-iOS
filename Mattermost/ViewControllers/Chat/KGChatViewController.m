@@ -68,6 +68,7 @@ static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
 
+static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
@@ -335,6 +336,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     //[cell finishAnimation];
+    //if (cell)
     return cell;
 }
 
@@ -379,14 +381,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     NSDate *date = [formatter dateFromString:[sectionInfo name]];
     NSString *dateName = [date dateFormatForMessageTitle];
     [header configureWithObject:dateName];
-    header.backgroundColor  = [UIColor whiteColor];
+//    header.backgroundColor  = [UIColor whiteColor];
     header.dateLabel.transform = self.tableView.transform;
     return header;
 
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
+//    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -665,6 +667,12 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         self.selectedUsername = nickname;
         [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
     };
+    cell.errorTapHandler = ^(KGPost *post) {
+        [self errorActionWithPost: post];
+    };
+//    if (post.error) {
+////        [cell.errorView addTarget:cell action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
+//    }
 
 }
 
@@ -835,7 +843,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
             //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
                 self.channel.lastViewDate = [NSDate date];
-                self.channel.firstLoadedValue = NO;
+                self.channel.firstLoaded = @NO;
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                 [self showLoadingView];
                 [self loadFirstPageOfData];
@@ -898,7 +906,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-
+        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -911,6 +919,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
+    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
@@ -921,6 +930,59 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     }];
 }
 
+- (void)errorActionWithPost: (KGPost *)post{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kErrorAlertViewTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    
+    UIAlertAction *resendAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        
+        self.currentPost = [KGPost MR_createEntity];
+        self.currentPost.message = post.message;
+        self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
+        self.currentPost.channel = self.channel;
+        self.currentPost.createdAt = [NSDate date];
+//        self.currentPost.files = post.files;
+        //self.textView.text = @"";
+        
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+     
+        // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
+        [self.currentPost setBackendPendingId:
+        [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
+        [self.currentPost.createdAt timeIntervalSince1970]]];
+        [post MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
+            if (error) {
+                self.currentPost.error = @YES;
+                [[KGAlertManager sharedManager] showError:error];
+                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+            }
+        
+            // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
+            self.currentPost = nil;
+    }];
+
+    }];
+    
+    UIAlertAction *deleteAction =
+    [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        //[self.fetchedResultsController.fetchedObjects delete:post];
+        //[[NSManagedObjectContext MR_defaultContext] deleteObject:post];
+        [post MR_deleteEntity];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:resendAction];
+    [alertController addAction:deleteAction];
+    [alertController addAction:cancelAction];
+    //[self.superview pre
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
 
 #pragma mark - RefreshControl
 
