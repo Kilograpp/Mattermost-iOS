@@ -12,7 +12,7 @@
 #import "UIImage+Resize.h"
 
 #define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f
 
 @interface KGImageCell ()
 @end
@@ -49,13 +49,12 @@
         __weak typeof(self) wSelf = self;
         UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
         if (cachedImage) {
-            wSelf.kg_imageView.image = cachedImage;// KGRoundedImage(cachedImage, cachedImage.size);
+            wSelf.kg_imageView.image = cachedImage;
         } else {
             [self.kg_imageView setImageWithURL:url
-                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
+                                 placeholderImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
                                           options:SDWebImageHandleCookies
                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                            wSelf.kg_imageView.image = KGRoundedImage(image, CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT));
                                         } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.kg_imageView removeActivityIndicator];
         }
@@ -67,7 +66,6 @@
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
         CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-//        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
 
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:5.f] addClip];
@@ -88,7 +86,7 @@
 }
 
 - (void)prepareForReuse {
-    self.kg_imageView.image = nil;//[[self class] placeholderBackground];
+    self.kg_imageView.image = nil;
 }
 
 + (UIImage *)placeholderBackground {

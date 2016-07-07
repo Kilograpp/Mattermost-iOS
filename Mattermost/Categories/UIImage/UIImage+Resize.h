@@ -37,6 +37,7 @@ extern "C" {
     
     UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size);
     UIImage *KGRoundedPlaceholderImage(CGSize size);
+    UIImage *KGRoundedPlaceholderImageForAttachmentsCell(CGSize size);
     
 #ifdef __cplusplus
 }
