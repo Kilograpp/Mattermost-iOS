@@ -156,21 +156,21 @@ static CGFloat const kErrorViewSize = 34.f;
         _dateString = [_post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
        
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:self.post.author.imageUrl.absoluteString];
-        if (cachedImage) {
-            wSelf.avatarImageView.image = KGRoundedImage(cachedImage, CGSizeMake(40, 40));
-        } else {
-            [self.avatarImageView setImageWithURL:self.post.author.imageUrl
-                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
-                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                            wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
-                                        } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            [self.avatarImageView removeActivityIndicator];
-        }
+
+        [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
+                                      options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                            [[SDImageCache sharedImageCache] storeImage:image forKey:wSelf.post.author.imageUrl.absoluteString];
+                                        });
+                                        wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
+                                    }
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.avatarImageView removeActivityIndicator];
+
         if (self.post.error){
             self.errorView.hidden = NO;
-//            [self finishAnimation];
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -227,7 +227,7 @@ static CGFloat const kErrorViewSize = 34.f;
 
 
 - (void)prepareForReuse {
-    _avatarImageView.image = KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
+    _avatarImageView.image = nil;//KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
     _messageLabel.text = nil;
     [_messageOperation cancel];
     _loadingView.hidden = YES;

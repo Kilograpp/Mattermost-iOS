@@ -253,7 +253,18 @@
     return self.copy;
 }
 
-- (UIImage *)kg_resizedImageWithSize:(CGSize)size {
+//- (UIImage *)kg_resizedImageWithSize:(CGSize)size {
+//    UIGraphicsBeginImageContext(size);
+//    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
+//    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return destImage;
+//}
+
+- (instancetype)kg_resizedImageWithHeight:(CGFloat)height {
+    height = [[UIScreen mainScreen] scale] * height;
+    CGFloat scale = self.size.width / self.size.height;
+    CGSize size = CGSizeMake(height * scale, height);
     UIGraphicsBeginImageContext(size);
     [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -261,15 +272,15 @@
     return destImage;
 }
 
+
 UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size)
 {
     UIGraphicsBeginImageContextWithOptions(size, false, 0.0f);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
+    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
     [sourceImage drawInRect:CGRectMake(0.0f, 0.0f, size.width, size.height) blendMode:kCGBlendModeCopy alpha:1.0f];
     
     CGContextSetBlendMode(context, kCGBlendModeCopy);
-    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
     
     CGContextBeginPath(context);
     CGContextMoveToPoint(context, 0.0f, size.height / 2.0f);
@@ -303,6 +314,8 @@ UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size)
     UIGraphicsEndImageContext();
     
     return result;
+    
+    
 }
 
 UIImage *KGRoundedPlaceholderImage(CGSize size)
