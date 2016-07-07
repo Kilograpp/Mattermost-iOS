@@ -38,7 +38,6 @@
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
@@ -53,7 +52,6 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
-#import "UIStatusBar+SharedBar.h"
 #import "KGPreferences.h"
 #import "KGBusinessLogic+Commands.h"
 #import "KGImagePickerController.h"
