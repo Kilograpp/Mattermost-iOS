@@ -1067,7 +1067,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [documentInteractionController setDelegate:self];
         [documentInteractionController presentPreviewAnimated:YES];
     } else {
-        [[KGAlertManager sharedManager] showError:[KGError errorWithCode:@10000 title:nil message:@"cannot open file"]];
+        [[KGAlertManager sharedManager] showError:[KGError errorWithCode:10000 title:nil message:@"cannot open file"]];
     }
 }
 

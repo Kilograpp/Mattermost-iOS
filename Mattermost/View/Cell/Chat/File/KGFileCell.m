@@ -96,7 +96,7 @@ static CGFloat const kIconSize = 45.f;
 
 - (void)layoutSubviews {
     self.iconImageView.frame = CGRectMake(8, 8, 45, 45);
-    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, KGScreenWidth() - 64, 20);
+    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
     self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
 }
 
