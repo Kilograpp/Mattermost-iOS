@@ -634,11 +634,16 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
     [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
 }
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser willDismissAtPageIndex:(NSUInteger)index {
+    [[UIStatusBar sharedStatusBar] moveToPreviousView];
+}
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+        [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
