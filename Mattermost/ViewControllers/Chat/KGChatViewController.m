@@ -384,14 +384,14 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
     NSDate *date = [formatter dateFromString:[sectionInfo name]];
     NSString *dateName = [date dateFormatForMessageTitle];
     [header configureWithObject:dateName];
-    header.backgroundColor  = [UIColor whiteColor];
+//    header.backgroundColor  = [UIColor whiteColor];
     header.dateLabel.transform = self.tableView.transform;
     return header;
 
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
+//    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -835,7 +835,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
             //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
                 self.channel.lastViewDate = [NSDate date];
-                self.channel.firstLoadedValue = NO;
+                self.channel.firstLoaded = @NO;
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                 [self showLoadingView];
                 [self loadFirstPageOfData];
@@ -898,7 +898,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-
+        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -911,6 +911,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
+    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
