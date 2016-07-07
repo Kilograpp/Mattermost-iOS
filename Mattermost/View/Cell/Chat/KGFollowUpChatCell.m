@@ -83,7 +83,7 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)setupErrorView {
     self.errorView = [[UIButton alloc] init];
-    [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
+    [self.errorView setImage:[UIImage imageNamed:@"message_fail_button"] forState:UIControlStateNormal];
 //    [self addSubview:self.errorView];
     [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:
      UIControlEventTouchUpInside];
