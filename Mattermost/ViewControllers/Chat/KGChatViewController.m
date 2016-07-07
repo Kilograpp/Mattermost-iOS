@@ -11,6 +11,7 @@
 #import "KGPost.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
+#import "UIStatusBar+SharedBar.h"
 #import "KGChannel.h"
 #import <MagicalRecord.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -37,7 +38,6 @@
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
@@ -52,7 +52,6 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
-#import "UIStatusBar+SharedBar.h"
 #import "KGPreferences.h"
 #import "KGBusinessLogic+Commands.h"
 #import "KGImagePickerController.h"
@@ -295,9 +294,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         return [self autoCompletionCellAtIndexPath:indexPath];
     }
     
-    
-
-    
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
@@ -354,8 +350,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-//            NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
-//                  [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post]);
             return post.files.count == 0 ?
                     [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
@@ -363,8 +357,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
             // Todo, Code Review: Условие на даты см. выше
             if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
-//                NSLog(@"CHAT_TABLE %f", post.files.count == 0 ?
-//                      [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post]);
                 return post.files.count == 0 ?
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
@@ -374,9 +366,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-
-        // Todo, Code Review: Мертвое условие
-//        NSLog(@"CHAT_TABLE AAAAAAA");
+        
         return 0.f;
     }
     //ячейка для autoCompletionView:
@@ -643,11 +633,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
     [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
 }
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser willDismissAtPageIndex:(NSUInteger)index {
+    [[UIStatusBar sharedStatusBar] moveToPreviousView];
+}
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+        [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
