@@ -56,26 +56,6 @@ extern NSString * const KGAuthTokenHeaderName;
         NSBatchUpdateResult     *batchResult    = nil;
         batchResult = (NSBatchUpdateResult *)[[NSManagedObjectContext MR_defaultContext] executeRequest:batchUpdate error:&err];
         
-//        
-//        if ([[batchResult result] respondsToSelector:@selector(count)]){
-//            if ([[batchResult result] count] > 0){
-//                [[NSManagedObjectContext MR_defaultContext] performBlock:^{
-//                    for (NSManagedObjectID *objectID in [batchResult result]){
-//                        NSError         *faultError = nil;
-//                        NSManagedObject *object     = [[NSManagedObjectContext MR_defaultContext] existingObjectWithID:objectID error:&faultError];
-//                        // Observers of this context will be notified to refresh this object.
-//                        // If it was deleted, well.... not so much.
-//                        [[NSManagedObjectContext MR_defaultContext] refreshObject:object mergeChanges:YES];
-//                    }
-//                }];
-//            } else {
-//                // We got back nothing!
-//            }
-//        } else {
-//            // We got back something other than a collection
-//        }
-        
-        
         safetyCall(completion, error);
     }];
 }
