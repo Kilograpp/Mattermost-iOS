@@ -23,8 +23,8 @@
 #import "KGUIUtils.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
-#define KG_FILE_HEIGHT  55.f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
+#define KG_FILE_HEIGHT  56.f
 static CGFloat const kErrorViewSize = 34.f;
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -44,7 +44,6 @@ static CGFloat const kErrorViewSize = 34.f;
     
     return self;
 }
-
 
 
 #pragma mark - Setup
@@ -74,29 +73,24 @@ static CGFloat const kErrorViewSize = 34.f;
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        [super configureWithObject:object];
-        
-        self.files = [self.post sortedFiles];
-        [self.tableView reloadData];
-        
-        self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    }
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
+
+    [super configureWithObject:object];
+    self.files = [self.post sortedFiles];
+    [self.tableView reloadData];
+    self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
 
 
 #pragma mark - Height
 
 + (CGFloat)heightWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
-        CGFloat heightCell = [super heightWithObject:object];
-        heightCell += tableViewHeight(post.files.allObjects);
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's heightWithObject method!");
 
-        return  ceilf(heightCell + 8);
-    }
-    
-    return 0.f;
+    KGPost *post = object;
+    CGFloat heightCell = [super heightWithObject:object];
+    heightCell += tableViewHeight(post.files.allObjects);
+    return  ceilf(heightCell + 8);
 }
 
 
@@ -132,11 +126,8 @@ static CGFloat const kErrorViewSize = 34.f;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.files[indexPath.row] isImage]){
         return ceilf(KG_IMAGE_HEIGHT);
-    } else {
-        return ceilf(KG_FILE_HEIGHT);
     }
-    
-    return 0.0001;
+    return ceilf(KG_FILE_HEIGHT);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -159,7 +150,9 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat bottomYCoordOfMessage = ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height : self.messageLabel.frame.origin.y;
+    CGFloat bottomYCoordOfMessage =
+            ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
+                                                            self.messageLabel.frame.origin.y;
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
     self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
@@ -170,7 +163,7 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 CGFloat tableViewHeight(NSArray *files) {
-    CGFloat heightImage;
+    CGFloat heightImage = 0;
     for (KGFile *file in files) {
         if ([file isImage]){
             heightImage +=  KG_IMAGE_HEIGHT;

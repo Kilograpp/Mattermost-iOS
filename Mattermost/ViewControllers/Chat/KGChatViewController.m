@@ -11,6 +11,7 @@
 #import "KGPost.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
+#import "UIStatusBar+SharedBar.h"
 #import "KGChannel.h"
 #import <MagicalRecord.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
@@ -37,7 +38,6 @@
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
@@ -52,7 +52,6 @@
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
-#import "UIStatusBar+SharedBar.h"
 #import "KGPreferences.h"
 #import "KGBusinessLogic+Commands.h"
 #import "KGImagePickerController.h"
@@ -295,9 +294,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         return [self autoCompletionCellAtIndexPath:indexPath];
     }
     
-    
-
-    
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
@@ -362,14 +358,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             // Todo, Code Review: Условие на даты см. выше
             if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
                 return post.files.count == 0 ?
-                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];;
+                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
                 return post.files.count == 0 ?
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-
-        // Todo, Code Review: Мертвое условие
+        
         return 0.f;
     }
     //ячейка для autoCompletionView:
@@ -386,14 +381,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     NSDate *date = [formatter dateFromString:[sectionInfo name]];
     NSString *dateName = [date dateFormatForMessageTitle];
     [header configureWithObject:dateName];
-    header.backgroundColor  = [UIColor whiteColor];
+//    header.backgroundColor  = [UIColor whiteColor];
     header.dateLabel.transform = self.tableView.transform;
     return header;
 
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
+//    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -482,7 +477,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
     // Todo, Code Review: Вынести создание пустой сущности в геттер
-
     
     if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
 
@@ -636,11 +630,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
     [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
 }
+- (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser willDismissAtPageIndex:(NSUInteger)index {
+    [[UIStatusBar sharedStatusBar] moveToPreviousView];
+}
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
         IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+        [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];
         [self presentViewController:browser animated:YES completion:nil];
     };
@@ -693,7 +692,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - Notifications
 
-- (void)performFillingTypingIndicatorView:(NSNotification *)notification {
+- (void)handleChannelNotification:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
         //проверка на то, что текущий юзер != юзеру, который пишет
@@ -711,6 +710,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             case KGActionPosted: {
                 KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
                 [self.typingIndicatorView removeUsername: user.nickname];
+//                [self setupFetchedResultsController];
                 break;
             }
 
@@ -833,9 +833,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(performFillingTypingIndicatorView:)
+                                             selector:@selector(handleChannelNotification:)
                                                  name:self.channel.notificationsName
                                                object:nil];
+
     [self updateNavigationBarAppearance:YES errorOccured:NO];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
@@ -849,7 +850,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             //FIXME: refactor
             if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
                 self.channel.lastViewDate = [NSDate date];
-                self.channel.firstLoadedValue = NO;
+                self.channel.firstLoaded = @NO;
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                 [self showLoadingView];
                 [self loadFirstPageOfData];
@@ -864,6 +865,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
 }
+
 
 #pragma mark - KGRightMenuDelegate
 
@@ -918,7 +920,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-
+        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -931,6 +933,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
+    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
@@ -1078,7 +1081,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
-        [documentInteractionController presentPreviewAnimated:YES];
+        BOOL result = [documentInteractionController presentPreviewAnimated:YES];
+        if (!result) {
+            [[KGAlertManager sharedManager] showError:cannotOpenFileError()];
+        }
+    } else {
+        [[KGAlertManager sharedManager] showError:fileDoesntExsistError()];
     }
 }
 

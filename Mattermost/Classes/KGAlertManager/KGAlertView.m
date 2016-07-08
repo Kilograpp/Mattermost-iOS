@@ -22,7 +22,6 @@ static KGAlertView *sharedMessages;
 @property (nonatomic, assign) NSTimeInterval duration;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
 @property (nonatomic, assign, getter=isPresenting) BOOL presenting;
 
 @end
@@ -146,11 +145,11 @@ static KGAlertView *sharedMessages;
         self.frame = frameNew;
                             
     } completion:^(BOOL finished) {
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, self.duration * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-                    [self hideAlertViewAnimated:YES];
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, self.duration * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self hideAlertViewAnimated:YES];
 
-                });
+        });
     }];
 }
 
@@ -181,7 +180,7 @@ static KGAlertView *sharedMessages;
 
 - (CGFloat)heightWithMessage {
     CGFloat messageLabelHeight = [self.message kg_heightForTextWidth:KGScreenWidth() - 70 font:[UIFont kg_boldText13Font]];
-    return messageLabelHeight + 40;
+    return MAX(messageLabelHeight + 40, 70);
 }
 
 

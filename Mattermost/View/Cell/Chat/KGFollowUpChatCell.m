@@ -79,6 +79,7 @@ static CGFloat const kErrorViewSize = 34.f;
     //self.loadingView
     self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.loadingView];
+    self.loadingView.hidden = YES;
 }
 
 - (void)setupErrorView {
@@ -88,6 +89,8 @@ static CGFloat const kErrorViewSize = 34.f;
     [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:
      UIControlEventTouchUpInside];
     self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
+    [self addSubview:self.errorView];
+    self.errorView.hidden = YES;
 }
 
 + (void)load {
@@ -96,8 +99,6 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)configureWithObject:(KGPost*)post {
-    
-    
     if ([post isKindOfClass:[KGPost class]]) {
         self.post = post;
         
@@ -113,9 +114,9 @@ static CGFloat const kErrorViewSize = 34.f;
         }];
         [messageQueue addOperation:self.messageOperation];
 
-        if (self.post.error){
-            [self addSubview:self.errorView];
-            [self finishAnimation];
+        if (self.post.error) {
+            self.errorView.hidden = NO;
+            self.loadingView.hidden = YES;
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -128,15 +129,17 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)startAnimation {
     if (self.firstLoad){
-        [self addSubview:self.loadingView];
         [self.loadingView startAnimating];
+        self.loadingView.hidden = NO;
         self.firstLoad = NO;
     }
 }
 
 - (void)finishAnimation {
-    [self.loadingView removeFromSuperview];
+    [self.loadingView stopAnimating];
+    self.loadingView.hidden = YES;
 }
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -157,8 +160,9 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)prepareForReuse {
     _messageLabel.text = nil;
     [_messageOperation cancel];
-    [_loadingView removeFromSuperview];
-    [self.errorView removeFromSuperview];
+
+    self.errorView.hidden = YES;
+    self.loadingView.hidden = YES;
     
 }
 

@@ -12,7 +12,7 @@
 #import "UIImage+Resize.h"
 
 #define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f
 
 @interface KGImageCell ()
 @end
@@ -47,61 +47,23 @@
 
         NSURL *url = file.thumbLink;
         __weak typeof(self) wSelf = self;
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
-        if (cachedImage) {
-            wSelf.kg_imageView.image = cachedImage;// KGRoundedImage(cachedImage, cachedImage.size);
-        } else {
-            [self.kg_imageView setImageWithURL:url
-                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
-                                          options:SDWebImageHandleCookies
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                                            wSelf.kg_imageView.image = KGRoundedImage(image, CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT));
-                                        } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            [self.kg_imageView removeActivityIndicator];
-        }
+
+        [self.kg_imageView setImageWithURL:url
+                             placeholderImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
+                                      options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                            [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
+                                        });
+                                        wSelf.kg_imageView.image = image;
+                                    }
+               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [self.kg_imageView removeActivityIndicator];
     }
 }
 
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion {
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-//        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
-
-        [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:5.f] addClip];
-        // Draw your image
-        [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
-        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        // Lets forget about that we were drawing
-        UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(roundedImage);
-            }
-        });
-    });
-}
-
 - (void)prepareForReuse {
-    self.kg_imageView.image = nil;//[[self class] placeholderBackground];
-}
-
-+ (UIImage *)placeholderBackground {
-    CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.f].CGPath;
-    CGContextAddPath(context, ref);
-    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
-    CGContextFillPath(context);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+    self.kg_imageView.image = nil;
 }
 
 - (void)layoutSubviews {

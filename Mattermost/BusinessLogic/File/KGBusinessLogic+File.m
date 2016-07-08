@@ -40,9 +40,9 @@
 
 - (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
-    CGSize scaledSize = CGSizeMake(image.size.width * 0.25f, image.size.height * 0.25f);
+    CGFloat scaleFactor = 0.33;
     BOOL shouldCompressImage = [KGPreferences sharedInstance].shouldCompressImages;
-    UIImage *finalImage = shouldCompressImage ? [image kg_resizedImageWithSize:scaledSize] : image;
+    UIImage *finalImage = shouldCompressImage ? [image kg_resizedImageWithHeight:image.size.height * scaleFactor] : image;
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]

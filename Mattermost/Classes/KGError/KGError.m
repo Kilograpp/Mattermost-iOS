@@ -87,4 +87,20 @@ static NSString *const KGErrorServerInternalMessage = @"Повторите по�
     return errorResponseDescriptor;
 }
 
+
+#pragma mark - Pre-defined errors
+
+KGError *cannotOpenFileError() {
+    return [KGError errorWithCode:KGErrorCannotOpenFile
+                            title:NSLocalizedString(@"File format is not supported", nil)
+                          message:@"File format is not supported"];
+}
+
+KGError *fileDoesntExsistError() {
+    return [KGError errorWithCode:KGErrorCannotOpenFile
+                            title:NSLocalizedString(@"File doesnt exist", nil)
+                          message:@"File doesnt exist"];
+
+}
+
 @end

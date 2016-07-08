@@ -29,7 +29,8 @@
           completion:(void (^)(UIImage *image))completion;
 
 - (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth;
-- (UIImage *)kg_resizedImageWithSize:(CGSize)size;
+//- (UIImage *)kg_resizedImageWithSize:(CGSize)size;
+- (instancetype)kg_resizedImageWithHeight:(CGFloat)height;
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,6 +38,7 @@ extern "C" {
     
     UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size);
     UIImage *KGRoundedPlaceholderImage(CGSize size);
+    UIImage *KGRoundedPlaceholderImageForAttachmentsCell(CGSize size);
     
 #ifdef __cplusplus
 }
