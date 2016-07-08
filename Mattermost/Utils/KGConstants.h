@@ -20,3 +20,7 @@ extern NSTimeInterval        const KGStandartAnimationDuration;
 extern NSString * const KGXRequestedWithHeader;
 extern NSString * const KGContentTypeHeader;
 extern NSString * const KGAcceptLanguageHeader;
+
+#pragma mark - Internal 
+
+extern NSString * const KGUserDefaultsPreferencesKey;

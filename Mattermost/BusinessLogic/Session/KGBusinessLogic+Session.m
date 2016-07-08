@@ -65,7 +65,8 @@ extern NSString * const KGAuthTokenHeaderName;
     NSString *path = [KGUser authPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
         [self setDefaultValueForImagesCompression];
-        [self updateCurrentUserWithObject:mappingResult.firstObject];
+        [self updateCurrentThemeWithObject:mappingResult.dictionary[@"theme_props"]];
+        [self updateCurrentUserWithObject:mappingResult.dictionary[[NSNull null]]];
         [self subscribeToRemoteNotificationsIfNeededWithCompletion:completion];
         [self openSocket];
     } failure:completion];
@@ -98,6 +99,10 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)setDefaultValueForImagesCompression {
     [[KGPreferences sharedInstance] setShouldCompressImages:@YES];
+}
+
+- (void)updateCurrentThemeWithObject:(KGTheme*)theme {
+    [[KGPreferences sharedInstance] setCurrentTheme:theme];
 }
 
 - (void)updateCurrentUserWithObject:(KGUser*)user {

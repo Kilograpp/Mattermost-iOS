@@ -32,11 +32,11 @@
 #pragma mark - Private
 
 - (void)configureSwitch {
-    [self.compressImagesSwitch setOn:[[KGPreferences sharedInstance].shouldCompressImages boolValue]];
+    [self.compressImagesSwitch setOn:[KGPreferences sharedInstance].shouldCompressImages];
 }
 
 - (void)toggleShouldCompressValue {
-    [KGPreferences sharedInstance].shouldCompressImages = @(self.compressImagesSwitch.isOn);
+    [KGPreferences sharedInstance].shouldCompressImages = self.compressImagesSwitch.isOn;
     [[KGPreferences sharedInstance] save];
 }
 

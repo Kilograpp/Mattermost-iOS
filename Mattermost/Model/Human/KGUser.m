@@ -6,6 +6,7 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGUtils.h"
+#import "KGTheme.h"
 #import <RestKit.h>
 
 static NSString * const kAwayNetworkString = @"away";
@@ -152,6 +153,15 @@ static NSString * const kOfflineNetworkString = @"offline";
                                                        keyPath:@"direct_profiles"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
+
++ (RKResponseDescriptor*)themeResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGTheme mapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self authPathPattern]
+                                                       keyPath:@"theme_props"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 
 //+ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
 //    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]

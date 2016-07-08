@@ -5,8 +5,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class KGTheme;
 
-@interface KGPreferences : NSObject
+@interface KGPreferences : NSObject<NSCoding>
 
 @property (copy, nonatomic) NSString * deviceUuid;
 @property (copy, nonatomic) NSString * serverBaseUrl;
@@ -14,8 +15,9 @@
 @property (copy, nonatomic) NSString * currentTeamId;
 @property (copy, nonatomic) NSString * siteName;
 @property (copy, nonatomic) NSString * lastChannelId;
+@property (strong, nonatomic) KGTheme* currentTheme;
 
-@property (strong, nonatomic) NSNumber* shouldCompressImages;
+@property (assign) BOOL shouldCompressImages;
 
 + (instancetype)sharedInstance;
 - (void)save;
