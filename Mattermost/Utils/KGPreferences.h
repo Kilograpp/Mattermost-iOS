@@ -15,7 +15,7 @@
 @property (copy, nonatomic) NSString * siteName;
 @property (copy, nonatomic) NSString * lastChannelId;
 
-@property (nonatomic, assign) BOOL shouldCompressImages;
+@property (strong, nonatomic) NSNumber* shouldCompressImages;
 
 + (instancetype)sharedInstance;
 - (void)save;
