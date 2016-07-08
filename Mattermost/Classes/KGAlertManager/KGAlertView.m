@@ -95,7 +95,8 @@ static KGAlertView *sharedMessages;
 
 - (void)addToSuperview {
 //    [[[[UIApplication sharedApplication] delegate] window] addSubview:self];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+//    [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+    [self.presentingViewController.view addSubview:self];
 }
 
 - (void)setupIconImageView {
@@ -165,10 +166,8 @@ static KGAlertView *sharedMessages;
                          self.frame = frameNew;
                          
                      } completion:^(BOOL finished) {
-                         if (self.isPresenting) {
-                             [self removeFromSuperview];
-                         }
-                        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelNormal;
+//                          [self removeFromSuperview];
+//                        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelNormal;
                          if (self.callback) {
                              [self callback];
                          }
