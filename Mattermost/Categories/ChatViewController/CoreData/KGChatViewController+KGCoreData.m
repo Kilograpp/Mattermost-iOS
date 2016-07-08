@@ -13,87 +13,95 @@
 @implementation KGChatViewController (KGCoreData)
 #pragma mark - NSFetchedResultsControllerDelegate
 
-// Todo, Code Review: Вынести в категорию.
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    self.insertedSectionIndexes = [[NSMutableIndexSet alloc] init];
+    self.deletedSectionIndexes = [[NSMutableIndexSet alloc] init];
+    self.deletedRowIndexPaths = [[NSMutableArray alloc] init];
+    self.insertedRowIndexPaths = [[NSMutableArray alloc] init];
+    self.updatedRowIndexPaths = [[NSMutableArray alloc] init];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    if (type == NSFetchedResultsChangeInsert) {
+        if ([self.insertedSectionIndexes containsIndex:newIndexPath.section]) {
+            // If we've already been told that we're adding a section for this inserted row we skip it since it will handled by the section insertion.
+            return;
+        }
+        
+        [self.insertedRowIndexPaths addObject:newIndexPath];
+    } else if (type == NSFetchedResultsChangeDelete) {
+        if ([self.deletedSectionIndexes containsIndex:indexPath.section]) {
+            // If we've already been told that we're deleting a section for this deleted row we skip it since it will handled by the section deletion.
+            return;
+        }
+        
+        [self.deletedRowIndexPaths addObject:indexPath];
+    } else if (type == NSFetchedResultsChangeMove) {
+        if ([self.insertedSectionIndexes containsIndex:newIndexPath.section] == NO) {
+            [self.insertedRowIndexPaths addObject:newIndexPath];
+        }
+        
+        if ([self.deletedSectionIndexes containsIndex:indexPath.section] == NO) {
+            [self.deletedRowIndexPaths addObject:indexPath];
+        }
+    } else if (type == NSFetchedResultsChangeUpdate) {
+        [self.updatedRowIndexPaths addObject:indexPath];
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch (type) {
+        case NSFetchedResultsChangeInsert:
+            [self.insertedSectionIndexes addIndex:sectionIndex];
+            break;
+        case NSFetchedResultsChangeDelete:
+            [self.deletedSectionIndexes addIndex:sectionIndex];
+            break;
+        default:
+            ; // Shouldn't have a default
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    NSInteger totalChanges = [self.deletedSectionIndexes count] +
+    [self.insertedSectionIndexes count] +
+    [self.deletedRowIndexPaths count] +
+    [self.insertedRowIndexPaths count] +
+    [self.updatedRowIndexPaths count];
+    if (totalChanges > 120) {
+        [self.tableView reloadData];
+        return;
+    }
+    
     [self.tableView beginUpdates];
     
-    self.deletedSections = [[NSMutableIndexSet alloc] init];
-    self.insertedSections = [[NSMutableIndexSet alloc] init];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView endUpdates];
-     [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller
-  didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex
-     forChangeType:(NSFetchedResultsChangeType)type {
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
+    [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView insertSections:self.insertedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
     
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-            [self.deletedSections addIndexes:indexSet];
-            break;
-            
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
-            [self.insertedSections addIndexes:indexSet];
-            break;
-            
-        default:
-            break;
-    }
+    [self.tableView deleteRowsAtIndexPaths:self.deletedRowIndexPaths withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    
+    
+    [self.tableView endUpdates];
+    
+    
+    [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
+    
+    // nil out the collections so their ready for their next use.
+    self.insertedSectionIndexes = nil;
+    self.deletedSectionIndexes = nil;
+    self.deletedRowIndexPaths = nil;
+    self.insertedRowIndexPaths = nil;
+    self.updatedRowIndexPaths = nil;
 }
 
-- (void)controller:(NSFetchedResultsController *)controller
-   didChangeObject:(id)anObject
-       atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
-    switch(type) {
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            // iOS 9.0b5 sends the same index path twice instead of delete
-            if(![indexPath isEqual:newIndexPath]) {
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
-                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            else if([self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
-                // Really the only way is to delete and insert the same index path...
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            else if([self.deletedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 bug: same index path reported after section was removed
-                // we can ignore item deletion here because the whole section was removed anyway
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
-            }
-            
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            // On iOS 9.0b5 NSFetchedResultsController may not even contain such indexPath anymore
-            // when removing last item from section.
-            if(![self.deletedSections containsIndex:indexPath.section] && ![self.insertedSections containsIndex:indexPath.section]) {
-                // iOS 9.0b5 sends update before delete therefore we cannot use reload
-                // this will never work correctly but at least no crash.
-                UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                [self configureCell:(KGTableViewCell *)cell atIndexPath:indexPath];
-            }
-            
-            break;
-    }
-}
+
 
 @end
