@@ -114,8 +114,9 @@ static CGFloat const kErrorViewSize = 34.f;
         }];
         [messageQueue addOperation:self.messageOperation];
 
-        if (self.post.error){
+        if (self.post.error) {
             self.errorView.hidden = NO;
+            self.loadingView.hidden = YES;
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];

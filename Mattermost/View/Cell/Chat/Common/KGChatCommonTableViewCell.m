@@ -20,8 +20,7 @@
 #import "KGPreferences.h"
 #import <DGActivityIndicatorView.h>
 
-//#define KG_LOADING_VIEW_SIZE  25.f
-static CGFloat const kLoadingViewSize = 25.f;
+static CGFloat const kLoadingViewSize = 20.f;
 static CGFloat const kErrorViewSize = 34.f;
 
 @interface KGChatCommonTableViewCell ()
@@ -119,7 +118,9 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)setupLoadingView {
-    self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor kg_blueColor] size:kLoadingViewSize - kSmallPadding];
+    self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse
+                                                          tintColor:[UIColor kg_blueColor]
+                                                               size:kLoadingViewSize - kSmallPadding];
     self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.loadingView];
 }
@@ -136,7 +137,6 @@ static CGFloat const kErrorViewSize = 34.f;
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
-    
     if ([object isKindOfClass:[KGPost class]]) {
         self.post = object;
         
@@ -155,10 +155,9 @@ static CGFloat const kErrorViewSize = 34.f;
         self.nameLabel.text = _post.author.nickname;
         _dateString = [_post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
-       
 
         [self.avatarImageView setImageWithURL:self.post.author.imageUrl
-                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f))
+                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
                                       options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
                                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                         dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -171,6 +170,7 @@ static CGFloat const kErrorViewSize = 34.f;
 
         if (self.post.error){
             self.errorView.hidden = NO;
+            self.loadingView.hidden = YES;
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -195,8 +195,6 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)layoutSubviews {
-//    [super layoutSubviews];
-    
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
