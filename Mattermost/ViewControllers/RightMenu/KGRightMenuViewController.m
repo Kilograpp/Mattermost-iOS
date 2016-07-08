@@ -229,7 +229,14 @@
     if ([segue.identifier isEqualToString:@"presentProfile"]) {
         UINavigationController *nc = segue.destinationViewController;
         KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
+        
+        if (sender) {
+        KGUser *user = [KGUser
+                        MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:sender];
+            vc.userId = user.identifier;
+        } else {
+            vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
+        }
     }
 }
 

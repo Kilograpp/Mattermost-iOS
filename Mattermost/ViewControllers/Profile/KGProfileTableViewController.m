@@ -34,8 +34,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (assign) BOOL isFirstLoad;
 
-
-
 @end
 
 @implementation KGProfileTableViewController
@@ -56,30 +54,32 @@
                                                                   target:self
                                                                   action:@selector(backAction)];
     backButton.tintColor = [UIColor blackColor];
-    
+    //self.navigationItem.leftBarButtonItem.
     self.navigationItem.leftBarButtonItem = backButton;
-}
 
+}
+//
 - (void)backAction {
+//    if (self.previousControler) {
+//        [self presentViewController:self.previousControler animated:YES completion:nil];
+//    } else {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    
     [self dismissViewControllerAnimated:YES completion:^ {
+        NSLog(@"yes");
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     }];
-
+    //}
+//    [self.navigationController popViewControllerAnimated:YES];
+    //[[UIStatusBar sharedStatusBar] moveToPreviousView];
 }
 
-
-
 - (void)viewWillAppear:(BOOL)animated {
-
-
     [super viewWillAppear:animated];
 
     if (self.isFirstLoad) {
         [[UIStatusBar sharedStatusBar] moveToViewWithSnapshot:self.navigationController.view];
     }
-
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -90,13 +90,11 @@
 
         self.isFirstLoad = NO;
     }
-
-
 }
 
 - (void)setup {
-//    KGUser *user = [KGUser managedObjectById:self.userId];
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    KGUser *user = [KGUser managedObjectById:self.userId];
+//    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     self.nameTitleLabel.font = [UIFont kg_semibold30Font];
     self.nameTitleLabel.textColor = [UIColor kg_blackColor];
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
@@ -131,7 +129,9 @@
             case 2:
                 break;
             case 3:
-                [self changeProfilePhoto];
+                if ([self.userId isEqual:[KGBusinessLogic sharedInstance].currentUserId]){
+                    [self changeProfilePhoto];
+                }
                 break;
             default:
                 break;

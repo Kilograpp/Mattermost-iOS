@@ -38,9 +38,10 @@ static CGFloat const kErrorViewSize = 34.f;
     if (self) {
         [self setup];
         [self setupAvatarImageView];
+       
+        [self setupMessageLabel];
         [self setupNameLabel];
         [self setupDateLabel];
-        [self setupMessageLabel];
         [self setupLoadingView];
         [self setupErrorView];
     }
@@ -66,6 +67,8 @@ static CGFloat const kErrorViewSize = 34.f;
     self.avatarImageView.backgroundColor = [UIColor whiteColor];
     self.avatarImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:self.avatarImageView];
+    [self.avatarImageView setUserInteractionEnabled:YES];
+    [self.avatarImageView addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showProfileAction)]];
 }
 
 - (void)setupNameLabel {
@@ -76,6 +79,9 @@ static CGFloat const kErrorViewSize = 34.f;
     self.nameLabel.font = [UIFont kg_semibold16Font];
     self.nameLabel.textColor = [UIColor kg_blackColor];
     [self addSubview:self.nameLabel];
+    [self.nameLabel setUserInteractionEnabled:YES];
+    [self.nameLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showProfileAction)]];
+
 }
 
 - (void)setupDateLabel {
@@ -239,4 +245,10 @@ static CGFloat const kErrorViewSize = 34.f;
     
 }
 
+- (void)showProfileAction {
+    if (self.profileTapHandler) {
+        //        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+        self.profileTapHandler(self.post.author);
+    }
+}
 @end

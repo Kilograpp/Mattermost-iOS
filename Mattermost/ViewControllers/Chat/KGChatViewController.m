@@ -670,6 +670,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     cell.errorTapHandler = ^(KGPost *post) {
         [self errorActionWithPost: post];
     };
+    
+    if ([cell isKindOfClass:[KGChatCommonTableViewCell class]]){
+        cell.profileTapHandler = ^(KGUser *user) {
+            [self showProfile: post.author];
+        };
+    }
 //    if (post.error) {
 ////        [cell.errorView addTarget:cell action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
 //    }
@@ -889,6 +895,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self toggleRightSideMenuAction];
 }
 
+- (void)showProfile: (KGUser *)user {
+    self.selectedUsername = user.username;
+    [self.menuContainerViewController.rightMenuViewController performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+
+}
+
 #pragma mark - Loading View
 
 - (UIActivityIndicatorView *)loadingActivityIndicator {
@@ -1033,11 +1045,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
+
         UINavigationController *nc = segue.destinationViewController;
         KGProfileTableViewController *vc = nc.viewControllers.firstObject;
         KGUser *user = [KGUser
                 MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
         vc.userId = user.identifier;
+        //vc.previousControler = self;
     }
 }
 
