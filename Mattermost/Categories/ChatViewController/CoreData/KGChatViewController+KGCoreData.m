@@ -23,6 +23,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
+     [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller
@@ -33,12 +34,12 @@
     
     switch(type) {
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
             [self.deletedSections addIndexes:indexSet];
             break;
             
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationFade];
             [self.insertedSections addIndexes:indexSet];
             break;
             
@@ -54,29 +55,29 @@
       newIndexPath:(NSIndexPath *)newIndexPath {
     switch(type) {
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeMove:
             // iOS 9.0b5 sends the same index path twice instead of delete
             if(![indexPath isEqual:newIndexPath]) {
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView insertRowsAtIndexPaths:@[ newIndexPath ] withRowAnimation:UITableViewRowAnimationFade];
             }
             else if([self.insertedSections containsIndex:indexPath.section]) {
                 // iOS 9.0b5 bug: Moving first item from section 0 (which becomes section 1 later) to section 0
                 // Really the only way is to delete and insert the same index path...
-                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
             }
             else if([self.deletedSections containsIndex:indexPath.section]) {
                 // iOS 9.0b5 bug: same index path reported after section was removed
                 // we can ignore item deletion here because the whole section was removed anyway
-                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
             }
             
             break;

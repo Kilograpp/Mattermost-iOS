@@ -461,6 +461,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
+    self.lastPath = [self indexPathForLastRow];
     [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
@@ -469,9 +470,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
+       
     }];
 }
 
+-(NSIndexPath*)indexPathForLastRow
+{
+    return [NSIndexPath indexPathForRow:[self tableView:self.tableView numberOfRowsInSection:self.fetchedResultsController.sections.count - 1] - 1 inSection:self.self.fetchedResultsController.sections.count - 1];
+}
 
 - (void)sendPost {
 
