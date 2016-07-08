@@ -24,7 +24,7 @@
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
-#define KG_FILE_HEIGHT  55.f
+#define KG_FILE_HEIGHT  56.f
 static CGFloat const kErrorViewSize = 34.f;
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;

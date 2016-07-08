@@ -24,6 +24,7 @@
 @property (copy, nonatomic) void(^errorTapHandler)(KGPost *post);
 @property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
 @property (nonatomic, strong) UIButton *errorView;
+
 - (void)startAnimation;
 - (void)finishAnimation;
 @end

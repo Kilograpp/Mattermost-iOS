@@ -16,7 +16,9 @@ typedef NS_ENUM(NSInteger, KGErrorCode) {
     KGOperationCancelledError = 2,
     KGErrorCodeExpiredSession = 6,
     KGErrorCodeUI = 7,
-    KGErrorCodeNoConnection = -1009
+    KGErrorCodeNoConnection = -1009,
+    KGErrorCannotOpenFile = 10000,
+    KGErrorFileDoesntExsist = 10001
 };
 
 @interface KGError : NSObject
@@ -31,5 +33,9 @@ typedef NS_ENUM(NSInteger, KGErrorCode) {
 
 + (instancetype)errorWithNSError:(NSError *)error;
 + (instancetype) errorWithCode:(KGErrorCode) code title:(NSString*)title message:(NSString*) message;
+
+
+KGError *cannotOpenFileError();
+KGError *fileDoesntExsistError();
 
 @end

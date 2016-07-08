@@ -477,7 +477,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
     // Todo, Code Review: Вынести создание пустой сущности в геттер
-
     
     if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
 
@@ -687,7 +686,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - Notifications
 
-- (void)performFillingTypingIndicatorView:(NSNotification *)notification {
+- (void)handleChannelNotification:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
         //проверка на то, что текущий юзер != юзеру, который пишет
@@ -705,6 +704,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             case KGActionPosted: {
                 KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
                 [self.typingIndicatorView removeUsername: user.nickname];
+//                [self setupFetchedResultsController];
                 break;
             }
 
@@ -827,9 +827,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     self.channel = [KGChannel managedObjectById:idetnfifier];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(performFillingTypingIndicatorView:)
+                                             selector:@selector(handleChannelNotification:)
                                                  name:self.channel.notificationsName
                                                object:nil];
+
     [self updateNavigationBarAppearance:YES errorOccured:NO];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
@@ -858,6 +859,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
 }
+
 
 #pragma mark - KGRightMenuDelegate
 
@@ -1061,13 +1063,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)openFile:(KGFile *)file {
     NSURL *URL = [NSURL fileURLWithPath:file.localLink];
 
-    if (URL && [self canOpenDocumentWithURL:URL inView:self.view]) {
+    if (URL) {
         UIDocumentInteractionController *documentInteractionController =
                 [UIDocumentInteractionController interactionControllerWithURL:URL];
         [documentInteractionController setDelegate:self];
-        [documentInteractionController presentPreviewAnimated:YES];
+        BOOL result = [documentInteractionController presentPreviewAnimated:YES];
+        if (!result) {
+            [[KGAlertManager sharedManager] showError:cannotOpenFileError()];
+        }
     } else {
-        [[KGAlertManager sharedManager] showError:[KGError errorWithCode:10000 title:nil message:@"cannot open file"]];
+        [[KGAlertManager sharedManager] showError:fileDoesntExsistError()];
     }
 }
 
@@ -1078,21 +1083,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
     return self.view;
 }
-
--(BOOL)canOpenDocumentWithURL:(NSURL*)url inView:(UIView*)view {
-    BOOL canOpen = NO;
-    UIDocumentInteractionController* docController = [UIDocumentInteractionController
-                                                      interactionControllerWithURL:url];
-    if (docController)
-    {
-        docController.delegate = self;
-        canOpen = [docController presentOpenInMenuFromRect:CGRectZero
-                                                    inView:self.view animated:NO];
-        [docController dismissMenuAnimated:NO];
-    }
-    return canOpen;
-}
-
 
 
 #pragma mark - UITextViewDelegate
