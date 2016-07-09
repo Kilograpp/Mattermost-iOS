@@ -248,8 +248,7 @@
 #pragma mark - Alert
 
 -(void) alertUnderDevelopment {
-    KGAlertManager *alertView = [[KGAlertManager alloc] init];
-    [alertView showWarningWithMessage:@"This section is under development"];
+    [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
 
 }
 

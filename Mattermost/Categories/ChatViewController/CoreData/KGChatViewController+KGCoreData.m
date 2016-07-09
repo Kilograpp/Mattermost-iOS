@@ -23,6 +23,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
+        [self.tableView layoutIfNeeded];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller

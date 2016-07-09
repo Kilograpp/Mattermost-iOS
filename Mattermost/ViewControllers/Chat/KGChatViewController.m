@@ -84,7 +84,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 @property (assign) BOOL isFirstLoad;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 @property (assign) BOOL loadingInProgress;
-@property (assign) BOOL hasNextPage;
+@property (nonatomic, assign) BOOL hasNextPage;
 
 @property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
 @property (nonatomic, assign) BOOL shouldShowCommands;
@@ -173,8 +173,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.tableView registerClass:[KGFollowUpChatCell class]
            forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
-    [self.tableView registerNib:[KGTableViewSectionHeader nib]
-            forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+//    [self.tableView registerNib:[KGTableViewSectionHeader nib]
+//            forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    [self.tableView registerClass:[KGTableViewSectionHeader class]
+           forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
     [self.tableView registerNib:[KGAutoCompletionCell nib]
          forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
@@ -296,7 +298,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 3)) {
         [self loadNextPageOfData];
     }
 
@@ -465,11 +467,17 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
+
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
+        [self.tableView reloadData];
     }];
+}
+
+- (void)setHasNextPage:(BOOL)hasNextPage {
+    _hasNextPage = hasNextPage;
 }
 
 
@@ -855,6 +863,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 [self showLoadingView];
                 [self loadFirstPageOfData];
             } else {
+                self.hasNextPage = YES;
                 [self setupFetchedResultsController];
                 [self.tableView reloadData];
             }
