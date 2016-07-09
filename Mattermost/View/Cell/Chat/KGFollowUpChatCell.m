@@ -12,6 +12,7 @@
 #import "KGPreferences.h"
 #import <TSMarkdownParser/TSMarkdownParser.h>
 #import "KGUser.h"
+#import "UIView+Align.h"
 #import <DGActivityIndicatorView.h>
 
 static CGFloat const kLoadingViewSize = 25.f;
@@ -57,12 +58,13 @@ static CGFloat const kErrorViewSize = 34.f;
     [self.messageLabel setMentionSelectedColor:[UIColor blueColor]];
     [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
+
+    self.messageLabel.layer.masksToBounds = NO;
+//    self.messageLabel.layer.shouldRasterize = YES;
+//    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+//    self.messageLabel.layer.drawsAsynchronously = YES;
     
-    self.messageLabel.layer.shouldRasterize = YES;
-    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.messageLabel.layer.drawsAsynchronously = YES;
-    
-    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.messageLabel.preferredMaxLayoutWidth = 200.f - kLoadingViewSize;
     
     [self.messageLabel handleMentionTap:^(NSString *string) {
@@ -147,9 +149,11 @@ static CGFloat const kErrorViewSize = 34.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     CGFloat textWidth = KGScreenWidth() - 61.f;
     
-    self.messageLabel.frame = CGRectMake(53, 8, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
+    self.messageLabel.frame = CGRectMake(53, 8, textWidth - kLoadingViewSize, self.post.heightValue);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8, 10, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize)/2 ,kErrorViewSize ,kErrorViewSize);
+    
+    [self alignSubviews];
 }
 
 + (CGFloat)heightWithObject:(id)object {

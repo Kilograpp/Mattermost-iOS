@@ -19,6 +19,7 @@
 #import "UIImage+Resize.h"
 #import "KGPreferences.h"
 #import <DGActivityIndicatorView.h>
+#import "UIView+Align.h"
 
 static CGFloat const kLoadingViewSize = 20.f;
 static CGFloat const kErrorViewSize = 34.f;
@@ -57,6 +58,7 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     self.firstLoad = YES;
 }
 
@@ -102,11 +104,12 @@ static CGFloat const kErrorViewSize = 34.f;
     [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
     
-    self.messageLabel.layer.shouldRasterize = YES;
-    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.messageLabel.layer.drawsAsynchronously = YES;
+    self.messageLabel.layer.masksToBounds = NO;
+//    self.messageLabel.layer.shouldRasterize = YES;
+//    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+//    self.messageLabel.layer.drawsAsynchronously = YES;
 
-    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+//    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.messageLabel.preferredMaxLayoutWidth = 200.f - kLoadingViewSize;
 
     [self.messageLabel handleMentionTap:^(NSString *string) {
@@ -195,17 +198,20 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
-    self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
-    self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
+    self.messageLabel.frame = CGRectMake(53, 36, textWidth - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
-    self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
+    self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, timeWidth, 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize)/2 ,kErrorViewSize ,kErrorViewSize);
+    
+    [self alignSubviews];
+    
 }
 
 + (CGFloat)heightWithObject:(id)object {
