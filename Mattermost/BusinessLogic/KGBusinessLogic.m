@@ -22,6 +22,7 @@
 #import "KGBusinessLogic+Channel.h"
 #import "KGNotificationValues.h"
 #import "KGPost.h"
+#import <HexColors/HexColors.h>
 
 @interface KGBusinessLogic ()
 
@@ -89,8 +90,11 @@
         }];
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
-        RKValueTransformer* transformer = [self millisecondsSince1970ToDateValueTransformer];
-        [[RKValueTransformer defaultValueTransformer] insertValueTransformer:transformer atIndex:0];
+        RKValueTransformer* dateTransformer = [self millisecondsSince1970ToDateValueTransformer];
+        RKValueTransformer* colorTransformer = [self colorValueTransformer];
+        [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateTransformer atIndex:0];
+        [[RKValueTransformer defaultValueTransformer] addValueTransformer:colorTransformer];
+        
 
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
@@ -129,6 +133,16 @@
     }];
 }
 
+- (RKValueTransformer*)colorValueTransformer {
+    return [RKBlockValueTransformer valueTransformerWithValidationBlock:^BOOL(__unsafe_unretained Class sourceClass, __unsafe_unretained Class destinationClass) {
+        return [sourceClass isSubclassOfClass:[NSString class]] && [destinationClass isSubclassOfClass:[UIColor class]];
+    } transformationBlock:^BOOL(NSString* inputValue, __autoreleasing id *outputValue, __unsafe_unretained Class outputClass, NSError *__autoreleasing *error) {
+        RKValueTransformerTestInputValueIsKindOfClass(inputValue, (@[ [NSString class] ]), error);
+        RKValueTransformerTestOutputValueClassIsSubclassOfClass(outputClass, (@[ [UIColor class] ]), error);
+        *outputValue = [UIColor hx_colorWithHexRGBAString:[inputValue hx_hexStringTransformFromThreeCharacters]];
+        return YES;
+    }];
+}
 
 #pragma mark - Configuration
 - (void)setupManagedObjectStore {
