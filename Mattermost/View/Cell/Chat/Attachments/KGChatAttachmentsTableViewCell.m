@@ -22,6 +22,7 @@
 #import "KGFileCell.h"
 #import "KGUIUtils.h"
 #import <UITableView_Cache/UITableView+Cache.h>
+#import "UIView+Align.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
@@ -77,7 +78,7 @@ static CGFloat const kErrorViewSize = 34.f;
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
 
     [super configureWithObject:object];
-    self.files = [self.post sortedFiles];
+    self.files = self.post.files.allObjects;
     [self.tableView reloadData];
     self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
@@ -157,6 +158,8 @@ static CGFloat const kErrorViewSize = 34.f;
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
     self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
+    
+    [self alignSubviews];
 }
 
 - (void)prepareForReuse {
