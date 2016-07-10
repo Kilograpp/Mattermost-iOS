@@ -48,12 +48,17 @@
         [self.kg_imageView setImageWithURL:url
                              placeholderImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
                                       options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                            [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
-                                        });
-                                        wSelf.kg_imageView.image = image;
-                                    }
+                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    [UIImage roundedImage:image
+                              whithRadius:3
+                                     size:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)
+                       completion:^(UIImage *image) {
+                            wSelf.kg_imageView.image = image;
+                            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
+                            });
+                    }];
+    }
                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [self.kg_imageView removeActivityIndicator];
     }

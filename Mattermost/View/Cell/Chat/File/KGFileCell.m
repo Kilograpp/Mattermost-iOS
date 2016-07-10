@@ -76,7 +76,7 @@
 #pragma mark - Lifecycle
 
 - (void)layoutSubviews {
-    self.iconImageView.frame = CGRectMake(8, 8, 40, 40);
+    self.iconImageView.frame = CGRectMake(5, 5, 44, 44);
     self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
     self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
 }

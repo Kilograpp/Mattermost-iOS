@@ -144,11 +144,13 @@
     return newImage;
 }
 
-+ (void)roundedImage:(UIImage *)image whithRadius: (CGFloat)radius
++ (void)roundedImage:(UIImage *)image
+         whithRadius:(CGFloat)radius
+                size:(CGSize)size
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
+        UIGraphicsBeginImageContextWithOptions(size, NO, image.scale);
+        CGRect rect = CGRectMake(0, 0, size.width, size.height);
         //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
         
         [[UIBezierPath bezierPathWithRoundedRect:rect
@@ -211,6 +213,7 @@
 }
 
 + (void)roundedImage:(UIImage *)image
+        cornerRadius:(CGFloat)cornerRadius
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // Begin a new image that will be the new image with the rounded corners
@@ -220,7 +223,7 @@
         
         // Add a clip before drawing anything, in the shape of an rounded rect
         [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:image.size.width/2] addClip];
+                                    cornerRadius:cornerRadius] addClip];
         // Draw your image
         [image drawInRect:rect];
         

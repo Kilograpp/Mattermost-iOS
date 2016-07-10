@@ -28,9 +28,18 @@
          whithRadius: (CGFloat)radius
           completion:(void (^)(UIImage *image))completion;
 
++ (void)roundedImage:(UIImage *)image
+         whithRadius:(CGFloat)radius
+                size:(CGSize)size
+          completion:(void (^)(UIImage *image))completion;
+
 - (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth;
 //- (UIImage *)kg_resizedImageWithSize:(CGSize)size;
 - (instancetype)kg_resizedImageWithHeight:(CGFloat)height;
+
++ (void)roundedImage:(UIImage *)image
+        cornerRadius:(CGFloat)cornerRadius
+          completion:(void (^)(UIImage *image))completion;
 
 #ifdef __cplusplus
 extern "C" {
