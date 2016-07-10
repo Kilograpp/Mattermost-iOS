@@ -108,11 +108,6 @@ static CGFloat const kErrorViewSize = 34.f;
     [self.messageLabel setHashtagColor:[UIColor kg_greenColorForAlert]];
     [self.messageLabel setMentionColor:[UIColor kg_blueColor]];
     
-    self.messageLabel.layer.shouldRasterize = YES;
-    self.messageLabel.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.messageLabel.layer.drawsAsynchronously = YES;
-
-    self.messageLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.messageLabel.preferredMaxLayoutWidth = 200.f - kLoadingViewSize;
 
     [self.messageLabel handleMentionTap:^(NSString *string) {
