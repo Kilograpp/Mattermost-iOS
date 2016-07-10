@@ -21,6 +21,7 @@
 #import "UIImage+Resize.h"
 #import "KGFileCell.h"
 #import "KGUIUtils.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
@@ -59,8 +60,8 @@ static CGFloat const kErrorViewSize = 34.f;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.contentView addSubview:self.tableView];
     
-    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
-    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier]];
+    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier] cacheSize:3];
+    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier] cacheSize:3];
     self.backgroundColor = [UIColor kg_whiteColor];
 }
 
@@ -106,13 +107,13 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.files[indexPath.row] isImage]){
-        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
+        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier]];
     
         KGFile *file = self.files[indexPath.row];
         [cell configureWithObject:file];
         return cell;
     } else {
-        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
+        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier]];
         KGFile *file = self.files[indexPath.row];
         
         [cell configureWithObject:file];

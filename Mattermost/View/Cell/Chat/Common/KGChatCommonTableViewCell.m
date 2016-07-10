@@ -159,17 +159,36 @@ static CGFloat const kErrorViewSize = 34.f;
         _dateString = [_post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
 
-        [self.avatarImageView setImageWithURL:self.post.author.imageUrl
-                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
-                                      options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                            [[SDImageCache sharedImageCache] storeImage:image forKey:wSelf.post.author.imageUrl.absoluteString];
-                                        });
-                                        wSelf.avatarImageView.image = KGRoundedImage(image, CGSizeMake(40, 40));
-                                    }
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        [self.avatarImageView removeActivityIndicator];
+        
+        
+        __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+        UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+        
+        if (!smallAvatar && [[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+            smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+        } else {
+            [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                            
+                                            UIImage* roundedImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+                                            
+                                            if (!roundedImage) {
+                                                roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                                [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+                                                
+                                            } 
+                                            
+                                            wSelf.avatarImageView.image = roundedImage;
+                                        }
+                      usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [self.avatarImageView removeActivityIndicator];
+        }
+        
+        
+        
+        
 
         if (self.post.error){
             self.errorView.hidden = NO;
