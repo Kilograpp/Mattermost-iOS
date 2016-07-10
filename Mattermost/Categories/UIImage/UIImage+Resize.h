@@ -35,6 +35,7 @@
 
 - (UIImage *)kg_resizedImageWithMaxWidth:(CGFloat)maxWidth;
 //- (UIImage *)kg_resizedImageWithSize:(CGSize)size;
+- (instancetype)kg_imageByReplacingAlphaWithColor:(UIColor*)color;
 - (instancetype)kg_resizedImageWithHeight:(CGFloat)height;
 
 + (void)roundedImage:(UIImage *)image
