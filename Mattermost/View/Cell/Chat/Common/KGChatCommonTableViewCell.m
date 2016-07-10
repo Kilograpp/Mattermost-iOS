@@ -19,6 +19,7 @@
 #import "UIImage+Resize.h"
 #import "KGPreferences.h"
 #import <DGActivityIndicatorView.h>
+#import "UIView+Align.h"
 
 static CGFloat const kLoadingViewSize = 20.f;
 static CGFloat const kErrorViewSize = 34.f;
@@ -215,6 +216,8 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
@@ -226,6 +229,8 @@ static CGFloat const kErrorViewSize = 34.f;
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
     self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    
+    [self alignSubviews];
 }
 
 + (CGFloat)heightWithObject:(id)object {

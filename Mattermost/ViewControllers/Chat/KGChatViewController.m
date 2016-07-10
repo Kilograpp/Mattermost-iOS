@@ -291,6 +291,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDate *start = [NSDate date];
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         return [self autoCompletionCellAtIndexPath:indexPath];
@@ -337,6 +338,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     //[cell finishAnimation];
     //if (cell)
+    NSDate *end = [NSDate date];
+    NSLog(@"%f", [end timeIntervalSinceDate:start]);
     return cell;
 }
 
