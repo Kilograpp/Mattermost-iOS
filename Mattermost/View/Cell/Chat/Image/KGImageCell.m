@@ -31,11 +31,8 @@
 
 - (void)setupImageView {
     self.kg_imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    self.kg_imageView.layer.drawsAsynchronously = YES;
-    self.layer.drawsAsynchronously = YES;
     self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.kg_imageView];
-    self.layer.shouldRasterize = YES;
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.kg_imageView.clipsToBounds = YES;
 }
