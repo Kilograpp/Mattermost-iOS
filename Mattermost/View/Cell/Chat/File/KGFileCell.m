@@ -20,9 +20,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        self.layer.drawsAsynchronously = YES;
-        self.layer.shouldRasterize = YES;
-        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         [self setupIconImageView];
         [self setupNameLabel];
         [self setupSizeLabel];
@@ -35,9 +32,7 @@
 #pragma mark - Setup
 
 - (void)setupIconImageView {
-    self.iconImageView = [[UIImageView alloc]init];
-    self.iconImageView.layer.drawsAsynchronously = YES;
-    self.iconImageView.clipsToBounds = YES;
+    self.iconImageView = [[UIImageView alloc] init];
     [self addSubview:self.iconImageView];
 
 }
@@ -55,7 +50,6 @@
 
 - (void)setupSizeLabel {
     self.sizeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-    self.sizeLabel.clipsToBounds = YES;
     self.sizeLabel.backgroundColor = [UIColor kg_whiteColor];
     self.sizeLabel.textColor = [UIColor kg_lightGrayColor];
     self.sizeLabel.font = [UIFont kg_regular16Font];
