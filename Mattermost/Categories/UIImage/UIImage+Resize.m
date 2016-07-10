@@ -275,40 +275,15 @@
 
 UIImage *KGRoundedImage(UIImage *sourceImage, CGSize size)
 {
-    UIGraphicsBeginImageContextWithOptions(size, false, 0.0f);
+    CGRect frame = {CGPointZero, size};
+    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
-    [sourceImage drawInRect:CGRectMake(0.0f, 0.0f, size.width, size.height) blendMode:kCGBlendModeCopy alpha:1.0f];
-    
-    CGContextSetBlendMode(context, kCGBlendModeCopy);
-    
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0.0f, size.height / 2.0f);
-    CGContextAddArcToPoint(context, 0.0f, 0.0f, size.width / 2.0f, 0.0f, size.width / 2.0f);
-    CGContextAddLineToPoint(context, 0.0f, 0.0f);
-    CGContextAddLineToPoint(context, 0.0f, size.height / 2.0f);
-    CGContextFillPath(context);
-    
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, size.width / 2.0f, 0.0f);
-    CGContextAddArcToPoint(context, size.width, 0.0f, size.width, size.height / 2.0f, size.width / 2.0f);
-    CGContextAddLineToPoint(context, size.width, 0.0f);
-    CGContextAddLineToPoint(context, size.width / 2.0f, 0.0f);
-    CGContextFillPath(context);
-    
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, size.width, size.height / 2.0f);
-    CGContextAddArcToPoint(context, size.width, size.height, size.width / 2.0f, size.height, size.width / 2.0f);
-    CGContextAddLineToPoint(context, size.width, size.height);
-    CGContextAddLineToPoint(context, size.width, size.height / 2.0f);
-    CGContextFillPath(context);
-    
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, size.width / 2.0f, size.height);
-    CGContextAddArcToPoint(context, 0.0f, size.height, 0.0f, size.height / 2.0f, size.width / 2.0f);
-    CGContextAddLineToPoint(context, 0.0f, size.height);
-    CGContextAddLineToPoint(context, size.width / 2.0f, size.height);
-    CGContextFillPath(context);
+    [[UIColor whiteColor] setFill];
+    CGContextFillRect(context, frame);
+    [[UIBezierPath bezierPathWithRoundedRect:frame
+                                cornerRadius:ceilf(size.width/2)] addClip];
+    [sourceImage drawInRect:frame];
     
     UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
