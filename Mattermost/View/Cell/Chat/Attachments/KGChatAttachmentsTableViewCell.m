@@ -61,8 +61,8 @@ static CGFloat const kErrorViewSize = 34.f;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.contentView addSubview:self.tableView];
     
-    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier] cacheSize:3];
-    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier] cacheSize:3];
+    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier] cacheSize:5];
+    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier] cacheSize:5];
     self.backgroundColor = [UIColor kg_whiteColor];
 }
 
@@ -78,7 +78,7 @@ static CGFloat const kErrorViewSize = 34.f;
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
 
     [super configureWithObject:object];
-    self.files = self.post.files.allObjects;
+    self.files = [self.post sortedFiles];
     [self.tableView reloadData];
     self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
@@ -107,6 +107,7 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if ([self.files[indexPath.row] isImage]){
         KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier]];
     

@@ -224,11 +224,11 @@ static CGFloat const kErrorViewSize = 34.f;
     
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
-    self.messageLabel.frame = CGRectMake(53, 36, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
+    self.messageLabel.frame = CGRectMake(53, 36, textWidth - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
-    self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, ceilf(timeWidth), 20);
+    self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, timeWidth, 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize)/2 ,kErrorViewSize ,kErrorViewSize);
     
     [self alignSubviews];
 }

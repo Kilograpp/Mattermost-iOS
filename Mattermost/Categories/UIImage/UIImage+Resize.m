@@ -264,6 +264,21 @@
 //    return destImage;
 //}
 
+- (instancetype)kg_imageByReplacingAlphaWithColor:(UIColor*)color {
+    CGRect frame = {CGPointZero, self.size};
+    UIGraphicsBeginImageContextWithOptions(self.size, YES, 0.0f);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [[UIColor whiteColor] setFill];
+    CGContextFillRect(context, frame);
+    [self drawInRect:frame];
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 - (instancetype)kg_resizedImageWithHeight:(CGFloat)height {
     height = [[UIScreen mainScreen] scale] * height;
     CGFloat scale = self.size.width / self.size.height;

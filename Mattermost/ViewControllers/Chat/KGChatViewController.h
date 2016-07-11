@@ -10,8 +10,9 @@
 @class KGTableViewCell;
 
 @interface KGChatViewController : SLKTextViewController
-
-@property NSMutableIndexSet *deletedSections, *insertedSections;
+@property (strong, nonatomic) NSIndexPath* lastPath;
+@property NSMutableIndexSet *insertedSectionIndexes, *deletedSectionIndexes;
+@property NSMutableArray* deletedRowIndexPaths, *insertedRowIndexPaths, * updatedRowIndexPaths;
 
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
