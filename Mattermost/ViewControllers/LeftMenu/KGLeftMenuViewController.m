@@ -40,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self setup];
     [self setupTableView];
     [self setupTeamLabel];
@@ -119,6 +119,7 @@
 
 #pragma mark - UITableViewDelegate
 
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
     NSString *sectionHeaderTitle = [[KGChannel titleForChannelBackendType:[sectionInfo name]] uppercaseString];
@@ -134,6 +135,10 @@
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     [header.textLabel setTextColor:[UIColor kg_sectionColorLeftMenu]];
     [header.textLabel setFont:[UIFont kg_boldText10Font]];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(tableView.frame.size.width - 30, 0 , tableView.sectionHeaderHeight, tableView.sectionHeaderHeight)];
+   [ button setImage:[UIImage imageNamed:@"menu_add_icon"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(addChannelAction) forControlEvents:UIControlEventTouchUpInside];
+    [header addSubview:button];
     header.contentView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
@@ -169,6 +174,13 @@
 
 
 #pragma mark - Private
+
+- (void)moreAction {
+    [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
+}
+- (void)addChannelAction {
+        [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
+}
 
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
