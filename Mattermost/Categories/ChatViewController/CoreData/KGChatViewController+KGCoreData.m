@@ -25,6 +25,9 @@
 {
     if (type == NSFetchedResultsChangeInsert) {
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section]) {
+            if ([self.insertedRowIndexPaths containsObject:indexPath]) {
+                [self rowShouldBeUpdatedAtIndexPath:indexPath];
+            }
             // If we've already been told that we're adding a section for this inserted row we skip it since it will handled by the section insertion.
             return;
         }
@@ -32,12 +35,16 @@
         [self.insertedRowIndexPaths addObject:newIndexPath];
     } else if (type == NSFetchedResultsChangeDelete) {
         if ([self.deletedSectionIndexes containsIndex:indexPath.section]) {
+            if ([self.insertedRowIndexPaths containsObject:indexPath]) {
+                [self rowShouldBeUpdatedAtIndexPath:indexPath];
+            }
             // If we've already been told that we're deleting a section for this deleted row we skip it since it will handled by the section deletion.
             return;
         }
         
         [self.deletedRowIndexPaths addObject:indexPath];
     } else if (type == NSFetchedResultsChangeMove) {
+        
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section] == NO) {
             [self.insertedRowIndexPaths addObject:newIndexPath];
         }
@@ -46,7 +53,7 @@
             [self.deletedRowIndexPaths addObject:indexPath];
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
-        [self.updatedRowIndexPaths addObject:indexPath];
+        [self rowShouldBeUpdatedAtIndexPath:indexPath];
     }
 }
 
@@ -64,6 +71,15 @@
             ; // Shouldn't have a default
             break;
     }
+}
+
+- (void)rowShouldBeUpdatedAtIndexPath:(NSIndexPath*)indexPath {
+    [self.insertedRowIndexPaths removeObject:indexPath];
+    [self.deletedRowIndexPaths removeObject:indexPath];
+    if ([self.updatedRowIndexPaths containsObject:indexPath]) {
+        return;
+    }
+    [self.updatedRowIndexPaths addObject:indexPath];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
