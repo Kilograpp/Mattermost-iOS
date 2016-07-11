@@ -55,12 +55,11 @@
 #pragma mark - Override
 
 - (void)setMenuState:(MFSideMenuState)menuState completion:(void (^)(void))completion {
-    __weak typeof (self) wSelf = self;
+
     [super setMenuState:menuState completion: ^{
         if (completion) {
             completion();
         }
-       // [wSelf toogleStatusBarState];
     }];
 }
 

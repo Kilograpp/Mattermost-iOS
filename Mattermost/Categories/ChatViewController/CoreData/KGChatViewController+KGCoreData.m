@@ -8,7 +8,6 @@
 
 #import "KGChatViewController+KGCoreData.h"
 #import <CoreData/CoreData.h>
-#import "KGTableViewCell.h"
 
 @implementation KGChatViewController (KGCoreData)
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -74,12 +73,10 @@
     [self.deletedRowIndexPaths count] +
     [self.insertedRowIndexPaths count] +
     [self.updatedRowIndexPaths count];
+    
     if (totalChanges > 120) {
-        self.insertedSectionIndexes = nil;
-        self.deletedSectionIndexes = nil;
-        self.deletedRowIndexPaths = nil;
-        self.insertedRowIndexPaths = nil;
-        self.updatedRowIndexPaths = nil;
+        
+        [self.tableView reloadData];
         return;
     }
     
@@ -95,14 +92,8 @@
     [self.tableView endUpdates];
     
     [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-    
-    // nil out the collections so their ready for their next use.
-    self.insertedSectionIndexes = nil;
-    self.deletedSectionIndexes = nil;
-    self.deletedRowIndexPaths = nil;
-    self.insertedRowIndexPaths = nil;
-    self.updatedRowIndexPaths = nil;
 }
+
 
 
 

@@ -22,7 +22,6 @@
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.5f
-static CGFloat const kCellAspectRatio = 0.5f;
 static NSString *const kImageCellReuseIdentifier = @"cellReuseIdentifier";
 
 @interface KGImageChatCell () <UITableViewDataSource, UITableViewDelegate>

@@ -100,7 +100,7 @@ extern NSString * const KGAuthTokenHeaderName;
 }
 
 - (void)setDefaultValueForImagesCompression {
-    [[KGPreferences sharedInstance] setShouldCompressImages:@YES];
+    [[KGPreferences sharedInstance] setShouldCompressImages:YES];
 }
 
 - (void)updateCurrentThemeWithObject:(KGTheme*)theme {

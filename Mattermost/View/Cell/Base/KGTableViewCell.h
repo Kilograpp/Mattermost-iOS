@@ -10,22 +10,22 @@
 #import "KGPost.h"
 @interface KGTableViewCell : UITableViewCell
 
-+ (NSString *)reuseIdentifier;
-+ (UINib *)nib;
-+ (CGFloat)heightWithObject:(id)object;
++ (NSString * _Nonnull)reuseIdentifier;
++ (UINib * _Nonnull)nib;
++ (CGFloat)heightWithObject:(id _Nullable)object;
 
 - (void)awakeFromNib __attribute((objc_requires_super));
-- (void)configureWithObject:(id)object;
+- (void)configureWithObject:(id _Nonnull)object;
 
-+ (UIImage *)placeholderBackground;
++ (UIImage * _Nonnull)placeholderBackground;
 
-@property (copy, nonatomic) void(^photoTapHandler)(NSUInteger photoNumber, UIView *cell);
-@property (copy, nonatomic) void(^fileTapHandler)(NSUInteger fileNumber);
-@property (copy, nonatomic) void(^errorTapHandler)(KGPost *post);
-@property (nonatomic, copy, nonnull) void (^mentionTapHandler)(NSString *nickname);
-@property (nonatomic, strong) UIButton *errorView;
+@property (copy, nonatomic, nullable) void(^photoTapHandler)(NSUInteger photoNumber, UIView * _Nonnull cell);
+@property (copy, nonatomic, nullable) void(^fileTapHandler)(NSUInteger fileNumber);
+@property (copy, nonatomic, nullable) void(^errorTapHandler)(KGPost * _Nonnull post);
+@property (nonatomic, copy, nullable) void (^mentionTapHandler)(NSString * _Nonnull nickname);
+@property (nonatomic, strong) UIButton * _Nullable errorView;
 
-@property (copy, nonatomic) void(^profileTapHandler)(KGUser *user);
+@property (copy, nonatomic, nullable) void(^profileTapHandler)(KGUser * _Nonnull user);
 - (void)startAnimation;
 - (void)finishAnimation;
 @end

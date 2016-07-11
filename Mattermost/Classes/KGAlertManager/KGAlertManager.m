@@ -94,6 +94,15 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 //                                  withCallback:nil];
 }
 
+- (void)showErrorWithMessage:(NSString *)message {
+    self.alertView = [[KGAlertView alloc] initWithType:KGAlertTypeError
+                                               message:NSLocalizedString(message, nil)
+                                              duration:kStandartHudDismissDelay
+                                              callback:nil];
+    [self.alertView showAlertViewAnimated:YES];
+}
+
+
 - (void)showUnauthorizedError {
 //    self.alertView = [KGAlertView sharedMessage];
 //    [self.alertView showAlertViewWithMessage:NSLocalizedString(@"Недоступно для неавторизованного пользователя", nil)

@@ -463,7 +463,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
-
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
@@ -526,19 +525,19 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
-//    NSArray *files = post.nonImageFiles;
-//    
-//    for (KGFile *file in files) {
-//        if (file.sizeValue == 0) {
-//            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-//                if (error) {
-//                    [[KGAlertManager sharedManager] showError:error];
-//                } else {
-////                    self.tableView updateRows
-//                }
-//            }];
-//        }
-//    }
+    NSArray *files = post.nonImageFiles;
+    
+    for (KGFile *file in files) {
+        if (file.sizeValue == 0) {
+            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
+                if (error) {
+                    [[KGAlertManager sharedManager] showError:error];
+                } else {
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }];
+        }
+    }
 }
 
 
