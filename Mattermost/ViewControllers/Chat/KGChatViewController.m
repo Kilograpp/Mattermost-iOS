@@ -331,14 +331,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
-<<<<<<< HEAD
+
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
     cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
     //[cell finishAnimation];
     //if (cell)
-=======
-
->>>>>>> i_vedeneev
     return cell;
 }
 
