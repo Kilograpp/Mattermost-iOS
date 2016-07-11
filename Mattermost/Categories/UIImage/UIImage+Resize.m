@@ -279,6 +279,7 @@
     
     return newImage;
 }
+
 - (instancetype)kg_resizedImageWithHeight:(CGFloat)height {
     height = [[UIScreen mainScreen] scale] * height;
     CGFloat scale = self.size.width / self.size.height;

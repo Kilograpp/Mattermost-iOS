@@ -8,6 +8,8 @@
 #import "KGUtils.h"
 #import "KGTheme.h"
 #import <RestKit.h>
+#import "KGUserStatus.h"
+#import "KGUserStatusObserver.h"
 
 static NSString * const kAwayNetworkString = @"away";
 static NSString * const kOnlineNetworkString = @"online";
@@ -28,7 +30,8 @@ static NSString * const kOfflineNetworkString = @"offline";
 }
 
 - (KGUserNetworkStatus)networkStatus {
-    SWITCH(self.backendStatus) {
+    KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:self.identifier];
+    SWITCH(status.backendStatus) {
         CASE(kOnlineNetworkString) {
             return KGUserOnlineStatus;
         }
@@ -71,16 +74,16 @@ static NSString * const kOfflineNetworkString = @"offline";
     return mapping;
 }
 
-+ (RKEntityMapping*)statusEntityMapping {
-    RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping setForceCollectionMapping:YES];
-    [mapping setIdentificationAttributes:@[@"identifier"]];
-    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
-    [mapping addAttributeMappingsFromDictionary:@{
-            @"(identifier)" : @"backendStatus"
-    }];
-    return mapping;
-}
+//+ (RKEntityMapping*)statusEntityMapping {
+//    RKEntityMapping *mapping = [super emptyEntityMapping];
+//    [mapping setForceCollectionMapping:YES];
+//    [mapping setIdentificationAttributes:@[@"identifier"]];
+//    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
+//    [mapping addAttributeMappingsFromDictionary:@{
+//            @"(identifier)" : @"backendStatus"
+//    }];
+//    return mapping;
+//}
 
 
 
@@ -172,7 +175,7 @@ static NSString * const kOfflineNetworkString = @"offline";
 //}
 
 + (RKResponseDescriptor*)statusResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self statusEntityMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGUserStatus objectMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self usersStatusPathPattern]
                                                        keyPath:nil

@@ -70,21 +70,6 @@
     self.teamLabel.font = [UIFont kg_boldText16Font];
 }
 
-- (void)registerObservers {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateTableView:)
-                                                 name:KGNotificationUsersStatusUpdate
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateTableView:)
-                                                 name:KGNotificationChannelsStateUpdate
-                                               object:nil];
-}
-
-- (void)updateTableView:(NSNotification *)notification {
-    [self.tableView reloadData];
-}
-
 
 #pragma mark - Configuration
 
@@ -204,6 +189,10 @@
     }
 }
 
+- (void)updateTableView:(NSNotification *)notification {
+    [self.tableView reloadData];
+}
+
 
 #pragma mark - Actions
 
@@ -222,5 +211,20 @@
         [self reselectCurrentIndexPath];
     }
 }
+
+
+#pragma mark - Notifications
+
+- (void)registerObservers {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableView:)
+                                                 name:KGNotificationUsersStatusUpdate
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableView:)
+                                                 name:KGNotificationChannelsStateUpdate
+                                               object:nil];
+}
+
 
 @end

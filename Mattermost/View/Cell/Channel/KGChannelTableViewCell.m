@@ -11,6 +11,9 @@
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
 #import "KGChannel.h"
+#import "KGUserStatusObserver.h"
+#import "KGUserStatus.h"
+
 const static CGFloat kHeightCellLeftMenu = 50;
 
 @interface KGChannelTableViewCell()
@@ -26,8 +29,10 @@ const static CGFloat kHeightCellLeftMenu = 50;
 @property (strong, nonatomic) UIColor *dotViewBorderColor;
 @property (strong, nonatomic) UIColor *dotViewBorderColorIfSelected;
 
+@property (strong, nonatomic) KGUserStatus *userStatus;
 
 @end
+
 @implementation KGChannelTableViewCell
 
 #pragma mark - Init
@@ -99,6 +104,7 @@ const static CGFloat kHeightCellLeftMenu = 50;
         
         if (channel.type == KGChannelTypePrivate) {
             [self configureCellForChannelPrivate:channel.hasNewMessages];
+            self.userStatus = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:channel.identifier];
             [self configureDotViewForNetworkStatus:channel.networkStatus];
         } else {
             [self configureCellForCnannelPublic:channel.hasNewMessages];

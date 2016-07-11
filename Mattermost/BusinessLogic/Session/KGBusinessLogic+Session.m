@@ -18,6 +18,7 @@
 #import "KGBusinessLogic+Notifications.h"
 #import "KGUtils.h"
 #import "KGBusinessLogic+Socket.h"
+#import "KGUserStatusObserver.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -46,6 +47,7 @@ extern NSString * const KGAuthTokenHeaderName;
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
     NSString* path = [KGUser usersStatusPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:userIds  success:^(RKMappingResult* mappingResult) {
+        [[KGUserStatusObserver sharedObserver] updateWithArray:mappingResult.array];
         safetyCall(completion, nil);
     } failure:^(KGError* error) {
         NSBatchUpdateRequest *batchUpdate = [[NSBatchUpdateRequest alloc] initWithEntityName:@"User"];
