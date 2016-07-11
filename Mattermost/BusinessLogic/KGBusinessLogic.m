@@ -265,8 +265,8 @@
 #pragma mark - Status Timer
 
 - (void)runTimerForStatusUpdate {
-    if (![self.statusTimer isValid] || !self.statusTimer)
-        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 5
+    if (!self.statusTimer)
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 7
                                      target:self
                                    selector:@selector(updateStatusForAllUsers)
                                    userInfo:nil
