@@ -463,12 +463,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
-
         [self hideTopActivityIndicator];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
     }];
 }
 
