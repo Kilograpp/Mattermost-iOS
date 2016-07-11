@@ -75,7 +75,7 @@
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
         manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
-
+        
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
         [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
@@ -233,6 +233,7 @@
 - (void)applicationDidEnterBackground {
     UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
 
+    [self saveDefaultContextToPersistentStore];
     [self savePreferences];
     [self stopStatusTimer];
     [self closeSocket];
@@ -244,6 +245,9 @@
     [[KGPreferences sharedInstance] save];
 }
 
+- (void)saveDefaultContextToPersistentStore {
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+}
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTask {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^(void) {
