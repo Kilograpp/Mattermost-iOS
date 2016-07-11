@@ -535,7 +535,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 if (error) {
                     [[KGAlertManager sharedManager] showError:error];
                 } else {
-//                    self.tableView updateRows
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }];
         }
