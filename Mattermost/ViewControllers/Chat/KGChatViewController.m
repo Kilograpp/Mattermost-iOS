@@ -114,9 +114,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    // Todo, Code Review: Нарушение абстракции
+    [super viewWillAppear:animated];    // Todo, Code Review: Нарушение абстракции
     [self.textView isFirstResponder];
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
@@ -127,10 +125,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+ 
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
+        //self.menuContainerViewController.leftMenuViewController =
     }
 }
 
@@ -141,6 +140,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     // Todo, Code Review: Нарушение абстракции
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
+        
     }
 }
 
@@ -882,15 +882,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 #pragma mark - KGRightMenuDelegate
 
 - (void)navigationToProfile {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
-    KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
-    presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentViewController:presentNC animated:YES completion:nil];
-    });
+    self.title = @"";
+    [self toggleRightSideMenuAction];
+    self.selectedUsername = [KGBusinessLogic sharedInstance].currentUser.username;
+    [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
 }
 
 - (void)navigateToSettings {
+
     [self performSegueWithIdentifier:kShowSettingsSegueIdentier sender:nil];
 }
 
@@ -910,8 +909,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)showProfile: (KGUser *)user {
+    self.title = @"";
     self.selectedUsername = user.username;
-    [self.menuContainerViewController.rightMenuViewController performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+//    [self.menuContainerViewController.rightMenuViewController performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+
+    
+    
 
 }
 
@@ -1061,12 +1065,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
 
-        UINavigationController *nc = segue.destinationViewController;
-        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        //        UINavigationController *nc = segue.destinationViewController;
+        //        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        KGProfileTableViewController *vc = segue.destinationViewController;
+       // vc.navigationController. = self.navigationController;
         KGUser *user = [KGUser
                 MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
         vc.userId = user.identifier;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
         //vc.previousControler = self;
+//        self.menuContainerViewController
     }
 }
 
