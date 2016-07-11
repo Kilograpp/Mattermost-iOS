@@ -13,6 +13,7 @@
 #import "UIColor+KGPreparedColor.h"
 #import "UIImage+Resize.h" 
 #import "KGUIUtils.h"
+#import "UIView+Align.h"
 
 @implementation KGFileCell
 
@@ -76,9 +77,13 @@
 #pragma mark - Lifecycle
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     self.iconImageView.frame = CGRectMake(5, 5, 44, 44);
     self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
     self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
+    
+    [self alignSubviews];
 }
 
 

@@ -59,6 +59,7 @@
 #import "KGChatViewController+KGCoreData.h"
 #import "KGCommand.h"
 #import "KGCommandTableViewCell.h"
+#import "KGDateFormatter.h"
 
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
@@ -68,7 +69,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
-                            KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
+                            KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate, IDMPhotoBrowserDelegate>
 
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) KGChannel *channel;
@@ -216,6 +217,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)setupAutocompletionView {
+    self.autoCompletionView.scrollsToTop = NO;
+    self.textView.scrollsToTop = NO;
     [self registerPrefixesForAutoCompletion:@[ kUsernameAutocompletionPrefix, kCommandAutocompletionPrefix ]];
 }
 
@@ -291,7 +294,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDate *start = [NSDate date];
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         return [self autoCompletionCellAtIndexPath:indexPath];
@@ -324,7 +326,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
 
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-//    [cell startAnimation];
     [self assignBlocksForCell:cell post:post];
     
     if (post.nonImageFiles) {
@@ -332,14 +333,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
 
     [cell configureWithObject:post];
-    
     cell.transform = self.tableView.transform;
-    // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
-    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    //[cell finishAnimation];
-    //if (cell)
-    NSDate *end = [NSDate date];
-    NSLog(@"%f", [end timeIntervalSinceDate:start]);
+
     return cell;
 }
 
@@ -370,7 +365,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             }
         }
         
-        return 0.f;
+        return 0;
     }
     //ячейка для autoCompletionView:
     // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
@@ -380,20 +375,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    // Todo, Code Review: Формат даты надо выносить в глобальные
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-    NSDate *date = [formatter dateFromString:[sectionInfo name]];
+    NSDate *date = [[KGDateFormatter sharedChatHeaderDateFormatter] dateFromString:[sectionInfo name]];
     NSString *dateName = [date dateFormatForMessageTitle];
     [header configureWithObject:dateName];
-//    header.backgroundColor  = [UIColor whiteColor];
     header.dateLabel.transform = self.tableView.transform;
+    
     return header;
-
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-//    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
+    view.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -536,8 +527,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 if (error) {
                     [[KGAlertManager sharedManager] showError:error];
                 } else {
-                    KGTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                    [cell configureWithObject:post];
+//                    self.tableView updateRows
                 }
             }];
         }
