@@ -17,6 +17,7 @@
 #import "UIImage+KGRotate.h"
 #import "KGImagePickerController.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGChatNavigationController.h"
 
 @import AVFoundation;
 @import Photos;
@@ -43,12 +44,15 @@
 
     self.isFirstLoad = YES;
     [self setup];
-    [self setupNavigationBar];
+
+    //[self setupNavigationBar];
+
+    //[boton release];
     
 }
 
 - (void)setupNavigationBar {
-    self.title = @"Профиль";
+//    self.title = @"Профиль";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navbar_close_icon"]
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
@@ -60,36 +64,18 @@
 }
 //
 - (void)backAction {
-//    if (self.previousControler) {
-//        [self presentViewController:self.previousControler animated:YES completion:nil];
-//    } else {
+    if (self.previousControler) {
+        [self presentViewController:self.previousControler animated:YES completion:nil];
+    } else {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
     
     [self dismissViewControllerAnimated:YES completion:^ {
         NSLog(@"yes");
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     }];
-    //}
+    }
 //    [self.navigationController popViewControllerAnimated:YES];
     //[[UIStatusBar sharedStatusBar] moveToPreviousView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveToViewWithSnapshot:self.navigationController.view];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
-
-        self.isFirstLoad = NO;
-    }
 }
 
 - (void)setup {
@@ -108,6 +94,7 @@
     self.nickname.text = user.nickname;
     self.email.text = user.email;
     //self.headerView.backgroundColor = [UIColor kg_lightLightGrayColor];
+    
 }
 
 

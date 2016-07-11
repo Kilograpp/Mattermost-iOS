@@ -227,14 +227,21 @@
 #pragma mark - Navigation
 
 - (IBAction)profileAction:(id)sender {
-    [self performSegueWithIdentifier:@"presentProfile" sender:nil];
+    //[self segu]
+    [self.delegate navigationToProfile];
+//    [self performSegueWithIdentifier:@"presentProfile" sender:nil];
+//    [self toggleRightSideMenuAction];
+//    [self.delegate navigateToSettings];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"presentProfile"]) {
-        UINavigationController *nc = segue.destinationViewController;
-        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        
+//        [self toggleRightSideMenuAction];
+//        [self.delegate navigateToSettings];
+            UINavigationController *nc = self.menuContainerViewController.centerViewController;
+//        UINavigationController *nc = segue.destinationViewController;
+//        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
+        KGProfileTableViewController *vc = segue.destinationViewController;
         if (sender) {
         KGUser *user = [KGUser
                         MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:sender];
@@ -242,6 +249,9 @@
         } else {
             vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
         }
+
+//        [self toggleRightSideMenuAction];
+       // [self.delegate navigateToSettings];
     }
 }
 

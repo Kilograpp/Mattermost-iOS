@@ -59,8 +59,8 @@ static dispatch_group_t channelAndAdditionsGroup;
 }
 
 - (void)test {
-//    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
-//    self.passwordTextField.text = @"9d331o26c39";
+    self.loginTextField.text = @"skorbilinatatiana@kilograpp.com";
+    self.passwordTextField.text = @"9d331o26c39";
 //    self.loginTextField.text = @"maxim@kilograpp.com";
 //    self.passwordTextField.text = @"loladin";
 //    self.loginTextField.text = @"getmaxx@kilograpp.com";
