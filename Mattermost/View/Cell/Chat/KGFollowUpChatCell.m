@@ -49,7 +49,7 @@ static CGFloat const kErrorViewSize = 34.f;
     self.messageLabel.numberOfLines = 0;
     self.messageLabel.backgroundColor = [UIColor whiteColor];
     self.messageLabel.font = [UIFont kg_regular15Font];
-    self.messageLabel.textColor = [UIColor kg_blackColor];
+    self.messageLabel.textColor = [UIColor kg_grayColor];
     [self addSubview:self.messageLabel];
     
     [self.messageLabel setURLColor:[UIColor kg_blueColor]];
@@ -117,6 +117,7 @@ static CGFloat const kErrorViewSize = 34.f;
                 [self startAnimation];
             } else {
                 [self finishAnimation];
+                self.messageLabel.textColor = [UIColor kg_blackColor];
             }
         }
     }

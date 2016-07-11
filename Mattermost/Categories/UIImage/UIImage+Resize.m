@@ -149,9 +149,8 @@
                 size:(CGSize)size
           completion:(void (^)(UIImage *image))completion {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(size, NO, image.scale);
+        UIGraphicsBeginImageContextWithOptions(size, NO, 0);
         CGRect rect = CGRectMake(0, 0, size.width, size.height);
-        //        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
         
         [[UIBezierPath bezierPathWithRoundedRect:rect
                                     cornerRadius:radius] addClip];

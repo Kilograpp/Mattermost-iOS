@@ -385,7 +385,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    view.backgroundColor = [UIColor kg_whiteColor];
+//    view.backgroundColor = [UIColor kg_whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -468,7 +468,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
-        [self.tableView reloadData];
     }];
 }
 
@@ -527,19 +526,19 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
-    NSArray *files = post.nonImageFiles;
-    
-    for (KGFile *file in files) {
-        if (file.sizeValue == 0) {
-            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-                if (error) {
-                    [[KGAlertManager sharedManager] showError:error];
-                } else {
-//                    self.tableView updateRows
-                }
-            }];
-        }
-    }
+//    NSArray *files = post.nonImageFiles;
+//    
+//    for (KGFile *file in files) {
+//        if (file.sizeValue == 0) {
+//            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
+//                if (error) {
+//                    [[KGAlertManager sharedManager] showError:error];
+//                } else {
+////                    self.tableView updateRows
+//                }
+//            }];
+//        }
+//    }
 }
 
 

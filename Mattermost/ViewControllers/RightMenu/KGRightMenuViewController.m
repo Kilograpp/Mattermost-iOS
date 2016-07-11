@@ -102,7 +102,6 @@
 
 #pragma mark - UITableViewDataSource
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  self.dataSource.count;
 }
@@ -128,15 +127,7 @@
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-                                                                           [wSelf alertUnderDevelopment];
-                                                                          
-                                                                      }]];
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Files", nil)
-                                                                     iconName:@"menu_files_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
                                                                           [wSelf alertUnderDevelopment];
-
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
@@ -151,23 +142,6 @@
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf alertUnderDevelopment];
-
-                                                                      }]];
-    
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Help", nil)
-                                                                     iconName:@"menu_help_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
-                                                                      }]];
-    
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Report a Problem", nil)
-                                                                     iconName:@"menu_report_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"About Mattermost", nil)
@@ -175,8 +149,8 @@
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf alertUnderDevelopment];
-
                                                                       }]];
+    
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
                                                                      iconName:@"menu_logout_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
@@ -261,9 +235,5 @@
     [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
 
 }
-
-
-
-
 
 @end

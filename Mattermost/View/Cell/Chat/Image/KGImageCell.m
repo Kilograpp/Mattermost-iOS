@@ -11,10 +11,11 @@
 #import "KGFile.h"
 #import "UIImage+Resize.h"
 
-#define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f
+#define KG_IMAGE_WIDTH  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f)
+#define KG_IMAGE_HEIGHT  ((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f)
 
 @interface KGImageCell ()
+@property (nonatomic, strong) UIImage *kg_image;
 @end
 
 @implementation KGImageCell
@@ -31,7 +32,7 @@
 
 - (void)setupImageView {
     self.kg_imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
+    self.kg_imageView.contentMode = UIViewContentModeCenter;
     [self addSubview:self.kg_imageView];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.kg_imageView.clipsToBounds = YES;
@@ -49,9 +50,14 @@
                              placeholderImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT))
                                       options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    [UIImage roundedImage:image
+                    CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
+                    if (!wSelf.kg_image) {
+                        wSelf.kg_image = image;
+                    }
+                    CGSize newSize = CGSizeMake(wSelf.kg_image.size.width * scaleFactor, wSelf.kg_image.size.height * scaleFactor);
+                    [UIImage roundedImage:wSelf.kg_image
                               whithRadius:3
-                                     size:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)
+                                     size:newSize
                        completion:^(UIImage *image) {
                             wSelf.kg_imageView.image = image;
                             dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -66,6 +72,7 @@
 
 - (void)prepareForReuse {
     self.kg_imageView.image = nil;
+    self.kg_image = nil;
 }
 
 - (void)layoutSubviews {

@@ -46,10 +46,11 @@
     self.dateLabel = [[UILabel alloc] init];
     self.dateLabel.font = [UIFont kg_bold16Font];
     self.dateLabel.textColor = [UIColor kg_blackColor];
-    self.backgroundColor = [UIColor whiteColor];
+    self.contentView.frame = self.bounds;
+    self.contentView.backgroundColor = [UIColor whiteColor];
     
     self.lineView = [[UIView alloc] init];
-    self.lineView.backgroundColor = [UIColor kg_lightGrayColor];
+    self.lineView.backgroundColor = [UIColor kg_lightLightGrayColor];
     [self addSubview:self.dateLabel];
     [self addSubview:self.lineView];
 }

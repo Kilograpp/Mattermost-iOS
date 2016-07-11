@@ -92,9 +92,7 @@
     [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
     
-    
     [self.tableView endUpdates];
-    
     
     [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
     
