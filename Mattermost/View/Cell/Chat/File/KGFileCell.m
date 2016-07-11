@@ -64,7 +64,7 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-        UIImage *icon = [[UIImage imageNamed:@"chat_file_ic"] kg_imageByReplacingAlphaWithColor:[UIColor whiteColor]];
+        UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
         self.iconImageView.image = icon;
         NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
         self.nameLabel.text = name;
