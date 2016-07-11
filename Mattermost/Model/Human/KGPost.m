@@ -10,6 +10,7 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import <NSStringEmojize/NSString+Emojize.h>
+#import "NSCalendar+KGSharedCalendar.h"
 
 @interface KGPost ()
 
@@ -142,7 +143,7 @@
 - (void)configureDiplayDate {
     if (!self.creationDay && self.createdAt) {
         unsigned int      intFlags   = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
-        NSCalendar       *calendar   = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSCalendar       *calendar   = [NSCalendar kg_sharedGregorianCalendar];
         NSDateComponents *components = [[NSDateComponents alloc] init];
         
         components = [calendar components:intFlags fromDate:self.createdAt];

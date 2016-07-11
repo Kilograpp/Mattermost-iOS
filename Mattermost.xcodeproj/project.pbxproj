@@ -84,6 +84,7 @@
 		D636DBF11D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF01D0EAEA3003C0B0D /* SF-UI-Text-Bold.otf */; };
 		D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */; };
 		D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */; };
+		D64493C31D33A2390072F157 /* NSCalendar+KGSharedCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = D64493C21D33A2390072F157 /* NSCalendar+KGSharedCalendar.m */; };
 		D648B4491D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D648B4481D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf */; };
 		D648B44D1D2BB03000D797FD /* KGCommandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */; };
 		D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */; };
@@ -116,6 +117,7 @@
 		D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154DA1D07572200B053CE /* KGLoginNavigationController.m */; };
 		D6C915751D193B2F000DC072 /* KGAutoCompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */; };
 		D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */; };
+		D6DF885A1D3307020091DBDE /* KGDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DF88591D3307020091DBDE /* KGDateFormatter.m */; };
 		D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */; };
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
@@ -288,6 +290,8 @@
 		D636DBF21D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
 		D636DBF41D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Semibold.otf"; sourceTree = "<group>"; };
 		D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AsyncDisplayKit.framework; path = Carthage/Build/iOS/AsyncDisplayKit.framework; sourceTree = "<group>"; };
+		D64493C11D33A2390072F157 /* NSCalendar+KGSharedCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendar+KGSharedCalendar.h"; path = "NSCalendar/NSCalendar+KGSharedCalendar.h"; sourceTree = "<group>"; };
+		D64493C21D33A2390072F157 /* NSCalendar+KGSharedCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendar+KGSharedCalendar.m"; path = "NSCalendar/NSCalendar+KGSharedCalendar.m"; sourceTree = "<group>"; };
 		D648B4481D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-LightItalic.otf"; sourceTree = "<group>"; };
 		D648B44B1D2BB03000D797FD /* KGCommandTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGCommandTableViewCell.h; path = Commands/KGCommandTableViewCell.h; sourceTree = "<group>"; };
 		D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGCommandTableViewCell.m; path = Commands/KGCommandTableViewCell.m; sourceTree = "<group>"; };
@@ -346,6 +350,8 @@
 		D6C915721D193B2F000DC072 /* KGAutoCompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAutoCompletionCell.h; sourceTree = "<group>"; };
 		D6C915731D193B2F000DC072 /* KGAutoCompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAutoCompletionCell.m; sourceTree = "<group>"; };
 		D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGAutoCompletionCell.xib; sourceTree = "<group>"; };
+		D6DF88581D3307020091DBDE /* KGDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGDateFormatter.h; path = KGDateFormatter/KGDateFormatter.h; sourceTree = "<group>"; };
+		D6DF88591D3307020091DBDE /* KGDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGDateFormatter.m; path = KGDateFormatter/KGDateFormatter.m; sourceTree = "<group>"; };
 		D6E682401D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
 		D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
 		D80474271D2A9202007B41D7 /* TSMarkdownParser+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSMarkdownParser+Singleton.h"; sourceTree = "<group>"; };
@@ -623,6 +629,7 @@
 		7339B69CC14FAE271AFEB356 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				D64493BD1D339F900072F157 /* NSCalendar */,
 				D62FA8B51D3267F200CA93D8 /* UIView */,
 				D80474261D2A9108007B41D7 /* TSMarkdownParser */,
 				D6A3DE251D2A688900F9DF0F /* ChatViewController */,
@@ -715,6 +722,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D6DF88571D3306DE0091DBDE /* KGDateFormatter */,
 				D69FB1741D097F3200043C2D /* KGAlertManager */,
 				D844A7051D0B348A00B53BB3 /* KGAvatarImageView */,
 				9B822AF8F1E38A1254268D42 /* KGChannelNotification */,
@@ -954,6 +962,15 @@
 			children = (
 			);
 			path = Test;
+			sourceTree = "<group>";
+		};
+		D64493BD1D339F900072F157 /* NSCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				D64493C11D33A2390072F157 /* NSCalendar+KGSharedCalendar.h */,
+				D64493C21D33A2390072F157 /* NSCalendar+KGSharedCalendar.m */,
+			);
+			name = NSCalendar;
 			sourceTree = "<group>";
 		};
 		D648B44A1D2BAFFB00D797FD /* Commands */ = {
@@ -1325,6 +1342,15 @@
 			path = AutoCompletion;
 			sourceTree = "<group>";
 		};
+		D6DF88571D3306DE0091DBDE /* KGDateFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				D6DF88581D3307020091DBDE /* KGDateFormatter.h */,
+				D6DF88591D3307020091DBDE /* KGDateFormatter.m */,
+			);
+			name = KGDateFormatter;
+			sourceTree = "<group>";
+		};
 		D6E6823F1D1D296F006F11CE /* NSMutableURLRequest */ = {
 			isa = PBXGroup;
 			children = (
@@ -1629,6 +1655,7 @@
 				D6C154C61D07557600B053CE /* KGViewController.m in Sources */,
 				D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */,
 				D69FB19D1D09C62D00043C2D /* KGSideMenuContainerViewController.m in Sources */,
+				D6DF885A1D3307020091DBDE /* KGDateFormatter.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
 				D69FB1931D09C5BF00043C2D /* KGChatNavigationController.m in Sources */,
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
@@ -1679,6 +1706,7 @@
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */,
 				D686269B1D21E31A00FAC1CB /* KGUIUtils.m in Sources */,
+				D64493C31D33A2390072F157 /* NSCalendar+KGSharedCalendar.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
 				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
