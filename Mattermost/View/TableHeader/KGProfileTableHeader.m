@@ -32,13 +32,7 @@
     
     [self setup];
 }
-//+ (NSString *)reuseIdentifier {
-//    return [NSString stringWithFormat:@"%@Identifier", NSStringFromClass([self class])];
-//}
-//
-//+ (UINib *)nib {
-//    return [UINib nibWithNibName:NSStringFromClass([self class]) bundle:nil];
-//}
+
 #pragma mark - Setup
 
 - (void)setup {

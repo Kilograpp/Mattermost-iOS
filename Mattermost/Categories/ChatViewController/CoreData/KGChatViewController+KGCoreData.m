@@ -8,7 +8,6 @@
 
 #import "KGChatViewController+KGCoreData.h"
 #import <CoreData/CoreData.h>
-#import "KGTableViewCell.h"
 
 @implementation KGChatViewController (KGCoreData)
 #pragma mark - NSFetchedResultsControllerDelegate

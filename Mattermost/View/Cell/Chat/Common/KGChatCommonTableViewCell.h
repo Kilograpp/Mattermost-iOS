@@ -32,4 +32,5 @@ static NSOperationQueue*  messageQueue;
 //@property (nonatomic, strong) UIButton *errorView;
 - (void)startAnimation;
 - (void)finishAnimation;
+- (void)errorAction;
 @end

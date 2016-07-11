@@ -3,7 +3,7 @@
 @interface KGPost : _KGPost
 
 @property (nonatomic, strong, nullable) NSAttributedString* attributedMessage;
-@property (nonatomic, strong, readonly) NSArray *nonImageFiles;
+@property (nonatomic, strong, readonly) NSArray * _Nullable nonImageFiles;
 
 - (BOOL)isUnread;
 

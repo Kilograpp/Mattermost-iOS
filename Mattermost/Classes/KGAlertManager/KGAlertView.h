@@ -27,6 +27,6 @@ typedef enum {
 
 - (void)showAlertViewAnimated:(BOOL)animated;
 - (void)hideAlertViewAnimated:(BOOL)animated;
-- (void)hideAlertViewAnimated:(BOOL)animated completion:(void (^)())callback;
+//- (void)hideAlertViewAnimated:(BOOL)animated completion:(void (^)())callback;
 
 @end
