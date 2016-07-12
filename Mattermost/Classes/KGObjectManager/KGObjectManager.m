@@ -3,7 +3,10 @@
 // Copyright (c) 2016 Kilograpp. All rights reserved.
 //
 
+
+#import <RestKit/CoreData/RKCoreData.h>
 #import "KGObjectManager.h"
+#import <RestKit/Network/RKManagedObjectRequestOperation.h>
 #import "KGError.h"
 #import "KGUtils.h"
 
@@ -87,6 +90,29 @@
     [self postObject:nil path:path parameters:nil success:success failure:failure];
 }
 
+- (void)postObject:(id)object
+              path:(NSString *)path
+      savesToStore:(BOOL)savesToPersistentStore
+           success:(void (^)(RKMappingResult *mappingResult))success
+           failure:(void (^)(KGError *error))failure {
+    void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        safetyCall(success, mappingResult);
+    };
+    
+    void (^failureHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, NSError *error) {
+        safetyCall(failure, [self handleOperation:operation withError:error]);
+    };
+    
+    NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:nil ];
+    RKManagedObjectRequestOperation* operation = [self managedObjectRequestOperationWithRequest:request
+                                                                           managedObjectContext:nil
+                                                                                        success:successHandlerBlock
+                                                                                        failure:failureHandlerBlock];
+    operation.savesToPersistentStore = savesToPersistentStore;
+    
+    [self enqueueObjectRequestOperation:operation];
+}
+
 - (void)postImage:(UIImage*)image
          withName:(NSString*)name
            atPath:(NSString*)path
@@ -104,7 +130,6 @@
                                               constructingBodyWithBlock:constructingBodyWithBlock];
 
     void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-
         safetyCall(success, mappingResult);
     };
 
