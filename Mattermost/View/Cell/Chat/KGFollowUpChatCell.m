@@ -18,7 +18,7 @@ static CGFloat const kLoadingViewSize = 25.f;
 static CGFloat const kErrorViewSize = 34.f;
 
 @interface KGFollowUpChatCell ()
-@property BOOL firstLoad;
+
 @end
 
 @implementation KGFollowUpChatCell
@@ -40,7 +40,6 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.firstLoad = YES;
 }
 
 - (void)setupMessageLabel {
@@ -124,11 +123,8 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)startAnimation {
-    if (self.firstLoad){
-        [self.loadingView startAnimating];
-        self.loadingView.hidden = NO;
-        self.firstLoad = NO;
-    }
+    [self.loadingView startAnimating];
+    self.loadingView.hidden = NO;
 }
 
 - (void)finishAnimation {

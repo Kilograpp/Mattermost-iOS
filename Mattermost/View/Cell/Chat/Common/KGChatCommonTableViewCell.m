@@ -24,9 +24,6 @@
 static CGFloat const kLoadingViewSize = 20.f;
 static CGFloat const kErrorViewSize = 34.f;
 
-@interface KGChatCommonTableViewCell ()
-@property BOOL firstLoad;
-@end
 
 @implementation KGChatCommonTableViewCell
 
@@ -59,7 +56,6 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.firstLoad = YES;
 }
 
 - (void)setupAvatarImageView {
@@ -204,11 +200,8 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)startAnimation {
-    if (self.firstLoad){
-        [self.loadingView startAnimating];
-        self.loadingView.hidden = NO;
-        self.firstLoad = NO;
-    }
+    [self.loadingView startAnimating];
+    self.loadingView.hidden = NO;
 }
 
 - (void)finishAnimation {
