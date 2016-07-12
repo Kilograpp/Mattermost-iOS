@@ -165,6 +165,7 @@ static CGFloat const kErrorViewSize = 34.f;
         
         if (!smallAvatar && [[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
             smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+            self.avatarImageView.image = smallAvatar;
         } else {
             [self.avatarImageView setImageWithURL:self.post.author.imageUrl
                                  placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
