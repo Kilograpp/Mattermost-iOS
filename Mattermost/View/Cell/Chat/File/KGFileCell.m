@@ -21,9 +21,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        [self setupIconImageView];
-        [self setupNameLabel];
-        [self setupSizeLabel];
+//        [self setupIconImageView];
+//        [self setupNameLabel];
+//        [self setupSizeLabel];
     }
     
     return self;
@@ -31,6 +31,37 @@
 
 
 #pragma mark - Setup
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+
+    CGRect iconFrame = CGRectMake(5, 5, 44, 44);
+    [[UIImage imageNamed:@"chat_file_ic"] drawInRect:iconFrame];
+    
+    NSString* name = [[self.file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
+    CGRect nameFrame = CGRectMake(CGRectGetMaxX(iconFrame) + 5, 8, self.bounds.size.width - 64, 20);
+    
+    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    /// Set line break mode
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    /// Set text alignment
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    
+    [name drawInRect:nameFrame withAttributes:@{
+                                                NSFontAttributeName : [UIFont kg_regular16Font],
+                                                NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
+                                                NSForegroundColorAttributeName : [UIColor kg_blueColor],
+                                                NSParagraphStyleAttributeName : paragraphStyle
+                                                }];
+    
+    
+    [fileSizeString(self.file) drawInRect:CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17) withAttributes:@{
+                                                                     NSFontAttributeName : [UIFont kg_regular16Font],
+                                                                     NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
+                                                                     NSForegroundColorAttributeName : [UIColor kg_lightGrayColor],
+                                                                     NSParagraphStyleAttributeName : paragraphStyle
+                                                                     }];
+}
 
 - (void)setupIconImageView {
     self.iconImageView = [[UIImageView alloc] init];
@@ -65,26 +96,27 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-        UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
-        self.iconImageView.image = icon;
-        NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
-        self.nameLabel.text = name;
-        self.sizeLabel.text = fileSizeString(file);
+        self.file = file;
+//        UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
+//        self.iconImageView.image = icon;
+//        NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
+//        self.nameLabel.text = name;
+//        self.sizeLabel.text = fileSizeString(file);
     }
 }
 
 
 #pragma mark - Lifecycle
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    self.iconImageView.frame = CGRectMake(5, 5, 44, 44);
-    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
-    self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
-    
-    [self alignSubviews];
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    
+//    self.iconImageView.frame = CGRectMake(5, 5, 44, 44);
+//    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
+//    self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
+//    
+//    [self alignSubviews];
+//}
 
 
 #pragma mark - Private
