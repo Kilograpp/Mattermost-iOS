@@ -71,7 +71,7 @@ const NSInteger kDefaultPageSize = 60;
 - (void)sendPost:(KGPost *)post
       completion:(void(^)(KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGPost creationPathPattern], post);
-    [self.defaultObjectManager postObject:post path:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager postObject:post path:path savesToStore:NO success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }
