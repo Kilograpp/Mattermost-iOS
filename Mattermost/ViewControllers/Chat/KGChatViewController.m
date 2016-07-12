@@ -421,12 +421,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)setupFetchedResultsController {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
+    
     self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:[KGPostAttributes createdAt]
                                                       ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:[KGPostAttributes creationDay]
-                                                       delegate:self
-                                     ];
+                                                       delegate:self inContext:[NSManagedObjectContext MR_defaultContext]];
 
     self.fetchedResultsController.fetchedObjects.count == 0 ?
             [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
@@ -483,6 +483,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)sendPost {
 
+    
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
     // Todo, Code Review: Вынести создание пустой сущности в геттер
     
@@ -497,7 +498,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
 
     if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
+        self.currentPost = [KGPost MR_createEntityInContext:[NSManagedObjectContext MR_defaultContext]];
     }
     self.currentPost.message = self.textInputbar.textView.text;
     self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
@@ -510,12 +511,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.currentPost setBackendPendingId:
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+    
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:^(BOOL contextDidSave, NSError * _Nullable error) {
+        [[NSManagedObjectContext MR_defaultContext] refreshObject:self.currentPost mergeChanges:NO];
+    }];
+
+    
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
             self.currentPost.error = @YES;
             [[KGAlertManager sharedManager] showError:error];
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
 
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
@@ -963,27 +968,15 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     UIAlertAction *resendAction =
     [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
-        self.currentPost = [KGPost MR_createEntity];
-        self.currentPost.message = post.message;
-        self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
-        self.currentPost.channel = self.channel;
-        self.currentPost.createdAt = [NSDate date];
-//        self.currentPost.files = post.files;
-        //self.textView.text = @"";
+        self.currentPost = post;
+        self.currentPost.error = @NO;
+
+        [[NSManagedObjectContext MR_defaultContext] refreshObject:self.currentPost mergeChanges:NO];
         
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-     
-        // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
-        [self.currentPost setBackendPendingId:
-        [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
-        [self.currentPost.createdAt timeIntervalSince1970]]];
-        [post MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
             if (error) {
                 self.currentPost.error = @YES;
                 [[KGAlertManager sharedManager] showError:error];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
             }
         
             // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
