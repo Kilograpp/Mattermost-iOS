@@ -65,6 +65,8 @@
 
 - (void)setupIconImageView {
     self.iconImageView = [[UIImageView alloc] init];
+    UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
+    self.iconImageView.image = icon;
     [self addSubview:self.iconImageView];
 
 }
@@ -97,27 +99,27 @@
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
         self.file = file;
-//        UIImage *icon = [UIImage imageNamed:@"chat_file_ic"];
-//        self.iconImageView.image = icon;
+
 //        NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
 //        self.nameLabel.text = name;
 //        self.sizeLabel.text = fileSizeString(file);
-        [self setNeedsLayout];
+//        [self setNeedsDisplay];
     }
 }
 
 
 #pragma mark - Lifecycle
 
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//    
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
 //    self.iconImageView.frame = CGRectMake(5, 5, 44, 44);
 //    self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.iconImageView.frame) + 5, 8, self.bounds.size.width - 64, 20);
 //    self.sizeLabel.frame = CGRectMake(CGRectGetMinX(self.nameLabel.frame), CGRectGetMaxY(self.nameLabel.frame) + 5, 100, 15);
 //    
 //    [self alignSubviews];
-//}
+      [self setNeedsDisplay];
+}
 
 
 #pragma mark - Private

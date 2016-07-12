@@ -559,7 +559,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 //                }];
 //            }];
 //            [self.filesInfoQueue addOperation:operation];
-//            [operation waitUntilFinished];
+////            [operation waitUntilFinished];
 //        }
 //    }
     
@@ -573,7 +573,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             RKManagedObjectRequestOperation* operation = [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request managedObjectContext:[NSManagedObjectContext MR_defaultContext] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                 NSLog(@"updated");
 //                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 //                });
             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                 NSLog(@"f411");
