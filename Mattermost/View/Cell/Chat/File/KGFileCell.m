@@ -48,18 +48,18 @@
     paragraphStyle.alignment = NSTextAlignmentLeft;
     
     [name drawInRect:nameFrame withAttributes:@{
-                                                NSFontAttributeName : [UIFont kg_regular16Font],
-                                                NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
-                                                NSForegroundColorAttributeName : [UIColor kg_blueColor],
-                                                NSParagraphStyleAttributeName : paragraphStyle
+                                                NSFontAttributeName             : [UIFont kg_regular16Font],
+                                                NSBackgroundColorAttributeName  : [UIColor kg_whiteColor],
+                                                NSForegroundColorAttributeName  : [UIColor kg_blueColor],
+                                                NSParagraphStyleAttributeName   : paragraphStyle
                                                 }];
     
     
     [fileSizeString(self.file) drawInRect:CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17) withAttributes:@{
-                                                                     NSFontAttributeName : [UIFont kg_regular16Font],
+                                                                     NSFontAttributeName            : [UIFont kg_regular16Font],
                                                                      NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
                                                                      NSForegroundColorAttributeName : [UIColor kg_lightGrayColor],
-                                                                     NSParagraphStyleAttributeName : paragraphStyle
+                                                                     NSParagraphStyleAttributeName  : paragraphStyle
                                                                      }];
 }
 
@@ -102,6 +102,7 @@
 //        NSString *name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
 //        self.nameLabel.text = name;
 //        self.sizeLabel.text = fileSizeString(file);
+        [self setNeedsLayout];
     }
 }
 

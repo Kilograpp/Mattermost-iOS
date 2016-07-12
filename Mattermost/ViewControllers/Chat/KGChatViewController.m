@@ -61,6 +61,10 @@
 #import "KGCommandTableViewCell.h"
 #import "KGDateFormatter.h"
 
+#import <RestKit/RestKit.h>
+#import "KGObjectManager.h"
+#import <SOCKit/SOCKit.h>
+
 static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
@@ -93,6 +97,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 @property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
 @property (assign) BOOL errorOccured;
 
+@property (nonatomic, strong) NSOperationQueue *filesInfoQueue;
+
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
@@ -105,6 +111,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [super viewDidLoad];
 
     [self initialSetup];
+    [self setupFilesInfoOperationQueue];
     [self setupTableView];
     [self setupAutocompletionView];
     [self setupIsNoMessagesLabelShow:YES];
@@ -233,7 +240,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     if (isShow) {
         [self.view bringSubviewToFront:self.noMessadgesLabel];
     }
-    
+}
+
+- (void)setupFilesInfoOperationQueue {
+    self.filesInfoQueue = [[NSOperationQueue alloc] init];
+    self.filesInfoQueue.maxConcurrentOperationCount = 1;
 }
 
 #pragma mark - SLKViewController
@@ -510,7 +521,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.currentPost setBackendPendingId:
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
             self.currentPost.error = @YES;
@@ -520,7 +531,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
         NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:self.currentPost];
         NSLog(@"%@ RELOADED", indexPath);
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         self.currentPost = nil;
     }];
 }
@@ -531,15 +542,41 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 //    
 //    for (KGFile *file in files) {
 //        if (file.sizeValue == 0) {
-//            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-//                if (error) {
-//                    [[KGAlertManager sharedManager] showError:error];
-//                } else {
-//                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//                }
+//            NSBlockOperation *operation = [[NSBlockOperation alloc] init];
+//            [operation addExecutionBlock:^{
+//                [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
+//                    if (error) {
+//                        [[KGAlertManager sharedManager] showError:error];
+//                    } else {
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//                        });
+//                    }
+//                }];
 //            }];
+//            [self.filesInfoQueue addOperation:operation];
+//            [operation waitUntilFinished];
 //        }
 //    }
+    
+    
+    NSArray *files = post.nonImageFiles;
+    
+    for (KGFile *file in files) {
+        if (file.sizeValue == 0) {
+            NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
+            NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil method:RKRequestMethodGET path:path parameters:nil];
+            RKManagedObjectRequestOperation* operation = [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request managedObjectContext:[NSManagedObjectContext MR_defaultContext] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                NSLog(@"updated");
+//                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//                });
+            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                NSLog(@"f411");
+            }];
+            [self.filesInfoQueue addOperation:operation];
+        }
+    }
 }
 
 
