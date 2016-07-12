@@ -117,15 +117,19 @@ static NSString * const KGActionNameKey = @"action";
 
         NSDictionary *postDict = [NSJSONSerialization JSONObjectWithData:[postString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 
-        KGPost *post = [KGPost managedObjectById:postDict[@"id"]] ?: [KGPost MR_findFirstOrCreateByAttribute:@"backendPendingId"
-                                                                                                   withValue:postDict[@"pending_post_id"]];
-        [post setIdentifier:postDict[@"id"]];
-        [post setChannel:[KGChannel managedObjectById:channelId]];
-        [self updatePost:post completion:^(KGError *error) {
-            NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
-            KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
-        }];
+        KGPost *post = [KGPost managedObjectById:postDict[@"id"]] ?: [KGPost MR_findFirstByAttribute:@"backendPendingId"
+                                                                                            withValue:postDict[@"pending_post_id"]];
+        if (!post) {
+            post = [KGPost MR_createEntity];
+            [post setIdentifier:postDict[@"id"]];
+            [post setChannel:[KGChannel managedObjectById:channelId]];
+            [self updatePost:post completion:^(KGError *error) {
+                NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
+                KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
+                [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
+            }];
+        }
+        
     } else {
         NSString *channelNotificationName = [[KGBusinessLogic sharedInstance] notificationNameForChannelWithIdentifier:channelId];
         KGChannelNotification *notification = [KGChannelNotification notificationWithUserIdentifier:userId action:[self actionForString:action]];
