@@ -517,27 +517,29 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [[KGAlertManager sharedManager] showError:error];
             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         }
-
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
-            self.currentPost = nil;
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:self.currentPost];
+        NSLog(@"%@ RELOADED", indexPath);
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        self.currentPost = nil;
     }];
 }
 
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
-    NSArray *files = post.nonImageFiles;
-    
-    for (KGFile *file in files) {
-        if (file.sizeValue == 0) {
-            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-                if (error) {
-                    [[KGAlertManager sharedManager] showError:error];
-                } else {
-                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                }
-            }];
-        }
-    }
+//    NSArray *files = post.nonImageFiles;
+//    
+//    for (KGFile *file in files) {
+//        if (file.sizeValue == 0) {
+//            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
+//                if (error) {
+//                    [[KGAlertManager sharedManager] showError:error];
+//                } else {
+//                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+//                }
+//            }];
+//        }
+//    }
 }
 
 

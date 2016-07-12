@@ -55,15 +55,18 @@
                         wSelf.kg_image = image;
                     }
                     CGSize newSize = CGSizeMake(wSelf.kg_image.size.width * scaleFactor, wSelf.kg_image.size.height * scaleFactor);
-                    [UIImage roundedImage:wSelf.kg_image
-                              whithRadius:3
-                                     size:newSize
-                       completion:^(UIImage *image) {
-                            wSelf.kg_imageView.image = image;
-                            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
-                            });
-                    }];
+                    if(wSelf.kg_image) {
+                        [UIImage roundedImage:wSelf.kg_image
+                                  whithRadius:3
+                                         size:newSize
+                                   completion:^(UIImage *image) {
+                                       wSelf.kg_imageView.image = image;
+                                       dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                           [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
+                                       });
+                                   }];
+                    }
+                    
     }
                usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [self.kg_imageView removeActivityIndicator];
