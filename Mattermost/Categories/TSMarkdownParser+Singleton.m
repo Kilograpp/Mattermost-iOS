@@ -10,22 +10,33 @@
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 
+@interface TSMarkdownParser()
+
++ (void)addAttributes:(NSArray<NSDictionary<NSString *, id> *> *)attributesArray atIndex:(NSUInteger)level toString:(NSMutableAttributedString *)attributedString range:(NSRange)range;
+
+@end
+
 @implementation TSMarkdownParser (Singleton)
 
 + (instancetype)sharedInstance {
     static dispatch_once_t once;
     static id sharedInstance;
     dispatch_once(&once, ^{
-        sharedInstance = [self standardParser];
+        sharedInstance = [self kg_customParser];
         [sharedInstance setupAttrubutes];
     });
     return sharedInstance;
 }
 
 - (void)setupAttrubutes {
+    [self setupSettings];
     [self setupDefaultAttrubutes];
     [self setupHeaderAttributes];
     [self setupOtherAttributes];
+}
+
+- (void)setupSettings {
+    self.skipLinkAttribute = YES;
 }
 
 - (void)setupDefaultAttrubutes {
@@ -48,6 +59,69 @@
 - (void)setupOtherAttributes {
     self.emphasisAttributes = @{ NSFontAttributeName            : [UIFont kg_italic15Font],
                                  NSForegroundColorAttributeName : [UIColor kg_blackColor] };
+}
+
+
++ (instancetype)kg_customParser {
+    TSMarkdownParser *defaultParser = [self new];
+    __weak TSMarkdownParser *weakParser = defaultParser;
+    
+    /* escaping parsing */
+    
+    [defaultParser addCodeEscapingParsing];
+    
+    [defaultParser addEscapingParsing];
+    
+    /* block parsing */
+    
+    
+    [defaultParser addHeaderParsingWithMaxLevel:0 leadFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, __unused NSUInteger level) {
+        [attributedString deleteCharactersInRange:range];
+    } textFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSUInteger level) {
+        [TSMarkdownParser addAttributes:weakParser.headerAttributes atIndex:level - 1 toString:attributedString range:range];
+        
+    }];
+    
+    [defaultParser addListParsingWithMaxLevel:0 leadFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSUInteger level) {
+        NSMutableString *listString = [NSMutableString string];
+        while (--level)
+            [listString appendString:@"\t"];
+        [listString appendString:@"•\t"];
+        [attributedString replaceCharactersInRange:range withString:listString];
+    } textFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSUInteger level) {
+        [TSMarkdownParser addAttributes:weakParser.listAttributes atIndex:level - 1 toString:attributedString range:range];
+    }];
+    
+    [defaultParser addQuoteParsingWithMaxLevel:0 leadFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSUInteger level) {
+        NSMutableString *quoteString = [NSMutableString string];
+        while (level--)
+            [quoteString appendString:@"\t"];
+        [attributedString replaceCharactersInRange:range withString:quoteString];
+    } textFormattingBlock:^(NSMutableAttributedString * attributedString, NSRange range, NSUInteger level) {
+        [TSMarkdownParser addAttributes:weakParser.quoteAttributes atIndex:level - 1 toString:attributedString range:range];
+    }];
+    
+
+    /* inline parsing */
+    
+    [defaultParser addStrongParsingWithFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range) {
+        [attributedString addAttributes:weakParser.strongAttributes range:range];
+    }];
+
+    [defaultParser addEmphasisParsingWithFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range) {
+        [attributedString addAttributes:weakParser.emphasisAttributes range:range];
+    }];
+    
+    /* unescaping parsing */
+    
+    [defaultParser addCodeUnescapingParsingWithFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range) {
+        [attributedString addAttributes:weakParser.monospaceAttributes range:range];
+    }];
+    
+    [defaultParser addUnescapingParsing];
+    
+    return defaultParser;
+
 }
 
 @end
