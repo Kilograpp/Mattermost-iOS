@@ -505,12 +505,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.currentPost.createdAt = [NSDate date];
     self.textView.text = @"";
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
     // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
     [self.currentPost setBackendPendingId:
             [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
                                                  [self.currentPost.createdAt timeIntervalSince1970]]];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
     [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
         if (error) {
             self.currentPost.error = @YES;

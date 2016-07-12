@@ -50,6 +50,9 @@
         }
         
         if ([self.deletedSectionIndexes containsIndex:indexPath.section] == NO) {
+            if ([self.updatedRowIndexPaths containsObject:indexPath]) {
+                [self.updatedRowIndexPaths removeObject:indexPath];
+            }
             [self.deletedRowIndexPaths addObject:indexPath];
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
@@ -72,6 +75,7 @@
             break;
     }
 }
+
 
 - (void)rowShouldBeUpdatedAtIndexPath:(NSIndexPath*)indexPath {
     [self.insertedRowIndexPaths removeObject:indexPath];
