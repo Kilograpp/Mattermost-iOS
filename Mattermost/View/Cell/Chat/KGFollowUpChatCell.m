@@ -109,17 +109,28 @@ static CGFloat const kErrorViewSize = 34.f;
         [messageQueue addOperation:self.messageOperation];
 
         if (self.post.error) {
-            self.errorView.hidden = NO;
-            self.loadingView.hidden = YES;
+            [self showError];
         } else {
-            if (!self.post.identifier) {
-                [self startAnimation];
-            } else {
-                [self finishAnimation];
-                self.messageLabel.textColor = [UIColor kg_blackColor];
-            }
+            [self reloadSendingState];
         }
     }
+}
+
+- (void)showError {
+    self.errorView.hidden = NO;
+    self.loadingView.hidden = YES;
+}
+
+- (void)reloadSendingState {
+    if (!self.post.identifier) {
+        [self startAnimation];
+    } else {
+        [self finishAnimation];
+    }
+}
+
+- (void)hideError {
+    self.errorView.hidden = YES;
 }
 
 - (void)startAnimation {

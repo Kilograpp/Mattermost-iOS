@@ -9,6 +9,7 @@
 #import <RestKit/Network/RKManagedObjectRequestOperation.h>
 #import "KGError.h"
 #import "KGUtils.h"
+#import <MagicalRecord.h>
 
 
 @implementation KGObjectManager
@@ -95,6 +96,7 @@
       savesToStore:(BOOL)savesToPersistentStore
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure {
+    
     void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         safetyCall(success, mappingResult);
     };
@@ -103,9 +105,11 @@
         safetyCall(failure, [self handleOperation:operation withError:error]);
     };
     
+    
+    
     NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:nil ];
     RKManagedObjectRequestOperation* operation = [self managedObjectRequestOperationWithRequest:request
-                                                                           managedObjectContext:nil
+                                                                           managedObjectContext:[object managedObjectContext]
                                                                                         success:successHandlerBlock
                                                                                         failure:failureHandlerBlock];
     operation.savesToPersistentStore = savesToPersistentStore;

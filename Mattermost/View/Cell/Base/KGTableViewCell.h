@@ -10,6 +10,8 @@
 #import "KGPost.h"
 @interface KGTableViewCell : UITableViewCell
 
+@property (nonatomic, strong, nullable) KGPost *post;
+
 + (NSString * _Nonnull)reuseIdentifier;
 + (UINib * _Nonnull)nib;
 + (CGFloat)heightWithObject:(id _Nullable)object;
@@ -26,6 +28,8 @@
 @property (nonatomic, strong) UIButton * _Nullable errorView;
 
 @property (copy, nonatomic, nullable) void(^profileTapHandler)(KGUser * _Nonnull user);
+- (void)showError;
+- (void)hideError;
 - (void)startAnimation;
 - (void)finishAnimation;
 @end

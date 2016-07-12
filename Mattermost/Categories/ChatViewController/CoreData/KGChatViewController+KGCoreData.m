@@ -7,6 +7,7 @@
 //
 
 #import "KGChatViewController+KGCoreData.h"
+#import "KGPost.h"
 #import <CoreData/CoreData.h>
 
 @implementation KGChatViewController (KGCoreData)
@@ -20,9 +21,11 @@
     self.updatedRowIndexPaths = [[NSMutableArray alloc] init];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(KGPost*)anObject atIndexPath:(NSIndexPath *)indexPath
      forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+    
+    
     if (type == NSFetchedResultsChangeInsert) {
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section]) {
             if ([self.insertedRowIndexPaths containsObject:indexPath]) {
@@ -56,6 +59,12 @@
             [self.deletedRowIndexPaths addObject:indexPath];
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
+        
+        if ([self.temporaryIgnoredObjects containsObject:anObject.backendPendingId]) {
+            
+            return;
+        }
+        
         [self rowShouldBeUpdatedAtIndexPath:indexPath];
     }
 }
@@ -97,6 +106,10 @@
     if (totalChanges > 120) {
         
         [self.tableView reloadData];
+        return;
+    }
+    
+    if (totalChanges == 0) {
         return;
     }
     

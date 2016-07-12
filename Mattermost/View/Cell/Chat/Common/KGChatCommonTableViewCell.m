@@ -150,8 +150,8 @@ static CGFloat const kErrorViewSize = 34.f;
         }];
         [messageQueue addOperation:self.messageOperation];
         
-        self.nameLabel.text = _post.author.nickname;
-        _dateString = [_post.createdAt timeFormatForMessages];
+        self.nameLabel.text = self.post.author.nickname;
+        _dateString = [self.post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
 
         
@@ -187,8 +187,7 @@ static CGFloat const kErrorViewSize = 34.f;
         
 
         if (self.post.error){
-            self.errorView.hidden = NO;
-            self.loadingView.hidden = YES;
+            [self showError];
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -197,6 +196,15 @@ static CGFloat const kErrorViewSize = 34.f;
             }
         }
     }
+}
+
+- (void)showError {
+    self.errorView.hidden = NO;
+    self.loadingView.hidden = YES;
+}
+
+- (void)hideError {
+    self.errorView.hidden = YES;
 }
 
 - (void)startAnimation {
