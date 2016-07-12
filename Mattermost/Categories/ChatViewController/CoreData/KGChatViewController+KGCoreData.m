@@ -115,11 +115,11 @@
     
     [self.tableView beginUpdates];
     
-    [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView insertSections:self.insertedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertSections:self.insertedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
     
     [self.tableView deleteRowsAtIndexPaths:self.deletedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
     [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
     
     [self.tableView endUpdates];
