@@ -12,6 +12,7 @@
 #import "KGPreferences.h"
 #import <TSMarkdownParser/TSMarkdownParser.h>
 #import "KGUser.h"
+#import "UIView+Align.h"
 #import <DGActivityIndicatorView.h>
 
 static CGFloat const kLoadingViewSize = 25.f;
@@ -68,9 +69,9 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)setupLoadingView {
-    self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor kg_blueColor] size:kLoadingViewSize - 5];
-    //    self.loadingView.type = ;
-    //self.loadingView
+    self.loadingView = [[DGActivityIndicatorView alloc]initWithType:DGActivityIndicatorAnimationTypeBallPulse
+                                                          tintColor:[UIColor kg_blueColor]
+                                                               size:kLoadingViewSize - 5];
     self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.loadingView];
     self.loadingView.hidden = YES;
@@ -79,7 +80,6 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)setupErrorView {
     self.errorView = [[UIButton alloc] init];
     [self.errorView setImage:[UIImage imageNamed:@"message_fail_button"] forState:UIControlStateNormal];
-//    [self addSubview:self.errorView];
     [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:
      UIControlEventTouchUpInside];
     self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
@@ -141,7 +141,9 @@ static CGFloat const kErrorViewSize = 34.f;
     
     self.messageLabel.frame = CGRectMake(53, 8, ceilf(textWidth) - kLoadingViewSize, self.post.heightValue);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - 8, 10, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,ceilf((self.frame.size.height - kErrorViewSize)/2) ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize)/2 ,kErrorViewSize ,kErrorViewSize);
+    
+    [self alignSubviews];
 }
 
 + (CGFloat)heightWithObject:(id)object {
