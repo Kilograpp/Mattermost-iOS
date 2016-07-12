@@ -107,7 +107,11 @@
     
     [self.tableView endUpdates];
     
-    [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
+    if (self.lastPath) {
+        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
+        self.lastPath = nil;
+    }
+    
 }
 
 
