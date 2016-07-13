@@ -349,6 +349,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     __block KGPost* postToSend = self.currentPost;
     [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
+    [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
     
     [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсно методе
@@ -360,6 +361,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [cell showError];
         }
 
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [self resetCurrentPost];
     }];
 }
