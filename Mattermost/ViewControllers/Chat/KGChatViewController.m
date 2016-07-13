@@ -142,7 +142,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         _isFirstLoad = NO;
     }
     
-    self.temporaryIgnoredObjects = [NSMutableArray array];
+    self.temporaryIgnoredObjects = [NSCountedSet set];
 }
 
 
@@ -352,13 +352,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсно методе
+        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]];
+        [cell finishAnimation];
         if (error) {
             postToSend.error = @YES;
             [[KGAlertManager sharedManager] showError:error];
+            [cell showError];
         }
 
-        [[self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]] finishAnimation];
-        [self.temporaryIgnoredObjects removeObject:postToSend.backendPendingId];
         [self resetCurrentPost];
     }];
 }
@@ -750,7 +751,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [cell hideError];
         [cell startAnimation];
         [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
-        
+        [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
         
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
             
@@ -761,8 +762,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 [[KGAlertManager sharedManager] showError:error];
                 [cell showError];
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-            }
-            [self.temporaryIgnoredObjects removeObject:postToSend.backendPendingId];
+            } 
         
             // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
             
