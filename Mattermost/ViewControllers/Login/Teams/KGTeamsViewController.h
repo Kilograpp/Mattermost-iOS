@@ -9,5 +9,5 @@
 #import "KGLoginBaseViewController.h"
 
 @interface KGTeamsViewController : KGLoginBaseViewController
-
++ (instancetype)configuredContainerViewController;
 @end

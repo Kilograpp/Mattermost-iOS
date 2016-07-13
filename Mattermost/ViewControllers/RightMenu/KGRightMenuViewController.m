@@ -24,6 +24,7 @@
 #import "UIStatusBar+SharedBar.h"
 #import "KGSideMenuContainerViewController.h"
 #import "KGSettingsViewController.h"
+#import "KGTeamsViewController.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -127,7 +128,7 @@
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
+                                                                          [wSelf showTeams];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
@@ -191,6 +192,10 @@
     
 }
 
+- (void)showTeams {
+    KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
 #pragma mark - Private Setters
 //fixme а зачем это?
