@@ -107,7 +107,7 @@
                 NSString* channelId = [[[URL relativePath] pathComponents] objectAtIndex:3];
                 NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
                 if([KGPost MR_countOfEntitiesWithPredicate:predicate] > 0) {
-                    return [KGPost MR_requestAllWithPredicate:predicate];
+                    return [KGPost MR_requestAllWithPredicate:predicate inContext:[NSManagedObjectContext MR_defaultContext]];
                 }
             }
             return nil;
