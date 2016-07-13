@@ -126,6 +126,7 @@
 		D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */; };
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
+		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
 		D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D84193521D2FFE7000D32C69 /* KGTheme.m */; };
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
@@ -374,6 +375,8 @@
 		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
 		D80638C71D1C2A270034E450 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		D81DC27C1D36E10100D48FCD /* KGImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePicker.h; sourceTree = "<group>"; };
+		D81DC27D1D36E10100D48FCD /* KGImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePicker.m; sourceTree = "<group>"; };
 		D84193511D2FFE7000D32C69 /* KGTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTheme.h; sourceTree = "<group>"; };
 		D84193521D2FFE7000D32C69 /* KGTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTheme.m; sourceTree = "<group>"; };
 		D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSMarkdownParser.framework; path = Carthage/Build/iOS/TSMarkdownParser.framework; sourceTree = "<group>"; };
@@ -739,6 +742,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D81DC27B1D36E0EB00D48FCD /* KGImagePicker */,
 				D6ABC3E41D33EF000047ECAF /* KGUserStatusObserver */,
 				D6ABC3E01D33E64A0047ECAF /* KGUserStatus */,
 				D6DF88571D3306DE0091DBDE /* KGDateFormatter */,
@@ -1426,6 +1430,15 @@
 			name = TSMarkdownParser;
 			sourceTree = "<group>";
 		};
+		D81DC27B1D36E0EB00D48FCD /* KGImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				D81DC27C1D36E10100D48FCD /* KGImagePicker.h */,
+				D81DC27D1D36E10100D48FCD /* KGImagePicker.m */,
+			);
+			name = KGImagePicker;
+			sourceTree = "<group>";
+		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -1787,6 +1800,7 @@
 				7339BA3BD5047EF66FBA59F1 /* NSAttributedString+FormattedTitle.m in Sources */,
 				7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */,
 				7339B8D8DCD6FF65DA04A185 /* NSError+KGError.m in Sources */,
+				D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */,
 				7339BA1F4FAF21BCC09EB831 /* NSManagedObject+CustomFinder.m in Sources */,
 				7339B68420588BA2A754078D /* NSObject+RuntimeMethodsValues.m in Sources */,
 				7339BA2EF501D676B9E8E03F /* NSObject+EnumerateProperties.m in Sources */,

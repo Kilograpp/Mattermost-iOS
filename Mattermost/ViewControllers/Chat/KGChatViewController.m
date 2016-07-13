@@ -57,6 +57,7 @@
 #import "KGObjectManager.h"
 #import <SOCKit/SOCKit.h>
 
+#import "KGImagePicker.h"
 
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
@@ -65,11 +66,10 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 
-@interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate,
-                            KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
+@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
+                            KGRightMenuDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) KGChannel *channel;
-@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
 // TODO: Code Review: Убрать currentPost как избыточный.
 @property (nonatomic, strong) KGPost *currentPost;
@@ -87,6 +87,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
+@property (strong, nonatomic) KGImagePicker* picker;
+
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
@@ -363,29 +365,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
-    // TODO: Code Review: Дохлый код
-//    NSArray *files = post.nonImageFiles;
-//    
-//    for (KGFile *file in files) {
-//        if (file.sizeValue == 0) {
-//            NSBlockOperation *operation = [[NSBlockOperation alloc] init];
-//            [operation addExecutionBlock:^{
-//                [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-//                    if (error) {
-//                        [[KGAlertManager sharedManager] showError:error];
-//                    } else {
-//                        dispatch_async(dispatch_get_main_queue(), ^{
-//                            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//                        });
-//                    }
-//                }];
-//            }];
-//            [self.filesInfoQueue addOperation:operation];
-////            [operation waitUntilFinished];
-//        }
-//    }
-    
-    
     NSArray *files = post.nonImageFiles;
     
     for (KGFile *file in files) {
@@ -451,54 +430,42 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)assignPhotos {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction *openCameraAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                    picker.delegate = self;
-                    
-                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                        picker.modalPresentationStyle = UIModalPresentationFormSheet;
-                    
-                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    [self presentViewController:picker animated:YES completion:nil];
-            });
-        }];
+    __block BOOL operationCancelled = NO;
+    self.picker = [KGImagePicker new];
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    
+    __weak typeof(self) wSelf = self;
+    
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+    [self.picker launchPickerFromController:self didHidePickerHandler:^{
+        [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    } willBeginPickingHandler:^{
+        [[KGAlertManager sharedManager] showProgressHud];
+    } didPickImageHandler:^(UIImage *image) {
+        dispatch_group_enter(group);
+        [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
+                                            atChannel:wSelf.channel
+                                       withCompletion:^(KGFile* file, KGError* error) {
+                                           [self.currentPost addFilesObject:file];
+                                           dispatch_group_leave(group);
+                                       }];
+    } didFinishPickingHandler:^(BOOL isCancelled){
+        operationCancelled = isCancelled;
+        dispatch_group_leave(group);
     }];
     
-    UIAlertAction *openGalleryAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-                picker.delegate = self;
-                
-                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
-                
-                [self presentViewController:picker animated:YES completion:nil];
-            });
-        }];
-            }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:openCameraAction];
-    [alertController addAction:openGalleryAction];
-    [alertController addAction:cancelAction];
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        if (!operationCancelled){
+            [[KGAlertManager sharedManager] hideHud];
+            [self sendPost];
+        }
+    });
     
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)presentPickerControllerWithType:(UIImagePickerControllerSourceType)type {
-    KGImagePickerController *pickerController = [[KGImagePickerController alloc] init];
-    pickerController.sourceType = type;
-    pickerController.delegate = self;
-    
-    [self presentViewController:pickerController animated:YES completion:nil];
-}
+
 
 - (void)updateNavigationBarAppearance:(BOOL)loadingInProgress errorOccured:(BOOL)errorOccured {
     NSString *subtitleString;
@@ -598,80 +565,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 
-#pragma mark -  CTAssetsPickerControllerDelegate
-
-// Todo, Code Review: Каша из абстракции
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
-    PHImageManager *manager = [PHImageManager defaultManager];
-    self.requestOptions = [[PHImageRequestOptions alloc] init];
-    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
-    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-
-    __weak typeof(self) wSelf = self;
-
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-    
-    dispatch_group_t group = dispatch_group_create();
-    if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
-    }
-    
-    self.textInputbar.rightButton.enabled = NO;
-    for (PHAsset *asset in assets) {
-        dispatch_group_enter(group);
-        [manager requestImageForAsset:asset
-                           targetSize:PHImageManagerMaximumSize
-                          contentMode:PHImageContentModeAspectFill
-                              options:self.requestOptions
-                        resultHandler:^(UIImage *image, NSDictionary *info) {
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-                                                                atChannel:wSelf.channel
-                                withCompletion:^(KGFile* file, KGError* error) {
-                                    [self.currentPost addFilesObject:file];
-                                    dispatch_group_leave(group);
-                            }];
-                        }];
-    }
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [[KGAlertManager sharedManager] hideHud];
-        self.textInputbar.rightButton.enabled = YES;
-        [self sendPost];
-    });
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-    
-    __weak typeof(self) wSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-        dispatch_group_t group = dispatch_group_create();
-    if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
-    }
-    dispatch_group_enter(group);
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-                                                                atChannel:wSelf.channel
-                                                           withCompletion:^(KGFile* file, KGError* error) {
-                                                               [self.currentPost addFilesObject:file];
-                                                               dispatch_group_leave(group);
-                                                           }];
-    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-    }
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [[KGAlertManager sharedManager] hideHud];
-        self.textInputbar.rightButton.enabled = YES;
-        [self sendPost];
-    });
-}
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController
