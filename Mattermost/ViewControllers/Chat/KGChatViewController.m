@@ -958,15 +958,22 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)showProfile: (KGUser *)user {
-    self.title = @"";
-    self.selectedUsername = user.username;
-//    [self.menuContainerViewController.rightMenuViewController performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+    if (([self.channel.backendType isEqualToString:@"O"]) && (![[KGBusinessLogic sharedInstance].currentUser isEqual: user])) {
+        //[self showLoadingView];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"displayName = %@", user.nickname];
+        KGChannel *channel = [[KGChannel MR_findAllWithPredicate:predicate] firstObject];
+        if (channel) {
+            [self didSelectChannelWithIdentifier:channel.identifier];
+            [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
+        } else {
+            [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
+        }
+    } else {
+        self.title = @"";
+        self.selectedUsername = user.username;
         [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
-
-    
-    
-
-}
+    }
+ }
 
 #pragma mark - Loading View
 
