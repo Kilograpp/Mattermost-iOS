@@ -72,6 +72,7 @@ static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
+
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate, IDMPhotoBrowserDelegate>
 
@@ -122,7 +123,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];    // Todo, Code Review: Нарушение абстракции
+    [super viewWillAppear:animated];
+    // Todo, Code Review: Нарушение абстракции
     [self.textView isFirstResponder];
     [self.textView resignFirstResponder];
     [self.textView refreshFirstResponder];
@@ -137,7 +139,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
-        //self.menuContainerViewController.leftMenuViewController =
     }
 }
 
@@ -145,23 +146,20 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    // Todo, Code Review: Нарушение абстракции
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
-        
     }
 }
 
-// Todo, Code Review: Нарушение абстракции, вынести отписку в отдельный метод
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObservers];
 }
 
 
 #pragma mark - Setup
 
 - (void)initialSetup {
-      _isFirstLoad = YES;
+    _isFirstLoad = YES;
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
@@ -317,19 +315,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
     // Todo, Code Review: Не понятное условие
     if (indexPath.row == [sectionInfo numberOfObjects] - 1) {//для первой ячейки
-        reuseIdentifier = post.files.count == 0 ?
+        reuseIdentifier = !post.hasAttachments ?
                 [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-        // Todo, Code Review: TimeIntervalSinceDate заменить на minutesEarlierThan из DateTools и вставить пять минут. Вообще, следует вынести сравнение дат с пятиминутным интервалом в категорию даты дополнительно.
-        // Todo, Code Review: PrevPost и Post сравнение авторов надо сделать нормальным методов внутри поста, а не так в контроллере.
-        // Todo, Code Review: Двойные условия на проверку attachment. Ее надо вынести глобально, а не трижды(см. выше) проверять внутри каждого условия
-        if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
-            reuseIdentifier = post.files.count == 0 ?
+        if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+            reuseIdentifier = !post.hasAttachments ?
                     [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
-            reuseIdentifier = post.files.count == 0 ?
+            reuseIdentifier = !post.hasAttachments ?
                     [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         }
     }
@@ -344,9 +339,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     cell.transform = self.tableView.transform;
 
     // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
-    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    //[cell finishAnimation];
-    //if (cell)
+//    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
+
     return cell;
 }
 
@@ -362,17 +356,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-            return post.files.count == 0 ?
+            return post.hasAttachments ?
                     [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-            // Todo, Code Review: Условие на даты см. выше
-            if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
-                return post.files.count == 0 ?
+            if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+                return !post.hasAttachments ?
                         [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
-                return post.files.count == 0 ?
+                return !post.hasAttachments ?
                         [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
@@ -493,11 +486,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)sendPost {
-
-    
     // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
-    // Todo, Code Review: Вынести создание пустой сущности в геттер
-    
     if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
 
         [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
@@ -534,9 +523,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         }
         // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
         NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:self.currentPost];
-        NSLog(@"%@ RELOADED", indexPath);
-//        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        self.currentPost = nil;
+        [self resetCurrentPost];
     }];
 }
 
@@ -571,12 +558,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
             NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil method:RKRequestMethodGET path:path parameters:nil];
             RKManagedObjectRequestOperation* operation = [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request managedObjectContext:[NSManagedObjectContext MR_defaultContext] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                NSLog(@"updated");
-//                dispatch_async(dispatch_get_main_queue(), ^{
 //                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//                });
             } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                NSLog(@"f411");
             }];
             [self.filesInfoQueue addOperation:operation];
         }
@@ -600,7 +583,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Todo, Code Review: Лишнее, если конфигурация autocompletion будет из категории
     if ([cell isKindOfClass:[KGTableViewCell class]]) {
-//        [cell startAnimation];
         [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
         cell.transform = self.tableView.transform;
     }
@@ -656,7 +638,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self presentViewController:pickerController animated:YES completion:nil];
 }
 
-// Todo, Code Review: Каша из асбтракции
 - (void)updateNavigationBarAppearance:(BOOL)loadingInProgress errorOccured:(BOOL)errorOccured {
     NSString *subtitleString;
     BOOL shouldHighlight = NO;
@@ -725,10 +706,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [self showProfile: post.author];
         };
     }
-//    if (post.error) {
-////        [cell.errorView addTarget:cell action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
-//    }
-
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -737,15 +714,19 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)replaceStatusBar {
-    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];
+    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view];
 }
+
+- (void)resetCurrentPost {
+    self.currentPost = nil;
+}
+
 
 #pragma mark - Notifications
 
 - (void)handleChannelNotification:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
-        //проверка на то, что текущий юзер != юзеру, который пишет
 
         switch (kg_notification.action) {
             case KGActionTyping: {
@@ -754,13 +735,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 if (![user.identifier isEqualToString:currentUserID]) {
                     [self.typingIndicatorView insertUsername:user.nickname];
                 }
+                
                 break;
             }
 
             case KGActionPosted: {
                 KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
                 [self.typingIndicatorView removeUsername: user.nickname];
-//                [self setupFetchedResultsController];
+
                 break;
             }
 
@@ -776,6 +758,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                              selector:@selector(updateNavigationBarAppearanceFromNotification:)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
@@ -952,12 +938,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)showProfile: (KGUser *)user {
     self.title = @"";
     self.selectedUsername = user.username;
-//    [self.menuContainerViewController.rightMenuViewController performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
-        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
-
-    
-    
-
+    [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
 }
 
 #pragma mark - Loading View
@@ -1001,7 +982,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 }
 
-- (void)errorActionWithPost: (KGPost *)post{
+- (void)errorActionWithPost: (KGPost *)post {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kErrorAlertViewTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     
@@ -1027,8 +1008,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     UIAlertAction *deleteAction =
     [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        //[self.fetchedResultsController.fetchedObjects delete:post];
-        //[[NSManagedObjectContext MR_defaultContext] deleteObject:post];
+        
         [post MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
@@ -1038,9 +1018,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [alertController addAction:resendAction];
     [alertController addAction:deleteAction];
     [alertController addAction:cancelAction];
-    //[self.superview pre
-    [self presentViewController:alertController animated:YES completion:nil];
     
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - RefreshControl
@@ -1093,17 +1072,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
-
-        //        UINavigationController *nc = segue.destinationViewController;
-        //        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
         KGProfileTableViewController *vc = segue.destinationViewController;
-       // vc.navigationController. = self.navigationController;
-        KGUser *user = [KGUser
-                MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
+        KGUser *user = [KGUser MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
         vc.userId = user.identifier;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
-        //vc.previousControler = self;
-//        self.menuContainerViewController
     }
 }
 
@@ -1118,6 +1090,17 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             UITableViewCellSeparatorStyleNone : UITableViewCellSeparatorStyleSingleLine;
 
     _shouldShowCommands = shouldShowCommands;
+}
+
+
+#pragma mark - Private Getters
+
+- (KGPost *)currentPost {
+    if (!_currentPost) {
+        _currentPost = [KGPost MR_createEntityInContext:[NSManagedObjectContext MR_defaultContext]];
+    }
+    
+    return _currentPost;
 }
 
 

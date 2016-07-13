@@ -88,6 +88,7 @@
 		D648B4491D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D648B4481D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf */; };
 		D648B44D1D2BB03000D797FD /* KGCommandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */; };
 		D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */; };
+		D64EB5AC1D36398D00D66425 /* NSDate+KGDateComparation.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
@@ -298,6 +299,8 @@
 		D648B44B1D2BB03000D797FD /* KGCommandTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGCommandTableViewCell.h; path = Commands/KGCommandTableViewCell.h; sourceTree = "<group>"; };
 		D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGCommandTableViewCell.m; path = Commands/KGCommandTableViewCell.m; sourceTree = "<group>"; };
 		D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGCommandTableViewCell.xib; path = Commands/KGCommandTableViewCell.xib; sourceTree = "<group>"; };
+		D64EB5AA1D36398D00D66425 /* NSDate+KGDateComparation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+KGDateComparation.h"; sourceTree = "<group>"; };
+		D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+KGDateComparation.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
@@ -581,6 +584,8 @@
 			children = (
 				7339BD78DEF5CA72F54CF17C /* NSDate+DateFormatter.h */,
 				7339B6846308211FDC4C1804 /* NSDate+DateFormatter.m */,
+				D64EB5AA1D36398D00D66425 /* NSDate+KGDateComparation.h */,
+				D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */,
 			);
 			path = NSDate;
 			sourceTree = "<group>";
@@ -1712,6 +1717,7 @@
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
 				CD7D11891D0C9556002EED4E /* KGPresentNavigationController.m in Sources */,
 				9B8223A1506518E1117BB72D /* KGChannel.m in Sources */,
+				D64EB5AC1D36398D00D66425 /* NSDate+KGDateComparation.m in Sources */,
 				CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */,
 				D8F4C3161D29CD3A008BCCB2 /* KGPostAction.m in Sources */,
 				D62FA8B81D32682000CA93D8 /* UIView+Align.m in Sources */,
