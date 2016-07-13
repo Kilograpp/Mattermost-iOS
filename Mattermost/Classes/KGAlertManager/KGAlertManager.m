@@ -127,7 +127,11 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
     [self.alertView showAlertViewAnimated:YES];
 }
 
-
+- (void)hideWarning {
+    if (self.alertView) {
+        [self.alertView hideAlertViewAnimated:YES];
+    }
+}
 
 #pragma mark - Private
 

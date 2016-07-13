@@ -19,6 +19,7 @@
 #import "KGUtils.h"
 #import "KGBusinessLogic+Socket.h"
 #import "KGUserStatusObserver.h"
+#import "NSString+Validation.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -81,6 +82,33 @@ extern NSString * const KGAuthTokenHeaderName;
 //    }
 //                                        failure:completion];
 //}
+
+- (BOOL)isValidateServerAddress {
+    NSString *address = [[KGPreferences sharedInstance] serverBaseUrl];
+    NSString *urlAddress = address;
+    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+    
+    if ([urlTest evaluateWithObject:urlAddress]) {
+        if ([urlAddress kg_isValidUrl]) {
+            return YES;
+        }
+    }
+    urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+    if ([urlAddress kg_isValidUrl]) {
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        return YES;
+    }
+    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+    if ([urlAddress kg_isValidUrl]) {
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        return YES;
+    }
+    return NO;
+    
+}
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
     NSString* path = [KGUser uploadAvatarPathPattern];

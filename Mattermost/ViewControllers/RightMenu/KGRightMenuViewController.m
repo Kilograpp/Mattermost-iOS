@@ -24,6 +24,7 @@
 #import "UIStatusBar+SharedBar.h"
 #import "KGSideMenuContainerViewController.h"
 #import "KGSettingsViewController.h"
+#import "KGTeamsViewController.h"
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -127,7 +128,7 @@
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
+                                                                          [wSelf showTeams];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
@@ -191,6 +192,10 @@
     
 }
 
+- (void)showTeams {
+    KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
 #pragma mark - Private Setters
 //fixme а зачем это?
@@ -201,39 +206,13 @@
 #pragma mark - Navigation
 
 - (IBAction)profileAction:(id)sender {
-    //[self segu]
     [self.delegate navigationToProfile];
-//    [self performSegueWithIdentifier:@"presentProfile" sender:nil];
-//    [self toggleRightSideMenuAction];
-//    [self.delegate navigateToSettings];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"presentProfile"]) {
-//        [self toggleRightSideMenuAction];
-//        [self.delegate navigateToSettings];
-            UINavigationController *nc = self.menuContainerViewController.centerViewController;
-//        UINavigationController *nc = segue.destinationViewController;
-//        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        KGProfileTableViewController *vc = segue.destinationViewController;
-        if (sender) {
-        KGUser *user = [KGUser
-                        MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:sender];
-            vc.userId = user.identifier;
-        } else {
-            vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
-        }
-
-//        [self toggleRightSideMenuAction];
-       // [self.delegate navigateToSettings];
-    }
 }
 
 #pragma mark - Alert
 
 -(void) alertUnderDevelopment {
     [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
-
 }
 
 @end

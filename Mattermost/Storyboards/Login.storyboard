@@ -232,7 +232,7 @@
         <!--Teams View Controller-->
         <scene sceneID="qNp-fJ-9aj">
             <objects>
-                <viewController id="86j-1I-OET" customClass="KGTeamsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="KGTeamsViewController" id="86j-1I-OET" customClass="KGTeamsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gos-h0-IBF"/>
                         <viewControllerLayoutGuide type="bottom" id="n10-vX-JAU"/>
@@ -319,7 +319,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZb-9y-cvx" customClass="KGButton">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZb-9y-cvx" customClass="KGButton">
                                 <rect key="frame" x="144" y="349" width="88" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="JhS-bm-nA8"/>
