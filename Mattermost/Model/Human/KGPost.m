@@ -11,6 +11,7 @@
 #import "UIColor+KGPreparedColor.h"
 #import <NSStringEmojize/NSString+Emojize.h>
 #import "NSCalendar+KGSharedCalendar.h"
+#import "KGBusinessLogic+Session.h"
 
 @interface KGPost ()
 
@@ -196,6 +197,12 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 
 - (BOOL)hasAttachments {
     return self.files.count;
+}
+
+- (void)configureBackendPendingId {
+    [self setBackendPendingId:
+     [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
+      [self.createdAt timeIntervalSince1970]]];
 }
 
 #pragma mark - Core Data

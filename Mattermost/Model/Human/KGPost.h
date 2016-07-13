@@ -7,8 +7,8 @@
 @property (nonatomic, assign, readonly) BOOL hasAttachments;
 
 - (BOOL)isUnread;
-
 - (NSTimeInterval)timeIntervalSincePost:(KGPost *)post;
+- (void)configureBackendPendingId;
 
 + (NSString* _Nonnull)nextPageListPathPattern;
 + (NSString* _Nonnull)firstPagePathPattern;

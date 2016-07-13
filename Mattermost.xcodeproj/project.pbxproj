@@ -89,6 +89,7 @@
 		D648B44D1D2BB03000D797FD /* KGCommandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */; };
 		D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */; };
 		D64EB5AC1D36398D00D66425 /* NSDate+KGDateComparation.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */; };
+		D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
@@ -301,6 +302,8 @@
 		D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGCommandTableViewCell.xib; path = Commands/KGCommandTableViewCell.xib; sourceTree = "<group>"; };
 		D64EB5AA1D36398D00D66425 /* NSDate+KGDateComparation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+KGDateComparation.h"; sourceTree = "<group>"; };
 		D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+KGDateComparation.m"; sourceTree = "<group>"; };
+		D64EB5AF1D364ED200D66425 /* KGChatViewController+KGTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KGChatViewController+KGTableView.h"; path = "ChatViewController/TableView/KGChatViewController+KGTableView.h"; sourceTree = "<group>"; };
+		D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGChatViewController+KGTableView.m"; path = "ChatViewController/TableView/KGChatViewController+KGTableView.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
@@ -996,6 +999,15 @@
 			name = Commands;
 			sourceTree = "<group>";
 		};
+		D64EB5AD1D364E6D00D66425 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				D64EB5AF1D364ED200D66425 /* KGChatViewController+KGTableView.h */,
+				D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
 		D65E5AC71D0F519400D5E0C6 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1247,6 +1259,7 @@
 		D6A3DE251D2A688900F9DF0F /* ChatViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D64EB5AD1D364E6D00D66425 /* TableView */,
 				D6A3DE261D2A689000F9DF0F /* CoreData */,
 			);
 			name = ChatViewController;
@@ -1672,6 +1685,7 @@
 				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
+				D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,
 				D696F7791D060FDD008341AF /* KGAppDelegate.m in Sources */,
