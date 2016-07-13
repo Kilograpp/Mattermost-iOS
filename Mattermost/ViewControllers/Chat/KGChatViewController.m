@@ -50,7 +50,8 @@
 #import "KGAction.h"
 #import "KGChatViewController+KGCoreData.h"
 #import "KGCommand.h"
-
+#import "KGChatViewController+KGLoading.h"
+#import "KGChatViewController+KGTableView.h"
 
 #import <RestKit/RestKit.h>
 #import "KGObjectManager.h"
@@ -67,38 +68,41 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 @interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate,
                             KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
-
 @property (nonatomic, strong) KGChannel *channel;
-// TODO: Code Review: В отдельный интерфейс.
-@property (nonatomic, strong) UIView *loadingView;
-// TODO: Code Review: В отдельный интерфейс.
-@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
 @property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
-// TODO: Code Review: Вынести в отдельный inteface
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
-
 // TODO: Code Review: Убрать currentPost как избыточный.
 @property (nonatomic, strong) KGPost *currentPost;
 @property (nonatomic, strong) NSArray *searchResultArray;
 // TODO: Code Review: Этот флаг должен быть реализован на уровне базового контроллера и передаваться параметром в перегруженные viewDidLoad/appear и прочее.
 @property (assign) BOOL isFirstLoad;
-// TODO: Code Review: Опечатка в названии.
-// TODO: Code Review: Аутлеты и вьюхи должны быть вынесены в отдельный интерфейс.
-@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 @property (assign) BOOL loadingInProgress;
 
-
-@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
 @property (assign) BOOL errorOccured;
 
 @property (nonatomic, strong) NSOperationQueue *filesInfoQueue;
+
+@property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
 
+//@interface KGChatViewController (UI)
+//@property (nonatomic, strong) UIView *loadingView;
+//@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
+//@property (nonatomic, strong) UIRefreshControl *refreshControl;
+//@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+//@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
+//@end
+
 @implementation KGChatViewController
+
+
 
 #pragma mark - Lifecycle
 
@@ -108,10 +112,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self initialSetup];
     // TODO: Code Review: Переименовать все setup методы, которые используют уже проинициализированные вьюхи на configure
     [self setupFilesInfoOperationQueue];
-    [self setupTableView];
-    [self setupAutocompletionView];
+    [self configureTableView];
+    [self configureAutocompletionView];
     [self setupIsNoMessagesLabelShow:YES];
-    [self setupKeyboardToolbar];
+    [self configureKeyboardToolbar];
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
@@ -164,13 +168,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     leftVC.delegate = self;
     rightVC.delegate = self;
-    self.shouldClearTextAtRightButtonPress = NO;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
-    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
-// TODO: Code Review: Не setup, а configure. Таблица уже создана
-- (void)setupTableView {
+
+- (void)configureTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
      // TODO: Code Review: Заменить константы на enum со значениями: часто используемая ячейка, редко и прочее.
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
@@ -192,15 +194,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
     // TODO: Code Review: Заменить на стиль из темы
     self.tableView.backgroundColor = [UIColor kg_whiteColor];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
-- (void)setupKeyboardToolbar {
-    [self setupTextView];
-    [self setupInputBarRightButton];
-    [self setupTextInputBar];
+- (void)configureKeyboardToolbar {
+    [self configureTextView];
+    [self configureInputBarRightButton];
+    [self configureTextInputBar];
 }
 
-- (void)setupTextInputBar {
+- (void)configureTextInputBar {
     self.textInputbar.autoHideRightButton = NO;
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     self.textInputbar.textView.placeholder = NSLocalizedString(@"Type something...", nil);
@@ -210,7 +213,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
 }
 
-- (void)setupInputBarRightButton {
+- (void)configureInputBarRightButton {
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
@@ -218,13 +221,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
 }
 
-// TODO: Code Review: Не setup, а configure
-- (void)setupTextView {
+- (void)configureTextView {
+    self.shouldClearTextAtRightButtonPress = NO;
     self.textView.delegate = self;
 }
 
-// TODO: Code Review: Не setup, а configure.
-- (void)setupAutocompletionView {
+- (void)configureAutocompletionView {
     self.autoCompletionView.scrollsToTop = NO;
     self.textView.scrollsToTop = NO;
     [self registerPrefixesForAutoCompletion:@[ kUsernameAutocompletionPrefix, kCommandAutocompletionPrefix ]];
@@ -258,21 +260,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 // TODO: Code Review: Слишком много логики в интерфейсном методе.
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word {
-    NSString *filterTerm;
-    
-    if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
-        filterTerm = [KGUserAttributes username];
-        self.autocompletionDataSource = [KGUser MR_findAll];
-    } else  if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
-        filterTerm = [KGCommandAttributes trigger];
-        self.autocompletionDataSource = [KGCommand MR_findAll];
-    }
-
-    if (word.length) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.%@ BEGINSWITH[c] %@", filterTerm, word];
-        self.autocompletionDataSource = [self.autocompletionDataSource filteredArrayUsingPredicate:predicate];
-    }
-
+    [self setupAutoCompletionDataSourceWithAutocompletionPrefix:prefix word:word];
     BOOL show = (self.autocompletionDataSource.count > 0);
     self.shouldShowCommands = [prefix isEqualToString:kCommandAutocompletionPrefix];
     [self showAutoCompletionView:show];
@@ -335,10 +323,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 }
 
-// TODO: Code Review: Вынести в категорию таблицы
-- (NSIndexPath *)indexPathForLastRow {
-    return [NSIndexPath indexPathForRow:[self tableView:self.tableView numberOfRowsInSection:self.fetchedResultsController.sections.count - 1] - 1
-                              inSection:self.self.fetchedResultsController.sections.count - 1];
+- (void)applyCommand {
+    [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
+                                                      inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
+                                                          [action execute];
+                                                      }];
+    [self clearTextView];
 }
 
 
@@ -346,12 +336,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)sendPost {
     // TODO: Code Review: Вынести условие в отдельный метод
     if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
-
-        [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
-                                                          inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
-                    [action execute];
-                }];
-        [self clearTextView];
+        [self applyCommand];
         return;
     }
 
@@ -360,25 +345,18 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 
-
     __block KGPost* postToSend = self.currentPost;
-    
     [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
     
     [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
-    
         // TODO: Code Review: Слишком много логики в интерфейсно методе
         if (error) {
             postToSend.error = @YES;
             [[KGAlertManager sharedManager] showError:error];
         }
 
-
         [[self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]] finishAnimation];
-        
         [self.temporaryIgnoredObjects removeObject:postToSend.backendPendingId];
-        
-
         [self resetCurrentPost];
     }];
 }
@@ -412,20 +390,46 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     for (KGFile *file in files) {
         if (file.sizeValue == 0) {
-            // TODO: Code Review:  Каша из логики, вынести в отдельный метод и разбить на подметоды(при необходимости последнее)
-            NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
-            NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil method:RKRequestMethodGET path:path parameters:nil];
-            RKManagedObjectRequestOperation* operation = [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request managedObjectContext:[NSManagedObjectContext MR_defaultContext] success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-//                    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-            }];
-            [self.filesInfoQueue addOperation:operation];
+            [self loadAdditionalInfoForFile:file];
         }
     }
 }
 
+- (void)loadAdditionalInfoForFile:(KGFile *)file {
+    NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
+    NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil
+                                                                                              method:RKRequestMethodGET
+                                                                                                path:path
+                                                                                          parameters:nil];
+    RKManagedObjectRequestOperation* operation =
+            [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request
+                                                                                       managedObjectContext:[NSManagedObjectContext MR_defaultContext]
+                                                                                                    success:nil
+                                                                                                    failure:nil];
+    [self.filesInfoQueue addOperation:operation];
+}
+
 
 #pragma mark - Private
+
+- (void)setupAutoCompletionDataSourceWithAutocompletionPrefix:(NSString *)prefix word:(NSString *)word {
+    NSString *filterTerm;
+    
+    if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
+        filterTerm = [KGUserAttributes username];
+        self.autocompletionDataSource = [KGUser MR_findAll];
+    } else  if ([prefix isEqualToString:kCommandAutocompletionPrefix]) {
+        filterTerm = [KGCommandAttributes trigger];
+        self.autocompletionDataSource = [KGCommand MR_findAll];
+    }
+    
+    if (word.length) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.%@ BEGINSWITH[c] %@", filterTerm, word];
+        self.autocompletionDataSource = [self.autocompletionDataSource filteredArrayUsingPredicate:predicate];
+    }
+    
+}
+
 
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath {
     KGAutoCompletionCell *cell;

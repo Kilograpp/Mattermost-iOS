@@ -9,5 +9,5 @@
 #import "KGChatViewController.h"
 
 @interface KGChatViewController (KGTableView)
-
+- (NSIndexPath *)indexPathForLastRow;
 @end
