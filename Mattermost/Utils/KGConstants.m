@@ -17,6 +17,7 @@ float                   const KGLeftMenuOffset = 52.f;
 NSString * const KGXRequestedWithHeader = @"X-Requested-With";
 NSString * const KGContentTypeHeader = @"Content-Type";
 NSString * const KGAcceptLanguageHeader = @"Accept-Language";
+NSString * const KGSocketProtocol = @"wss";
 
 
 NSString * const KGNotificationUsersStatusUpdate = @"maUsaDidStatusUpdateMon";
@@ -25,3 +26,4 @@ NSString * const KGNotificationDidReceiveRemoteNotification = @"datRmteNotifyBud
 NSString * const KGNotificationDidFinishLaunching = @"justGotTherePal";
 
 NSString * const KGUserDefaultsPreferencesKey = @"com.kilograpp.mattermost.preferences";
+
