@@ -172,6 +172,7 @@
     [self.delegate didSelectChannelWithIdentifier:channel.identifier];
     //сохранить выбранный канал в преференс
     [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
+    [[KGPreferences sharedInstance] save];
     self.selectedIndexPath = indexPath;
     [self.tableView reloadData];
 }
