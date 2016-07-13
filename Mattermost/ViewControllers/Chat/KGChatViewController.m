@@ -895,6 +895,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
+            [self setupFetchedResultsController];
+            [self.tableView reloadData];
         } else {
             NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
             //FIXME: refactor
