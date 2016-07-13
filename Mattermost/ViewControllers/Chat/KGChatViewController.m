@@ -884,9 +884,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
-    if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
-        [self.navigationController popViewControllerAnimated:NO];
-    }
+    
     [self dismissKeyboard:YES];
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -928,12 +926,18 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
+    if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
 }
 
 
 #pragma mark - KGRightMenuDelegate
 
 - (void)navigationToProfile {
+    if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
     self.title = @"";
     [self toggleRightSideMenuAction];
     self.selectedUsername = [KGBusinessLogic sharedInstance].currentUser.username;
