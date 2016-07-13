@@ -38,4 +38,5 @@
 
 - (void)updateStatusForAllUsers;
 //- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion;
+- (BOOL)isValidateServerAddress;
 @end
