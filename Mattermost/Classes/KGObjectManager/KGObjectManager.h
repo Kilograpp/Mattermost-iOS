@@ -21,6 +21,11 @@
                 success:(void (^)(RKMappingResult *mappingResult))success
                 failure:(void (^)(KGError *error))failure;
 
+- (void)getObjectsAtPath:(NSString *)path
+                useCache:(BOOL)useCache
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure;
+
 - (void)getObject:(id)object
              path:(NSString*)path
           success:(void (^)(RKMappingResult *mappingResult))success

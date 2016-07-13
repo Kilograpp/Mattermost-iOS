@@ -20,11 +20,7 @@
         parameters:(NSDictionary *)parameters
         success:(void (^)(RKMappingResult *mappingResult))success
         failure:(void (^)(KGError *error))failure{
-    [super getObjectsAtPath:path parameters:parameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        safetyCall(success, mappingResult);
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        safetyCall(failure, [self handleOperation:operation withError:error]);
-    }];
+    [self getObject:nil path:path parameters:parameters useCache:YES savesToStore:YES success:success failure:failure];
 }
 
 
@@ -45,6 +41,13 @@
     [self getObjectsAtPath:path parameters:nil success:success failure:failure];
 }
 
+- (void)getObjectsAtPath:(NSString *)path
+                useCache:(BOOL)useCache
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:useCache savesToStore:YES success:success failure:failure];
+}
+
 
 - (void)getObject:(id)object
              path:(NSString*)path
@@ -55,6 +58,37 @@
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         safetyCall(failure, [self handleOperation:operation withError:error]);
     }];
+}
+
+- (void)getObject:(id)object
+             path:(NSString*)path
+       parameters:(NSDictionary*)parameters
+         useCache:(BOOL)useCache
+     savesToStore:(BOOL)savesToStore
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure{
+    
+    void (^successHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        safetyCall(success, mappingResult);
+    };
+    
+    void (^failureHandlerBlock) (id, id) = ^void(RKObjectRequestOperation *operation, NSError *error) {
+        safetyCall(failure, [self handleOperation:operation withError:error]);
+    };
+    
+    NSMutableURLRequest* request = [self requestWithObject:object method:RKRequestMethodGET path:path parameters:parameters];
+    if (!useCache){
+        request.cachePolicy = NSURLRequestReloadIgnoringCacheData;
+    }
+    
+    RKManagedObjectRequestOperation* operation = [self managedObjectRequestOperationWithRequest:request
+                                                                           managedObjectContext:[object managedObjectContext]
+                                                                                        success:successHandlerBlock
+                                                                                        failure:failureHandlerBlock];
+    operation.savesToPersistentStore = savesToStore;
+    
+    
+    [self enqueueObjectRequestOperation:operation];
 }
 
 #pragma mark - POST
