@@ -7,6 +7,7 @@
 //
 
 #import "KGChatViewController+KGCoreData.h"
+#import "KGPost.h"
 #import <CoreData/CoreData.h>
 
 @implementation KGChatViewController (KGCoreData)
@@ -20,9 +21,11 @@
     self.updatedRowIndexPaths = [[NSMutableArray alloc] init];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(KGPost*)anObject atIndexPath:(NSIndexPath *)indexPath
      forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
+    
+    
     if (type == NSFetchedResultsChangeInsert) {
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section]) {
             if ([self.insertedRowIndexPaths containsObject:indexPath]) {
@@ -56,6 +59,12 @@
             [self.deletedRowIndexPaths addObject:indexPath];
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
+        
+        if ([self.temporaryIgnoredObjects containsObject:anObject.backendPendingId]) {
+            
+            return;
+        }
+        
         [self rowShouldBeUpdatedAtIndexPath:indexPath];
     }
 }
@@ -100,14 +109,18 @@
         return;
     }
     
+    if (totalChanges == 0) {
+        return;
+    }
+    
     [self.tableView beginUpdates];
     
-    [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView insertSections:self.insertedSectionIndexes withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertSections:self.insertedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
     
-    [self.tableView deleteRowsAtIndexPaths:self.deletedRowIndexPaths withRowAnimation:UITableViewRowAnimationLeft];
-    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-    [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView deleteRowsAtIndexPaths:self.deletedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertRowsAtIndexPaths:self.insertedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
     
     [self.tableView endUpdates];
     

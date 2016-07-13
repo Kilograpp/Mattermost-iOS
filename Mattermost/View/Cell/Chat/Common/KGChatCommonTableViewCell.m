@@ -24,9 +24,6 @@
 static CGFloat const kLoadingViewSize = 20.f;
 static CGFloat const kErrorViewSize = 34.f;
 
-@interface KGChatCommonTableViewCell ()
-@property BOOL firstLoad;
-@end
 
 @implementation KGChatCommonTableViewCell
 
@@ -59,7 +56,6 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.firstLoad = YES;
 }
 
 - (void)setupAvatarImageView {
@@ -154,8 +150,8 @@ static CGFloat const kErrorViewSize = 34.f;
         }];
         [messageQueue addOperation:self.messageOperation];
         
-        self.nameLabel.text = _post.author.nickname;
-        _dateString = [_post.createdAt timeFormatForMessages];
+        self.nameLabel.text = self.post.author.nickname;
+        _dateString = [self.post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
 
         
@@ -165,6 +161,7 @@ static CGFloat const kErrorViewSize = 34.f;
         
         if (!smallAvatar && [[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
             smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+            self.avatarImageView.image = smallAvatar;
         } else {
             [self.avatarImageView setImageWithURL:self.post.author.imageUrl
                                  placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
@@ -190,8 +187,7 @@ static CGFloat const kErrorViewSize = 34.f;
         
 
         if (self.post.error){
-            self.errorView.hidden = NO;
-            self.loadingView.hidden = YES;
+            [self showError];
         } else {
             if (!self.post.identifier) {
                 [self startAnimation];
@@ -202,12 +198,18 @@ static CGFloat const kErrorViewSize = 34.f;
     }
 }
 
+- (void)showError {
+    self.errorView.hidden = NO;
+    self.loadingView.hidden = YES;
+}
+
+- (void)hideError {
+    self.errorView.hidden = YES;
+}
+
 - (void)startAnimation {
-    if (self.firstLoad){
-        [self.loadingView startAnimating];
-        self.loadingView.hidden = NO;
-        self.firstLoad = NO;
-    }
+    [self.loadingView startAnimating];
+    self.loadingView.hidden = NO;
 }
 
 - (void)finishAnimation {
