@@ -480,25 +480,25 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 
-- (void)updateNavigationBarAppearance:(BOOL)loadingInProgress errorOccured:(BOOL)errorOccured {
+- (void)updateNavigationBarAppearance {
     NSString *subtitleString;
-    BOOL shouldHighlight = NO;
+    BOOL loadingInProgress;
     if (self.channel.type == KGChannelTypePrivate) {
         KGUser *user = [KGUser managedObjectById:self.channel.interlocuterId];
         if (user) {
             subtitleString = user.stringFromNetworkStatus;
-            shouldHighlight = user.networkStatus == KGUserOnlineStatus;
+            loadingInProgress = user.networkStatus == KGUserUnknownStatus;
         }
     } else {
         subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
     
     KGChatNavigationController *navController = (KGChatNavigationController *)self.navigationController;
-    [navController configureTitleViewWithChannel:self.channel loadingInProgress:loadingInProgress errorOccured:errorOccured];
+    [navController configureTitleViewWithChannel:self.channel loadingInProgress:loadingInProgress];
 }
 
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
-    [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
+    [self updateNavigationBarAppearance];
 }
 - (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser willDismissAtPageIndex:(NSUInteger)index {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
@@ -610,7 +610,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                  name:self.channel.notificationsName
                                                object:nil];
 
-    [self updateNavigationBarAppearance:YES errorOccured:NO];
+    
+    [self updateNavigationBarAppearance];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];

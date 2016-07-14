@@ -12,6 +12,5 @@
 @interface KGChatNavigationController : KGNavigationController
 
 - (void)configureTitleViewWithChannel:(KGChannel *)channel
-                 loadingInProgress:(BOOL)loadingInProgress
-                      errorOccured:(BOOL)errorOccured;
+                 loadingInProgress:(BOOL)loadingInProgress;
 @end
