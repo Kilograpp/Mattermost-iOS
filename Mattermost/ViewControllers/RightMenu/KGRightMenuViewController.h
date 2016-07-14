@@ -12,7 +12,6 @@
 
 - (void)navigationToProfile;
 - (void)navigateToSettings;
-
 @end
 
 @interface KGRightMenuViewController : KGViewController

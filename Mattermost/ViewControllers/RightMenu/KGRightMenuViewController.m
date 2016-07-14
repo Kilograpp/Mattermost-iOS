@@ -195,6 +195,7 @@
 - (void)showTeams {
     KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
     [self presentViewController:vc animated:YES completion:nil];
+    [[UIStatusBar sharedStatusBar] restoreState];
 }
 
 #pragma mark - Private Setters

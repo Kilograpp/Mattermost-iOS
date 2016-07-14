@@ -207,7 +207,6 @@
         [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
  
     }
-    //[self.tableHeaderView reloadWithImage:self.updatedAvatarImage];
 }
 
 
