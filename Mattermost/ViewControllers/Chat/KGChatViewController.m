@@ -168,7 +168,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     _isFirstLoad = YES;
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
@@ -493,12 +492,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     } else {
         subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
-
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
-                                                                               subtitle:subtitleString
-                                                                        shouldHighlight:shouldHighlight
-                                                                      loadingInProgress:loadingInProgress
-                                                                           errorOccured:errorOccured];
+    
+    KGChatNavigationController *navController = (KGChatNavigationController *)self.navigationController;
+    [navController configureTitleViewWithChannel:self.channel loadingInProgress:loadingInProgress errorOccured:errorOccured];
 }
 
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {

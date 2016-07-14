@@ -54,6 +54,7 @@
 - (void)setSelectedChannel:(KGChannel *)selectedChannel {
     _selectedChannel = selectedChannel;
     
+    [self handleNewSelectedChannel];
     [self saveChannelToPreferencesAsLast:selectedChannel];
 }
 
@@ -71,6 +72,10 @@
 - (void)saveChannelToPreferencesAsLast:(KGChannel *)channel {
     [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
     [[KGPreferences sharedInstance] save];
+}
+
+- (void)handleNewSelectedChannel {
+    [self.delegate didSelectChannelWithIdentifier:self.selectedChannel.identifier];
 }
 
 - (void)playAlertSoundForSelectedChannel {

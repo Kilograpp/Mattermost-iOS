@@ -77,6 +77,8 @@
 		D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F76C1D26EE1200C4D84C /* KGTeamCell.m */; };
 		D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */; };
 		D60E0F1E1D37C11B00863FCD /* KGChannelsObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = D60E0F1D1D37C11B00863FCD /* KGChannelsObserver.m */; };
+		D60E0F221D37E3DF00863FCD /* KGNavigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = D60E0F211D37E3DF00863FCD /* KGNavigationBarTitleView.m */; };
+		D60E0F241D37E3F100863FCD /* KGNavigationBarTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D60E0F231D37E3F100863FCD /* KGNavigationBarTitleView.xib */; };
 		D62FA8B81D32682000CA93D8 /* UIView+Align.m in Sources */ = {isa = PBXBuildFile; fileRef = D62FA8B71D32682000CA93D8 /* UIView+Align.m */; };
 		D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */; };
 		D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = D636DBEA1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf */; };
@@ -288,6 +290,9 @@
 		D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTeamCell.xib; sourceTree = "<group>"; };
 		D60E0F1C1D37C11B00863FCD /* KGChannelsObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChannelsObserver.h; path = KGChannelsObserver/KGChannelsObserver.h; sourceTree = "<group>"; };
 		D60E0F1D1D37C11B00863FCD /* KGChannelsObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChannelsObserver.m; path = KGChannelsObserver/KGChannelsObserver.m; sourceTree = "<group>"; };
+		D60E0F201D37E3DF00863FCD /* KGNavigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGNavigationBarTitleView.h; path = NavigationBarTitleView/KGNavigationBarTitleView.h; sourceTree = "<group>"; };
+		D60E0F211D37E3DF00863FCD /* KGNavigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGNavigationBarTitleView.m; path = NavigationBarTitleView/KGNavigationBarTitleView.m; sourceTree = "<group>"; };
+		D60E0F231D37E3F100863FCD /* KGNavigationBarTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGNavigationBarTitleView.xib; path = NavigationBarTitleView/KGNavigationBarTitleView.xib; sourceTree = "<group>"; };
 		D62FA8B61D32682000CA93D8 /* UIView+Align.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Align.h"; path = "UIView/UIView+Align.h"; sourceTree = "<group>"; };
 		D62FA8B71D32682000CA93D8 /* UIView+Align.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Align.m"; path = "UIView/UIView+Align.m"; sourceTree = "<group>"; };
 		D636DBE81D0EADA5003C0B0D /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
@@ -552,6 +557,7 @@
 		41FC94B11D07FA6C009E1090 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D60E0F1F1D37E3A400863FCD /* NavigationBarTitleView */,
 				41FC94B21D07FA73009E1090 /* Button */,
 				411169EC1D09DDD800448145 /* Cell */,
 				D67A248F1D1088BE006579E8 /* New Group */,
@@ -971,6 +977,16 @@
 				D60E0F1D1D37C11B00863FCD /* KGChannelsObserver.m */,
 			);
 			name = KGChannelsObserver;
+			sourceTree = "<group>";
+		};
+		D60E0F1F1D37E3A400863FCD /* NavigationBarTitleView */ = {
+			isa = PBXGroup;
+			children = (
+				D60E0F201D37E3DF00863FCD /* KGNavigationBarTitleView.h */,
+				D60E0F211D37E3DF00863FCD /* KGNavigationBarTitleView.m */,
+				D60E0F231D37E3F100863FCD /* KGNavigationBarTitleView.xib */,
+			);
+			name = NavigationBarTitleView;
 			sourceTree = "<group>";
 		};
 		D62FA8B51D3267F200CA93D8 /* UIView */ = {
@@ -1620,6 +1636,7 @@
 				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
 				CD7D117F1D0C648B002EED4E /* KGRightMenuCell.xib in Resources */,
 				D648B4491D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf in Resources */,
+				D60E0F241D37E3F100863FCD /* KGNavigationBarTitleView.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
 				9B8220E555EBB80B3715B5E2 /* Preferences.plist in Resources */,
 				D636DBED1D0EADCC003C0B0D /* SF-UI-Text-Medium.otf in Resources */,
@@ -1721,6 +1738,7 @@
 				CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */,
 				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
+				D60E0F221D37E3DF00863FCD /* KGNavigationBarTitleView.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
 				D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,

@@ -7,14 +7,11 @@
 //
 
 #import "KGNavigationController.h"
+@class KGChannel;
 
 @interface KGChatNavigationController : KGNavigationController
-@property (nonatomic, copy) NSString *kg_title;
-@property (nonatomic, copy) NSString *kg_subtitle;
 
-- (void)setupTitleViewWithUserName:(NSString *)userName
-                          subtitle:(NSString *)subtitle
-                   shouldHighlight:(BOOL)shouldHighlight
+- (void)configureTitleViewWithChannel:(KGChannel *)channel
                  loadingInProgress:(BOOL)loadingInProgress
                       errorOccured:(BOOL)errorOccured;
 @end
