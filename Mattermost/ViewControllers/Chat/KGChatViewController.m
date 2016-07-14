@@ -289,7 +289,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - Requests
 
-- (void)loadFirstPageOfData {
+- (void)loadFirstPageOfDataWithTableRefresh:(BOOL)shouldRefreshTable {
     self.loadingInProgress = YES;
     [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсном методе. Разнести на два - handleSuccess и handleError
@@ -297,8 +297,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
+        
+        if (shouldRefreshTable) {
+            [self setupFetchedResultsController];
+            [self.tableView reloadData];
+        }
+        
         [self hideLoadingViewAnimated:YES];
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
@@ -622,7 +626,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.channel.updatedAt = [NSDate date];
         self.channel.firstLoaded = @NO;
         [self showLoadingView];
-        [self loadFirstPageOfData];
+        [self loadFirstPageOfDataWithTableRefresh:YES];
     } else {
         self.hasNextPage = YES;
         [self setupFetchedResultsController];
@@ -824,7 +828,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-    [self loadFirstPageOfData];
+    [self loadFirstPageOfDataWithTableRefresh:NO];
 }
 
 

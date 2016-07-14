@@ -49,7 +49,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void)loadFirstPageOfData;
 - (void)loadNextPageOfData;
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath;
 
