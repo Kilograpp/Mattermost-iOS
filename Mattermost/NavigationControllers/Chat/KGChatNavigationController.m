@@ -36,8 +36,8 @@
 #pragma mark - Setup
 
 - (void)setupNavigationBar {
-    UINavigationBar *navBar = self.navigationBar;
-    navBar.translucent = NO;
+    self.navigationBar.translucent = NO;
+    self.navigationBar.barTintColor = [UIColor kg_navigationBarTintColor];
     
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, KGScreenWidth() * 0.6f, 44.f)];
     self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, KGScreenWidth() * 0.6f, 22.f)];
