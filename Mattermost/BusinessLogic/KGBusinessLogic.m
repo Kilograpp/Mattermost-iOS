@@ -94,7 +94,6 @@
         RKValueTransformer* colorTransformer = [self colorValueTransformer];
         [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateTransformer atIndex:0];
         [[RKValueTransformer defaultValueTransformer] addValueTransformer:colorTransformer];
-        
 
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];

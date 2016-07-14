@@ -61,7 +61,7 @@
     } else if (type == NSFetchedResultsChangeUpdate) {
         
         if ([self.temporaryIgnoredObjects containsObject:anObject.backendPendingId]) {
-            
+            [self.temporaryIgnoredObjects removeObject:anObject.backendPendingId];
             return;
         }
         

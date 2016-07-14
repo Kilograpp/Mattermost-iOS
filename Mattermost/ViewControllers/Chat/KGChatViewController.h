@@ -33,7 +33,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSIndexPath* lastPath;
 @property NSMutableIndexSet *insertedSectionIndexes, *deletedSectionIndexes;
-@property (nonatomic, strong) NSMutableArray* temporaryIgnoredObjects;;
+@property (nonatomic, strong) NSCountedSet* temporaryIgnoredObjects;;
 @property NSMutableArray* deletedRowIndexPaths, *insertedRowIndexPaths, * updatedRowIndexPaths;
 @property (nonatomic, strong) NSArray *autocompletionDataSource;
 

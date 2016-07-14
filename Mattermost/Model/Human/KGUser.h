@@ -13,15 +13,14 @@ typedef NS_ENUM(NSInteger, KGUserNetworkStatus) {
 - (KGUserNetworkStatus)networkStatus;
 
 - (NSURL*) imageUrl;
-+ (NSString*) authPathPattern;
-+ (NSString*) avatarPathPattern;
-+ (NSString*) uploadAvatarPathPattern;
 
-+ (NSString *)usersStatusPathPattern;
 
++ (NSString*)authPathPattern;
++ (NSString*)socketPathPattern;
++ (NSString*)avatarPathPattern;
++ (NSString*)uploadAvatarPathPattern;
++ (NSString*)usersStatusPathPattern;
 + (NSString*)logoutPathPattern;
-
-+ (NSString*) attachDevicePathPattern;
-
-- (NSString *)stringFromNetworkStatus;
++ (NSString*)attachDevicePathPattern;
+- (NSString*)stringFromNetworkStatus;
 @end

@@ -90,6 +90,7 @@
 		D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */; };
 		D64EB5AC1D36398D00D66425 /* NSDate+KGDateComparation.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */; };
 		D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */; };
+		D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
 		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
@@ -125,6 +126,7 @@
 		D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */; };
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
+		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
 		D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D84193521D2FFE7000D32C69 /* KGTheme.m */; };
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
@@ -304,6 +306,8 @@
 		D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+KGDateComparation.m"; sourceTree = "<group>"; };
 		D64EB5AF1D364ED200D66425 /* KGChatViewController+KGTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KGChatViewController+KGTableView.h"; path = "ChatViewController/TableView/KGChatViewController+KGTableView.h"; sourceTree = "<group>"; };
 		D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGChatViewController+KGTableView.m"; path = "ChatViewController/TableView/KGChatViewController+KGTableView.m"; sourceTree = "<group>"; };
+		D64EB5B31D368C1300D66425 /* KGChatViewController+KGLoading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KGChatViewController+KGLoading.h"; path = "ChatViewController/Loading/KGChatViewController+KGLoading.h"; sourceTree = "<group>"; };
+		D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGChatViewController+KGLoading.m"; path = "ChatViewController/Loading/KGChatViewController+KGLoading.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
 		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
@@ -371,6 +375,8 @@
 		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
 		D80638C71D1C2A270034E450 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		D81DC27C1D36E10100D48FCD /* KGImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePicker.h; sourceTree = "<group>"; };
+		D81DC27D1D36E10100D48FCD /* KGImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePicker.m; sourceTree = "<group>"; };
 		D84193511D2FFE7000D32C69 /* KGTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTheme.h; sourceTree = "<group>"; };
 		D84193521D2FFE7000D32C69 /* KGTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTheme.m; sourceTree = "<group>"; };
 		D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSMarkdownParser.framework; path = Carthage/Build/iOS/TSMarkdownParser.framework; sourceTree = "<group>"; };
@@ -736,6 +742,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D81DC27B1D36E0EB00D48FCD /* KGImagePicker */,
 				D6ABC3E41D33EF000047ECAF /* KGUserStatusObserver */,
 				D6ABC3E01D33E64A0047ECAF /* KGUserStatus */,
 				D6DF88571D3306DE0091DBDE /* KGDateFormatter */,
@@ -1008,6 +1015,15 @@
 			name = TableView;
 			sourceTree = "<group>";
 		};
+		D64EB5B21D368AF200D66425 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				D64EB5B31D368C1300D66425 /* KGChatViewController+KGLoading.h */,
+				D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */,
+			);
+			name = Loading;
+			sourceTree = "<group>";
+		};
 		D65E5AC71D0F519400D5E0C6 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1259,6 +1275,7 @@
 		D6A3DE251D2A688900F9DF0F /* ChatViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D64EB5B21D368AF200D66425 /* Loading */,
 				D64EB5AD1D364E6D00D66425 /* TableView */,
 				D6A3DE261D2A689000F9DF0F /* CoreData */,
 			);
@@ -1411,6 +1428,15 @@
 				D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */,
 			);
 			name = TSMarkdownParser;
+			sourceTree = "<group>";
+		};
+		D81DC27B1D36E0EB00D48FCD /* KGImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				D81DC27C1D36E10100D48FCD /* KGImagePicker.h */,
+				D81DC27D1D36E10100D48FCD /* KGImagePicker.m */,
+			);
+			name = KGImagePicker;
 			sourceTree = "<group>";
 		};
 		D844A6E11D0AE2B100B53BB3 /* Chat */ = {
@@ -1774,6 +1800,7 @@
 				7339BA3BD5047EF66FBA59F1 /* NSAttributedString+FormattedTitle.m in Sources */,
 				7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */,
 				7339B8D8DCD6FF65DA04A185 /* NSError+KGError.m in Sources */,
+				D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */,
 				7339BA1F4FAF21BCC09EB831 /* NSManagedObject+CustomFinder.m in Sources */,
 				7339B68420588BA2A754078D /* NSObject+RuntimeMethodsValues.m in Sources */,
 				7339BA2EF501D676B9E8E03F /* NSObject+EnumerateProperties.m in Sources */,
@@ -1790,6 +1817,7 @@
 				9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */,
 				9B8221D21C9894CC0071E7F7 /* KGCommand.m in Sources */,
 				9B822B4B3B75D399D392ACD6 /* _KGCommand.m in Sources */,
+				D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */,
 				9B822086B25A18BCCDE3678F /* KGBusinessLogic+Commands.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -121,6 +121,10 @@ static NSString * const kOfflineNetworkString = @"offline";
     return @"users/logout";
 }
 
++ (NSString*)socketPathPattern {
+    return @"users/websocket";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {

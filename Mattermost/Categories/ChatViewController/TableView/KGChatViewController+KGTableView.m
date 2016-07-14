@@ -151,6 +151,14 @@
 }
 
 
+#pragma mark - Public
+
+- (NSIndexPath *)indexPathForLastRow {
+    return [NSIndexPath indexPathForRow:[self tableView:self.tableView numberOfRowsInSection:self.fetchedResultsController.sections.count - 1] - 1
+                              inSection:self.self.fetchedResultsController.sections.count - 1];
+}
+
+
 #pragma mark - Private
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
