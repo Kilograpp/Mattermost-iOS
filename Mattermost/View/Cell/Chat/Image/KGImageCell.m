@@ -38,7 +38,6 @@
     self.kg_imageView.clipsToBounds = YES;
 }
 
-
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;

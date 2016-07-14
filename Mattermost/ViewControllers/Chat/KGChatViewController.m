@@ -96,17 +96,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 @end
 
-//@interface KGChatViewController (UI)
-//@property (nonatomic, strong) UIView *loadingView;
-//@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
-//@property (nonatomic, strong) UIRefreshControl *refreshControl;
-//@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
-//@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
-//@end
 
 @implementation KGChatViewController
-
-
 
 #pragma mark - Lifecycle
 
@@ -114,7 +105,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [super viewDidLoad];
 
     [self initialSetup];
-    // TODO: Code Review: Переименовать все setup методы, которые используют уже проинициализированные вьюхи на configure
     [self setupFilesInfoOperationQueue];
     [self configureTableView];
     [self configureAutocompletionView];
@@ -172,7 +162,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -100, 0);
 }
 
 
@@ -531,6 +520,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)clearTextView {
     self.textView.text = nil;
+}
+
+- (CGFloat)heightForAutoCompletionView {
+    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
+    return 400;//cellHeight * self.autocompletionDataSource.count;
+}
+
+- (CGFloat)maximumHeightForAutoCompletionView {
+    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
+    return 400;//cellHeight * self.autocompletionDataSource.count;
 }
 
 
