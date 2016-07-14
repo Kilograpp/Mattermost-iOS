@@ -351,7 +351,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     __block KGPost* postToSend = self.currentPost;
     [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
     [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
-    
+
     [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсно методе
         KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]];
@@ -436,6 +436,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)assignPhotos {
     
     __block BOOL operationCancelled = NO;
+    __block BOOL photosLoad = YES;
     self.picker = [KGImagePicker new];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -452,7 +453,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
                                             atChannel:wSelf.channel
                                        withCompletion:^(KGFile* file, KGError* error) {
-                                           [self.currentPost addFilesObject:file];
+                                           if (self.currentPost.files.count < 5) {
+                                               [self.currentPost addFilesObject:file];
+                                           } else {
+                                               photosLoad = NO;
+                                           }
                                            dispatch_group_leave(group);
                                        }];
     } didFinishPickingHandler:^(BOOL isCancelled){
@@ -463,6 +468,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         if (!operationCancelled){
             [[KGAlertManager sharedManager] hideHud];
+            if (!photosLoad) {
+                [[KGAlertManager sharedManager] showWarningWithMessage:@"Uploads limited to 5 files maximum. Please use additional posts for more files."];
+            }
             [self sendPost];
         }
     });
