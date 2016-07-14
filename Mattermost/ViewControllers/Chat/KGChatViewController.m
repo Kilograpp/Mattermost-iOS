@@ -171,6 +171,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     leftVC.delegate = self;
     rightVC.delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -100, 0);
 }
 
 

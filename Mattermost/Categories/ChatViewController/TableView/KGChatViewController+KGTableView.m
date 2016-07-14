@@ -86,7 +86,7 @@
         
         // Todo, Code Review: Условие на файлы см. выше
         if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-            return post.hasAttachments ?
+            return !post.hasAttachments ?
             [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
