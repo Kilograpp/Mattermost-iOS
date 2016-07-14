@@ -103,7 +103,7 @@
     [self.insertedRowIndexPaths count] +
     [self.updatedRowIndexPaths count];
     
-    if (totalChanges > 120) {
+    if (totalChanges > 60) {
         
         [self.tableView reloadData];
         return;

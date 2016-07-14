@@ -108,7 +108,7 @@
                 NSFetchRequest* fetchRequest = [KGPost MR_requestAllWithPredicate:predicate];
                 [fetchRequest setFetchOffset:60];
                 [fetchRequest setIncludesSubentities:NO];
-                [fetchRequest setFetchLimit:INT_MAX];
+                [fetchRequest setFetchLimit:10000];
                 if([[NSManagedObjectContext MR_defaultContext] countForFetchRequest:fetchRequest error:nil]  > 0) {
                     return fetchRequest;
                 }
