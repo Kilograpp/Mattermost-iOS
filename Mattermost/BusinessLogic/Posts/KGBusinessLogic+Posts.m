@@ -43,7 +43,7 @@ const NSInteger kDefaultPageSize = 60;
 - (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void(^)(BOOL isLastPage, KGError *error))completion{
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel];
     NSString * path = SOCStringFromStringWithObject([KGPost firstPagePathPattern], wrapper);
-    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager getObjectsAtPath:path useCache:NO success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, mappingResult.count < [wrapper.size intValue], nil);
     } failure:^(KGError* error) {
         safetyCall(completion, NO, error);

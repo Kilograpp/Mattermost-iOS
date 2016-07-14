@@ -105,8 +105,12 @@
             if(match) {
                 NSString* channelId = [[[URL relativePath] pathComponents] objectAtIndex:3];
                 NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
-                if([KGPost MR_countOfEntitiesWithPredicate:predicate] > 0) {
-                    return [KGPost MR_requestAllWithPredicate:predicate];
+                NSFetchRequest* fetchRequest = [KGPost MR_requestAllWithPredicate:predicate];
+                [fetchRequest setFetchOffset:60];
+                [fetchRequest setIncludesSubentities:NO];
+                [fetchRequest setFetchLimit:INT_MAX];
+                if([[NSManagedObjectContext MR_defaultContext] countForFetchRequest:fetchRequest error:nil]  > 0) {
+                    return fetchRequest;
                 }
             }
             return nil;
