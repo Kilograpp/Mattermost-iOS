@@ -12,6 +12,8 @@
 #import <NSStringEmojize/NSString+Emojize.h>
 #import "NSCalendar+KGSharedCalendar.h"
 #import "KGBusinessLogic+Session.h"
+#import "KGExternalFile.h"
+#import <MagicalRecord.h>
 
 @interface KGPost ()
 
@@ -210,9 +212,19 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 
 - (void)willSave {
     if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
         self.message = [self.message emojizedString];
         NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
+        [string enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
+            if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
+                [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
+                [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
+                KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
+                [file setLink:link.absoluteString];
+                [self addFilesObject:file];
+            }
+            
+        }];
+        
         self.attributedMessage = string.copy;
         
         CGFloat textWidth = KGScreenWidth() - 88;

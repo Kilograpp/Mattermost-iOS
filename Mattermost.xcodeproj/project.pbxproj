@@ -130,6 +130,8 @@
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
 		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
+		D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2821D3833B700D48FCD /* _KGExternalFile.m */; };
+		D81DC2861D3833BE00D48FCD /* KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2851D3833BE00D48FCD /* KGExternalFile.m */; };
 		D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D84193521D2FFE7000D32C69 /* KGTheme.m */; };
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
@@ -384,6 +386,10 @@
 		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		D81DC27C1D36E10100D48FCD /* KGImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePicker.h; sourceTree = "<group>"; };
 		D81DC27D1D36E10100D48FCD /* KGImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePicker.m; sourceTree = "<group>"; };
+		D81DC2811D3833B700D48FCD /* _KGExternalFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGExternalFile.h; sourceTree = "<group>"; };
+		D81DC2821D3833B700D48FCD /* _KGExternalFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGExternalFile.m; sourceTree = "<group>"; };
+		D81DC2841D3833BE00D48FCD /* KGExternalFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGExternalFile.h; sourceTree = "<group>"; };
+		D81DC2851D3833BE00D48FCD /* KGExternalFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGExternalFile.m; sourceTree = "<group>"; };
 		D84193511D2FFE7000D32C69 /* KGTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTheme.h; sourceTree = "<group>"; };
 		D84193521D2FFE7000D32C69 /* KGTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTheme.m; sourceTree = "<group>"; };
 		D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSMarkdownParser.framework; path = Carthage/Build/iOS/TSMarkdownParser.framework; sourceTree = "<group>"; };
@@ -1175,6 +1181,8 @@
 		D696F7911D06121D008341AF /* Human */ = {
 			isa = PBXGroup;
 			children = (
+				D81DC2841D3833BE00D48FCD /* KGExternalFile.h */,
+				D81DC2851D3833BE00D48FCD /* KGExternalFile.m */,
 				9B822FEE7032FD6461D8CEF3 /* KGChannel.h */,
 				9B822BE95D060B2A944203CA /* KGChannel.m */,
 				9B822C9B738A53EFB4D0466D /* KGChannelPostsWrapper.h */,
@@ -1196,6 +1204,8 @@
 		D696F7921D061226008341AF /* Machine */ = {
 			isa = PBXGroup;
 			children = (
+				D81DC2811D3833B700D48FCD /* _KGExternalFile.h */,
+				D81DC2821D3833B700D48FCD /* _KGExternalFile.m */,
 				9B822D047156786CF9AA400F /* _KGChannel.h */,
 				9B8223CA8B69CED7D59257FD /* _KGChannel.m */,
 				9B8222F1E65BDE846AD32CCC /* _KGFile.h */,
@@ -1806,6 +1816,7 @@
 				D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */,
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
+				D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */,
 				D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */,
 				9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */,
 				419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */,
@@ -1826,6 +1837,7 @@
 				9B822BF0DBC6C73D268F3B4E /* KGBusinessLogic+Socket.m in Sources */,
 				9B8225EC04F619A52FF88DBC /* KGChannelNotification.m in Sources */,
 				CD625C681D19977C00ED4E2F /* KGAlertView.m in Sources */,
+				D81DC2861D3833BE00D48FCD /* KGExternalFile.m in Sources */,
 				7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */,
 				7339BA3BD5047EF66FBA59F1 /* NSAttributedString+FormattedTitle.m in Sources */,
 				7339B865095A0CA65CB3DFAD /* NSDate+DateFormatter.m in Sources */,
