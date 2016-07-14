@@ -38,7 +38,7 @@
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 3)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 30)) {
         [self loadNextPageOfData];
     }
     
@@ -50,7 +50,8 @@
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-        if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+        NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
+        if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && ((index+1) % 60) != 0 && ((index) % 60) != 0) {
             reuseIdentifier = !post.hasAttachments ?
             [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
@@ -91,7 +92,10 @@
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-            if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+    
+            NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
+            
+            if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && ((index+1) % 60) != 0 && ((index) % 60) != 0) {
                 return !post.hasAttachments ?
                 [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {

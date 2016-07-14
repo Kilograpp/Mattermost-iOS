@@ -113,6 +113,7 @@
         return;
     }
     
+    [UIView setAnimationsEnabled:NO];
     [self.tableView beginUpdates];
     
     [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
@@ -123,11 +124,12 @@
     [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
     
     [self.tableView endUpdates];
-    
-    if (self.lastPath) {
-        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-        self.lastPath = nil;
-    }
+    [UIView setAnimationsEnabled:YES];
+//    
+//    if (self.lastPath) {
+//        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
+//        self.lastPath = nil;
+//    }
     
 }
 
