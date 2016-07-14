@@ -129,11 +129,7 @@
     
     [self.tableView endUpdates];
     [UIView setAnimationsEnabled:YES];
-//    
-//    if (self.lastPath) {
-//        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-//        self.lastPath = nil;
-//    }
+
     
 }
 

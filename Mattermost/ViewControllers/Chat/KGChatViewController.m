@@ -317,7 +317,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     self.loadingInProgress = YES;
-    self.lastPath = [self indexPathForLastRow];
     [self showTopActivityIndicator];
     [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         // TODO: Code Review: Разнести на два метода
