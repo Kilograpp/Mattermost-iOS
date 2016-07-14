@@ -59,6 +59,8 @@
 
 #import "KGImagePicker.h"
 
+#import "KGChannelsObserver.h"
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 
 static NSString *const kUsernameAutocompletionPrefix = @"@";
@@ -66,7 +68,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 
-@interface KGChatViewController () <UINavigationControllerDelegate, KGLeftMenuDelegate,
+@interface KGChatViewController () <UINavigationControllerDelegate, KGChannelsObserverDelegate,
                             KGRightMenuDelegate, UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, strong) KGChannel *channel;
@@ -168,7 +170,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
-    leftVC.delegate = self;
+    [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, -100, 0);
@@ -594,7 +596,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 
-#pragma mark - KGLeftMenuDelegate
+#pragma mark - KGChannelsObserverDelegate
 
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {

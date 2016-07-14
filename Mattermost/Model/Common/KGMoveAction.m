@@ -13,15 +13,17 @@
 #import "KGSideMenuContainerViewController.h"
 #import "KGLeftMenuViewController.h"
 #import "KGMoveAction.h"
+#import "KGChannelsObserver.h"
 
 @implementation KGMoveAction
 
 - (void)execute {
     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
         KGChannel *channel = [KGChannel MR_findFirstByAttribute:[KGChannelAttributes name] withValue:self.location];
-        KGAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        KGSideMenuContainerViewController *menuContainerViewController = appDelegate.menuContainerViewController;
-        [(KGLeftMenuViewController*)menuContainerViewController.leftMenuViewController selectChannel:channel];
+//        KGAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+//        KGSideMenuContainerViewController *menuContainerViewController = appDelegate.menuContainerViewController;
+//        [(KGLeftMenuViewController*)menuContainerViewController.leftMenuViewController selectChannel:channel];
+        [[KGChannelsObserver sharedObserver] setSelectedChannel:channel];
     }];
 }
 
