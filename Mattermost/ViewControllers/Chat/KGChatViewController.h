@@ -31,7 +31,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @interface KGChatViewController : SLKTextViewController <NSFetchedResultsControllerDelegate, IDMPhotoBrowserDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSIndexPath* lastPath;
 @property NSMutableIndexSet *insertedSectionIndexes, *deletedSectionIndexes;
 @property (nonatomic, strong) NSCountedSet* temporaryIgnoredObjects;;
 @property NSMutableArray* deletedRowIndexPaths, *insertedRowIndexPaths, * updatedRowIndexPaths;

@@ -52,6 +52,7 @@
 #import "KGCommand.h"
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
+#import <ObjectiveSugar.h>
 
 #import <RestKit/RestKit.h>
 #import "KGObjectManager.h"
@@ -69,7 +70,7 @@ static NSString *const kCommandAutocompletionPrefix = @"/";
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGChannelsObserverDelegate,
-                            KGRightMenuDelegate, UIDocumentInteractionControllerDelegate>
+                            KGRightMenuDelegate>
 
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
@@ -306,7 +307,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     self.loadingInProgress = YES;
-    self.lastPath = [self indexPathForLastRow];
     [self showTopActivityIndicator];
     [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         // TODO: Code Review: Разнести на два метода
@@ -898,28 +898,28 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 #pragma mark - Files
 // Todo, Code Review: Вынести в бизнес логику
 - (void)openFile:(KGFile *)file {
-    NSURL *URL = [NSURL fileURLWithPath:file.localLink];
+    
+    NSURL* URL = file.downloadLink;
+    
+    NSString* fileName = [[file.name lastPathComponent] capitalizedString];
+    
+    UIAlertController* controller = [[UIAlertController alloc] init];
+    [controller setTitle:NSStringWithFormat(@"%@ %@?", NSLocalizedString(@"What to do with", nil), fileName)];
+    [controller setMessage:NSLocalizedString(@"You should be Mattermost authorized in Safari to open the document.", nil)];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Open file in Safari", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:URL];
+    }]];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Copy link to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIPasteboard generalPasteboard] setString:URL.absoluteString];
+    }]];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]];
 
-    if (URL) {
-        UIDocumentInteractionController *documentInteractionController =
-                [UIDocumentInteractionController interactionControllerWithURL:URL];
-        [documentInteractionController setDelegate:self];
-        BOOL result = [documentInteractionController presentPreviewAnimated:YES];
-        if (!result) {
-            [[KGAlertManager sharedManager] showError:cannotOpenFileError()];
-        }
-    } else {
-        [[KGAlertManager sharedManager] showError:fileDoesntExsistError()];
-    }
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
-- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
-    return self;
-}
 
-- (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
-    return self.view;
-}
 
 
 #pragma mark - UITextViewDelegate

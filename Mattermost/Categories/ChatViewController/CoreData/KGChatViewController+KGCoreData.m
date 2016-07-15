@@ -48,6 +48,10 @@
         [self.deletedRowIndexPaths addObject:indexPath];
     } else if (type == NSFetchedResultsChangeMove) {
         
+        if ([indexPath isEqual:newIndexPath]) {
+            return;
+        }
+        
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section] == NO) {
             [self.insertedRowIndexPaths addObject:newIndexPath];
         }
@@ -125,11 +129,7 @@
     
     [self.tableView endUpdates];
     [UIView setAnimationsEnabled:YES];
-//    
-//    if (self.lastPath) {
-//        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-//        self.lastPath = nil;
-//    }
+
     
 }
 
