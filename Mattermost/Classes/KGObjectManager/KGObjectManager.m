@@ -9,7 +9,7 @@
 #import <RestKit/RKManagedObjectRequestOperation.h>
 #import "KGError.h"
 #import "KGUtils.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 
 @implementation KGObjectManager

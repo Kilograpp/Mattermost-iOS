@@ -9,7 +9,7 @@
 #import "KGAppDelegate.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "KGPreferences.h"
 #import "KGSideMenuContainerViewController.h"
 #import "KGBusinessLogic.h"

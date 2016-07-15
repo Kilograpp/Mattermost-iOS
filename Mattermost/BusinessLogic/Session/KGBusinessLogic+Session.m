@@ -9,7 +9,7 @@
 #import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
 #import <RKManagedObjectStore.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SOCKit/SOCKit.h>
 #import "KGUser.h"
 #import "KGNotificationValues.h"

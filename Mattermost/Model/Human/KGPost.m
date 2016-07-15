@@ -13,7 +13,7 @@
 #import "NSCalendar+KGSharedCalendar.h"
 #import "KGBusinessLogic+Session.h"
 #import "KGExternalFile.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 @interface KGPost ()
 

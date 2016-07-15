@@ -14,7 +14,7 @@
 #import "KGChannel.h"
 #import "NSStringUtils.h"
 #import "SDImageCache.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "KGPreferences.h"
 #import "UIImage+Resize.h"
 

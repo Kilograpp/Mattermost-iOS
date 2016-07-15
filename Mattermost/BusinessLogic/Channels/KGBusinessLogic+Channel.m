@@ -5,7 +5,7 @@
 
 #import "KGBusinessLogic+Channel.h"
 #import <RestKit.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SOCKit.h>
 #import "KGChannel.h"
 #import "KGBusinessLogic+Team.h"

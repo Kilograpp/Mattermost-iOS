@@ -7,7 +7,7 @@
 //
 
 #import "SLKTextViewController.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "KGDateFormatter.h"
 #import "KGAutoCompletionCell.h"
