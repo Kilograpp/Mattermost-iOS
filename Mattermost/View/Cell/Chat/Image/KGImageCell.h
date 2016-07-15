@@ -9,5 +9,4 @@
 #import "KGTableViewCell.h"
 
 @interface KGImageCell : KGTableViewCell
-@property (nonatomic, strong) UIImageView *kg_imageView;
 @end

@@ -138,7 +138,7 @@
     
     if (file.isImage) {
         if (self.photoTapHandler) {
-            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]));
         }
     } else {
         if (self.fileTapHandler) {

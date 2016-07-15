@@ -9,8 +9,10 @@
 @import UIKit;
 
 @class KGFile;
-@interface KGFileDrawer : NSObject
+@interface KGDrawer : NSObject
 
-+ (void)drawFile:(KGFile*)file inRect:(CGRect)frame;
++ (instancetype)sharedInstance;
 
+- (void)drawFile:(KGFile*)file inRect:(CGRect)frame;
+- (void)drawImage:(UIImage*)image inRect:(CGRect)frame;
 @end
