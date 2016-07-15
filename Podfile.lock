@@ -20,7 +20,6 @@ PODS:
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
-  - MFSideMenu (0.5.5.1)
   - NSStringEmojize (0.2.0)
   - ObjectiveSugar (1.1.0)
   - pop (1.0.9)
@@ -65,7 +64,6 @@ DEPENDENCIES:
   - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
   - JVFloatLabeledTextField
   - MagicalRecord
-  - MFSideMenu (from `http://git.kilograpp.com/iOS/MFSideMenu.git`)
   - NSStringEmojize
   - ObjectiveSugar
   - RestKit
@@ -77,19 +75,14 @@ EXTERNAL SOURCES:
     :git: https://github.com/getmaxx/IDMPhotoBrowser.git
   IQKeyboardManager:
     :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
-  MFSideMenu:
-    :git: http://git.kilograpp.com/iOS/MFSideMenu.git
 
 CHECKOUT OPTIONS:
   IDMPhotoBrowser:
-    :commit: 6de7770defc608cf760aac18691640d5b2b7382a
+    :commit: 4719006075e02a60b6238fb3aea24e1cad9978ae
     :git: https://github.com/getmaxx/IDMPhotoBrowser.git
   IQKeyboardManager:
     :commit: 437a15e8e906e1e5ad3fb27bfd08f1a610da5078
     :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
-  MFSideMenu:
-    :commit: 28d5d3e065a1b52b94143df1859af5272415ebe5
-    :git: http://git.kilograpp.com/iOS/MFSideMenu.git
 
 SPEC CHECKSUMS:
   BOString: dd7bab05eac29080daecdf2d8fa7556fa24099b8
@@ -105,7 +98,6 @@ SPEC CHECKSUMS:
   ISO8601DateFormatterValueTransformer: 52da467d6ec899d6aedda8e48280ac92e8ee97e6
   JVFloatLabeledTextField: ea4a3d8387ddd43724c472bb2b8ab39b79af05d4
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
-  MFSideMenu: 8d504bcd6d4dc97a51da11a2a7c9011a4e08feb5
   NSStringEmojize: bd60199a25d745365b393fb95a2c6471bb9a2e99
   ObjectiveSugar: a6a25f23d657c19df0a0b972466d5b5ca9f5295c
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce

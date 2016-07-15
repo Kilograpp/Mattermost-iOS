@@ -76,6 +76,7 @@
 		CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
 		D603E9221D38E3E200145A85 /* KGSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D603E9211D38E3E200145A85 /* KGSoundManager.m */; };
 		D603E9261D38EC8400145A85 /* KGPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = D603E9251D38EC8400145A85 /* KGPhotoBrowser.m */; };
+		D603E9281D39412C00145A85 /* MFSideMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D603E9271D39412C00145A85 /* MFSideMenu.framework */; };
 		D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F76C1D26EE1200C4D84C /* KGTeamCell.m */; };
 		D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */; };
 		D60E0F1E1D37C11B00863FCD /* KGChannelsObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = D60E0F1D1D37C11B00863FCD /* KGChannelsObserver.m */; };
@@ -293,6 +294,7 @@
 		D603E9211D38E3E200145A85 /* KGSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSoundManager.m; path = KGSoundManager/KGSoundManager.m; sourceTree = "<group>"; };
 		D603E9241D38EC8400145A85 /* KGPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPhotoBrowser.h; path = KGPhotoBrowser/KGPhotoBrowser.h; sourceTree = "<group>"; };
 		D603E9251D38EC8400145A85 /* KGPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPhotoBrowser.m; path = KGPhotoBrowser/KGPhotoBrowser.m; sourceTree = "<group>"; };
+		D603E9271D39412C00145A85 /* MFSideMenu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MFSideMenu.framework; path = Carthage/Build/iOS/MFSideMenu.framework; sourceTree = "<group>"; };
 		D605F76B1D26EE1200C4D84C /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeamCell.h; sourceTree = "<group>"; };
 		D605F76C1D26EE1200C4D84C /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeamCell.m; sourceTree = "<group>"; };
 		D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTeamCell.xib; sourceTree = "<group>"; };
@@ -446,6 +448,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D603E9281D39412C00145A85 /* MFSideMenu.framework in Frameworks */,
 				D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */,
 				D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */,
 				D8CF0AAB1D1C325D00C7A126 /* UITableView_Cache.framework in Frameworks */,
@@ -462,6 +465,7 @@
 		1F7A9C62E9AB6C45AE424260 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D603E9271D39412C00145A85 /* MFSideMenu.framework */,
 				D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */,
 				D8CF0AA61D1C31B100C7A126 /* UITableView_Cache.framework */,
 				D80638C91D1C2ABF0034E450 /* Masonry.framework */,
@@ -1742,6 +1746,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/MBProgressHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/UITableView_Cache.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/TSMarkdownParser.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MFSideMenu.framework",
 			);
 			name = "Carthage Copy Frameworks";
 			outputPaths = (
