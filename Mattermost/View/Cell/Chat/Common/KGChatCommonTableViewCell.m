@@ -211,6 +211,7 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)finishAnimation {
     [self.loadingView stopAnimating];
     self.loadingView.hidden = YES;
+     self.messageLabel.alpha = 1;
 }
 
 - (void)layoutSubviews {

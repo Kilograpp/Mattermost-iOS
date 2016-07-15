@@ -113,8 +113,6 @@ static CGFloat const kErrorViewSize = 34.f;
         } else {
             [self reloadSendingState];
         }
-        
-        self.messageLabel.alpha = self.post.identifier ? 1 : 0.5;
     }
 }
 
@@ -129,6 +127,8 @@ static CGFloat const kErrorViewSize = 34.f;
     } else {
         [self finishAnimation];
     }
+    
+    self.messageLabel.alpha = self.post.identifier ? 1 : 0.5;
 }
 
 - (void)hideError {
@@ -143,6 +143,7 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)finishAnimation {
     [self.loadingView stopAnimating];
     self.loadingView.hidden = YES;
+    self.messageLabel.alpha = 1;
 }
 
 

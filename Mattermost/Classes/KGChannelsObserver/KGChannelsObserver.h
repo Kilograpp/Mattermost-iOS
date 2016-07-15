@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class KGChannel;
+@class KGChannel, KGSoundManager;
 
 @protocol KGChannelsObserverDelegate <NSObject>
 
@@ -21,10 +21,10 @@
 
 @property (nonatomic, strong) KGChannel *selectedChannel;
 @property (nonatomic, weak) id<KGChannelsObserverDelegate> delegate;
-
+@property (nonatomic, strong) KGSoundManager *soundManager;
 
 + (instancetype)sharedObserver;
 
-- (void)playAlertSound;
+- (void)playAlertSoundForChannelWithIdentifier:(NSString *)channelId;
 
 @end

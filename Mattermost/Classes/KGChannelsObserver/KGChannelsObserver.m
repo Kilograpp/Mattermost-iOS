@@ -9,6 +9,7 @@
 #import "KGChannelsObserver.h"
 #import "KGPreferences.h"
 #import "KGChannel.h"
+#import "KGSoundManager.h"
 
 @implementation KGChannelsObserver
 
@@ -78,13 +79,24 @@
     [self.delegate didSelectChannelWithIdentifier:self.selectedChannel.identifier];
 }
 
+
 - (void)playAlertSoundForSelectedChannel {
-    
+    [self.soundManager playNewMessageSoundForSelectedChannel];
 }
 
 - (void)playAlertSoundForOtherChannel {
-    
+     [self.soundManager playNewMessageSound];
 }
 
+
+#pragma mark - Public getters
+
+- (KGSoundManager *)soundManager {
+    if (!_soundManager) {
+        _soundManager = [[KGSoundManager alloc] init];
+    }
+    
+    return _soundManager;
+}
 
 @end

@@ -522,14 +522,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.textView.text = nil;
 }
 
-- (CGFloat)heightForAutoCompletionView {
-    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-    return 400;//cellHeight * self.autocompletionDataSource.count;
-}
-
 - (CGFloat)maximumHeightForAutoCompletionView {
     CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-    return 400;//cellHeight * self.autocompletionDataSource.count;
+    return cellHeight * self.autocompletionDataSource.count;
 }
 
 

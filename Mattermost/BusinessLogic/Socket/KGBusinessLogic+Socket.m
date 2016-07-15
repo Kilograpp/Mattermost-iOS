@@ -22,8 +22,7 @@
 #import <SocketRocket/SRWebSocket.h>
 #import <ObjectiveSugar/ObjectiveSugar.h>
 #import <MagicalRecord/MagicalRecord.h>
-
-@import AVFoundation;
+#import "KGChannelsObserver.h"
 
 static const NSInteger KGNotificationSecondsDelay = 5;
 
@@ -143,15 +142,7 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
     [[NSNotificationCenter defaultCenter] postNotificationName:channelNotificationName object:notification];
     
     if ([self actionForString:action] == KGActionPosted && ![userId isEqualToString:self.currentUserId]) {
-//        NSString *path = [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] pathForResource:@"Tock" ofType:@"aiff"];
-        SystemSoundID soundID = 1007;
-//        AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path], &soundID);
-        AudioServicesPlaySystemSound(soundID);
-//        AudioServicesDisposeSystemSoundID(soundID);
-        
-        UILocalNotification* localNotification = [[UILocalNotification alloc] init];
-        localNotification.alertBody = @"NEW MESSAGE ARRIVED";
-        [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+        [[KGChannelsObserver sharedObserver] playAlertSoundForChannelWithIdentifier:channelId];
     }
 }
 
