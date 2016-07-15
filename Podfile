@@ -17,7 +17,7 @@ target 'Mattermost' do
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
   pod 'NSStringEmojize'
-  pod 'IDMPhotoBrowser'
+  pod 'IDMPhotoBrowser', :git => 'https://github.com/getmaxx/IDMPhotoBrowser.git'
   pod 'DGActivityIndicatorView'
 end
 

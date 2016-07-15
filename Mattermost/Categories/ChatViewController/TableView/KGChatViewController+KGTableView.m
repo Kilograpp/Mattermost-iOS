@@ -166,7 +166,7 @@
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        KGPhotoBrowser *browser = [[KGPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        KGPhotoBrowser *browser = [[KGPhotoBrowser alloc] initWithPhotoURLs:urls];
         [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
         [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];

@@ -72,7 +72,7 @@
     NSString *fileName = [file.downloadLink lastPathComponent];
     NSString *filePath = [paths[0] stringByAppendingPathComponent:file.name];
     
-    AFHTTPRequestOperation* operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFRKHTTPRequestOperation* operation = [[AFRKHTTPRequestOperation alloc] initWithRequest:request];
     NSString *fullPath = [paths[0] stringByAppendingPathComponent:fileName];
     [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     
@@ -83,7 +83,7 @@
         }
     }];
     
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [operation setCompletionBlockWithSuccess:^(AFRKHTTPRequestOperation *operation, id responseObject) {
         NSString *trimmedFilePath = [[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
         NSString *filePathLastComponent = [@"/" stringByAppendingString:fileName.lastPathComponent];
         NSString *finalFilePath = [trimmedFilePath stringByAppendingString:filePathLastComponent];
@@ -94,7 +94,7 @@
         if(completion) {
             completion(nil);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(AFRKHTTPRequestOperation *operation, NSError *error) {
         if(completion) {
             completion([KGError errorWithNSError:error]);
         }

@@ -52,7 +52,7 @@
 }
 - (instancetype)init {
     if (self = [super init]) {
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+        [AFRKNetworkActivityIndicatorManager sharedManager].enabled = YES;
         [self setupManagedObjectStore];
         [self setupMagicalRecord];
         [self subscribeForNotifications];
@@ -77,11 +77,11 @@
         [manager setManagedObjectStore:self.managedObjectStore];
         
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
-        [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
+        [manager.HTTPClient setParameterEncoding:AFRKJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
-        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            if (status == AFNetworkReachabilityStatusNotReachable) {
+        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFRKNetworkReachabilityStatus status) {
+            if (status == AFRKNetworkReachabilityStatusNotReachable) {
                 [self closeSocket];
             } else {
                 [self openSocket];

@@ -16,6 +16,7 @@
 
 @interface KGImageCell ()
 @property (nonatomic, strong) UIImage *kg_image;
+@property (assign) CGSize imageSize;
 @end
 
 @implementation KGImageCell
@@ -53,13 +54,14 @@
                     if (!wSelf.kg_image) {
                         wSelf.kg_image = image;
                     }
-                    CGSize newSize = CGSizeMake(wSelf.kg_image.size.width * scaleFactor, wSelf.kg_image.size.height * scaleFactor);
+                    wSelf.imageSize = CGSizeMake(wSelf.kg_image.size.width * scaleFactor, wSelf.kg_image.size.height * scaleFactor);
                     if(wSelf.kg_image) {
                         [UIImage roundedImage:wSelf.kg_image
                                   whithRadius:3
-                                         size:newSize
+                                         size:wSelf.imageSize
                                    completion:^(UIImage *image) {
                                        wSelf.kg_imageView.image = image;
+                                       [wSelf setNeedsLayout];
                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                            [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                        });
@@ -78,7 +80,12 @@
 }
 
 - (void)layoutSubviews {
-    self.kg_imageView.frame = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
+    if (self.kg_image) {
+        self.kg_imageView.frame = CGRectMake(0, 0, self.kg_image.size.width, self.kg_image.size.height);
+    } else {
+        self.kg_imageView.frame = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
+    }
+    
 }
 
 @end
