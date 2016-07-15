@@ -39,7 +39,7 @@
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 30)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 15)) {
         [self loadNextPageOfData];
     }
     
