@@ -7,6 +7,7 @@
 //
 
 #import "KGChatViewController+KGTableView.h"
+#import "KGPhotoBrowser.h"
 
 @implementation KGChatViewController (KGTableView)
 
@@ -165,7 +166,7 @@
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        KGPhotoBrowser *browser = [[KGPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
         [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
         [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];

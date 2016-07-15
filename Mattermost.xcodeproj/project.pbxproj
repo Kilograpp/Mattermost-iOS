@@ -75,6 +75,7 @@
 		CD8D690F1D0C521600AFA198 /* KGRightMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */; };
 		CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */; };
 		D603E9221D38E3E200145A85 /* KGSoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D603E9211D38E3E200145A85 /* KGSoundManager.m */; };
+		D603E9261D38EC8400145A85 /* KGPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = D603E9251D38EC8400145A85 /* KGPhotoBrowser.m */; };
 		D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D605F76C1D26EE1200C4D84C /* KGTeamCell.m */; };
 		D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */; };
 		D60E0F1E1D37C11B00863FCD /* KGChannelsObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = D60E0F1D1D37C11B00863FCD /* KGChannelsObserver.m */; };
@@ -290,6 +291,8 @@
 		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuViewController.m; sourceTree = "<group>"; };
 		D603E9201D38E3E200145A85 /* KGSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGSoundManager.h; path = KGSoundManager/KGSoundManager.h; sourceTree = "<group>"; };
 		D603E9211D38E3E200145A85 /* KGSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSoundManager.m; path = KGSoundManager/KGSoundManager.m; sourceTree = "<group>"; };
+		D603E9241D38EC8400145A85 /* KGPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPhotoBrowser.h; path = KGPhotoBrowser/KGPhotoBrowser.h; sourceTree = "<group>"; };
+		D603E9251D38EC8400145A85 /* KGPhotoBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGPhotoBrowser.m; path = KGPhotoBrowser/KGPhotoBrowser.m; sourceTree = "<group>"; };
 		D605F76B1D26EE1200C4D84C /* KGTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTeamCell.h; sourceTree = "<group>"; };
 		D605F76C1D26EE1200C4D84C /* KGTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTeamCell.m; sourceTree = "<group>"; };
 		D605F76D1D26EE1200C4D84C /* KGTeamCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGTeamCell.xib; sourceTree = "<group>"; };
@@ -758,6 +761,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D603E9231D38EC0A00145A85 /* KGPhotoBrowser */,
 				D603E91F1D38E3B500145A85 /* KGSoundManager */,
 				D60E0F1B1D37C0F800863FCD /* KGChannelsObserver */,
 				D81DC27B1D36E0EB00D48FCD /* KGImagePicker */,
@@ -987,6 +991,15 @@
 				D603E9211D38E3E200145A85 /* KGSoundManager.m */,
 			);
 			name = KGSoundManager;
+			sourceTree = "<group>";
+		};
+		D603E9231D38EC0A00145A85 /* KGPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				D603E9241D38EC8400145A85 /* KGPhotoBrowser.h */,
+				D603E9251D38EC8400145A85 /* KGPhotoBrowser.m */,
+			);
+			name = KGPhotoBrowser;
 			sourceTree = "<group>";
 		};
 		D60E0F1B1D37C0F800863FCD /* KGChannelsObserver */ = {
@@ -1875,6 +1888,7 @@
 				9B822B4B3B75D399D392ACD6 /* _KGCommand.m in Sources */,
 				D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */,
 				9B822086B25A18BCCDE3678F /* KGBusinessLogic+Commands.m in Sources */,
+				D603E9261D38EC8400145A85 /* KGPhotoBrowser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
