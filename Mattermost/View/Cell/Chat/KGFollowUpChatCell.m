@@ -113,6 +113,8 @@ static CGFloat const kErrorViewSize = 34.f;
         } else {
             [self reloadSendingState];
         }
+        
+        self.messageLabel.alpha = self.post.identifier ? 1 : 0.5;
     }
 }
 

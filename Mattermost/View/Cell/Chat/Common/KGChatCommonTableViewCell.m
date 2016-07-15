@@ -154,8 +154,6 @@ static CGFloat const kErrorViewSize = 34.f;
         _dateString = [self.post.createdAt timeFormatForMessages];
         self.dateLabel.text = _dateString;
 
-        
-        
         __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
         UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
         
@@ -182,11 +180,7 @@ static CGFloat const kErrorViewSize = 34.f;
             [self.avatarImageView removeActivityIndicator];
         }
         
-        
-        
-        
-
-        if (self.post.error){
+        if (self.post.error) {
             [self showError];
         } else {
             if (!self.post.identifier) {
@@ -195,6 +189,8 @@ static CGFloat const kErrorViewSize = 34.f;
                 [self finishAnimation];
             }
         }
+        
+        self.messageLabel.alpha = self.post.identifier ? 1 : 0.5;
     }
 }
 
