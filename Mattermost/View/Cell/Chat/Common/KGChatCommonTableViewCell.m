@@ -137,7 +137,7 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGPost class]]) {
         self.post = object;
-        
+
         __weak typeof(self) wSelf = self;
         
         self.messageOperation = [[NSBlockOperation alloc] init];
@@ -156,28 +156,30 @@ static CGFloat const kErrorViewSize = 34.f;
 
         __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
         UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
-        
-        if (!smallAvatar && [[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
-            smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+        if (smallAvatar) {
             self.avatarImageView.image = smallAvatar;
         } else {
-            [self.avatarImageView setImageWithURL:self.post.author.imageUrl
-                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
-                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                            
-                                            UIImage* roundedImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
-                                            
-                                            if (!roundedImage) {
-                                                roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
-                                                [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+            if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+                smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+                self.avatarImageView.image = smallAvatar;
+            } else {
+                [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+                                     placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                              options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                                 
-                                            } 
-                                            
-                                            wSelf.avatarImageView.image = roundedImage;
-                                        }
-                      usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            [self.avatarImageView removeActivityIndicator];
+                                                UIImage* roundedImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+                                                if (!roundedImage) {
+                                                    roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                                    [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+                                                    
+                                                }
+                                                
+                                                wSelf.avatarImageView.image = roundedImage;
+                                            }
+                          usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                [self.avatarImageView removeActivityIndicator];
+            }
         }
         
         if (self.post.error) {
@@ -221,8 +223,10 @@ static CGFloat const kErrorViewSize = 34.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     
+    
     CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
     CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
+    
     self.messageLabel.frame = CGRectMake(53, 36, textWidth - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, timeWidth, 20);
