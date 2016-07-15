@@ -905,7 +905,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     
     UIAlertController* controller = [[UIAlertController alloc] init];
     [controller setTitle:NSStringWithFormat(@"%@ %@?", NSLocalizedString(@"What to do with", nil), fileName)];
-    [controller setMessage:NSLocalizedString(@"You may need to authorize at Mattermost in Safari to read the document.", nil)];
+    [controller setMessage:NSLocalizedString(@"You should be Mattermost authorized in Safari to open the document.", nil)];
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Open file in Safari", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[UIApplication sharedApplication] openURL:URL];
     }]];
