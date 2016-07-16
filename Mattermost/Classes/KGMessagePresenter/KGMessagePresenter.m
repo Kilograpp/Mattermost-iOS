@@ -35,23 +35,27 @@
 
 - (UIView *)notificationViewWithPost:(KGPost *)post {
     UIView *notificationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, KGScreenWidth(), 64)];
-    notificationView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.9];
-    UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(8, 8, 40, 40)];
+    notificationView.backgroundColor = [UIColor colorWithWhite:0.05 alpha:0.92];
+    UIImageView *avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 40, 40)];
     [notificationView addSubview:avatarImageView];
     avatarImageView.layer.cornerRadius = 20;
     avatarImageView.clipsToBounds = YES;
     [avatarImageView setImageWithURL:post.author.imageUrl usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 8, KGScreenWidth() - 76, 20)];
+    UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(57, 14, KGScreenWidth() - 86, 18)];
     [notificationView addSubview:nicknameLabel];
     nicknameLabel.textColor = [UIColor whiteColor];
     nicknameLabel.font = [UIFont kg_semibold16Font];
     nicknameLabel.text = [@"@" stringByAppendingString:post.author.nickname];
     
-    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(56, 30, KGScreenWidth() - 76, 20)];
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(57, 33, KGScreenWidth() - 86, 17)];
     [notificationView addSubview:messageLabel];
     messageLabel.textColor = [UIColor whiteColor];
     messageLabel.font = [UIFont kg_regular15Font];
     messageLabel.text = post.message;
+    
+    UIImageView *closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(KGScreenWidth() - 29, 22, 20, 20)];
+    [notificationView addSubview:closeImageView];
+    closeImageView.image = [UIImage imageNamed:@"close"];
     
     return notificationView;
 }
