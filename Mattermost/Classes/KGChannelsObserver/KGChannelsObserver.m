@@ -11,6 +11,9 @@
 #import "KGChannel.h"
 #import "KGSoundManager.h"
 #import "KGMessagePresenter.h"
+#import "KGPost.h"
+#import "KGChannel.h"
+#import <MagicalRecord.h>
 
 @implementation KGChannelsObserver
 
@@ -51,7 +54,9 @@
 }
 
 - (void)presentMessageNotificationForChannel:(NSString *)channelId {
-//    self.messagePresenter
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel.identifier == %@ && createdAt == max(createdAt)", channelId];
+    KGPost *post = [KGPost MR_findFirstWithPredicate:predicate];
+    [self.messagePresenter presentNotificationWithMessage:post];
 }
 
 
