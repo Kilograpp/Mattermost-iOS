@@ -34,7 +34,7 @@
     
     NSString* name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
     CGRect nameFrame = CGRectOffset(CGRectMake(CGRectGetMaxX(iconFrame) + 5, 8, frame.size.width - 64, 20),
-                                    frame.origin.x,
+                                    0,
                                     frame.origin.y);
     
     NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -52,9 +52,7 @@
     }];
     
     
-    CGRect fileSizeRect = CGRectOffset(CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17),
-                                       frame.origin.x,
-                                       frame.origin.y);
+    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
     
     [fileSizeString(file) drawInRect:fileSizeRect
                       withAttributes:@{

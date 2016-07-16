@@ -23,6 +23,7 @@
 #import "KGUIUtils.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "UIView+Align.h"
+#import "KGDrawer.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
@@ -41,12 +42,31 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        [self setupTableView];
+        //[self setupTableView];
     }
     
     return self;
 }
 
+
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
+    CGFloat bottomYCoordOfMessage =
+    ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
+    self.messageLabel.frame.origin.y;
+    CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
+    CGPoint offset = (CGPoint){xCoordOfMessage, bottomYCoordOfMessage + 8};
+    for (KGFile *file in self.files) {
+        if ([file isImage]){
+            [[KGDrawer sharedInstance] drawImage:nil inRect:CGRectOffset(rect, offset.x, offset.y)];
+            offset.y += KG_IMAGE_HEIGHT;
+        } else {
+            [[KGDrawer sharedInstance] drawFile:file inRect:CGRectOffset(rect, offset.x, offset.y)];
+            offset.y += KG_FILE_HEIGHT;
+        }
+    }
+
+}
 
 #pragma mark - Setup
 
@@ -76,10 +96,9 @@
 
 - (void)configureWithObject:(id)object {
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
-
     [super configureWithObject:object];
     self.files = [self.post sortedFiles];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
     self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
 
@@ -150,24 +169,25 @@
 
 #pragma mark - Override
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGFloat bottomYCoordOfMessage =
-            ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
-                                                            self.messageLabel.frame.origin.y;
-    CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
-    CGFloat width = KGScreenWidth() - 61;
-    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
-    
-    [self alignSubviews];
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    
+//    CGFloat bottomYCoordOfMessage =
+//            ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
+//                                                            self.messageLabel.frame.origin.y;
+//    CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
+//    CGFloat width = KGScreenWidth() - 61;
+//    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
+//    
+//    [self alignSubviews];
+//}
 
 - (void)prepareForReuse {
     [super prepareForReuse];
 }
 
 CGFloat tableViewHeight(NSArray *files) {
+    
     CGFloat heightImage = 0;
     for (KGFile *file in files) {
         if ([file isImage]){
