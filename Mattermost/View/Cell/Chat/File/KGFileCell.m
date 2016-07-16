@@ -16,7 +16,6 @@
 #pragma mark - Setup
 
 - (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
     [[KGDrawer sharedInstance] drawFile:self.file inRect:rect];
 }
 #pragma mark - Configuration

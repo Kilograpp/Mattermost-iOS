@@ -52,18 +52,22 @@
     }];
     
     
-    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
-    
-    [fileSizeString(file) drawInRect:fileSizeRect
-                      withAttributes:@{
-           NSFontAttributeName            : [UIFont kg_regular16Font],
-           NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
-           NSForegroundColorAttributeName : [UIColor kg_lightGrayColor],
-           NSParagraphStyleAttributeName  : paragraphStyle
-    }];
+//    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
+//    
+//    [fileSizeString(file) drawInRect:fileSizeRect
+//                      withAttributes:@{
+//           NSFontAttributeName            : [UIFont kg_regular16Font],
+//           NSBackgroundColorAttributeName : [UIColor kg_whiteColor],
+//           NSForegroundColorAttributeName : [UIColor kg_lightGrayColor],
+//           NSParagraphStyleAttributeName  : paragraphStyle
+//    }];
 }
 
 - (void)drawImage:(UIImage*)image inRect:(CGRect)frame {
+    
+    [[UIColor kg_whiteColor] set];  ///< set clear color for stroke & fill
+    CGContextFillRect(UIGraphicsGetCurrentContext(), frame);
+    
     if (image) {
         CGRect imageFrame = CGRectMake(frame.origin.x, frame.origin.y, image.size.width, image.size.height);
         [image drawInRect:imageFrame];

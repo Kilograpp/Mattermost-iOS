@@ -40,7 +40,7 @@
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-
+        
         NSURL *url = file.thumbLink;
         __weak typeof(self) wSelf = self;
 
