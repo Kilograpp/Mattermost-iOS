@@ -64,6 +64,10 @@
 }
 
 - (void)drawImage:(UIImage*)image inRect:(CGRect)frame {
+    
+    [[UIColor kg_whiteColor] set];  ///< set clear color for stroke & fill
+    CGContextFillRect(UIGraphicsGetCurrentContext(), frame);
+    
     if (image) {
         CGRect imageFrame = CGRectMake(frame.origin.x, frame.origin.y, image.size.width, image.size.height);
         [image drawInRect:imageFrame];
