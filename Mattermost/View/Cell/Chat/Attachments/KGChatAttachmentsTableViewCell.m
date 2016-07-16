@@ -48,25 +48,6 @@
     return self;
 }
 
-//
-//- (void)drawRect:(CGRect)rect {
-//    [super drawRect:rect];
-//    CGFloat bottomYCoordOfMessage =
-//    ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
-//    self.messageLabel.frame.origin.y;
-//    CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
-//    CGPoint offset = (CGPoint){xCoordOfMessage, bottomYCoordOfMessage + 8};
-//    for (KGFile *file in self.files) {
-//        if ([file isImage]){
-//            [[KGDrawer sharedInstance] drawImage:[[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:file.thumbLink.absoluteString] inRect:CGRectOffset(rect, offset.x, offset.y)];
-//            offset.y += KG_IMAGE_HEIGHT;
-//        } else {
-//            [[KGDrawer sharedInstance] drawFile:file inRect:CGRectOffset(rect, offset.x, offset.y)];
-//            offset.y += KG_FILE_HEIGHT;
-//        }
-//    }
-//
-//}
 
 #pragma mark - Setup
 
@@ -98,42 +79,6 @@
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
     [super configureWithObject:object];
     self.files = [self.post sortedFiles];
-//    
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        
-//        __weak typeof(self) wSelf = self;
-//        
-//        for (KGFile* file in self.files) {
-//            
-//            if (file.isImage){
-//                if (![[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:file.thumbLink.absoluteString]) {
-//                    [[SDWebImageManager sharedManager] downloadImageWithURL:file.thumbLink options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//                        
-//                        CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
-//                        
-//                        CGSize imageSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
-//                        
-//                        [UIImage roundedImage:image
-//                                  whithRadius:3
-//                                         size:imageSize
-//                                   completion:^(UIImage *image) {
-//                                       //[wSelf setNeedsLayout];
-//                                       
-//                                       [[SDImageCache sharedImageCache] storeImage:image forKey:file.thumbLink.absoluteString];
-//                                       [wSelf setNeedsDisplay];
-//                                   }];
-//                        
-//                        
-//                    }];
-//                    
-//                }
-//            }
-//        }
-//        
-//        
-//    });
-
-   
     [self.tableView reloadData];
     self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
@@ -162,17 +107,14 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if ([self.files[indexPath.row] isImage]){
         KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier]];
-    
         KGFile *file = self.files[indexPath.row];
         [cell configureWithObject:file];
         return cell;
     } else {
         KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier]];
         KGFile *file = self.files[indexPath.row];
-        
         [cell configureWithObject:file];
         return cell;
     }

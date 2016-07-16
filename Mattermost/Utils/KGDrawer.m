@@ -86,10 +86,10 @@
     [name drawInRect:nameFrame
       withAttributes:self.fileNameAttributesCache];
 
-    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
-
-    [fileSizeString(file) drawInRect:fileSizeRect
-                      withAttributes:self.fileSizeAttributesCache];
+//    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
+//
+//    [fileSizeString(file) drawInRect:fileSizeRect
+//                      withAttributes:self.fileSizeAttributesCache];
     
 }
 

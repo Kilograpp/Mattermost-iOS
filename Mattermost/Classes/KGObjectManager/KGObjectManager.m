@@ -34,6 +34,12 @@
         safetyCall(failure, [self handleOperation:operation withError:error]);
     }];
 }
+- (void)getObjectsAtPath:(NSString *)path
+            savesToStore:(BOOL)savesToPersistentStore
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:YES savesToStore:savesToPersistentStore success:success failure:failure];
+}
 
 - (void)getObjectsAtPath:(NSString *)path
                 success:(void (^)(RKMappingResult *mappingResult))success

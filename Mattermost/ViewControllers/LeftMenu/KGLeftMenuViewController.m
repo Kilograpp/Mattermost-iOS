@@ -19,10 +19,12 @@
 #import "KGChannelTableViewCell.h"
 #import "KGUtils.h"
 #import "NSManagedObject+CustomFinder.h"
+#import <mach/mach.h>
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGNotificationValues.h"
 #import "KGPreferences.h"
 #import "KGChannelsObserver.h"
+#import "KGHardwareUtils.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -204,7 +206,10 @@
 }
 
 - (void)updateTableView:(NSNotification *)notification {
-    [self.tableView reloadData];
+    if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh ||
+        [[KGHardwareUtils sharedInstance] currentCpuLoad] < 30) {
+        [self.tableView reloadData];
+    }
 }
 
 

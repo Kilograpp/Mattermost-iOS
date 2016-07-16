@@ -18,6 +18,7 @@
 #import "KGBusinessLogic+Session.h"
 #import "KGNotificationValues.h"
 #import "KGDrawer.h"
+#import "KGHardwareUtils.h"
 
 @interface KGAppDelegate ()
 @end
@@ -84,6 +85,7 @@
 
 - (void)instantiateSingletons {
     [KGDrawer sharedInstance];
+    [KGHardwareUtils sharedInstance];
 }
 
 - (void)setupFabric {
