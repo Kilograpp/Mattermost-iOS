@@ -51,7 +51,7 @@
 }
 
 - (void)presentMessageNotificationForChannel:(NSString *)channelId {
-    self.messagePresenter
+//    self.messagePresenter
 }
 
 
