@@ -317,6 +317,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingInProgress = NO;
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
+        
+
     }];
 }
 

@@ -8,6 +8,7 @@
 
 #import "KGChatViewController+KGTableView.h"
 #import "KGPhotoBrowser.h"
+#import "KGHardwareUtils.h"
 
 @implementation KGChatViewController (KGTableView)
 
@@ -32,6 +33,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSInteger nextPageOffset = 0;
+    
+    if (nextPageOffset == 0) {
+        if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh){
+            nextPageOffset = 30;
+        } else {
+            nextPageOffset = 2;
+        }
+    }
+    
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         return [self autoCompletionCellAtIndexPath:indexPath];
@@ -39,7 +51,7 @@
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 20)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < nextPageOffset)) {
         [self loadNextPageOfData];
     }
     
@@ -64,9 +76,9 @@
     
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     [self assignBlocksForCell:cell post:post];
-    if (post.nonImageFiles) {
-        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
-    }
+//    if (post.nonImageFiles) {
+//        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
+//    }
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;

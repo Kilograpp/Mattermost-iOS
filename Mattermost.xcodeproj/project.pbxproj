@@ -136,6 +136,7 @@
 		D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2821D3833B700D48FCD /* _KGExternalFile.m */; };
 		D81DC2861D3833BE00D48FCD /* KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2851D3833BE00D48FCD /* KGExternalFile.m */; };
 		D81DC2B01D39A4BA00D48FCD /* KGDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2AF1D39A4BA00D48FCD /* KGDrawer.m */; };
+		D81DC2B61D3AC3C000D48FCD /* KGHardwareUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2B51D3AC3C000D48FCD /* KGHardwareUtils.m */; };
 		D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D84193521D2FFE7000D32C69 /* KGTheme.m */; };
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
@@ -401,6 +402,8 @@
 		D81DC2851D3833BE00D48FCD /* KGExternalFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGExternalFile.m; sourceTree = "<group>"; };
 		D81DC2AE1D39A4BA00D48FCD /* KGDrawer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGDrawer.h; sourceTree = "<group>"; };
 		D81DC2AF1D39A4BA00D48FCD /* KGDrawer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGDrawer.m; sourceTree = "<group>"; };
+		D81DC2B41D3AC3C000D48FCD /* KGHardwareUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGHardwareUtils.h; sourceTree = "<group>"; };
+		D81DC2B51D3AC3C000D48FCD /* KGHardwareUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGHardwareUtils.m; sourceTree = "<group>"; };
 		D84193511D2FFE7000D32C69 /* KGTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTheme.h; sourceTree = "<group>"; };
 		D84193521D2FFE7000D32C69 /* KGTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTheme.m; sourceTree = "<group>"; };
 		D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSMarkdownParser.framework; path = Carthage/Build/iOS/TSMarkdownParser.framework; sourceTree = "<group>"; };
@@ -1577,6 +1580,8 @@
 				D84193521D2FFE7000D32C69 /* KGTheme.m */,
 				D81DC2AE1D39A4BA00D48FCD /* KGDrawer.h */,
 				D81DC2AF1D39A4BA00D48FCD /* KGDrawer.m */,
+				D81DC2B41D3AC3C000D48FCD /* KGHardwareUtils.h */,
+				D81DC2B51D3AC3C000D48FCD /* KGHardwareUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1850,6 +1855,7 @@
 				D8F4C3131D29CD1E008BCCB2 /* KGMoveAction.m in Sources */,
 				9B822BF177323AA55B7E70B4 /* KGPost.m in Sources */,
 				D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */,
+				D81DC2B61D3AC3C000D48FCD /* KGHardwareUtils.m in Sources */,
 				CD8D690B1D0C514800AFA198 /* KGProfilViewController.m in Sources */,
 				9B8224A33F374766CDAE2E96 /* KGChannelPostsWrapper.m in Sources */,
 				D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */,
@@ -1866,6 +1872,7 @@
 				41B020B91D19946900594995 /* KGImagePickerController.m in Sources */,
 				9B8221BBCC4F925C736022AF /* NSStringUtils.m in Sources */,
 				419096E91D1427EB00725440 /* KGProfileDataSource.m in Sources */,
+				D81DC2B01D39A4BA00D48FCD /* KGDrawer.m in Sources */,
 				CD7D117E1D0C648B002EED4E /* KGRightMenuCell.m in Sources */,
 				D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */,
 				9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */,

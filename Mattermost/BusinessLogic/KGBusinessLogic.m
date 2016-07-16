@@ -23,6 +23,7 @@
 #import "KGNotificationValues.h"
 #import "KGPost.h"
 #import <HexColors/HexColors.h>
+#import "KGHardwareUtils.h"
 
 @interface KGBusinessLogic ()
 
@@ -75,7 +76,6 @@
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
         manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
-        
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
         [manager.HTTPClient setParameterEncoding:AFRKJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
@@ -88,6 +88,12 @@
             }
             
         }];
+        
+        
+        if ([KGHardwareUtils sharedInstance].devicePerformance == KGPerformanceLow){
+            [[manager operationQueue] setMaxConcurrentOperationCount:1];
+        }
+        
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
         RKValueTransformer* dateTransformer = [self millisecondsSince1970ToDateValueTransformer];
