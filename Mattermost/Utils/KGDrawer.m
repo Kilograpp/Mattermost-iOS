@@ -12,7 +12,11 @@
 #import "UIColor+KGPreparedColor.h"
 #import "KGFile.h"
 
-@class KGFile;
+
+@interface KGDrawer()
+@property (strong, nonatomic) NSDictionary* attributes;
+
+@end
 
 @implementation KGDrawer
 
@@ -21,6 +25,18 @@
     static id sharedInstance;
     dispatch_once(&once, ^{
         sharedInstance = [self new];
+        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        /// Set line break mode
+        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        /// Set text alignment
+        paragraphStyle.alignment = NSTextAlignmentLeft;
+        [sharedInstance setAttributes:@{
+                                       NSFontAttributeName             : [UIFont kg_regular16Font],
+                                       NSBackgroundColorAttributeName  : [UIColor kg_whiteColor],
+                                       NSForegroundColorAttributeName  : [UIColor kg_blueColor],
+                                       NSParagraphStyleAttributeName   : paragraphStyle
+                                       }];
+        
     });
     return sharedInstance;
 }
@@ -29,29 +45,19 @@
 
 - (void)drawFile:(KGFile*)file inRect:(CGRect)frame {
     
+    NSTimeInterval startTime = [[NSDate date] timeIntervalSince1970];
     CGRect iconFrame = CGRectOffset(CGRectMake(5, 5, 44, 44), frame.origin.x, frame.origin.y);
     [[UIImage imageNamed:@"chat_file_ic"] drawInRect:iconFrame];
     
     NSString* name = [[file.name componentsSeparatedByString:@"/"] objectAtIndex:1];
     CGRect nameFrame = CGRectOffset(CGRectMake(CGRectGetMaxX(iconFrame) + 5, 8, frame.size.width - 64, 20),
                                     0,
-                                    frame.origin.y);
-    
-    NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    /// Set line break mode
-    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
-    /// Set text alignment
-    paragraphStyle.alignment = NSTextAlignmentLeft;
-    
+                                    frame.origin.y);    
     [name drawInRect:nameFrame
-      withAttributes:@{
-            NSFontAttributeName             : [UIFont kg_regular16Font],
-            NSBackgroundColorAttributeName  : [UIColor kg_whiteColor],
-            NSForegroundColorAttributeName  : [UIColor kg_blueColor],
-            NSParagraphStyleAttributeName   : paragraphStyle
-    }];
+      withAttributes:self.attributes];
     
     
+    NSLog(@"Passed: %f", [[NSDate date] timeIntervalSince1970] - startTime);
 //    CGRect fileSizeRect = CGRectMake(CGRectGetMinX(nameFrame), CGRectGetMaxY(nameFrame) + 3, 100, 17);
 //    
 //    [fileSizeString(file) drawInRect:fileSizeRect
