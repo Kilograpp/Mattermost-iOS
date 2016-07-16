@@ -98,6 +98,7 @@
 		D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */; };
 		D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
+		D65F7FAB1D39B5A80085EC2A /* KGDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = D65F7FAA1D39B5A80085EC2A /* KGDrawer.m */; };
 		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
@@ -135,7 +136,6 @@
 		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
 		D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2821D3833B700D48FCD /* _KGExternalFile.m */; };
 		D81DC2861D3833BE00D48FCD /* KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2851D3833BE00D48FCD /* KGExternalFile.m */; };
-		D81DC2B01D39A4BA00D48FCD /* KGDrawer.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2AF1D39A4BA00D48FCD /* KGDrawer.m */; };
 		D84193531D2FFE7000D32C69 /* KGTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = D84193521D2FFE7000D32C69 /* KGTheme.m */; };
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
@@ -328,6 +328,7 @@
 		D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGChatViewController+KGLoading.m"; path = "ChatViewController/Loading/KGChatViewController+KGLoading.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
+		D65F7FAA1D39B5A80085EC2A /* KGDrawer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KGDrawer.m; path = Mattermost/Utils/KGDrawer.m; sourceTree = "<group>"; };
 		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
 		D66328431D1F6AEB0043B7DD /* IVManualCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVManualCell.m; sourceTree = "<group>"; };
 		D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+KGRotate.h"; sourceTree = "<group>"; };
@@ -1147,6 +1148,7 @@
 		D696F7681D060FDD008341AF = {
 			isa = PBXGroup;
 			children = (
+				D65F7FAA1D39B5A80085EC2A /* KGDrawer.m */,
 				1F7A9C62E9AB6C45AE424260 /* Frameworks */,
 				D696F7731D060FDD008341AF /* Mattermost */,
 				BA14FEE23A0344239A72E444 /* Pods */,
@@ -1781,6 +1783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D65F7FAB1D39B5A80085EC2A /* KGDrawer.m in Sources */,
 				CDB0506B1D12D17000594A8C /* KGChannelTableViewCell.m in Sources */,
 				CD8D69071D0C510A00AFA198 /* KGSettingsViewController.m in Sources */,
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,

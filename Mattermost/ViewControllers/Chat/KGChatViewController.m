@@ -373,17 +373,17 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)loadAdditionalInfoForFile:(KGFile *)file {
-    NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
-    NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil
-                                                                                              method:RKRequestMethodGET
-                                                                                                path:path
-                                                                                          parameters:nil];
-    RKManagedObjectRequestOperation* operation =
-            [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request
-                                                                                       managedObjectContext:[NSManagedObjectContext MR_defaultContext]
-                                                                                                    success:nil
-                                                                                                    failure:nil];
-    [self.filesInfoQueue addOperation:operation];
+//    NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
+//    NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil
+//                                                                                              method:RKRequestMethodGET
+//                                                                                                path:path
+//                                                                                          parameters:nil];
+//    RKManagedObjectRequestOperation* operation =
+//            [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request
+//                                                                                       managedObjectContext:[NSManagedObjectContext MR_defaultContext]
+//                                                                                                    success:nil
+//                                                                                                    failure:nil];
+//    [self.filesInfoQueue addOperation:operation];
 }
 
 

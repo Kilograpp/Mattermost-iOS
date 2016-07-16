@@ -74,7 +74,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.scrollsToTop = NO;
     self.tableView.scrollEnabled = NO;
-    self.tableView.layer.drawsAsynchronously = YES;
+//    self.tableView.layer.drawsAsynchronously = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
