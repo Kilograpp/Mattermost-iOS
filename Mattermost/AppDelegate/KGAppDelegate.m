@@ -20,7 +20,6 @@
 #import "KGDrawer.h"
 
 @interface KGAppDelegate ()
-@property (strong, nonatomic) UIImage* testImage;
 @end
 
 @implementation KGAppDelegate
@@ -32,8 +31,7 @@
     [self registerForRemoteNotifications];
     [self setupFabric];
     [self sendLaunchNotificationWithOptions:launchOptions];
-    _testImage = [UIImage imageNamed:@"chat_file_ic"];
-    [KGDrawer sharedInstance];
+    [self instantiateSingletons];
     return YES;
 }
 
@@ -82,6 +80,10 @@
         self.window.rootViewController = navController;
         [self.window makeKeyAndVisible];
     }
+}
+
+- (void)instantiateSingletons {
+    [KGDrawer sharedInstance];
 }
 
 - (void)setupFabric {
