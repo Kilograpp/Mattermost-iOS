@@ -17,9 +17,10 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "KGBusinessLogic+Session.h"
 #import "KGNotificationValues.h"
+#import "KGDrawer.h"
 
 @interface KGAppDelegate ()
-
+@property (strong, nonatomic) UIImage* testImage;
 @end
 
 @implementation KGAppDelegate
@@ -31,6 +32,8 @@
     [self registerForRemoteNotifications];
     [self setupFabric];
     [self sendLaunchNotificationWithOptions:launchOptions];
+    _testImage = [UIImage imageNamed:@"chat_file_ic"];
+    [KGDrawer sharedInstance];
     return YES;
 }
 
