@@ -58,7 +58,7 @@
     CGPoint offset = (CGPoint){xCoordOfMessage, bottomYCoordOfMessage + 8};
     for (KGFile *file in self.files) {
         if ([file isImage]){
-            [[KGDrawer sharedInstance] drawImage:nil inRect:CGRectOffset(rect, offset.x, offset.y)];
+            [[KGDrawer sharedInstance] drawImage:[[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:file.thumbLink.absoluteString] inRect:CGRectOffset(rect, offset.x, offset.y)];
             offset.y += KG_IMAGE_HEIGHT;
         } else {
             [[KGDrawer sharedInstance] drawFile:file inRect:CGRectOffset(rect, offset.x, offset.y)];
@@ -98,6 +98,42 @@
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
     [super configureWithObject:object];
     self.files = [self.post sortedFiles];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        __weak typeof(self) wSelf = self;
+        
+        for (KGFile* file in self.files) {
+            
+            if (file.isImage){
+                if (![[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:file.thumbLink.absoluteString]) {
+                    [[SDWebImageManager sharedManager] downloadImageWithURL:file.thumbLink options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                        
+                        CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
+                        
+                        CGSize imageSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
+                        
+                        [UIImage roundedImage:image
+                                  whithRadius:3
+                                         size:imageSize
+                                   completion:^(UIImage *image) {
+                                       //[wSelf setNeedsLayout];
+                                       
+                                       [[SDImageCache sharedImageCache] storeImage:image forKey:file.thumbLink.absoluteString];
+                                       [wSelf setNeedsDisplay];
+                                   }];
+                        
+                        
+                    }];
+                    
+                }
+            }
+        }
+        
+        
+    });
+
+    
 //    [self.tableView reloadData];
     self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
