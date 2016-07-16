@@ -131,6 +131,7 @@
 		D6C915761D193B2F000DC072 /* KGAutoCompletionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C915741D193B2F000DC072 /* KGAutoCompletionCell.xib */; };
 		D6DF885A1D3307020091DBDE /* KGDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = D6DF88591D3307020091DBDE /* KGDateFormatter.m */; };
 		D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */; };
+		D6F0C9211D3A77B0009CA938 /* KGMessagePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F0C9201D3A77B0009CA938 /* KGMessagePresenter.m */; };
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
 		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
@@ -389,6 +390,8 @@
 		D6DF88591D3307020091DBDE /* KGDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGDateFormatter.m; path = KGDateFormatter/KGDateFormatter.m; sourceTree = "<group>"; };
 		D6E682401D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+KGHandleCookies.h"; sourceTree = "<group>"; };
 		D6E682411D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+KGHandleCookies.m"; sourceTree = "<group>"; };
+		D6F0C91F1D3A77B0009CA938 /* KGMessagePresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGMessagePresenter.h; path = KGMessagePresenter/KGMessagePresenter.h; sourceTree = "<group>"; };
+		D6F0C9201D3A77B0009CA938 /* KGMessagePresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGMessagePresenter.m; path = KGMessagePresenter/KGMessagePresenter.m; sourceTree = "<group>"; };
 		D80474271D2A9202007B41D7 /* TSMarkdownParser+Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TSMarkdownParser+Singleton.h"; sourceTree = "<group>"; };
 		D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TSMarkdownParser+Singleton.m"; sourceTree = "<group>"; };
 		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
@@ -769,6 +772,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D6F0C91E1D3A7775009CA938 /* KGMessagePresenter */,
 				D603E9231D38EC0A00145A85 /* KGPhotoBrowser */,
 				D603E91F1D38E3B500145A85 /* KGSoundManager */,
 				D60E0F1B1D37C0F800863FCD /* KGChannelsObserver */,
@@ -1493,6 +1497,15 @@
 			path = NSMutableURLRequest;
 			sourceTree = "<group>";
 		};
+		D6F0C91E1D3A7775009CA938 /* KGMessagePresenter */ = {
+			isa = PBXGroup;
+			children = (
+				D6F0C91F1D3A77B0009CA938 /* KGMessagePresenter.h */,
+				D6F0C9201D3A77B0009CA938 /* KGMessagePresenter.m */,
+			);
+			name = KGMessagePresenter;
+			sourceTree = "<group>";
+		};
 		D80474261D2A9108007B41D7 /* TSMarkdownParser */ = {
 			isa = PBXGroup;
 			children = (
@@ -1789,6 +1802,7 @@
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D60E0F221D37E3DF00863FCD /* KGNavigationBarTitleView.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
+				D6F0C9211D3A77B0009CA938 /* KGMessagePresenter.m in Sources */,
 				D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,
 				D8B429161D071969008BF955 /* KGConstants.m in Sources */,

@@ -10,6 +10,7 @@
 #import "KGPreferences.h"
 #import "KGChannel.h"
 #import "KGSoundManager.h"
+#import "KGMessagePresenter.h"
 
 @implementation KGChannelsObserver
 
@@ -47,6 +48,10 @@
     } else {
         [self playAlertSoundForOtherChannel];
     }
+}
+
+- (void)presentMessageNotificationForChannel:(NSString *)channelId {
+    self.messagePresenter
 }
 
 
@@ -97,6 +102,14 @@
     }
     
     return _soundManager;
+}
+
+- (KGMessagePresenter *)messagePresenter {
+    if (!_messagePresenter) {
+        _messagePresenter = [[KGMessagePresenter alloc] init];
+    }
+    
+    return _messagePresenter;
 }
 
 @end

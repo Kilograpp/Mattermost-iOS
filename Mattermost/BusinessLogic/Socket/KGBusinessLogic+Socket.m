@@ -143,6 +143,7 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
     
     if ([self actionForString:action] == KGActionPosted && ![userId isEqualToString:self.currentUserId]) {
         [[KGChannelsObserver sharedObserver] playAlertSoundForChannelWithIdentifier:channelId];
+        
     }
 }
 
