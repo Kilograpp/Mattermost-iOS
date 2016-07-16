@@ -383,6 +383,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                                                        managedObjectContext:[NSManagedObjectContext MR_defaultContext]
                                                                                                     success:nil
                                                                                                     failure:nil];
+    operation.savesToPersistentStore = NO;
     [self.filesInfoQueue addOperation:operation];
 }
 
