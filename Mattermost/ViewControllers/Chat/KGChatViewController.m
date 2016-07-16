@@ -57,6 +57,7 @@
 #import <RestKit/RestKit.h>
 #import "KGObjectManager.h"
 #import <SOCKit/SOCKit.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "KGImagePicker.h"
 
@@ -114,6 +115,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -135,7 +137,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         _isFirstLoad = NO;
     }
     
-    self.temporaryIgnoredObjects = [NSCountedSet set];
 }
 
 
@@ -270,7 +271,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                       ascending:NO
                                                   withPredicate:predicate
                                                         groupBy:[KGPostAttributes creationDay]
-                                                       delegate:self inContext:[NSManagedObjectContext MR_defaultContext]];
+                                                       delegate:self
+                                                      inContext:[NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]]];
 
     self.fetchedResultsController.fetchedObjects.count == 0 ?
             [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
@@ -305,7 +307,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     if (self.loadingInProgress || !self.hasNextPage) {
         return;
     }
-    
+
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
     [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
@@ -318,9 +320,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.hasNextPage = !isLastPage;
         self.errorOccured = error ? YES : NO;
         
-
+        
     }];
 }
+
+
+
 
 - (void)applyCommand {
     [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
@@ -328,39 +333,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                           [action execute];
                                                       }];
     [self clearTextView];
-}
-
-
-// TODO: Code Review: Разнести отправку поста и отправку команды в два метода
-- (void)sendPost {
-    // TODO: Code Review: Вынести условие в отдельный метод
-    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
-        [self applyCommand];
-        return;
-    }
-
-    [self configureCurrentPost];
-    [self clearTextView];
-    
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-
-    __block KGPost* postToSend = self.currentPost;
-    [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
-    [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
-
-    [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
-        // TODO: Code Review: Слишком много логики в интерфейсно методе
-        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]];
-        [cell finishAnimation];
-        if (error) {
-            postToSend.error = @YES;
-            [[KGAlertManager sharedManager] showError:error];
-            [cell showError];
-        }
-
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        [self resetCurrentPost];
-    }];
 }
 
 
@@ -515,6 +487,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)configureCurrentPost {
     self.currentPost.message = self.textInputbar.textView.text;
+    
     self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
     self.currentPost.channel = self.channel;
     self.currentPost.createdAt = [NSDate date];
@@ -568,6 +541,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateNavigationBarAppearanceFromNotification:)
                                                  name:KGNotificationUsersStatusUpdate
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(managedObjectContextDidSave:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
                                                object:nil];
 }
 
@@ -754,6 +731,58 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 }
 
+
+// TODO: Code Review: Разнести отправку поста и отправку команды в два метода
+- (void)sendPost {
+    // TODO: Code Review: Вынести условие в отдельный метод
+    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
+        [self applyCommand];
+        return;
+    }
+    
+    
+    
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_context];
+    
+    __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
+    
+    [context MR_saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
+        postToSend.message = self.textInputbar.textView.text;
+        
+        postToSend.author = [KGUser MR_findFirstByAttribute:@"identifier" withValue:[[KGBusinessLogic sharedInstance] currentUserId] inContext:context];
+        postToSend.channel = [self.channel MR_inContext:context];
+        postToSend.createdAt = [NSDate date];
+        [postToSend configureBackendPendingId];
+    }];
+    
+    
+    
+    [self clearTextView];
+    
+    [context MR_saveToPersistentStoreAndWait];
+    
+    [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
+        // TODO: Code Review: Слишком много логики в интерфейсно методе
+        KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
+        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
+        [cell finishAnimation];
+        if (error) {
+            postToSend.error = @YES;
+            [[KGAlertManager sharedManager] showError:error];
+            [cell showError];
+        }
+        
+        [context MR_saveToPersistentStoreAndWait];
+        [self.fetchedResultsController.managedObjectContext performBlock:^{
+            [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:YES];
+        }];
+        
+        [self resetCurrentPost];
+    }];
+}
+
+
+
 - (void)errorActionWithPost: (KGPost *)post {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kErrorAlertViewTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -761,34 +790,39 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     UIAlertAction *resendAction =
     [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
-        __block KGPost* postToSend = post;
+        
+        NSManagedObjectContext* context = [NSManagedObjectContext MR_context];
+        
+        __block KGPost* postToSend = [post MR_inContext:context];
         
         postToSend.error = nil;
         
+        [context MR_saveToPersistentStoreAndWait];
+
+        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
         
-        
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfWithCompletion:^(BOOL contextDidSave, NSError * _Nullable error) {
-            [[NSManagedObjectContext MR_defaultContext] refreshObject:postToSend mergeChanges:NO];
-        }];
-        
-        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]];
-        
-        [cell hideError];
-        [cell startAnimation];
-        [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
-        [self.temporaryIgnoredObjects addObject:postToSend.backendPendingId];
+        [theCell hideError];
+        [theCell startAnimation];
         
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
+            KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
             
-            KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:postToSend]];
-            [cell finishAnimation];
+            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
+            [theCell finishAnimation];
+            
             if (error) {
                 postToSend.error = @YES;
                 [[KGAlertManager sharedManager] showError:error];
-                [cell showError];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-            } 
-        
+                [theCell showError];
+                
+            }
+            
+            [postToSend.managedObjectContext MR_saveToPersistentStoreAndWait];
+            [self.fetchedResultsController.managedObjectContext performBlock:^{
+                [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:YES];
+            }];
+            
+            
             // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
             
     }];
@@ -886,7 +920,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (KGPost *)currentPost {
     if (!_currentPost) {
-        _currentPost = [KGPost MR_createEntityInContext:[NSManagedObjectContext MR_defaultContext]];
+        _currentPost = [KGPost MR_createEntity];
     }
     
     return _currentPost;

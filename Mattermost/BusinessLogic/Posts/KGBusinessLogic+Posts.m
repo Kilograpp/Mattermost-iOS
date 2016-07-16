@@ -25,7 +25,7 @@ const NSInteger kDefaultPageSize = 60;
                              
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel lastPostId:lastPostId];
     NSString * path = SOCStringFromStringWithObject([KGPost nextPageListPathPattern], wrapper);
-    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager getObjectsAtPath:path savesToStore:NO success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, mappingResult.count < [wrapper.size intValue], nil);
     } failure:^(KGError* error) {
         
@@ -62,7 +62,7 @@ const NSInteger kDefaultPageSize = 60;
 
 - (void)updatePost:(KGPost*)post completion:(void(^)(KGError *error))completion{
     NSString * path = SOCStringFromStringWithObject([KGPost updatePathPattern], post);
-    [self.defaultObjectManager getObject:post path:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager getObject:post path:path savesToStore:NO success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }

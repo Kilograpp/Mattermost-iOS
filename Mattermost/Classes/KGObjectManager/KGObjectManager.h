@@ -33,6 +33,12 @@
 
 - (void)getObject:(id)object
              path:(NSString*)path
+     savesToStore:(BOOL)savesToPersistentStore
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure;
+
+- (void)getObject:(id)object
+             path:(NSString*)path
           success:(void (^)(RKMappingResult *mappingResult))success
           failure:(void (^)(KGError *error))failure;
 

@@ -64,10 +64,7 @@
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
         
-        if ([self.temporaryIgnoredObjects containsObject:anObject.backendPendingId]) {
-            [self.temporaryIgnoredObjects removeObject:anObject.backendPendingId];
-            return;
-        }
+
         
         [self rowShouldBeUpdatedAtIndexPath:indexPath];
     }
@@ -133,6 +130,18 @@
     
 }
 
+- (void)managedObjectContextDidSave:(NSNotification *)notification {
+    NSManagedObjectContext *managedObjectContext = [notification object];
+    if (managedObjectContext != self.fetchedResultsController.managedObjectContext &&
+        managedObjectContext == self.fetchedResultsController.managedObjectContext.parentContext) {
+        
+        for(NSManagedObject *object in [[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
+            [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
+        }
+        
+        [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+    }
+}
 
 
 

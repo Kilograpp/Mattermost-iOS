@@ -54,6 +54,13 @@
     [self getObject:nil path:path parameters:nil useCache:useCache savesToStore:YES success:success failure:failure];
 }
 
+- (void)getObject:(id)object
+             path:(NSString*)path
+     savesToStore:(BOOL)savesToPersistentStore
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:YES savesToStore:savesToPersistentStore success:success failure:failure];
+}
 
 - (void)getObject:(id)object
              path:(NSString*)path
