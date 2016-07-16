@@ -10,6 +10,10 @@
 #import "KGPreferences.h"
 #import "KGChannel.h"
 #import "KGSoundManager.h"
+#import "KGMessagePresenter.h"
+#import "KGPost.h"
+#import "KGChannel.h"
+#import <MagicalRecord.h>
 
 @implementation KGChannelsObserver
 
@@ -47,6 +51,12 @@
     } else {
         [self playAlertSoundForOtherChannel];
     }
+}
+
+- (void)presentMessageNotificationForChannel:(NSString *)channelId {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel.identifier == %@ && createdAt == max(createdAt)", channelId];
+    KGPost *post = [KGPost MR_findFirstWithPredicate:predicate];
+    [self.messagePresenter presentNotificationWithMessage:post];
 }
 
 
@@ -97,6 +107,14 @@
     }
     
     return _soundManager;
+}
+
+- (KGMessagePresenter *)messagePresenter {
+    if (!_messagePresenter) {
+        _messagePresenter = [[KGMessagePresenter alloc] init];
+    }
+    
+    return _messagePresenter;
 }
 
 @end
