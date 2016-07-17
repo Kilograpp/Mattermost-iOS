@@ -144,11 +144,20 @@
 - (void)postObjectAtPath:(NSString *)path
                  success:(void (^)(RKMappingResult *mappingResult))success
                  failure:(void (^)(KGError *error))failure{
-    [self postObject:nil path:path parameters:nil success:success failure:failure];
+    [self postObject:nil path:path parameters:nil savesToStore:NO success:success failure:failure];
 }
+
+- (void)postObjectAtPath:(NSString *)path
+            savesToStore:(BOOL)savesToStore
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self postObject:nil path:path parameters:nil savesToStore:savesToStore success:success failure:failure];
+}
+
 
 - (void)postObject:(id)object
               path:(NSString *)path
+        parameters:(NSDictionary*)parameters
       savesToStore:(BOOL)savesToPersistentStore
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure {
@@ -163,7 +172,7 @@
     
     
     
-    NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:nil ];
+    NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:parameters ];
     RKManagedObjectRequestOperation* operation = [self managedObjectRequestOperationWithRequest:request
                                                                            managedObjectContext:[object managedObjectContext]
                                                                                         success:successHandlerBlock

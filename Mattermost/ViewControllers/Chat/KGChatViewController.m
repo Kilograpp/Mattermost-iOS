@@ -594,17 +594,28 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
 
-    NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
+    [self setupFetchedResultsController];
+    [self.tableView reloadData];
+    
+    NSTimeInterval interval = self.channel.lastViewDate.timeIntervalSinceNow;
     if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
         self.channel.lastViewDate = [NSDate date];
-        self.channel.updatedAt = [NSDate date];
         self.channel.firstLoaded = @NO;
-        [self showLoadingView];
-        [self loadFirstPageOfDataWithTableRefresh:YES];
+
+        if (!self.fetchedResultsController.fetchedObjects.count) {
+            [self showLoadingView];
+            [self loadFirstPageOfDataWithTableRefresh:YES];
+        } else {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.refreshControl beginRefreshing];
+                [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+                [self loadFirstPageOfDataWithTableRefresh:NO];
+            });
+            
+        }
+        
     } else {
         self.hasNextPage = YES;
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
     }
 
 

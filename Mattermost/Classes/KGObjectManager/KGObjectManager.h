@@ -62,6 +62,7 @@
 
 - (void)postObject:(id)object
               path:(NSString *)path
+        parameters:(NSDictionary*)parameters
       savesToStore:(BOOL)savesToPersistentStore
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure;
