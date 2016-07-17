@@ -10,8 +10,5 @@
 
 @interface KGProfileTableHeader : UIView
 - (void)configureWithObject:(id)object;
-+ (NSString *)reuseIdentifier;
-
-+ (UINib *)nib;
 + (CGFloat)height;
 @end

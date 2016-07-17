@@ -7,116 +7,84 @@
 //
 
 #import "KGImageCell.h"
-#import <Masonry/Masonry.h>
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "UIImage+Resize.h"
+#import "KGDrawer.h"
 
-#define KG_IMAGE_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f - 5.f
+#define KG_IMAGE_WIDTH  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f)
+#define KG_IMAGE_HEIGHT  ((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f)
 
 @interface KGImageCell ()
+@property (nonatomic, strong) UIImage *kg_image;
+@property (nonatomic, strong) KGFile* file;
 @end
 
 @implementation KGImageCell
 
-- (void)didMoveToSuperview {
-    [super didMoveToSuperview];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
-//    self.kg_imageView = [[ASNetworkImageNode alloc] init];
-    self.kg_imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.kg_imageView.layer.drawsAsynchronously = YES;
-    self.layer.drawsAsynchronously = YES;
-    self.kg_imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:self.kg_imageView/*.view*/];
-    self.layer.shouldRasterize = YES;
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-//    self.kg_imageView/*.view*/.layer.cornerRadius = 5.f;
-    self.kg_imageView/*.view*/.clipsToBounds = YES;
-
-    [self.kg_imageView/*.view*/ mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self);
-        make.bottom.equalTo(self).offset(-8.f);
-        make.top.equalTo(self).offset(8.f);
-    }];
+    if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    
+    return self;
 }
 
-
-
+- (void)drawRect:(CGRect)rect {
+    
+    [super drawRect:rect];
+    [[KGDrawer sharedInstance] drawImage:self.kg_image inRect:rect];
+}
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-//        if (!file.downloadLink) {
-            UIImage *cachedImage_ = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:file.backendLink];
-        if (cachedImage_) {
-            self.kg_imageView.image = cachedImage_;
-            return;
-        }
-//        }
+        self.file = file;
         NSURL *url = file.thumbLink;
-//            NSURL *url = file.downloadLink;
-        
-        UIImage *cachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url.absoluteString];
-        if (cachedImage) {
-            [[self class] roundedImage:cachedImage completion:^(UIImage *image) {
-                self.kg_imageView.image = image;
-            }];
+        __weak typeof(self) wSelf = self;
+
+        __block NSString* smallImageKey = [url.absoluteString stringByAppendingString:@"_thumb"];
+        UIImage* smallImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallImageKey];
+        if (smallImage) {
+            self.kg_image = smallImage;
         } else {
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url
-                                                                  options:SDWebImageDownloaderHandleCookies
-                                                                 progress:nil
-                completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-                            [[self class] roundedImage:image completion:^(UIImage *image) {
-                                [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
-                                self.kg_imageView.image = image;
-                            }];
+            if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallImageKey]) {
+                smallImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallImageKey];
+                self.kg_image = smallImage;
+            } else {
+                [[SDWebImageManager sharedManager] downloadImageWithURL:url options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    CGFloat widthToHeight = image.size.width/image.size.height;
+                    CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
+                    CGSize imageSize = CGSizeMake(image.size.height * scaleFactor * widthToHeight, image.size.height * scaleFactor);
+                    if(image) {
+                        [UIImage roundedImage:image
+                                  whithRadius:3
+                                         size:imageSize
+                                   completion:^(UIImage *image) {
+                                       
+                                       if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
+                                           wSelf.kg_image = image;
+                                           [wSelf setNeedsDisplay];
+                                       }
+                                       dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                                           [[SDImageCache sharedImageCache] storeImage:image forKey:smallImageKey];
+                                       });
+                                   }];
+                    }
+
                 }];
-//            [self.kg_imageView removeActivityIndicator];
+            }
         }
     }
-}
-
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion {
-    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
-        CGRect rect = CGRectMake(0, 0, image.size.width,image.size.height);
-//        CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
-
-        [[UIBezierPath bezierPathWithRoundedRect:rect
-                                    cornerRadius:5.f] addClip];
-        // Draw your image
-        [image drawInRect:rect];
-        
-        // Get the image, here setting the UIImageView image
-        UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        // Lets forget about that we were drawing
-        UIGraphicsEndImageContext();
-        dispatch_async( dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(roundedImage);
-            }
-        });
-    });
+    [self setNeedsDisplay];
 }
 
 - (void)prepareForReuse {
-    self.kg_imageView.image = [[self class] placeholderBackground];
-}
-
-+ (UIImage *)placeholderBackground {
-    CGRect rect = CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPathRef ref = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:5.f].CGPath;
-    CGContextAddPath(context, ref);
-    CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0.95f alpha:1.f] CGColor]);
-    CGContextFillPath(context);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
+    self.kg_image = nil;
+    self.file = nil;
+    
 }
 
 @end

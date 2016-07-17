@@ -10,4 +10,5 @@
 
 @interface KGProfileTableViewController : UITableViewController
 @property (nonnull, nonatomic, strong) NSString *userId;
+@property (nonnull, nonatomic, strong) UIViewController *previousControler;
 @end

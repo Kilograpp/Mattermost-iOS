@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -45,29 +45,46 @@
                             <constraint firstAttribute="height" constant="7" id="yku-RV-sWR"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UHV-gr-rVd" customClass="DGActivityIndicatorView">
+                        <rect key="frame" x="20" y="30" width="7" height="7"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="65f-Vy-Xzf" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="12" id="0p7-yw-bVJ"/>
                     <constraint firstItem="PZS-Dj-2Js" firstAttribute="leading" secondItem="65f-Vy-Xzf" secondAttribute="trailing" constant="6" id="5Kp-fY-Ajh"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="centerX" secondItem="hKw-Yk-ciB" secondAttribute="centerX" id="Cnn-pI-zac"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="top" secondItem="jux-hp-kEL" secondAttribute="topMargin" constant="-3" id="Ddl-gF-HL8"/>
                     <constraint firstItem="PZS-Dj-2Js" firstAttribute="centerY" secondItem="jux-hp-kEL" secondAttribute="centerY" id="IIc-9U-XAk"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="trailing" secondItem="jux-hp-kEL" secondAttribute="trailingMargin" id="IXt-6Y-d2K"/>
                     <constraint firstItem="65f-Vy-Xzf" firstAttribute="centerY" secondItem="jux-hp-kEL" secondAttribute="centerY" id="Ou3-4Q-FsW"/>
                     <constraint firstItem="SX4-tk-9gc" firstAttribute="height" secondItem="jux-hp-kEL" secondAttribute="height" id="Tza-cY-rjd"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="bottom" secondItem="jux-hp-kEL" secondAttribute="bottomMargin" constant="3" id="UIN-hl-zHF"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="width" secondItem="hKw-Yk-ciB" secondAttribute="width" id="UXT-5d-w7G"/>
                     <constraint firstItem="SX4-tk-9gc" firstAttribute="top" secondItem="jux-hp-kEL" secondAttribute="top" id="WpI-PY-da5"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="height" secondItem="hKw-Yk-ciB" secondAttribute="height" id="a7F-9q-Hxg"/>
                     <constraint firstItem="hKw-Yk-ciB" firstAttribute="centerY" secondItem="jux-hp-kEL" secondAttribute="centerY" constant="1" id="c14-KY-qK0"/>
                     <constraint firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="leading" id="ec4-U7-OUe"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="width" secondItem="hKw-Yk-ciB" secondAttribute="width" id="f3J-2U-tSK"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="centerY" secondItem="hKw-Yk-ciB" secondAttribute="centerY" id="oBw-OE-2dq"/>
                     <constraint firstItem="PZS-Dj-2Js" firstAttribute="leading" secondItem="hKw-Yk-ciB" secondAttribute="trailing" constant="8" id="qRp-gm-4eU"/>
                     <constraint firstItem="hKw-Yk-ciB" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="15" id="zFn-au-d1r"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="3" id="zIa-PJ-soZ"/>
+                    <constraint firstItem="UHV-gr-rVd" firstAttribute="height" secondItem="hKw-Yk-ciB" secondAttribute="height" id="zcP-cu-tZ7"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="UXT-5d-w7G"/>
+                        <exclude reference="zcP-cu-tZ7"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="channelNameLabel" destination="PZS-Dj-2Js" id="cxb-Wk-b40"/>
                 <outlet property="dotView" destination="hKw-Yk-ciB" id="xNn-Na-Rjm"/>
                 <outlet property="selectedView" destination="rgg-pg-5pK" id="cgJ-ev-Mj2"/>
                 <outlet property="sharpLabel" destination="65f-Vy-Xzf" id="ufL-Qa-js0"/>
+                <outlet property="userStatusUnknownIndicator" destination="UHV-gr-rVd" id="kaM-nF-b6h"/>
             </connections>
             <point key="canvasLocation" x="130" y="213"/>
         </tableViewCell>

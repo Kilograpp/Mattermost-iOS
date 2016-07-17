@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface KGTableViewSectionHeader : UITableViewHeaderFooterView
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (strong, nonatomic) UILabel *dateLabel;
 + (NSString *)reuseIdentifier;
 + (CGFloat)height;
 + (UINib *)nib;

@@ -4,41 +4,104 @@
 //
 
 #import "KGPreferences.h"
+#import "KGConstants.h"
 #import "NSObject+EnumerateProperties.h"
+
+
 
 @implementation KGPreferences
 
+#pragma mark - Singleton
+
 + (instancetype)sharedInstance {
     static dispatch_once_t once;
-    static id sharedInstance;
+    static KGPreferences*  sharedInstance;
     dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] init];
+        sharedInstance = [self loadInstanceFromUserDefaults] ?: [[self alloc] init];
     });
     return sharedInstance;
 }
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self load];
-    }
-    return self;
-}
+#pragma mark - Load & Save
 
-- (void)load  {
++ (instancetype)loadInstanceFromUserDefaults {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
-        [self setValue:[defaults valueForKey:propertyName] forKey:propertyName];
-    }];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[defaults objectForKey:KGUserDefaultsPreferencesKey]];
 }
 
 - (void)save {
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    [self enumeratePropertiesWithBlock:^(NSString *propertyName) {
-        [defaults setValue:[[self valueForKey:propertyName] description] forKey:propertyName];
-    }];
+    [defaults setValue:[NSKeyedArchiver archivedDataWithRootObject:self] forKey:KGUserDefaultsPreferencesKey];
     [defaults synchronize];
-
 }
+
+#pragma mark - NSCoding
+
+- (id)initWithCoder:(NSCoder *)decoder {
+    if((self = [super init])) {
+        [self enumeratePropertiesWithBlock:^(NSString *propertyName, KGPropertyType type) {
+            
+            switch (type) {
+                case KGTypeObject: {
+                    [self setValue:[decoder decodeObjectForKey:propertyName] forKey:propertyName];
+                    break;
+                }
+                case KGTypePrimitiveBool: {
+                    [self setValue:@([decoder decodeBoolForKey:propertyName]) forKey:propertyName];
+                    break;
+                }
+                default : break;
+            }
+        }];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [self enumeratePropertiesWithBlock:^(NSString *propertyName, KGPropertyType type) {
+        switch (type) {
+            case KGTypeObject: {
+                [encoder encodeObject:[self valueForKey:propertyName] forKey:propertyName];
+                break;
+            }
+            case KGTypePrimitiveBool: {
+                [encoder encodeBool:[[self valueForKey:propertyName] boolValue] forKey:propertyName];
+                break;
+            }
+            default : break;
+        }
+        
+    }];
+}
+
+#pragma mark - Reset
+
+- (void)reset {
+    [self resetDefaults];
+    [self resetProperties];
+}
+
+- (void)resetDefaults {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:KGUserDefaultsPreferencesKey];
+    [defaults synchronize];
+}
+
+- (void)resetProperties {
+    [self enumeratePropertiesWithBlock:^(NSString *propertyName, KGPropertyType type) {
+        switch (type) {
+            case KGTypeObject: {
+                [self setValue:nil forKey:propertyName];
+                break;
+            }
+            case KGTypePrimitiveBool: {
+                [self setValue:@(NO) forKey:propertyName];
+                break;
+            }
+            default : break;
+        }
+    }];
+}
+
 
 @end

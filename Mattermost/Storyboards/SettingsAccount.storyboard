@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="JsT-wM-9sw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QmO-sl-vjP">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -17,30 +17,12 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Present Navigation Controller-->
-        <scene sceneID="gFv-G3-A0x">
-            <objects>
-                <navigationController storyboardIdentifier="navigation" id="JsT-wM-9sw" customClass="KGPresentNavigationController" sceneMemberID="viewController">
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" backIndicatorImage="navbar_close_icon" id="yBA-yg-aof">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="QmO-sl-vjP" kind="relationship" relationship="rootViewController" id="dQJ-xH-Mr6"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vtM-tv-m6p" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-126.5" y="339.5"/>
-        </scene>
         <!--Profile Table View Controller-->
         <scene sceneID="GW0-Km-v0r">
             <objects>
                 <tableViewController id="QmO-sl-vjP" customClass="KGProfileTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="kaz-wy-QW5">
-                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="MhL-R4-JnK">
@@ -281,6 +263,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="BeA-OT-wcS"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="avatarImageView" destination="v0T-Vk-ndc" id="5cH-EL-7Nz"/>
                         <outlet property="email" destination="4G6-TE-Rvd" id="t8g-Tl-Qvf"/>
@@ -293,7 +276,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bGi-Jv-6WC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="294.5" y="339.5"/>
+            <point key="canvasLocation" x="295.5" y="339.5"/>
         </scene>
         <!--Профиль-->
         <scene sceneID="pSu-uB-OCj">
@@ -349,7 +332,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="navbar_close_icon" width="44" height="44"/>
         <image name="profile_email_icon" width="28" height="28"/>
         <image name="profile_name_icon" width="28" height="28"/>
         <image name="profile_nick_icon" width="28" height="28"/>

@@ -17,5 +17,4 @@
 - (KGTeam *)currentTeam;
 - (KGTeam *)currentTeamInContext:(NSManagedObjectContext*)context;
 - (NSString*)currentTeamId;
-
 @end

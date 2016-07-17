@@ -11,7 +11,7 @@
 @protocol KGRightMenuDelegate <NSObject>
 
 - (void)navigationToProfile;
-
+- (void)navigateToSettings;
 @end
 
 @interface KGRightMenuViewController : KGViewController

@@ -13,8 +13,9 @@
 @interface KGBusinessLogic (Session)
 
 
-- (void)updateStatusForUsers:(NSArray<KGUser*>*)users completion:(void (^)(KGError* error))completion;
+- (void)validateServerAddress:(void (^)(KGError *error))completion;
 
+- (void)updateStatusForUsers:(NSArray<KGUser*>*)users completion:(void (^)(KGError* error))completion;
 - (void)sendLogoutRequestWithCompletion:(void (^)(KGError* error))completion;
 
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void (^)(KGError* error))completion;
@@ -36,4 +37,6 @@
 - (NSHTTPCookie*)authCookie;
 
 - (void)updateStatusForAllUsers;
+//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion;
+- (BOOL)isValidateServerAddress;
 @end

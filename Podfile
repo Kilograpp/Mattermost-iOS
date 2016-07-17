@@ -1,7 +1,6 @@
 platform :ios, '8.1'
 
-inhibit_all_warnings!	
-
+inhibit_all_warnings!
 target 'Mattermost' do
   pod 'MagicalRecord'
   pod 'RestKit'
@@ -12,12 +11,13 @@ target 'Mattermost' do
   pod 'DateTools'
   pod 'Fabric'
   pod 'Crashlytics'
-  pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
   pod 'SlackTextViewController'
   pod 'CTAssetsPickerController',  '~> 3.3.0'
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
-  pod 'IDMPhotoBrowser'
+  pod 'NSStringEmojize'
+  pod 'IDMPhotoBrowser', :git => 'https://github.com/getmaxx/IDMPhotoBrowser.git' 
+ pod 'DGActivityIndicatorView'
 end
 
 post_install do |installer_representation|

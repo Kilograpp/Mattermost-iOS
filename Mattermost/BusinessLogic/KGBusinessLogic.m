@@ -7,6 +7,8 @@
 //
 
 #import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Session.h"
+#import "KGBusinessLogic+ApplicationNotifications.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <RKObjectManager.h>
@@ -19,6 +21,9 @@
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Channel.h"
 #import "KGNotificationValues.h"
+#import "KGPost.h"
+#import <HexColors/HexColors.h>
+#import "KGHardwareUtils.h"
 
 @interface KGBusinessLogic ()
 
@@ -48,7 +53,7 @@
 }
 - (instancetype)init {
     if (self = [super init]) {
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+        [AFRKNetworkActivityIndicatorManager sharedManager].enabled = YES;
         [self setupManagedObjectStore];
         [self setupMagicalRecord];
         [self subscribeForNotifications];
@@ -69,31 +74,53 @@
         KGObjectManager *manager;
         NSURL *serverBaseUrl = [NSURL URLWithString:[[KGPreferences sharedInstance] serverBaseUrl]];
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
-//        if (serverBaseUrl) {
-            manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
-//        }
+        manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
-
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
-        [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
+        [manager.HTTPClient setParameterEncoding:AFRKJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
-        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            if (status == AFNetworkReachabilityStatusNotReachable) {
+        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFRKNetworkReachabilityStatus status) {
+            if (status == AFRKNetworkReachabilityStatusNotReachable) {
                 [self closeSocket];
             } else {
                 [self openSocket];
             }
+            
         }];
+        
+        
+        if ([KGHardwareUtils sharedInstance].devicePerformance == KGPerformanceLow){
+            [[manager operationQueue] setMaxConcurrentOperationCount:2];
+        }
+        
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
-        RKValueTransformer* transformer = [self millisecondsSince1970ToDateValueTransformer];
-        [[RKValueTransformer defaultValueTransformer] insertValueTransformer:transformer atIndex:0];
+        RKValueTransformer* dateTransformer = [self millisecondsSince1970ToDateValueTransformer];
+        RKValueTransformer* colorTransformer = [self colorValueTransformer];
+        [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateTransformer atIndex:0];
+        [[RKValueTransformer defaultValueTransformer] addValueTransformer:colorTransformer];
 
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
 
-
+        
+        NSFetchRequest* (^singleFetchRequestBlock) (NSURL* ) = ^NSFetchRequest*(NSURL* URL) {
+            RKPathMatcher *userPathMatcher = [RKPathMatcher pathMatcherWithPattern:[KGPost firstPagePathPattern]];
+            BOOL match = [userPathMatcher matchesPath:[URL relativePath] tokenizeQueryStrings:NO parsedArguments:nil];
+            if(match) {
+                NSString* channelId = [[[URL relativePath] pathComponents] objectAtIndex:3];
+                NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
+                NSFetchRequest* fetchRequest = [KGPost MR_requestAllWithPredicate:predicate];
+                [fetchRequest setIncludesSubentities:NO];
+                if([[NSManagedObjectContext MR_defaultContext] countForFetchRequest:fetchRequest error:nil]  > 0) {
+                    return fetchRequest;
+                }
+            }
+            return nil;
+        };
+        
+        [manager addFetchRequestBlock:singleFetchRequestBlock];
         _defaultObjectManager = manager;
         _shouldReloadDefaultManager = NO;
     }
@@ -113,6 +140,16 @@
     }];
 }
 
+- (RKValueTransformer*)colorValueTransformer {
+    return [RKBlockValueTransformer valueTransformerWithValidationBlock:^BOOL(__unsafe_unretained Class sourceClass, __unsafe_unretained Class destinationClass) {
+        return [sourceClass isSubclassOfClass:[NSString class]] && [destinationClass isSubclassOfClass:[UIColor class]];
+    } transformationBlock:^BOOL(NSString* inputValue, __autoreleasing id *outputValue, __unsafe_unretained Class outputClass, NSError *__autoreleasing *error) {
+        RKValueTransformerTestInputValueIsKindOfClass(inputValue, (@[ [NSString class] ]), error);
+        RKValueTransformerTestOutputValueClassIsSubclassOfClass(outputClass, (@[ [UIColor class] ]), error);
+        *outputValue = [UIColor hx_colorWithHexRGBAString:[inputValue hx_hexStringTransformFromThreeCharacters]];
+        return YES;
+    }];
+}
 
 #pragma mark - Configuration
 - (void)setupManagedObjectStore {
@@ -197,12 +234,13 @@
     [self openSocket];
     [self runTimerForStatusUpdate];
     [self updateChannelsState];
-//    [self clearPushNotificationsBadgeNumber];
+    [self clearPushNotificationsBadgeNumber];
 }
 
 - (void)applicationDidEnterBackground {
     UIBackgroundTaskIdentifier taskId = [self beginBackgroundTask];
 
+    [self saveDefaultContextToPersistentStore];
     [self savePreferences];
     [self stopStatusTimer];
     [self closeSocket];
@@ -214,6 +252,9 @@
     [[KGPreferences sharedInstance] save];
 }
 
+- (void)saveDefaultContextToPersistentStore {
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+}
 
 - (UIBackgroundTaskIdentifier)beginBackgroundTask {
     return [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^(void) {
@@ -235,12 +276,15 @@
 #pragma mark - Status Timer
 
 - (void)runTimerForStatusUpdate {
-    if (![self.statusTimer isValid] || !self.statusTimer)
-        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 10
-                                     target:self
-                                   selector:@selector(updateStatusForAllUsers)
-                                   userInfo:nil
-                                    repeats:YES];
+    if (!self.statusTimer) {
+        [self updateStatusForAllUsers];
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:7
+                                                            target:self
+                                                          selector:@selector(updateStatusForAllUsers)
+                                                          userInfo:nil
+                                                           repeats:YES];
+    }
+
 
 
 }

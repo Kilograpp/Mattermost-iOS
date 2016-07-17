@@ -8,7 +8,7 @@
 
 #import "KGBusinessLogic+Team.h"
 #import <RestKit.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "KGTeam.h"
 #import "KGPreferences.h"
 #import "KGUtils.h"
@@ -64,4 +64,11 @@
     return [mappingResult.dictionary[@"teams"] count] == 1;
 }
 
+//- (NSInteger)numberOfTeam:(RKMappingResult *)mappingResult {
+//     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+//    return [mappingResult.dictionary[@"teams"] count];
+//     } failure:^(KGError *error) {
+//         safetyCall(nil, YES, error);
+//     }];
+//}
 @end

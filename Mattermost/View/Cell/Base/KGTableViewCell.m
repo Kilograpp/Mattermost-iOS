@@ -46,4 +46,11 @@
     return image;
 }
 
+- (void)startAnimation {
+    
+}
+
+- (void)finishAnimation {
+    
+}
 @end

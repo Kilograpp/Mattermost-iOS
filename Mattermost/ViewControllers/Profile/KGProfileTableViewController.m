@@ -17,6 +17,7 @@
 #import "UIImage+KGRotate.h"
 #import "KGImagePickerController.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGChatNavigationController.h"
 
 @import AVFoundation;
 @import Photos;
@@ -34,8 +35,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (assign) BOOL isFirstLoad;
 
-
-
 @end
 
 @implementation KGProfileTableViewController
@@ -45,63 +44,43 @@
 
     self.isFirstLoad = YES;
     [self setup];
-    [self setupNavigationBar];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    //[self setupNavigationBar];
+
+    //[boton release];
     
 }
 
 - (void)setupNavigationBar {
-    self.title = @"Профиль";
+//    self.title = @"Профиль";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navbar_close_icon"]
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(backAction)];
     backButton.tintColor = [UIColor blackColor];
-    
+    //self.navigationItem.leftBarButtonItem.
     self.navigationItem.leftBarButtonItem = backButton;
-}
 
+}
+//
 - (void)backAction {
+    if (self.previousControler) {
+        [self presentViewController:self.previousControler animated:YES completion:nil];
+    } else {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    
     [self dismissViewControllerAnimated:YES completion:^ {
+        NSLog(@"yes");
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     }];
-
-}
-
-
-
-- (void)viewWillAppear:(BOOL)animated {
-
-
-    [super viewWillAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveToViewWithSnapshot:self.navigationController.view];
     }
-
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
-
-        self.isFirstLoad = NO;
-    }
-
-
+//    [self.navigationController popViewControllerAnimated:YES];
+    //[[UIStatusBar sharedStatusBar] moveToPreviousView];
 }
 
 - (void)setup {
-//    KGUser *user = [KGUser managedObjectById:self.userId];
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    KGUser *user = [KGUser managedObjectById:self.userId];
+//    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     self.nameTitleLabel.font = [UIFont kg_semibold30Font];
     self.nameTitleLabel.textColor = [UIColor kg_blackColor];
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
@@ -115,6 +94,7 @@
     self.nickname.text = user.nickname;
     self.email.text = user.email;
     //self.headerView.backgroundColor = [UIColor kg_lightLightGrayColor];
+    
 }
 
 
@@ -136,7 +116,9 @@
             case 2:
                 break;
             case 3:
-                [self changeProfilePhoto];
+                if ([self.userId isEqual:[KGBusinessLogic sharedInstance].currentUserId]){
+                    [self changeProfilePhoto];
+                }
                 break;
             default:
                 break;
@@ -225,7 +207,6 @@
         [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
  
     }
-    //[self.tableHeaderView reloadWithImage:self.updatedAvatarImage];
 }
 
 

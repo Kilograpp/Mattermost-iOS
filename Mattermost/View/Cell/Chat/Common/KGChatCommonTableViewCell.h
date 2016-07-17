@@ -7,23 +7,30 @@
 //
 
 #import "KGTableViewCell.h"
-@class ActiveLabel, ASNetworkImageNode;
+#import "KGUIUtils.h"
+@class ActiveLabel, KGPost, DGActivityIndicatorView;
 
 static CGFloat const kAvatarDimension = 40.f;
 static CGFloat const kStandartPadding = 8.f;
 static CGFloat const kSmallPadding = 5.f;
-@interface KGChatCommonTableViewCell : KGTableViewCell
+
+static NSOperationQueue*  messageQueue;
 
 
-//@property (nonatomic, strong) ASNetworkImageNode *avatarImageView;
+@interface KGChatCommonTableViewCell : KGTableViewCell {
+        NSString *_dateString;
+}
+
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) ActiveLabel *messageLabel;
+@property (nonatomic, strong) DGActivityIndicatorView *loadingView;
+@property (strong, nonatomic) NSBlockOperation* messageOperation;
 
-+ (void)roundedImage:(UIImage *)image
-          completion:(void (^)(UIImage *image))completion;
 
-//+ (UIImage *)placeholderBackground;
-
+//@property (nonatomic, strong) UIButton *errorView;
+- (void)startAnimation;
+- (void)finishAnimation;
+- (void)errorAction;
 @end

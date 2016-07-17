@@ -23,10 +23,14 @@
 #import "KGSideMenuContainerViewController.h"
 #import "CAGradientLayer+KGPreparedGradient.h"
 #import "KGAlertManager.h"
+#import "KGBusinessLogic+Commands.h"
 
 static NSString *const kShowTeamsSegueIdentifier = @"showTeams";
 static NSString *const kPresentChatSegueIdentifier = @"presentChat";
 static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
+
+static dispatch_group_t channelAndAdditionsGroup;
+
 @interface KGLoginViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet KGButton *loginButton;
@@ -34,6 +38,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 @property (weak, nonatomic) IBOutlet KGTextField *loginTextField;
 @property (weak, nonatomic) IBOutlet KGTextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
+@property (nonatomic, strong) __block KGError *channelAndAdditionsError;
 
 @end
 
@@ -45,12 +50,12 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configureLabels];
     [self setupTitleLabel];
     [self setupLoginButton];
     [self setupRecoveryButton];
     [self setupLoginTextfield];
-    [self setupPasswordTextField];   
-    [self configureLabels];
+    [self setupPasswordTextField];
 }
 
 - (void)test {
@@ -86,15 +91,21 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [self.navigationController.navigationBar setTitleTextAttributes: @{ NSForegroundColorAttributeName : [UIColor whiteColor],
                                                                         NSFontAttributeName : [UIFont kg_semibold18Font] }];
     self.navigationController.navigationBar.tintColor = [UIColor kg_whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.title = @"Sign In";
     CAGradientLayer *bgLayer = [CAGradientLayer kg_blueGradientForNavigationBar];
     bgLayer.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width / 2.88);
     [bgLayer animateLayerInfinitely:bgLayer];
     [self.navigationView.layer insertSublayer:bgLayer above:0];
     [self.navigationView bringSubviewToFront:self.titleLabel];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self setNeedsStatusBarAppearanceUpdate];
 
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 
 #pragma mark - Setup
 
@@ -105,11 +116,8 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)setupLoginButton {
     self.loginButton.layer.cornerRadius = KGStandartCornerRadius;
-//    self.loginButton.backgroundColor = [UIColor kg_blueColor];
     [self.loginButton setTitle:NSLocalizedString(@"Sign in", nil) forState:UIControlStateNormal];
-//    [self.loginButton setTintColor:[UIColor whiteColor]];
     self.loginButton.titleLabel.font = [UIFont kg_medium18Font];
-//    self.loginButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 15);
     self.loginButton.enabled = NO;
     self.loginButton.shouldDrawImageAtRightSide = YES;
 }
@@ -117,7 +125,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 - (void)setupRecoveryButton {
     self.recoveryButton.layer.cornerRadius = KGStandartCornerRadius;
     self.recoveryButton.backgroundColor = [UIColor kg_whiteColor];
-    [self.recoveryButton setTitle:NSLocalizedString(@"Need a remember?", nil) forState:UIControlStateNormal];
+    [self.recoveryButton setTitle:NSLocalizedString(@"Forgot password?", nil) forState:UIControlStateNormal];
     [self.recoveryButton setTintColor:[UIColor kg_redColor]];
     [self.recoveryButton setTitleColor:[UIColor kg_redColor] forState:UIControlStateNormal];
     self.recoveryButton.titleLabel.font = [UIFont kg_regular16Font];
@@ -127,7 +135,6 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     self.loginTextField.delegate = self;
     self.loginTextField.textColor = [UIColor kg_blackColor];
     self.loginTextField.font = [UIFont kg_regular16Font];
-//    self.loginTextField.placeholder = @"address@example.com";
     self.loginTextField.placeholder = @"Email";
     self.loginTextField.keyboardType = UIKeyboardTypeEmailAddress;
     self.loginTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -147,14 +154,7 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
 
 - (void)configureLabels {
     NSString *siteName = [[KGPreferences sharedInstance] siteName];
-    if (!siteName) {
-        //действие при первом входе
-        NSString *siteURL = [[KGPreferences sharedInstance] serverBaseUrl];
-        NSArray *arraySiteURL = [siteURL componentsSeparatedByString:@"."];
-        siteName = [arraySiteURL objectAtIndex:1];
-        siteName = [siteName capitalizedString];
-    }
-            self.titleLabel.text = siteName;
+    self.titleLabel.text = siteName;
 }
 
 
@@ -197,46 +197,80 @@ static NSString *const kShowResetPasswordSegueIdentifier = @"resetPassword";
     [[KGBusinessLogic sharedInstance] loginWithEmail:login password:password completion:^(KGError *error) {
         if (error) {
             [self hideProgressHud];
-            //[self processError:error];
             [self highlightTextFieldsForError];
-            [[KGAlertManager sharedManager] showError:error];
-            [self hideProgressHud];
-        }
-        else {
-            [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-                if (error) {
-                   // [self processError:error];
-                    [[KGAlertManager sharedManager] showError:error];
-                    [self hideProgressHud];
-                } else if (!userShouldSelectTeam) {
-                    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
-
-//                        [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
-//
-//                        }];
-
-                        [self hideProgressHud];
-                        if (error) {
-                            
-                           //[self processError:error];
-                            [[KGAlertManager sharedManager] showError:error];
-                            [self hideProgressHud];
-                        } else {
-                          //  [[KGBusinessLogic sharedInstance] updateStatusForUsers:[KGUser MR_findAll]  completion:nil];
-                            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
-                            [self presentViewController:vc animated:YES completion:nil];
-                        }
-                    }];
-                    
-                } else {
-                    [self hideProgressHud];
-                    KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
-                    [self presentViewController:vc animated:YES completion:nil];
-                }
-            }];
+            [self processError:error];
+        } else {
+            [self loadTeams];
         }
     }];
 }
 
+- (void)loadTeams {
+    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+        if (!userShouldSelectTeam) {
+            [self setupChannelsAndCommandsGroup];
+            [self loadChannels];
+            [self loadCommands];
+            [self setupDispatchGroup];
+        } else {
+            [self hideProgressHud];
+            [self performSegueWithIdentifier:kShowTeamsSegueIdentifier sender:nil];
+        }
+    }];
+}
+
+- (void)loadChannels {
+    dispatch_group_enter(channelAndAdditionsGroup);
+    [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
+        if (error) {
+            self.channelAndAdditionsError = error;
+        }
+        dispatch_group_leave(channelAndAdditionsGroup);
+    }];
+}
+
+- (void)loadCommands {
+    dispatch_group_enter(channelAndAdditionsGroup);
+    [[KGBusinessLogic sharedInstance] updateCommandsList:^(KGError *error) {
+        if (error) {
+            self.channelAndAdditionsError = error;
+        }
+        
+        dispatch_group_leave(channelAndAdditionsGroup);
+    }];
+}
+
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:self.loginTextField]) {
+        [self.passwordTextField becomeFirstResponder];
+    } else if ([textField isEqual:self.passwordTextField]) {
+        [self loginAction:nil];
+    }
+    
+    return YES;
+}
+
+
+#pragma mark - Private
+
+- (void)setupChannelsAndCommandsGroup {
+    channelAndAdditionsGroup = dispatch_group_create();
+}
+
+//FIXME: REFACTOR ASAP
+- (void)setupDispatchGroup {
+    dispatch_group_notify(channelAndAdditionsGroup, dispatch_get_main_queue(), ^{
+        [self hideProgressHud];
+        if (self.channelAndAdditionsError) {
+            [self processError:self.channelAndAdditionsError];
+        } else {
+            KGSideMenuContainerViewController *vc = [KGSideMenuContainerViewController configuredContainerViewController];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    });
+}
 
 @end

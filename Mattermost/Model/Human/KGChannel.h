@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, KGChannelType) {
 - (KGChannelType)type;
 - (NSString*)notificationsName;
 
-- (KGUserNetworkStatus)configureNetworkStatus;
+- (KGUserNetworkStatus)networkStatus;
 
 + (NSString*)extraInfoPathPattern;
 

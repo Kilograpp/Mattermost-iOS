@@ -9,6 +9,9 @@
 #import "KGTableViewCell.h"
 
 @interface KGFileCell : KGTableViewCell
+
+@property (nonatomic, strong) KGFile* file;
+
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *sizeLabel;

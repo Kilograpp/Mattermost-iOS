@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+
+extern NSString *const KGPreparedFontsRegularFontName;            
+extern NSString *const KGPreparedFontsSemiboldFontName;         
+extern NSString *const KGPreparedFontsMediumFontName;            
+extern NSString *const KGPreparedFontsBoldFontName;
+extern NSString *const KGPreparedFontsItalicFontName;
+
+extern NSString *const KGPreparedFontsRegularDisplayFontName;     
+extern NSString *const KGPreparedFontsSemiboldDisplayFontName ;   
+extern NSString *const KGPreparedFontsBoldDisplayFontName ;       
+extern NSString *const KGPreparedFontsMediumDisplayFontName ;     
+
 @interface UIFont (KGPreparedFont)
 
 + (UIFont *)kg_bold16Font;
@@ -38,5 +50,10 @@
 
 + (UIFont *)kg_navigationBarSubtitleFont;
 + (UIFont *)kg_navigationBarTitleFont;
+
+
++ (UIFont *)kg_semiboldFontOfSize:(CGFloat)size;
+
++ (UIFont *)kg_italic15Font;
 
 @end

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class KGChannel;
 @class KGFile;
 
+@class NSObject;
+
 @interface KGPostID : NSManagedObjectID {}
 @end
 
@@ -26,15 +28,37 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) KGPostID *objectID;
 
+@property (nonatomic, strong, nullable) id attributedMessage;
+
 @property (nonatomic, strong, nullable) NSString* backendPendingId;
 
 @property (nonatomic, strong, nullable) NSString* channelId;
 
 @property (nonatomic, strong, nullable) NSDate* createdAt;
 
+@property (nonatomic, strong, nullable) NSString* createdAtString;
+
+@property (nonatomic, strong, nullable) NSNumber* createdAtWidth;
+
+@property (atomic) float createdAtWidthValue;
+- (float)createdAtWidthValue;
+- (void)setCreatedAtWidthValue:(float)value_;
+
 @property (nonatomic, strong, nullable) NSDate* creationDay;
 
 @property (nonatomic, strong, nullable) NSDate* deletedAt;
+
+@property (nonatomic, strong, nullable) NSNumber* error;
+
+@property (atomic) BOOL errorValue;
+- (BOOL)errorValue;
+- (void)setErrorValue:(BOOL)value_;
+
+@property (nonatomic, strong, nullable) NSNumber* height;
+
+@property (atomic) int16_t heightValue;
+- (int16_t)heightValue;
+- (void)setHeightValue:(int16_t)value_;
 
 @property (nonatomic, strong, nullable) NSString* identifier;
 
@@ -65,6 +89,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface _KGPost (CoreDataGeneratedPrimitiveAccessors)
 
+- (id)primitiveAttributedMessage;
+- (void)setPrimitiveAttributedMessage:(id)value;
+
 - (NSString*)primitiveBackendPendingId;
 - (void)setPrimitiveBackendPendingId:(NSString*)value;
 
@@ -74,11 +101,32 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveCreatedAt;
 - (void)setPrimitiveCreatedAt:(NSDate*)value;
 
+- (NSString*)primitiveCreatedAtString;
+- (void)setPrimitiveCreatedAtString:(NSString*)value;
+
+- (NSNumber*)primitiveCreatedAtWidth;
+- (void)setPrimitiveCreatedAtWidth:(NSNumber*)value;
+
+- (float)primitiveCreatedAtWidthValue;
+- (void)setPrimitiveCreatedAtWidthValue:(float)value_;
+
 - (NSDate*)primitiveCreationDay;
 - (void)setPrimitiveCreationDay:(NSDate*)value;
 
 - (NSDate*)primitiveDeletedAt;
 - (void)setPrimitiveDeletedAt:(NSDate*)value;
+
+- (NSNumber*)primitiveError;
+- (void)setPrimitiveError:(NSNumber*)value;
+
+- (BOOL)primitiveErrorValue;
+- (void)setPrimitiveErrorValue:(BOOL)value_;
+
+- (NSNumber*)primitiveHeight;
+- (void)setPrimitiveHeight:(NSNumber*)value;
+
+- (int16_t)primitiveHeightValue;
+- (void)setPrimitiveHeightValue:(int16_t)value_;
 
 - (NSString*)primitiveIdentifier;
 - (void)setPrimitiveIdentifier:(NSString*)value;
@@ -104,11 +152,16 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface KGPostAttributes: NSObject 
++ (NSString *)attributedMessage;
 + (NSString *)backendPendingId;
 + (NSString *)channelId;
 + (NSString *)createdAt;
++ (NSString *)createdAtString;
++ (NSString *)createdAtWidth;
 + (NSString *)creationDay;
 + (NSString *)deletedAt;
++ (NSString *)error;
++ (NSString *)height;
 + (NSString *)identifier;
 + (NSString *)message;
 + (NSString *)type;

@@ -14,7 +14,9 @@
 #import "KGChannel.h"
 #import "NSStringUtils.h"
 #import "SDImageCache.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
+#import "KGPreferences.h"
+#import "UIImage+Resize.h"
 
 @implementation KGBusinessLogic (File)
 
@@ -38,11 +40,14 @@
 
 - (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion {
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
+    CGFloat scaleFactor = 0.33;
+    BOOL shouldCompressImage = [KGPreferences sharedInstance].shouldCompressImages;
+    UIImage *finalImage = shouldCompressImage ? [image kg_resizedImageWithHeight:image.size.height * scaleFactor] : image;
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]
     };
-    [self.defaultObjectManager postImage:image withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager postImage:finalImage withName:@"files" atPath:path parameters:parameters success:^(RKMappingResult *mappingResult) {
 
         KGFile *imageFile = [KGFile MR_createEntity];
         [imageFile setBackendLink:[[mappingResult.dictionary[@"filenames"] firstObject] valueForKey:@"backendLink"]];
@@ -67,17 +72,18 @@
     NSString *fileName = [file.downloadLink lastPathComponent];
     NSString *filePath = [paths[0] stringByAppendingPathComponent:file.name];
     
-    AFHTTPRequestOperation* operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    AFRKHTTPRequestOperation* operation = [[AFRKHTTPRequestOperation alloc] initWithRequest:request];
     NSString *fullPath = [paths[0] stringByAppendingPathComponent:fileName];
     [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     
     [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        NSLog(@"%f", totalBytesRead/totalBytesExpectedToRead * 100.f);
         if(progress) {
-            progress(totalBytesRead/totalBytesExpectedToRead * 100.0f);
+            progress(totalBytesRead/totalBytesExpectedToRead * 100.f);
         }
     }];
     
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [operation setCompletionBlockWithSuccess:^(AFRKHTTPRequestOperation *operation, id responseObject) {
         NSString *trimmedFilePath = [[filePath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
         NSString *filePathLastComponent = [@"/" stringByAppendingString:fileName.lastPathComponent];
         NSString *finalFilePath = [trimmedFilePath stringByAppendingString:filePathLastComponent];
@@ -88,7 +94,7 @@
         if(completion) {
             completion(nil);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(AFRKHTTPRequestOperation *operation, NSError *error) {
         if(completion) {
             completion([KGError errorWithNSError:error]);
         }

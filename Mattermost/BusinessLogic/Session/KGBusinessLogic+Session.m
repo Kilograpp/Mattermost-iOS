@@ -9,7 +9,7 @@
 #import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
 #import <RKManagedObjectStore.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SOCKit/SOCKit.h>
 #import "KGUser.h"
 #import "KGNotificationValues.h"
@@ -18,6 +18,9 @@
 #import "KGBusinessLogic+Notifications.h"
 #import "KGUtils.h"
 #import "KGBusinessLogic+Socket.h"
+#import "KGUserStatusObserver.h"
+#import "NSString+Validation.h"
+#import "KGHardwareUtils.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -26,9 +29,14 @@ extern NSString * const KGAuthTokenHeaderName;
 #pragma mark - Network
 
 
+- (void)validateServerAddress:(void(^)(KGError *error))completion {
+    [self.defaultObjectManager getObjectsAtPath:@"teams/all_team_listings" success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
+}
 
 - (void)updateStatusForUsers:(NSArray<KGUser*>*) users completion:(void(^)(KGError *error))completion {
-    [self updateStatusForUsersWithIds:[users valueForKey:@"identifier"] completion:completion];
+    [self updateStatusForUsersWithIds:[users valueForKey:[KGUserAttributes identifier]] completion:completion];
 }
 
 - (void)sendLogoutRequestWithCompletion:(void(^)(KGError *error))completion {
@@ -41,18 +49,66 @@ extern NSString * const KGAuthTokenHeaderName;
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
     NSString* path = [KGUser usersStatusPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:userIds  success:^(RKMappingResult* mappingResult) {
+        [[KGUserStatusObserver sharedObserver] updateWithArray:mappingResult.array];
         safetyCall(completion, nil);
-    } failure:completion];
+    } failure:^(KGError* error) {
+        NSBatchUpdateRequest *batchUpdate = [[NSBatchUpdateRequest alloc] initWithEntityName:@"User"];
+        batchUpdate.propertiesToUpdate = @{ @"backendStatus": @(0) };
+        batchUpdate.resultType = NSUpdatedObjectIDsResultType;
+        batchUpdate.affectedStores = @[[NSPersistentStore MR_defaultPersistentStore]];
+        NSError *err;
+        NSBatchUpdateResult     *batchResult    = nil;
+        batchResult = (NSBatchUpdateResult *)[[NSManagedObjectContext MR_defaultContext] executeRequest:batchUpdate error:&err];
+        
+        safetyCall(completion, error);
+    }];
 }
 
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
     NSString *path = [KGUser authPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
-        [self updateCurrentUserWithObject:mappingResult.firstObject];
+        [self setDefaultValueForImagesCompression];
+        [self updateCurrentThemeWithObject:mappingResult.dictionary[@"theme_props"]];
+        [self updateCurrentUserWithObject:mappingResult.dictionary[[NSNull null]]];
         [self subscribeToRemoteNotificationsIfNeededWithCompletion:completion];
         [self openSocket];
     } failure:completion];
+}
+
+//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
+//    NSString *path = [KGUser authPathPattern];
+//    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
+//        NSLog(@"seccess");
+//    }
+//                                        failure:completion];
+//}
+
+- (BOOL)isValidateServerAddress {
+    NSString *address = [[KGPreferences sharedInstance] serverBaseUrl];
+    NSString *urlAddress = address;
+    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+    
+    if ([urlTest evaluateWithObject:urlAddress]) {
+        if ([urlAddress kg_isValidUrl]) {
+            return YES;
+        }
+    }
+    urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+    if ([urlAddress kg_isValidUrl]) {
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        return YES;
+    }
+    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+    if ([urlAddress kg_isValidUrl]) {
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        return YES;
+    }
+    return NO;
+    
 }
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
@@ -70,6 +126,14 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (KGUser *)currentUser {
     return [KGUser managedObjectById:[self currentUserId]];
+}
+
+- (void)setDefaultValueForImagesCompression {
+    [[KGPreferences sharedInstance] setShouldCompressImages:YES];
+}
+
+- (void)updateCurrentThemeWithObject:(KGTheme*)theme {
+    [[KGPreferences sharedInstance] setCurrentTheme:theme];
 }
 
 - (void)updateCurrentUserWithObject:(KGUser*)user {
@@ -100,6 +164,7 @@ extern NSString * const KGAuthTokenHeaderName;
         [self resetPersistentStore];
         [self clearCookies];
         [self closeSocket];
+        [[KGPreferences sharedInstance] reset];
         safetyCall(completion, nil);
     }];
 
@@ -147,12 +212,15 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateStatusForAllUsers {
     if (self.isSignedIn){
-        [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
-        }];
+        if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh ||
+            [[KGHardwareUtils sharedInstance] currentCpuLoad] < 30) {
+            [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
+            }];
+        }
+        
         
     }
-
 }
 
 @end

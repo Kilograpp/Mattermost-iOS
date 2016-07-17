@@ -21,10 +21,13 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 #import "KGProfileTableViewController.h"
+#import "UIStatusBar+SharedBar.h"
+#import "KGSideMenuContainerViewController.h"
+#import "KGSettingsViewController.h"
+#import "KGTeamsViewController.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
-//@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-//@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
@@ -40,13 +43,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupDataSource];
-    [self setupTableView];
+
+//    [self setupDataSource];
+//    [self setupTableView];
     [self setup];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //fixme abstraction
+    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    [self.avatarImageView setImageWithURL:user.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies
+              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
 
 #pragma mark - Setup
@@ -57,7 +67,9 @@
     
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
     self.avatarImageView.backgroundColor = [UIColor kg_rightMenuSeparatorColor];
-    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+    [self.avatarImageView setImageWithURL:user.imageUrl
+                         placeholderImage:nil
+                                  options:SDWebImageHandleCookies
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.nicknameLabel.textColor = [UIColor kg_whiteColor];
     self.nicknameLabel.font = [UIFont kg_semibold16Font];
@@ -71,7 +83,7 @@
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
+    [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier] cacheSize:5];
     self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
@@ -93,7 +105,6 @@
 
 #pragma mark - UITableViewDataSource
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return  self.dataSource.count;
 }
@@ -105,10 +116,7 @@
     cell.preservesSuperviewLayoutMargins = NO;
     cell.separatorInset = UIEdgeInsetsZero;
     cell.layoutMargins = UIEdgeInsetsZero;
-//    if (indexPath.row == 0) {
-//        KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-//        [cell configureWithImageName:user.imageUrl];
-//    }
+
     return cell;
 }
 
@@ -117,35 +125,19 @@
 - (void)setupDataSource {
     NSMutableArray *rightMenuDataSource = [[NSMutableArray alloc] init];
     __weak typeof(self) wSelf = self;
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-//    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(user.nickname, nil)
-//                                                                     iconName:@"menu_switch_icon"
-//                                                                   titleColor:[UIColor kg_whiteColor]
-//                                                                      handler:^{
-//                                                                        [wSelf.delegate navigationToProfile];
-//                                                                          
-//                                                                      }]];
+
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
-                                                                           [wSelf alertUnderDevelopment];
-                                                                          
-                                                                      }]];
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Files", nil)
-                                                                     iconName:@"menu_files_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
+                                                                          [wSelf showTeams];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
                                                                      iconName:@"menu_settings_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
+                                                                          [wSelf navigateToSettings];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)
@@ -153,23 +145,6 @@
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf alertUnderDevelopment];
-
-                                                                      }]];
-    
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Help", nil)
-                                                                     iconName:@"menu_help_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
-                                                                      }]];
-    
-    [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Report a Problem", nil)
-                                                                     iconName:@"menu_report_icon"
-                                                                   titleColor:[UIColor kg_lightBlueColor]
-                                                                      handler:^{
-                                                                          [wSelf alertUnderDevelopment];
-
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"About Mattermost", nil)
@@ -177,8 +152,8 @@
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf alertUnderDevelopment];
-
                                                                       }]];
+    
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
                                                                      iconName:@"menu_logout_icon"
                                                                    titleColor:[UIColor kg_whiteColor]
@@ -192,6 +167,14 @@
 
 }
 
+- (void)navigateToSettings {
+    UINavigationController *nc = self.menuContainerViewController.centerViewController;
+    if (![nc.topViewController isKindOfClass:[KGSettingsViewController class]]) {
+        [self toggleRightSideMenuAction];
+        [self.delegate navigateToSettings];
+    }
+}
+
 
 #pragma mark - Actions
 
@@ -199,42 +182,40 @@
     [self.menuContainerViewController toggleRightSideMenuCompletion:nil];
 }
 
-#pragma mark - Private Setters
+- (void)logout {
+    [[KGAlertManager sharedManager] showProgressHud];
+    [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
+        [[KGAlertManager sharedManager] hideHud];
+        KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        [[KGAlertManager sharedManager] hideHud];
+        [appDelegate loadInitialScreen];
+        [[UIStatusBar sharedStatusBar] restoreState];
+    }];
+    
+}
 
+- (void)showTeams {
+    KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
+    [self presentViewController:vc animated:YES completion:nil];
+    [[UIStatusBar sharedStatusBar] restoreState];
+}
+
+#pragma mark - Private Setters
+//fixme а зачем это?
 - (void)setDelegate:(id<KGRightMenuDelegate>)delegate {
     _delegate = delegate;
 }
 
 #pragma mark - Navigation
 
-- (void)logout {
-    [[KGBusinessLogic sharedInstance] signOutWithCompletion:^(KGError* error) {
-        KGAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        [appDelegate loadInitialScreen];
-    }];
-
+- (IBAction)profileAction:(id)sender {
+    [self.delegate navigationToProfile];
 }
 
 #pragma mark - Alert
 
 -(void) alertUnderDevelopment {
-    KGAlertManager *alertView = [[KGAlertManager alloc]init];
-    [alertView showWarningWithMessage:@"This section is under development"];
-
-}
-
-
-
-- (IBAction)profileAction:(id)sender {
-    [self performSegueWithIdentifier:@"presentProfile" sender:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"presentProfile"]) {
-        UINavigationController *nc = segue.destinationViewController;
-        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        vc.userId = [KGBusinessLogic sharedInstance].currentUserId;
-    }
+    [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
 }
 
 @end

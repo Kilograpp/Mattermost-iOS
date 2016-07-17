@@ -20,8 +20,6 @@ typedef NS_ENUM(NSInteger, KGChannelAction) {
 - (void)sendNotificationWithAction:(KGChannelAction)action forChannel:(KGChannel *)channel;
 - (void)sendNotificationWithAction:(KGChannelAction)action forChannelIdentifier:(NSString *)identifier;
 
-- (BOOL)shouldOpenSocket;
-- (void)rocketFuckingSocket;
 - (void)openSocket;
 - (void)closeSocket;
 
