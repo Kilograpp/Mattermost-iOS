@@ -607,30 +607,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [self.tableView reloadData];
     }
 
-    
-//    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-//        if (error) {
-//            [[KGAlertManager sharedManager] showError:error];
-//            [self setupFetchedResultsController];
-//            [self.tableView reloadData];
-//        } else {
-//            NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
-//            //FIXME: refactor
-//            if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
-//                self.channel.lastViewDate = [NSDate date];
-//                self.channel.firstLoaded = @NO;
-//                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-//                [self showLoadingView];
-//                [self loadFirstPageOfData];
-//            } else {
-//                self.hasNextPage = YES;
-//                [self setupFetchedResultsController];
-//                [self.tableView reloadData];
-//            }
-//        }
-//        self.errorOccured = error ? YES : NO;
-//        [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
-//    }];
 
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
     if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
@@ -739,7 +715,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [self applyCommand];
         return;
     }
-    
     
     
     NSManagedObjectContext* context = [NSManagedObjectContext MR_context];

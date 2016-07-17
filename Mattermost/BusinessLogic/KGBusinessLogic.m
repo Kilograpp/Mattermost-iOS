@@ -91,7 +91,7 @@
         
         
         if ([KGHardwareUtils sharedInstance].devicePerformance == KGPerformanceLow){
-            [[manager operationQueue] setMaxConcurrentOperationCount:1];
+            [[manager operationQueue] setMaxConcurrentOperationCount:2];
         }
         
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
@@ -113,7 +113,7 @@
                 NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
                 NSFetchRequest* fetchRequest = [KGPost MR_requestAllWithPredicate:predicate];
                 [fetchRequest setIncludesSubentities:NO];
-                if([[NSManagedObjectContext MR_context] countForFetchRequest:fetchRequest error:nil]  > 0) {
+                if([[NSManagedObjectContext MR_defaultContext] countForFetchRequest:fetchRequest error:nil]  > 0) {
                     return fetchRequest;
                 }
             }
@@ -276,12 +276,15 @@
 #pragma mark - Status Timer
 
 - (void)runTimerForStatusUpdate {
-    if (!self.statusTimer)
-        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 7
-                                     target:self
-                                   selector:@selector(updateStatusForAllUsers)
-                                   userInfo:nil
-                                    repeats:YES];
+    if (!self.statusTimer) {
+        [self updateStatusForAllUsers];
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:7
+                                                            target:self
+                                                          selector:@selector(updateStatusForAllUsers)
+                                                          userInfo:nil
+                                                           repeats:YES];
+    }
+
 
 
 }
