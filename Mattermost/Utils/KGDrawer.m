@@ -99,7 +99,7 @@
     CGContextFillRect(context, frame);
     
     if (image) {
-        CGRect imageFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+        CGRect imageFrame = CGRectMake(frame.origin.x, frame.origin.y, image.size.width, frame.size.height);
         [image drawInRect:imageFrame];
     }
 }
