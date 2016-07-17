@@ -156,7 +156,7 @@
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
     
-    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, self.tableView.frame.size.height);
+    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, self.tableView.contentSize.height);
     
     [self alignSubviews];
 }
