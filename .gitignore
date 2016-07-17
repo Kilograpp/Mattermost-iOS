@@ -78,6 +78,9 @@ DerivedData/
 
 build/
 
+# Bundler
+vendor/
+.bundle/bin
 
 #####
 # Xcode private settings (window sizes, bookmarks, breakpoints, custom executables, smart groups)
