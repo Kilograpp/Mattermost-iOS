@@ -20,10 +20,10 @@ NSString * const KGAcceptLanguageHeader = @"Accept-Language";
 NSString * const KGSocketProtocol = @"wss";
 
 
-NSString * const KGNotificationUsersStatusUpdate = @"maUsaDidStatusUpdateMon";
-NSString * const KGNotificationChannelsStateUpdate = @"deChannelUpdateMonYe";
+NSString * const KGNotificationUsersStatusUpdate            = @"maUsaDidStatusUpdateMon";
+NSString * const KGNotificationChannelsStateUpdate          = @"deChannelUpdateMonYe";
 NSString * const KGNotificationDidReceiveRemoteNotification = @"datRmteNotifyBudForYa";
-NSString * const KGNotificationDidFinishLaunching = @"justGotTherePal";
+NSString * const KGNotificationDidFinishLaunching           = @"justGotTherePal";
 
-NSString * const KGUserDefaultsPreferencesKey = @"com.kilograpp.mattermost.preferences";
+NSString * const KGUserDefaultsPreferencesKey               = @"com.kilograpp.mattermost.preferences";
 
