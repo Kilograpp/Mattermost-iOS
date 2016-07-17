@@ -22,7 +22,6 @@
     [self.defaultObjectManager postObjectAtPath:path success:^(RKMappingResult* mappingResult) {
         KGChannel *innerChannel = [KGChannel managedObjectById:channelIdentifier];
         [innerChannel setLastViewDate:[NSDate date]];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
         safetyCall(completion, nil);
     } failure:completion];
 }

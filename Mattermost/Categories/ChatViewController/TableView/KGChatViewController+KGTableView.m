@@ -40,7 +40,7 @@
         if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh){
             nextPageOffset = 30;
         } else {
-            nextPageOffset = 2;
+            nextPageOffset = 10;
         }
     }
     

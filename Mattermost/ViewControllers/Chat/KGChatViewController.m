@@ -264,15 +264,27 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - NSFetchedResultsController
 
+
 - (void)setupFetchedResultsController {
+
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
     
-    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:[KGPostAttributes createdAt]
-                                                      ascending:NO
-                                                  withPredicate:predicate
-                                                        groupBy:[KGPostAttributes creationDay]
-                                                       delegate:self
-                                                      inContext:[NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]]];
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
+    
+    NSFetchRequest *request = [KGPost MR_requestAllSortedBy:[KGPostAttributes createdAt]
+                                                ascending:NO
+                                            withPredicate:predicate
+                                                inContext:context];
+    [request setFetchLimit:60];
+    
+    self.fetchedResultsController = [KGPost MR_fetchController:request
+                                                      delegate:self
+                                                  useFileCache:NO
+                                                     groupedBy:[KGPostAttributes creationDay]
+                                                     inContext:context];
+    
+    
+    [self.fetchedResultsController performFetch:nil];
 
     self.fetchedResultsController.fetchedObjects.count == 0 ?
             [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
@@ -310,22 +322,22 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
-    [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-        // TODO: Code Review: Разнести на два метода
-        if (error) {
-            [[KGAlertManager sharedManager] showError:error];
-        }
-        [self hideTopActivityIndicator];
-        self.loadingInProgress = NO;
-        self.hasNextPage = !isLastPage;
-        self.errorOccured = error ? YES : NO;
-        
-        
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
+            // TODO: Code Review: Разнести на два метода
+            if (error) {
+                [[KGAlertManager sharedManager] showError:error];
+            }
+            [self hideTopActivityIndicator];
+            self.loadingInProgress = NO;
+            self.hasNextPage = !isLastPage;
+            self.errorOccured = error ? YES : NO;
+            
+        }];
+    });
+    
+
 }
-
-
-
 
 - (void)applyCommand {
     [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
@@ -594,6 +606,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
 
+    
     [self setupFetchedResultsController];
     [self.tableView reloadData];
     
