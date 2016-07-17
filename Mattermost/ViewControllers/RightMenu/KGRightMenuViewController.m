@@ -25,6 +25,7 @@
 #import "KGSideMenuContainerViewController.h"
 #import "KGSettingsViewController.h"
 #import "KGTeamsViewController.h"
+#import <UITableView_Cache/UITableView+Cache.h>
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -42,8 +43,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupDataSource];
-    [self setupTableView];
+
+//    [self setupDataSource];
+//    [self setupTableView];
     [self setup];
 }
 
@@ -81,7 +83,7 @@
 - (void)setupTableView {
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier]];
+    [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier] cacheSize:5];
     self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
