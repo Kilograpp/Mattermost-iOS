@@ -55,8 +55,9 @@
                 self.kg_image = smallImage;
             } else {
                 [[SDWebImageManager sharedManager] downloadImageWithURL:url options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                    CGFloat widthToHeight = image.size.width/image.size.height;
                     CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
-                    CGSize imageSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
+                    CGSize imageSize = CGSizeMake(image.size.height * scaleFactor * widthToHeight, image.size.height * scaleFactor);
                     if(image) {
                         [UIImage roundedImage:image
                                   whithRadius:3
