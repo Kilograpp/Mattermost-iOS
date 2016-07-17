@@ -135,11 +135,13 @@
     if (managedObjectContext != self.fetchedResultsController.managedObjectContext &&
         managedObjectContext == self.fetchedResultsController.managedObjectContext.parentContext) {
         
-        for(NSManagedObject *object in [[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
-            [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
+        if ([[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
+            for(NSManagedObject *object in [[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
+                [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
+            }
+            
+            [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         }
-        
-        [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }
 }
 
