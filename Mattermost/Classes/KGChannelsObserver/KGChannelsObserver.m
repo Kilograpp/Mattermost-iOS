@@ -13,7 +13,7 @@
 #import "KGMessagePresenter.h"
 #import "KGPost.h"
 #import "KGChannel.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 @implementation KGChannelsObserver
 

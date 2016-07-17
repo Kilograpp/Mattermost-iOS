@@ -29,7 +29,7 @@
 
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion {
     NSString * path = SOCStringFromStringWithObject([KGChannel listPathPattern], [self currentTeam]);
-    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+    [self.defaultObjectManager getObjectsAtPath:path savesToStore:NO success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
     } failure:completion];
 }
@@ -52,11 +52,13 @@
 
 - (void)updateChannelsState {
     if ([self isSignedIn]) {
-        [self loadChannelsWithCompletion:^(KGError* error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationChannelsStateUpdate object:nil];
-        }];
+        // Make sure it happenes after all the hard work
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self loadChannelsWithCompletion:^(KGError* error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationChannelsStateUpdate object:nil];
+            }];
+        });
     }
-
 }
 
 @end

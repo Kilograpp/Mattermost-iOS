@@ -17,6 +17,7 @@
 
 @interface KGImageCell ()
 @property (nonatomic, strong) UIImage *kg_image;
+@property (nonatomic, strong) KGFile* file;
 @end
 
 @implementation KGImageCell
@@ -26,21 +27,22 @@
     
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+//        self.clearsContextBeforeDrawing = YES;
     }
     
     return self;
 }
 
 - (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
     
+    [super drawRect:rect];
     [[KGDrawer sharedInstance] drawImage:self.kg_image inRect:rect];
 }
 
 - (void)configureWithObject:(id)object {
     if ([object isKindOfClass:[KGFile class]]) {
         KGFile *file = object;
-        
+        self.file = file;
         NSURL *url = file.thumbLink;
         __weak typeof(self) wSelf = self;
 
@@ -48,18 +50,18 @@
         [[SDWebImageManager sharedManager] downloadImageWithURL:url options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             
             CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
-            if (!wSelf.kg_image) {
-                wSelf.kg_image = image;
-            }
-            CGSize imageSize = CGSizeMake(wSelf.kg_image.size.width * scaleFactor, wSelf.kg_image.size.height * scaleFactor);
-            if(wSelf.kg_image) {
-                [UIImage roundedImage:wSelf.kg_image
+            CGSize imageSize = CGSizeMake(image.size.width * scaleFactor, image.size.height * scaleFactor);
+            if(image) {
+                [UIImage roundedImage:image
                           whithRadius:3
                                  size:imageSize
                            completion:^(UIImage *image) {
-                               wSelf.kg_image = image;
-                               //[wSelf setNeedsLayout];
-                               [wSelf setNeedsDisplay];
+                               
+                               if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
+                                   wSelf.kg_image = image;
+                                   [wSelf setNeedsDisplay];
+                               }
+                               
                                dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                    [[SDImageCache sharedImageCache] storeImage:image forKey:url.absoluteString];
                                });
@@ -73,6 +75,7 @@
 
 - (void)prepareForReuse {
     self.kg_image = nil;
+    self.file = nil;
 }
 
 @end
