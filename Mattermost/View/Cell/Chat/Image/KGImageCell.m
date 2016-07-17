@@ -77,6 +77,7 @@
             }
         }
     }
+    [self setNeedsDisplay];
 }
 
 - (void)prepareForReuse {
