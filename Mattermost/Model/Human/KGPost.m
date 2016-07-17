@@ -9,6 +9,7 @@
 #import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "NSDate+DateFormatter.h"
 #import <NSStringEmojize/NSString+Emojize.h>
 #import "NSCalendar+KGSharedCalendar.h"
 #import "KGBusinessLogic+Session.h"
@@ -226,6 +227,8 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
         }];
         
         self.attributedMessage = string.copy;
+        self.createdAtString = [self.createdAt timeFormatForMessages];
+        self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
         
         CGFloat textWidth = KGScreenWidth() - 88;
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)

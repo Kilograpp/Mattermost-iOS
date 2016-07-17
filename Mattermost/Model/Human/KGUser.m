@@ -10,6 +10,7 @@
 #import <RestKit.h>
 #import "KGUserStatus.h"
 #import "KGUserStatusObserver.h"
+#import "UIFont+KGPreparedFont.h"
 
 static NSString * const kAwayNetworkString = @"away";
 static NSString * const kOnlineNetworkString = @"online";
@@ -192,6 +193,7 @@ static NSString * const kOfflineNetworkString = @"offline";
 - (void)willSave {
     if ([NSStringUtils isStringEmpty:self.nickname] && ![NSStringUtils isStringEmpty:self.username]) {
         self.nickname = self.username;
+        self.nicknameWidthValue = [NSStringUtils widthOfString:self.nickname withFont:[UIFont kg_semibold16Font]];
     }
 }
 

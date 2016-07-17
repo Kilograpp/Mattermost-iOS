@@ -29,6 +29,11 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"createdAtWidthValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"createdAtWidth"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"errorValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"error"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -50,6 +55,28 @@
 @dynamic channelId;
 
 @dynamic createdAt;
+
+@dynamic createdAtString;
+
+@dynamic createdAtWidth;
+
+- (float)createdAtWidthValue {
+	NSNumber *result = [self createdAtWidth];
+	return [result floatValue];
+}
+
+- (void)setCreatedAtWidthValue:(float)value_ {
+	[self setCreatedAtWidth:@(value_)];
+}
+
+- (float)primitiveCreatedAtWidthValue {
+	NSNumber *result = [self primitiveCreatedAtWidth];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveCreatedAtWidthValue:(float)value_ {
+	[self setPrimitiveCreatedAtWidth:@(value_)];
+}
 
 @dynamic creationDay;
 
@@ -134,6 +161,12 @@
 }
 + (NSString *)createdAt {
 	return @"createdAt";
+}
++ (NSString *)createdAtString {
+	return @"createdAtString";
+}
++ (NSString *)createdAtWidth {
+	return @"createdAtWidth";
 }
 + (NSString *)creationDay {
 	return @"creationDay";

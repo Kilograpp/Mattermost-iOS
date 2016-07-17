@@ -43,6 +43,8 @@
         <attribute name="backendPendingId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAtString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAtWidth" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="creationDay" optional="YES" transient="YES" attributeType="Date" syncable="YES"/>
         <attribute name="deletedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="error" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -69,6 +71,7 @@
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nicknameWidth" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="status" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="channels" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="members" inverseEntity="Channel" syncable="YES"/>
@@ -77,10 +80,10 @@
     <elements>
         <element name="Channel" positionX="25" positionY="-108" width="128" height="300"/>
         <element name="Command" positionX="-137" positionY="-63" width="128" height="103"/>
-        <element name="File" positionX="151" positionY="342" width="128" height="163"/>
-        <element name="Post" positionX="-56" positionY="218" width="128" height="285"/>
-        <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
-        <element name="User" positionX="-549" positionY="131" width="128" height="193"/>
         <element name="ExternalFile" positionX="250" positionY="272" width="128" height="58"/>
+        <element name="File" positionX="151" positionY="342" width="128" height="163"/>
+        <element name="Post" positionX="-56" positionY="218" width="128" height="313"/>
+        <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
+        <element name="User" positionX="-549" positionY="131" width="128" height="208"/>
     </elements>
 </model>
