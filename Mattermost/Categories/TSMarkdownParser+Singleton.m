@@ -139,10 +139,13 @@
     
     [defaultParser addLinkDetectionWithLinkFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSString * _Nullable link) {
         if (!weakParser.skipLinkAttribute) {
-            [attributedString addAttribute:NSLinkAttributeName
-                                     value:[NSURL URLWithString:link]
-                                     range:range];
+            //TODO: грязный фикс вылетов на ссылках с русскими буквами
+            if ([NSURL URLWithString:link]) {
+                [attributedString addAttribute:NSLinkAttributeName
+                                         value:[NSURL URLWithString:link]
+                                         range:range];
             }
+        }
         [attributedString addAttributes:weakParser.linkAttributes range:range];
     }];
     

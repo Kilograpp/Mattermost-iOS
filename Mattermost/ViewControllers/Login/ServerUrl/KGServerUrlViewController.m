@@ -133,41 +133,73 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)nextActionHandler {
     [self setServerBaseUrl];
-    if ([[KGBusinessLogic sharedInstance] isValidateServerAddress]) {
+   // if ([[KGBusinessLogic sharedInstance] isValidateServerAddress]) {
         [self validateServerUrl];
-    } else {
-        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
-    }
+   // } else {
+     //   [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
+    //}
+    
+//    [self setServerBaseUrl];
+//    ç
+//    [[KGBusinessLogic sharedInstance] validateServerAddress:^(KGError *error){
+//        if (error) {
+//            NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
+//            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+//            [[KGPreferences sharedInstance] save];
+//        } else {
+//            [self validateServerUrl];
+//        }
+//    }];
 
 }
 
 - (void)validateServerUrl {
+    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+    
+    if ([urlTest evaluateWithObject:[KGPreferences sharedInstance].serverBaseUrl]) {
     [[KGAlertManager sharedManager] showProgressHud];
     
         [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
             if (error) {
-            [self processError:error];
+                [self processError:error];
             } else {
-            [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
             }
         
             [[KGAlertManager sharedManager] hideHud];
     }];
-    
-       
-}
+    } else {
+        __block NSString * addres = [KGPreferences sharedInstance].serverBaseUrl;
+        __block NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+            if (error) {
+                urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", addres];
+                [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                [[KGPreferences sharedInstance] save];
+                [[KGAlertManager sharedManager] showProgressHud];
+                
+                [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                    if (error) {
+                        [self processError:error];
+                    } else {
+                        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+                    }
+                    
+                    [[KGAlertManager sharedManager] hideHud];
+                }];
+                NSLog(@"error");
+            } else {
+                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+            }
+            
+            [[KGAlertManager sharedManager] hideHud];
+        }];
 
-- (void)server {
-    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-        if (error) {
-            [self processError:error];
-        } else {
-            [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
-        }
-        
-        [[KGAlertManager sharedManager] hideHud];
-    }];
-
+    }
 }
 
 #pragma mark - UITextFieldDelegate

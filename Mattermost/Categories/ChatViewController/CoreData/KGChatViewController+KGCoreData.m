@@ -134,14 +134,19 @@
     NSManagedObjectContext *managedObjectContext = [notification object];
     if (managedObjectContext != self.fetchedResultsController.managedObjectContext &&
         managedObjectContext == self.fetchedResultsController.managedObjectContext.parentContext) {
+        BOOL isPost = NO;
         
-        if ([[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
-            for(NSManagedObject *object in [[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
+        for(NSManagedObject *object in [[notification userInfo] objectForKey:NSInsertedObjectsKey]) {
+            if ([object isKindOfClass:[KGPost class]]) {
+                isPost = YES;
                 [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
             }
-            
+        }
+        if (isPost) {
             [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         }
+           
+        
     }
 }
 

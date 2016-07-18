@@ -54,7 +54,7 @@
                         <sections>
                             <tableViewSection headerTitle="" footerTitle="" id="KMv-4y-eIB">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="t48-aH-eyw" detailTextLabel="1bB-Qm-dQO" imageView="QeQ-Ac-C0s" style="IBUITableViewCellStyleValue1" id="NiO-cq-H9y">
+                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="t48-aH-eyw" detailTextLabel="1bB-Qm-dQO" imageView="QeQ-Ac-C0s" style="IBUITableViewCellStyleValue1" id="NiO-cq-H9y">
                                         <rect key="frame" x="0.0" y="230" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NiO-cq-H9y" id="OPM-mP-3Xu">
@@ -113,7 +113,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="ieu-FQ-yql" detailTextLabel="K4Z-pU-LR8" imageView="94C-H3-Zxl" style="IBUITableViewCellStyleValue1" id="Tme-wO-G7n">
                                         <rect key="frame" x="0.0" y="318" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Tme-wO-G7n" id="QI8-6R-ILH">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" tableViewCell="Tme-wO-G7n" id="QI8-6R-ILH">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>

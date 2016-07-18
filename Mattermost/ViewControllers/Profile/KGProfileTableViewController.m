@@ -34,7 +34,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nickname;
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (assign) BOOL isFirstLoad;
-
+@property (assign) BOOL isCurrentUser;
+@property (assign) KGUser *user;
 @end
 
 @implementation KGProfileTableViewController
@@ -79,20 +80,23 @@
 }
 
 - (void)setup {
-    KGUser *user = [KGUser managedObjectById:self.userId];
+    self.user = [KGUser managedObjectById:self.userId];
+    if ([self.userId isEqual:[KGBusinessLogic sharedInstance].currentUserId]) {
+        self.isCurrentUser = YES;
+    }
 //    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     self.nameTitleLabel.font = [UIFont kg_semibold30Font];
     self.nameTitleLabel.textColor = [UIColor kg_blackColor];
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.backgroundColor = [UIColor whiteColor];
-    self.nameTitleLabel.text = user.nickname;
-    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+    self.nameTitleLabel.text = self.user.nickname;
+    [self.avatarImageView setImageWithURL:self.user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
               usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.name.text = user.firstName;
-    self.username.text = user.nickname;
-    self.nickname.text = user.nickname;
-    self.email.text = user.email;
+//    self.name.text = user.firstName;
+//    self.username.text = user.nickname;
+//    self.nickname.text = user.nickname;
+//    self.email.text = user.email;
     //self.headerView.backgroundColor = [UIColor kg_lightLightGrayColor];
     
 }
@@ -104,6 +108,83 @@
     } else {
         return 30.f;
     }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        if (self.isCurrentUser) {
+            return 4;
+        } else {
+            return 3;
+        }
+    } else {
+        if (self.isCurrentUser) {
+            return 3;
+        } else {
+            return 1;
+        }
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    
+    if (self.isCurrentUser) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+    } else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.section == 0){
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Name";
+                cell.detailTextLabel.text = self.user.firstName;
+                cell.imageView.image = [UIImage imageNamed:@"profile_name_icon"];
+                break;
+            case 1:
+                cell.textLabel.text = @"Username";
+                cell.detailTextLabel.text = self.user.nickname;
+                cell.imageView.image = [UIImage imageNamed:@"profile_usename_icon"];
+                break;
+            case 2:
+                cell.textLabel.text = @"Nickname";
+                cell.detailTextLabel.text = self.user.nickname;
+                cell.imageView.image = [UIImage imageNamed:@"profile_nick_icon"];
+                break;
+            case 3:
+                cell.textLabel.text = @"Profile photo";
+                cell.imageView.image = [UIImage imageNamed:@"profile_photo_icon"];
+                break;
+            default:
+                break;
+        }
+        
+    } else {
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Email";
+                cell.detailTextLabel.text = self.user.email;
+                cell.imageView.image = [UIImage imageNamed:@"profile_email_icon"];
+                break;
+            case 1:
+                cell.textLabel.text = @"Change password";
+                cell.imageView.image = [UIImage imageNamed:@"profile_pass_icon"];
+                break;
+            case 2:
+                cell.textLabel.text = @"Notification";
+                cell.detailTextLabel.text = @"On";
+                cell.imageView.image = [UIImage imageNamed:@"profile_notification_icon"];
+                break;
+            default:
+                break;
+        }
+    }
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
