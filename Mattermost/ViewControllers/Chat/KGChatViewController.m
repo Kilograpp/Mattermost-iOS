@@ -276,7 +276,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                 ascending:NO
                                             withPredicate:predicate
                                                 inContext:context];
-    [request setFetchLimit:60];
+    [request setFetchLimit:50];
     
     self.fetchedResultsController = [KGPost MR_fetchController:request
                                                       delegate:self
@@ -324,7 +324,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
+        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel fromPost:self.fetchedResultsController.fetchedObjects.lastObject completion:^(BOOL isLastPage, KGError *error) {
             // TODO: Code Review: Разнести на два метода
             if (error) {
                 [[KGAlertManager sharedManager] showError:error];
