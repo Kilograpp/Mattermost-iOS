@@ -991,8 +991,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 
-
-
 #pragma mark - UITextViewDelegate
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {

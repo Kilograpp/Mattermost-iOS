@@ -35,7 +35,12 @@
 - (void)drawRect:(CGRect)rect {
     
     [super drawRect:rect];
-    [[KGDrawer sharedInstance] drawImage:self.kg_image inRect:rect];
+//    if (self.kg_image) {
+        [[KGDrawer sharedInstance] drawImage:self.kg_image inRect:rect];
+//    } else {
+//        [[KGDrawer sharedInstance] drawImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT - 1)) inRect:rect];
+//    }
+    
 }
 
 - (void)configureWithObject:(id)object {
