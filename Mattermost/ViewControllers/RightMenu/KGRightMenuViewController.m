@@ -24,6 +24,7 @@
 #import "KGSideMenuContainerViewController.h"
 #import "KGSettingsViewController.h"
 #import "KGTeamsViewController.h"
+#import "KGAboutMattermostViewController.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "KGConstants.h"
 
@@ -141,7 +142,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                      iconName:@"menu_question_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
+                                                                          [wSelf navigateToAbout];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
@@ -165,6 +166,13 @@ const static CGFloat KGHeightHeader = 64;
     }
 }
 
+- (void)navigateToAbout {
+    UINavigationController *nc = self.menuContainerViewController.centerViewController;
+    if (![nc.topViewController isKindOfClass:[KGAboutMattermostViewController class]]) {
+        [self toggleRightSideMenuAction];
+        [self.delegate navigateToAboutMattermost];
+    }
+}
 
 #pragma mark - Actions
 
@@ -189,6 +197,7 @@ const static CGFloat KGHeightHeader = 64;
     [self presentViewController:vc animated:YES completion:nil];
     [[UIStatusBar sharedStatusBar] restoreState];
 }
+
 
 #pragma mark - Alert
 

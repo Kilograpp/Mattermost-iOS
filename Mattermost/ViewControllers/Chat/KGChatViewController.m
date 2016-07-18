@@ -64,6 +64,7 @@
 #import "KGChannelsObserver.h"
 
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
+static NSString *const kShowAboutSegueIdentier = @"showAbout";
 
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -703,6 +704,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self performSegueWithIdentifier:kShowSettingsSegueIdentier sender:nil];
 }
 
+- (void)navigateToAboutMattermost {
+    [self performSegueWithIdentifier:kShowAboutSegueIdentier sender:nil];
+}
 
 #pragma mark - Actions
 
@@ -985,9 +989,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Copy link to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[UIPasteboard generalPasteboard] setString:URL.absoluteString];
     }]];
-    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }]];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
 
     [self presentViewController:controller animated:YES completion:nil];
 }
