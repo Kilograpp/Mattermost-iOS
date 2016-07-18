@@ -277,7 +277,7 @@
 
 - (void)runTimerForStatusUpdate {
     if (!self.statusTimer) {
-        [self updateStatusForAllUsers];
+        //[self updateStatusForAllUsers];
         self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:7
                                                             target:self
                                                           selector:@selector(updateStatusForAllUsers)
