@@ -7,6 +7,7 @@
 //
 
 #import "KGImageCell.h"
+#import "UIColor+KGPreparedColor.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGFile.h"
 #import "UIImage+Resize.h"
@@ -16,31 +17,30 @@
 #define KG_IMAGE_HEIGHT  ((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f)
 
 @interface KGImageCell ()
-@property (nonatomic, strong) UIImage *kg_image;
+@property (nonatomic, strong) UIImageView* imageView;
 @property (nonatomic, strong) KGFile* file;
 @end
 
 @implementation KGImageCell
+@synthesize imageView = _imageView;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        [self setupImageView];
     }
     
     return self;
 }
 
-- (void)drawRect:(CGRect)rect {
-    
-    [super drawRect:rect];
-//    if (self.kg_image) {
-        [[KGDrawer sharedInstance] drawImage:self.kg_image inRect:rect];
-//    } else {
-//        [[KGDrawer sharedInstance] drawImage:KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT - 1)) inRect:rect];
-//    }
-    
+
+- (void)setupImageView {
+    self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    [self.imageView setBackgroundColor:[UIColor kg_whiteColor]];
+    [self.imageView setContentMode: UIViewContentModeLeft];
+    [self addSubview:self.imageView];
 }
 
 - (void)configureWithObject:(id)object {
@@ -53,25 +53,24 @@
         __block NSString* smallImageKey = [url.absoluteString stringByAppendingString:@"_thumb"];
         UIImage* smallImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallImageKey];
         if (smallImage) {
-            self.kg_image = smallImage;
+            self.imageView.image = smallImage;
         } else {
             if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallImageKey]) {
                 smallImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallImageKey];
-                self.kg_image = smallImage;
+                self.imageView.image = smallImage;
             } else {
                 [[SDWebImageManager sharedManager] downloadImageWithURL:url options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                    CGFloat widthToHeight = image.size.width/image.size.height;
-                    CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
-                    CGSize imageSize = CGSizeMake(image.size.height * scaleFactor * widthToHeight, image.size.height * scaleFactor);
+//                    CGFloat widthToHeight = image.size.width/image.size.height;
+//                    CGFloat scaleFactor = KG_IMAGE_HEIGHT / image.size.height;
+//                    CGSize imageSize = CGSizeMake(image.size.height * scaleFactor * widthToHeight, image.size.height * scaleFactor);
                     if(image) {
                         [UIImage roundedImage:image
                                   whithRadius:3
-                                         size:imageSize
+                                         size:self.bounds.size
                                    completion:^(UIImage *image) {
                                        
                                        if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
-                                           wSelf.kg_image = image;
-                                           [self setNeedsDisplay];
+                                           wSelf.imageView.image = image;
                                        }
                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                            [[SDImageCache sharedImageCache] storeImage:image forKey:smallImageKey];
@@ -83,11 +82,15 @@
             }
         }
     }
-    [self setNeedsDisplay];
+}
+
+- (void)layoutSubviews {
+    self.imageView.frame = self.bounds;
+    [super layoutSubviews];
 }
 
 - (void)prepareForReuse {
-    self.kg_image = nil;
+    self.imageView.image = nil;
     self.file = nil;
     
 }
