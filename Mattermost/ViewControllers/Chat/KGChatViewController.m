@@ -754,7 +754,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-        NSLog(@"SHOW_LOADING_VIEW");
+//        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -767,7 +767,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
-    NSLog(@"HIDE_LOADING_VIEW");
+//    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
