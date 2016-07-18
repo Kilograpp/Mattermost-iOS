@@ -6,7 +6,8 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "MFSideMenuContainerViewController.h"
+//#import <MFSideMenu/MFSideMenuContainerViewController.h>
+#import <MFSideMenu/MFSideMenu.h>
 
 extern float const KGLeftMenuOffset;
 

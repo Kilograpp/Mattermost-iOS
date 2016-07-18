@@ -137,7 +137,7 @@ NSString *const KGPreparedFontsMediumDisplayFontName      = @"SFUIDisplay-Medium
 #pragma mark - Navigation Bar
 
 + (UIFont *)kg_navigationBarTitleFont {
-    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsSemiboldDisplayFontName size:16.f])
+    STATIC_ONCE(font, [UIFont fontWithName:KGPreparedFontsBoldFontName size:16.f])
     return font;
 }
 

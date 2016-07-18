@@ -9,7 +9,7 @@
 #import "KGAppDelegate.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "KGPreferences.h"
 #import "KGSideMenuContainerViewController.h"
 #import "KGBusinessLogic.h"
@@ -17,9 +17,10 @@
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "KGBusinessLogic+Session.h"
 #import "KGNotificationValues.h"
+#import "KGDrawer.h"
+#import "KGHardwareUtils.h"
 
 @interface KGAppDelegate ()
-
 @end
 
 @implementation KGAppDelegate
@@ -31,6 +32,7 @@
     [self registerForRemoteNotifications];
     [self setupFabric];
     [self sendLaunchNotificationWithOptions:launchOptions];
+    [self instantiateSingletons];
     return YES;
 }
 
@@ -79,6 +81,11 @@
         self.window.rootViewController = navController;
         [self.window makeKeyAndVisible];
     }
+}
+
+- (void)instantiateSingletons {
+    [KGDrawer sharedInstance];
+    [KGHardwareUtils sharedInstance];
 }
 
 - (void)setupFabric {

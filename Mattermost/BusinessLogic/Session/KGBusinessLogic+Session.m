@@ -9,7 +9,7 @@
 #import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
 #import <RKManagedObjectStore.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SOCKit/SOCKit.h>
 #import "KGUser.h"
 #import "KGNotificationValues.h"
@@ -20,6 +20,7 @@
 #import "KGBusinessLogic+Socket.h"
 #import "KGUserStatusObserver.h"
 #import "NSString+Validation.h"
+#import "KGHardwareUtils.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -250,9 +251,13 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateStatusForAllUsers {
     if (self.isSignedIn){
-        [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
-        }];
+        if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh ||
+            [[KGHardwareUtils sharedInstance] currentCpuLoad] < 30) {
+            [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
+            }];
+        }
+        
         
     }
 }

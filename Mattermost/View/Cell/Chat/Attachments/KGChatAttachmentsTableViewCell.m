@@ -23,6 +23,7 @@
 #import "KGUIUtils.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "UIView+Align.h"
+#import "KGDrawer.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
 #define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
@@ -54,7 +55,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.scrollsToTop = NO;
     self.tableView.scrollEnabled = NO;
-    self.tableView.layer.drawsAsynchronously = YES;
+//    self.tableView.layer.drawsAsynchronously = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -76,7 +77,6 @@
 
 - (void)configureWithObject:(id)object {
     NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
-
     [super configureWithObject:object];
     self.files = [self.post sortedFiles];
     [self.tableView reloadData];
@@ -107,17 +107,14 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     if ([self.files[indexPath.row] isImage]){
         KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier]];
-    
         KGFile *file = self.files[indexPath.row];
         [cell configureWithObject:file];
         return cell;
     } else {
         KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier]];
         KGFile *file = self.files[indexPath.row];
-        
         [cell configureWithObject:file];
         return cell;
     }
@@ -138,7 +135,7 @@
     
     if (file.isImage) {
         if (self.photoTapHandler) {
-            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]));
         }
     } else {
         if (self.fileTapHandler) {
@@ -158,7 +155,8 @@
                                                             self.messageLabel.frame.origin.y;
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
-    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
+    
+    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, self.tableView.contentSize.height);
     
     [self alignSubviews];
 }
@@ -168,6 +166,7 @@
 }
 
 CGFloat tableViewHeight(NSArray *files) {
+    
     CGFloat heightImage = 0;
     for (KGFile *file in files) {
         if ([file isImage]){

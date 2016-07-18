@@ -23,6 +23,7 @@
 #import "KGNotificationValues.h"
 #import "KGPost.h"
 #import <HexColors/HexColors.h>
+#import "KGHardwareUtils.h"
 
 @interface KGBusinessLogic ()
 
@@ -52,7 +53,7 @@
 }
 - (instancetype)init {
     if (self = [super init]) {
-        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+        [AFRKNetworkActivityIndicatorManager sharedManager].enabled = YES;
         [self setupManagedObjectStore];
         [self setupMagicalRecord];
         [self subscribeForNotifications];
@@ -75,19 +76,24 @@
         NSURL *apiBaseUrl = [serverBaseUrl URLByAppendingPathComponent:@"api/v3"];
         manager = [KGObjectManager managerWithBaseURL:apiBaseUrl];
         [manager setManagedObjectStore:self.managedObjectStore];
-        
         [manager.HTTPClient setDefaultHeader:KGXRequestedWithHeader value:@"XMLHttpRequest"];
-        [manager.HTTPClient setParameterEncoding:AFJSONParameterEncoding];
+        [manager.HTTPClient setParameterEncoding:AFRKJSONParameterEncoding];
         [manager.HTTPClient setDefaultHeader:KGContentTypeHeader value:RKMIMETypeJSON];
         [manager.HTTPClient setDefaultHeader:KGAcceptLanguageHeader value:[self currentLocale]];
-        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-            if (status == AFNetworkReachabilityStatusNotReachable) {
+        [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFRKNetworkReachabilityStatus status) {
+            if (status == AFRKNetworkReachabilityStatusNotReachable) {
                 [self closeSocket];
             } else {
                 [self openSocket];
             }
             
         }];
+        
+        
+        if ([KGHardwareUtils sharedInstance].devicePerformance == KGPerformanceLow){
+            [[manager operationQueue] setMaxConcurrentOperationCount:2];
+        }
+        
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
         RKValueTransformer* dateTransformer = [self millisecondsSince1970ToDateValueTransformer];
@@ -100,13 +106,19 @@
 
         
         NSFetchRequest* (^singleFetchRequestBlock) (NSURL* ) = ^NSFetchRequest*(NSURL* URL) {
+            if (!URL) {
+                return nil;
+            }
+            
             RKPathMatcher *userPathMatcher = [RKPathMatcher pathMatcherWithPattern:[KGPost firstPagePathPattern]];
             BOOL match = [userPathMatcher matchesPath:[URL relativePath] tokenizeQueryStrings:NO parsedArguments:nil];
             if(match) {
                 NSString* channelId = [[[URL relativePath] pathComponents] objectAtIndex:3];
                 NSPredicate* predicate = [NSPredicate predicateWithFormat:@"self.channel.identifier == %@", channelId];
-                if([KGPost MR_countOfEntitiesWithPredicate:predicate] > 0) {
-                    return [KGPost MR_requestAllWithPredicate:predicate];
+                NSFetchRequest* fetchRequest = [KGPost MR_requestAllWithPredicate:predicate];
+                [fetchRequest setIncludesSubentities:NO];
+                if([[NSManagedObjectContext MR_defaultContext] countForFetchRequest:fetchRequest error:nil]  > 0) {
+                    return fetchRequest;
                 }
             }
             return nil;
@@ -268,12 +280,15 @@
 #pragma mark - Status Timer
 
 - (void)runTimerForStatusUpdate {
-    if (!self.statusTimer)
-        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval: 7
-                                     target:self
-                                   selector:@selector(updateStatusForAllUsers)
-                                   userInfo:nil
-                                    repeats:YES];
+    if (!self.statusTimer) {
+        //[self updateStatusForAllUsers];
+        self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:7
+                                                            target:self
+                                                          selector:@selector(updateStatusForAllUsers)
+                                                          userInfo:nil
+                                                           repeats:YES];
+    }
+
 
 
 }

@@ -62,7 +62,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 }
 
 - (void)test {
-    self.textField.text = @"https://mattermost.kilograpp.com";
+    self.textField.text = @"http://mattermost.kilograpp.com";
     self.nextButton.enabled = YES;
 }
 
@@ -175,46 +175,22 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
         [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
         [[KGPreferences sharedInstance] save];
         [[KGAlertManager sharedManager] showProgressHud];
-        
-//        [[KGBusinessLogic sharedInstance]validateServerAddress:^(KGError *error){
-//            if (error) {
-//                //                urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
-//                //                [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
-//                //                [[KGPreferences sharedInstance] save];
-//                //                [[KGAlertManager sharedManager] showProgressHud];
-//                //
-//                //                [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-//                //                    if (error) {
-//                //                        [self processError:error];
-//                //                    } else {
-//                //                        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
-//                //                    }
-//                //
-//                //                    [[KGAlertManager sharedManager] hideHud];
-//                //                }];
-//                NSLog(@"error");
-//            } else {
-//                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
-//            }
-//            
-//            [[KGAlertManager sharedManager] hideHud];
-//        }];
         [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
             if (error) {
-//                urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
-//                [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
-//                [[KGPreferences sharedInstance] save];
-//                [[KGAlertManager sharedManager] showProgressHud];
-//                
-//                [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-//                    if (error) {
-//                        [self processError:error];
-//                    } else {
-//                        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
-//                    }
-//                    
-//                    [[KGAlertManager sharedManager] hideHud];
-//                }];
+                urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", addres];
+                [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                [[KGPreferences sharedInstance] save];
+                [[KGAlertManager sharedManager] showProgressHud];
+                
+                [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                    if (error) {
+                        [self processError:error];
+                    } else {
+                        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+                    }
+                    
+                    [[KGAlertManager sharedManager] hideHud];
+                }];
                 NSLog(@"error");
             } else {
                 [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];

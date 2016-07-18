@@ -12,6 +12,7 @@
 #import "KGLeftMenuViewController.h"
 #import "KGSideMenuContainerViewController.h"
 #import "KGBusinessLogic+Session.h"
+#import "KGChannelsObserver.h"
 
 @implementation KGBusinessLogic (ApplicationNotifications)
 
@@ -31,8 +32,9 @@
         KGChannel *channel = [KGChannel MR_findFirstByAttribute:[KGChannelAttributes displayName] withValue:channelName];
 
         KGAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        KGSideMenuContainerViewController *menuContainerViewController = appDelegate.menuContainerViewController;
-        [(KGLeftMenuViewController*)menuContainerViewController.leftMenuViewController selectChannel:channel];
+//        KGSideMenuContainerViewController *menuContainerViewController = appDelegate.menuContainerViewController;
+//        [(KGLeftMenuViewController*)menuContainerViewController.leftMenuViewController selectChannel:channel];
+        [[KGChannelsObserver sharedObserver] setSelectedChannel:channel];
     }
 }
 

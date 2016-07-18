@@ -184,4 +184,10 @@
     return color;
 }
 
++ (UIColor *)kg_navigationBarTintColor {
+    STATIC_ONCE(color, [UIColor hx_colorWithHexRGBAString:@"#F7F7F7" alpha:1])
+    return color;
+
+}
+
 @end

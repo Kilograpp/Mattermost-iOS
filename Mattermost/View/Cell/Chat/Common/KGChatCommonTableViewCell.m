@@ -135,31 +135,58 @@ static CGFloat const kErrorViewSize = 34.f;
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        self.post = object;
-        
-        __weak typeof(self) wSelf = self;
-        
-        self.messageOperation = [[NSBlockOperation alloc] init];
-        [self.messageOperation addExecutionBlock:^{
-            if (!wSelf.messageOperation.isCancelled) {
-                dispatch_sync(dispatch_get_main_queue(), ^(void){
-                    wSelf.messageLabel.attributedText = wSelf.post.attributedMessage;
-              });
-            }
-        }];
-        [messageQueue addOperation:self.messageOperation];
-        
-        self.nameLabel.text = self.post.author.nickname;
-        _dateString = [self.post.createdAt timeFormatForMessages];
-        self.dateLabel.text = _dateString;
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatCommonTableViewCell configureWithObject method!");
 
-        
-        
-        __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
-        UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
-        
-        if (!smallAvatar && [[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+    [self setPost:object];
+    [self configureMessageOperation];
+    [self configureAvatarImage];
+    [self configureBasicLabels];
+    [self configureCellState];
+}
+
+- (void)configureCellState {
+    if (self.post.error) {
+        [self showError];
+    } else {
+        if (!self.post.identifier) {
+            [self startAnimation];
+        } else {
+            [self finishAnimation];
+        }
+    }
+    
+    self.messageLabel.alpha = self.post.identifier ? 1 : 0.5;
+}
+
+- (void)configureBasicLabels {
+    self.nameLabel.text = self.post.author.nickname;
+    self.dateLabel.text = self.post.createdAtString;
+}
+
+- (void)configureMessageOperation {
+    __weak typeof(self) wSelf = self;
+    
+    self.messageOperation = [[NSBlockOperation alloc] init];
+    [self.messageOperation addExecutionBlock:^{
+        if (!wSelf.messageOperation.isCancelled) {
+            dispatch_sync(dispatch_get_main_queue(), ^(void){
+                wSelf.messageLabel.attributedText = wSelf.post.attributedMessage;
+            });
+        }
+    }];
+    [messageQueue addOperation:self.messageOperation];
+    
+}
+
+- (void)configureAvatarImage {
+    __weak typeof(self) wSelf = self;
+    
+    __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+    UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+    if (smallAvatar) {
+        self.avatarImageView.image = smallAvatar;
+    } else {
+        if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
             smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
             self.avatarImageView.image = smallAvatar;
         } else {
@@ -169,33 +196,19 @@ static CGFloat const kErrorViewSize = 34.f;
                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                                             
                                             UIImage* roundedImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
-                                            
                                             if (!roundedImage) {
                                                 roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
                                                 [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
                                                 
-                                            } 
+                                            }
                                             
                                             wSelf.avatarImageView.image = roundedImage;
                                         }
                       usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
-        
-        
-        
-        
-
-        if (self.post.error){
-            [self showError];
-        } else {
-            if (!self.post.identifier) {
-                [self startAnimation];
-            } else {
-                [self finishAnimation];
-            }
-        }
     }
+
 }
 
 - (void)showError {
@@ -215,6 +228,7 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)finishAnimation {
     [self.loadingView stopAnimating];
     self.loadingView.hidden = YES;
+     self.messageLabel.alpha = 1;
 }
 
 - (void)layoutSubviews {
@@ -224,8 +238,9 @@ static CGFloat const kErrorViewSize = 34.f;
     self.backgroundColor = [UIColor kg_whiteColor];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     
-    CGFloat nameWidth = [[self class] widthOfString:self.post.author.nickname withFont:[UIFont kg_semibold16Font]];
-    CGFloat timeWidth = [[self class] widthOfString:_dateString withFont:[UIFont kg_regular13Font]];
+    CGFloat nameWidth = self.post.author.nicknameWidthValue;
+    CGFloat timeWidth = self.post.createdAtWidthValue;
+    
     self.messageLabel.frame = CGRectMake(53, 36, textWidth - kLoadingViewSize, self.post.heightValue);
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, timeWidth, 20);
@@ -241,18 +256,8 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 
-+ (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
-    if (string) {
-        NSDictionary *attributes = @{ NSFontAttributeName : font };
-        return  ceilf([[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width);
-    }
-    
-    return 0.00001;
-}
-
-
 - (void)prepareForReuse {
-    _avatarImageView.image = nil;//KGRoundedPlaceholderImage(CGSizeMake(40.f, 40.f));
+    _avatarImageView.image = nil;
     _messageLabel.text = nil;
     [_messageOperation cancel];
     _loadingView.hidden = YES;
@@ -261,7 +266,6 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)errorAction {
     if (self.errorTapHandler) {
-        //        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
         self.errorTapHandler(self.post);
     }
     
@@ -269,7 +273,6 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)showProfileAction {
     if (self.profileTapHandler) {
-        //        self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
         self.profileTapHandler(self.post.author);
     }
 }

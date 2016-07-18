@@ -11,14 +11,13 @@ target 'Mattermost' do
   pod 'DateTools'
   pod 'Fabric'
   pod 'Crashlytics'
-  pod 'MFSideMenu', :git => 'http://git.kilograpp.com/iOS/MFSideMenu.git'
   pod 'SlackTextViewController'
   pod 'CTAssetsPickerController',  '~> 3.3.0'
   pod 'HexColors'
   pod 'JVFloatLabeledTextField'
   pod 'NSStringEmojize'
-  pod 'IDMPhotoBrowser'
-  pod 'DGActivityIndicatorView'
+  pod 'IDMPhotoBrowser', :git => 'https://github.com/getmaxx/IDMPhotoBrowser.git' 
+ pod 'DGActivityIndicatorView'
 end
 
 post_install do |installer_representation|

@@ -7,6 +7,8 @@
 //
 
 #import "KGChatViewController+KGTableView.h"
+#import "KGPhotoBrowser.h"
+#import "KGHardwareUtils.h"
 
 @implementation KGChatViewController (KGTableView)
 
@@ -31,6 +33,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSInteger nextPageOffset = 0;
+    
+    if (nextPageOffset == 0) {
+        if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh){
+            nextPageOffset = 30;
+        } else {
+            nextPageOffset = 10;
+        }
+    }
+    
     // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
     if (![tableView isEqual:self.tableView]) {
         return [self autoCompletionCellAtIndexPath:indexPath];
@@ -38,7 +51,7 @@
     
     NSString *reuseIdentifier;
     KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < 3)) {
+    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] < nextPageOffset)) {
         [self loadNextPageOfData];
     }
     
@@ -50,7 +63,9 @@
     } else {
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-        if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+        NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
+        BOOL notBetweenPages = ((index+1) % 60 != 0 && (index % 60) != 0) || index == 0;
+        if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && notBetweenPages) {
             reuseIdentifier = !post.hasAttachments ?
             [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
         } else {
@@ -61,9 +76,9 @@
     
     KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     [self assignBlocksForCell:cell post:post];
-    if (post.nonImageFiles) {
-        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
-    }
+//    if (post.nonImageFiles) {
+//        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
+//    }
     
     [cell configureWithObject:post];
     cell.transform = self.tableView.transform;
@@ -91,7 +106,11 @@
         } else {
             NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-            if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600) {
+    
+            NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
+            BOOL notBetweenPages = ((index+1) % 60 != 0 && (index % 60) != 0) || index == 0;
+
+            if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && notBetweenPages) {
                 return !post.hasAttachments ?
                 [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
             } else {
@@ -99,8 +118,6 @@
                 [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-        
-        return 0;
     }
     //ячейка для autoCompletionView:
     // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
@@ -153,18 +170,13 @@
 
 #pragma mark - Public
 
-- (NSIndexPath *)indexPathForLastRow {
-    return [NSIndexPath indexPathForRow:[self tableView:self.tableView numberOfRowsInSection:self.fetchedResultsController.sections.count - 1] - 1
-                              inSection:self.self.fetchedResultsController.sections.count - 1];
-}
-
 
 #pragma mark - Private
 
 - (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
     cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
         NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
+        KGPhotoBrowser *browser = [[KGPhotoBrowser alloc] initWithPhotoURLs:urls];
         [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
         [browser setDelegate:self];
         [browser setInitialPageIndex:selectedPhoto];

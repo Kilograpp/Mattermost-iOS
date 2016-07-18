@@ -48,6 +48,10 @@
         [self.deletedRowIndexPaths addObject:indexPath];
     } else if (type == NSFetchedResultsChangeMove) {
         
+        if ([indexPath isEqual:newIndexPath]) {
+            return;
+        }
+        
         if ([self.insertedSectionIndexes containsIndex:newIndexPath.section] == NO) {
             [self.insertedRowIndexPaths addObject:newIndexPath];
         }
@@ -60,10 +64,7 @@
         }
     } else if (type == NSFetchedResultsChangeUpdate) {
         
-        if ([self.temporaryIgnoredObjects containsObject:anObject.backendPendingId]) {
-            [self.temporaryIgnoredObjects removeObject:anObject.backendPendingId];
-            return;
-        }
+
         
         [self rowShouldBeUpdatedAtIndexPath:indexPath];
     }
@@ -103,7 +104,7 @@
     [self.insertedRowIndexPaths count] +
     [self.updatedRowIndexPaths count];
     
-    if (totalChanges > 120) {
+    if (totalChanges > 60) {
         
         [self.tableView reloadData];
         return;
@@ -113,6 +114,7 @@
         return;
     }
     
+    [UIView setAnimationsEnabled:NO];
     [self.tableView beginUpdates];
     
     [self.tableView deleteSections:self.deletedSectionIndexes withRowAnimation:UITableViewRowAnimationNone];
@@ -123,14 +125,30 @@
     [self.tableView reloadRowsAtIndexPaths:self.updatedRowIndexPaths withRowAnimation:UITableViewRowAnimationNone];
     
     [self.tableView endUpdates];
-    
-    if (self.lastPath) {
-        [self.tableView reloadRowsAtIndexPaths:@[self.lastPath] withRowAnimation:UITableViewRowAnimationNone];
-        self.lastPath = nil;
-    }
+    [UIView setAnimationsEnabled:YES];
+
     
 }
 
+- (void)managedObjectContextDidSave:(NSNotification *)notification {
+    NSManagedObjectContext *managedObjectContext = [notification object];
+    if (managedObjectContext != self.fetchedResultsController.managedObjectContext &&
+        managedObjectContext == self.fetchedResultsController.managedObjectContext.parentContext) {
+        BOOL isPost = NO;
+        
+        for(NSManagedObject *object in [[notification userInfo] objectForKey:NSInsertedObjectsKey]) {
+            if ([object isKindOfClass:[KGPost class]]) {
+                isPost = YES;
+                [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
+            }
+        }
+        if (isPost) {
+            [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        }
+           
+        
+    }
+}
 
 
 

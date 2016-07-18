@@ -9,9 +9,12 @@
 #import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "NSDate+DateFormatter.h"
 #import <NSStringEmojize/NSString+Emojize.h>
 #import "NSCalendar+KGSharedCalendar.h"
 #import "KGBusinessLogic+Session.h"
+#import "KGExternalFile.h"
+#import <MagicalRecord/MagicalRecord.h>
 
 @interface KGPost ()
 
@@ -210,10 +213,22 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 
 - (void)willSave {
     if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
         self.message = [self.message emojizedString];
         NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
+        [string enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
+            if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
+                [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
+                [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
+                KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
+                [file setLink:link.absoluteString];
+                [self addFilesObject:file];
+            }
+            
+        }];
+        
         self.attributedMessage = string.copy;
+        self.createdAtString = [self.createdAt timeFormatForMessages];
+        self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
         
         CGFloat textWidth = KGScreenWidth() - 88;
         CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)

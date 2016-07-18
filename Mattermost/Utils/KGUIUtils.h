@@ -11,5 +11,6 @@
 @interface KGUIUtils : NSObject
 
 CGFloat KGScreenWidth();
+CGFloat KGScreenHeight();
 
 @end

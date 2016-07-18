@@ -4,12 +4,12 @@
 //
 
 
-#import <RestKit/CoreData/RKCoreData.h>
+
 #import "KGObjectManager.h"
-#import <RestKit/Network/RKManagedObjectRequestOperation.h>
+#import <RestKit/RKManagedObjectRequestOperation.h>
 #import "KGError.h"
 #import "KGUtils.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 
 @implementation KGObjectManager
@@ -34,6 +34,12 @@
         safetyCall(failure, [self handleOperation:operation withError:error]);
     }];
 }
+- (void)getObjectsAtPath:(NSString *)path
+            savesToStore:(BOOL)savesToPersistentStore
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:YES savesToStore:savesToPersistentStore success:success failure:failure];
+}
 
 - (void)getObjectsAtPath:(NSString *)path
                 success:(void (^)(RKMappingResult *mappingResult))success
@@ -48,6 +54,22 @@
     [self getObject:nil path:path parameters:nil useCache:useCache savesToStore:YES success:success failure:failure];
 }
 
+- (void)getObjectsAtPath:(NSString *)path
+                useCache:(BOOL)useCache
+            savesToStore:(BOOL)savesToStore
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:useCache savesToStore:savesToStore success:success failure:failure];
+}
+
+
+- (void)getObject:(id)object
+             path:(NSString*)path
+     savesToStore:(BOOL)savesToPersistentStore
+          success:(void (^)(RKMappingResult *mappingResult))success
+          failure:(void (^)(KGError *error))failure{
+    [self getObject:nil path:path parameters:nil useCache:YES savesToStore:savesToPersistentStore success:success failure:failure];
+}
 
 - (void)getObject:(id)object
              path:(NSString*)path
@@ -122,11 +144,20 @@
 - (void)postObjectAtPath:(NSString *)path
                  success:(void (^)(RKMappingResult *mappingResult))success
                  failure:(void (^)(KGError *error))failure{
-    [self postObject:nil path:path parameters:nil success:success failure:failure];
+    [self postObject:nil path:path parameters:nil savesToStore:NO success:success failure:failure];
 }
+
+- (void)postObjectAtPath:(NSString *)path
+            savesToStore:(BOOL)savesToStore
+                 success:(void (^)(RKMappingResult *mappingResult))success
+                 failure:(void (^)(KGError *error))failure{
+    [self postObject:nil path:path parameters:nil savesToStore:savesToStore success:success failure:failure];
+}
+
 
 - (void)postObject:(id)object
               path:(NSString *)path
+        parameters:(NSDictionary*)parameters
       savesToStore:(BOOL)savesToPersistentStore
            success:(void (^)(RKMappingResult *mappingResult))success
            failure:(void (^)(KGError *error))failure {
@@ -141,7 +172,7 @@
     
     
     
-    NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:nil ];
+    NSURLRequest* request = [self requestWithObject:object method:RKRequestMethodPOST path:path parameters:parameters ];
     RKManagedObjectRequestOperation* operation = [self managedObjectRequestOperationWithRequest:request
                                                                            managedObjectContext:[object managedObjectContext]
                                                                                         success:successHandlerBlock
@@ -157,7 +188,7 @@
        parameters:(NSDictionary*)parameters
           success:(void (^)(RKMappingResult *mappingResult))success
           failure:(void (^)(KGError *error))failure {
-    void (^constructingBodyWithBlock)(id <AFMultipartFormData>) = ^void(id <AFMultipartFormData> formData) {
+    void (^constructingBodyWithBlock)(id <AFRKMultipartFormData>) = ^void(id <AFRKMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:name fileName:@"file.png" mimeType:@"image/png"];
     };
 

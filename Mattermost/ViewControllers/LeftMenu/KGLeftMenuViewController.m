@@ -19,9 +19,12 @@
 #import "KGChannelTableViewCell.h"
 #import "KGUtils.h"
 #import "NSManagedObject+CustomFinder.h"
+#import <mach/mach.h>
 #import <MFSideMenu/MFSideMenu.h>
 #import "KGNotificationValues.h"
 #import "KGPreferences.h"
+#import "KGChannelsObserver.h"
+#import "KGHardwareUtils.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -47,6 +50,7 @@
     [self configureHeaderView];
     [self setupFetchedResultsController];
     [self registerObservers];
+    [self setInitialSelectedChannel];
 }
 
 
@@ -169,10 +173,7 @@
 
 - (void)selectChannelAtIntexPath:(NSIndexPath *)indexPath {
     KGChannel *channel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
-    //сохранить выбранный канал в преференс
-    [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
-    [[KGPreferences sharedInstance] save];
+    [[KGChannelsObserver sharedObserver] setSelectedChannel:channel];
     self.selectedIndexPath = indexPath;
     [self.tableView reloadData];
 }
@@ -182,28 +183,33 @@
 }
 
 - (void)selectChannel:(KGChannel*)channel {
-    NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
-    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
-    self.selectedIndexPath = path;
-    [self.tableView reloadData];
+//    NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
+//    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
+//    self.selectedIndexPath = path;
+//    [self.tableView reloadData];
 }
 
 - (void)setInitialSelectedChannel {
+    NSIndexPath *path;
+    
     if (![[KGPreferences sharedInstance] lastChannelId]) {
         //первый вход
-        NSIndexPath *firstChannelPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self selectChannelAtIntexPath:firstChannelPath];
+        path = [NSIndexPath indexPathForRow:0 inSection:0];
     } else {
         //последний сохраненный канал
-        NSString *stringChannelId = [[KGPreferences sharedInstance] lastChannelId];
-        KGChannel *channel = [KGChannel managedObjectById:stringChannelId];
-        NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
-        [self selectChannelAtIntexPath:path];
+        NSString *channelId = [[KGPreferences sharedInstance] lastChannelId];
+        KGChannel *channel = [KGChannel managedObjectById:channelId];
+        path = [self.fetchedResultsController indexPathForObject:channel];
     }
+    
+    [self selectChannelAtIntexPath:path];
 }
 
 - (void)updateTableView:(NSNotification *)notification {
-    [self.tableView reloadData];
+    if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh ||
+        [[KGHardwareUtils sharedInstance] currentCpuLoad] < 30) {
+        [self.tableView reloadData];
+    }
 }
 
 
@@ -216,14 +222,14 @@
 
 #pragma mark - Private Setters
 
-- (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
-    _delegate = delegate;
-    if (self.selectedIndexPath == nil) {
-        [self setInitialSelectedChannel];
-    } else {
-        [self reselectCurrentIndexPath];
-    }
-}
+//- (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
+//    _delegate = delegate;
+//    if (self.selectedIndexPath == nil) {
+//        [self setInitialSelectedChannel];
+//    } else {
+//        [self reselectCurrentIndexPath];
+//    }
+//}
 
 
 #pragma mark - Notifications

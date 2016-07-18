@@ -7,7 +7,7 @@
 //
 
 #import "SLKTextViewController.h"
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "KGDateFormatter.h"
 #import "KGAutoCompletionCell.h"
@@ -31,9 +31,7 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 @interface KGChatViewController : SLKTextViewController <NSFetchedResultsControllerDelegate, IDMPhotoBrowserDelegate>
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSIndexPath* lastPath;
 @property NSMutableIndexSet *insertedSectionIndexes, *deletedSectionIndexes;
-@property (nonatomic, strong) NSCountedSet* temporaryIgnoredObjects;;
 @property NSMutableArray* deletedRowIndexPaths, *insertedRowIndexPaths, * updatedRowIndexPaths;
 @property (nonatomic, strong) NSArray *autocompletionDataSource;
 
@@ -49,7 +47,6 @@ static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
 
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void)loadFirstPageOfData;
 - (void)loadNextPageOfData;
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath;
 

@@ -33,4 +33,10 @@
     return uuidString;
 }
 
++ (CGFloat)widthOfString:(NSString *)string withFont:(UIFont *)font {
+    NSDictionary *attributes = @{ NSFontAttributeName : font };
+    return ceilf([string sizeWithAttributes:attributes].width);
+}
+
+
 @end
