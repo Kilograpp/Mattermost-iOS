@@ -71,7 +71,7 @@
                                        
                                        if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
                                            wSelf.kg_image = image;
-//                                           [wSelf setNeedsDisplayInRect:self.frame];
+                                           [self setNeedsDisplay];
                                        }
                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
                                            [[SDImageCache sharedImageCache] storeImage:image forKey:smallImageKey];
