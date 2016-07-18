@@ -75,38 +75,77 @@ extern NSString * const KGAuthTokenHeaderName;
     } failure:completion];
 }
 
-//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
-//    NSString *path = [KGUser authPathPattern];
-//    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
-//        NSLog(@"seccess");
-//    }
-//                                        failure:completion];
-//}
-
 - (BOOL)isValidateServerAddress {
+    __block BOOL result = NO;
     NSString *address = [[KGPreferences sharedInstance] serverBaseUrl];
-    NSString *urlAddress = address;
-    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
-    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
-    
-    if ([urlTest evaluateWithObject:urlAddress]) {
-        if ([urlAddress kg_isValidUrl]) {
-            return YES;
+    __block NSString *urlAddress = address;
+//    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+//    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+//    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                    [[KGPreferences sharedInstance] save];
+            urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+            [self validateServerAddress:^(KGError *error){
+                if (error) {
+                    [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                    [[KGPreferences sharedInstance] save];
+                    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+                } else {
+                    result = YES;
+                }
+            }];
+        } else {
+            result = YES;
         }
-    }
-    urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
-    if ([urlAddress kg_isValidUrl]) {
-        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
-        [[KGPreferences sharedInstance] save];
+    }];
+    
+    if (result) {
         return YES;
     }
-    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
-    if ([urlAddress kg_isValidUrl]) {
-        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
-        [[KGPreferences sharedInstance] save];
+    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+            [[KGPreferences sharedInstance] save];
+            urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+        } else {
+            result = YES;
+        }
+    }];
+
+    if (result) {
         return YES;
     }
-    return NO;
+    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            result = NO;
+        } else {
+            result = YES;
+        }
+    }];
+
+    return result;
+//    if ([urlTest evaluateWithObject:urlAddress]) {
+//        if ([urlAddress kg_isValidUrl]) {
+//            return YES;
+//        }
+//    }
+//    urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+//    if ([urlAddress kg_isValidUrl]) {
+//        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+//        [[KGPreferences sharedInstance] save];
+//        return YES;
+//    }
+//    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+//    if ([urlAddress kg_isValidUrl]) {
+//        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+//        [[KGPreferences sharedInstance] save];
+//        return YES;
+//    }
+//    return NO;
     
 }
 
