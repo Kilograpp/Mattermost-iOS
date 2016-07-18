@@ -54,8 +54,8 @@
 }
 
 - (void)presentMessageNotificationForChannel:(NSString *)channelId {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel.identifier == %@ && createdAt == max(createdAt)", channelId];
-    KGPost *post = [KGPost MR_findFirstWithPredicate:predicate];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel.identifier == %@", channelId];
+    KGPost *post = [KGPost MR_findFirstWithPredicate:predicate sortedBy:[KGPostAttributes createdAt] ascending:NO];
     [self.messagePresenter presentNotificationWithMessage:post];
 }
 
