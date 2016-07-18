@@ -62,7 +62,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 }
 
 - (void)test {
-    self.textField.text = @"http://mattermost.kilograpp.com";
+    self.textField.text = @"https://mattermost.kilograpp.com";
     self.nextButton.enabled = YES;
 }
 
