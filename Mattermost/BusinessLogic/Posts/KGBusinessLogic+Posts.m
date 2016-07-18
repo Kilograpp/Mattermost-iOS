@@ -19,9 +19,8 @@ const NSInteger kDefaultPageSize = 60;
 
 #pragma mark - Network
 
-- (void)loadNextPageForChannel:(KGChannel*)channel completion:(void(^)(BOOL isLastPage, KGError *error))completion {
-    NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:[KGPostAttributes createdAt] ascending:NO];
-    NSString* lastPostId = [[[channel.posts sortedArrayUsingDescriptors:@[sortDescriptor]] lastObject] identifier];
+- (void)loadNextPageForChannel:(KGChannel*)channel fromPost:(KGPost*)lastPost completion:(void(^)(BOOL isLastPage, KGError *error))completion {
+    NSString* lastPostId = lastPost.identifier;
                              
     KGChannelPostsWrapper* wrapper = [KGChannelPostsWrapper wrapperForChannel:channel lastPostId:lastPostId];
     NSString * path = SOCStringFromStringWithObject([KGPost nextPageListPathPattern], wrapper);

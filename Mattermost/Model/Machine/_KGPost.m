@@ -44,6 +44,11 @@
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
+	if ([key isEqualToString:@"shouldCheckForMissingFilesValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"shouldCheckForMissingFiles"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 
 	return keyPaths;
 }
@@ -126,6 +131,26 @@
 
 @dynamic message;
 
+@dynamic shouldCheckForMissingFiles;
+
+- (BOOL)shouldCheckForMissingFilesValue {
+	NSNumber *result = [self shouldCheckForMissingFiles];
+	return [result boolValue];
+}
+
+- (void)setShouldCheckForMissingFilesValue:(BOOL)value_ {
+	[self setShouldCheckForMissingFiles:@(value_)];
+}
+
+- (BOOL)primitiveShouldCheckForMissingFilesValue {
+	NSNumber *result = [self primitiveShouldCheckForMissingFiles];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveShouldCheckForMissingFilesValue:(BOOL)value_ {
+	[self setPrimitiveShouldCheckForMissingFiles:@(value_)];
+}
+
 @dynamic type;
 
 @dynamic updatedAt;
@@ -185,6 +210,9 @@
 }
 + (NSString *)message {
 	return @"message";
+}
++ (NSString *)shouldCheckForMissingFiles {
+	return @"shouldCheckForMissingFiles";
 }
 + (NSString *)type {
 	return @"type";
