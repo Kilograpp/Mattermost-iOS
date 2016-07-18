@@ -211,21 +211,22 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 #pragma mark - Core Data
 
 
-- (void)willSave {
-    if ([self isMessageUnprocessed]) {
-        [self replaceEmojiWithUnicode];
-        [self parseMarkdown];
-        [self parseImagesFromMessageLinks];
-        [self saveCreatedAtDateAsString];
-        [self calculateMessageWidth];
-        [self calculateMessageHeight];
-    } else {
+//- (void)willSave {
+//    if ([self isMessageUnprocessed]) {
+//        [self replaceEmojiWithUnicode];
+//        [self parseMarkdown];
+//        [self parseImagesFromMessageLinks];
+//        [self saveCreatedAtDateAsString];
+//        [self calculateMessageWidth];
+//        [self calculateMessageHeight];
+//    } else {
 //        if ([self isMissingInlineImages]) {
 //            [self parseImagesFromMessageLinks];
 //        }
-    }
-}
-
+//    }
+//    [super willSave];
+//}
+//
 #pragma mark - Configuration Support
 
 - (BOOL)isMessageUnprocessed {
@@ -261,16 +262,29 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
     return !self.files.count && self.shouldCheckForMissingFilesValue && self.attributedMessage;
 }
 
+- (void)setMessage:(NSString *)message {
+    [self willChangeValueForKey:[KGPostAttributes message]];
+    [self setPrimitiveMessage:[message emojizedString]];
+    [self parseMarkdown];
+    [self parseImagesFromMessageLinks];
+    [self saveCreatedAtDateAsString];
+    [self calculateMessageWidth];
+    [self calculateMessageHeight];
+    [self didChangeValueForKey:[KGPostAttributes message]];
+}
+
 - (void)parseImagesFromMessageLinks {
 
     [self.attributedMessage enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, self.attributedMessage.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
         if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
             [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
             [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
+            
             KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
             [file setLink:link.absoluteString];
             [self addFilesObject:file];
-            self.shouldCheckForMissingFilesValue = YES;
+
+            [self setPrimitiveShouldCheckForMissingFilesValue:YES];
         }
     }];
 }
