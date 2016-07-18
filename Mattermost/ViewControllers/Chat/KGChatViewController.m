@@ -741,11 +741,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     
-    NSManagedObjectContext* context = [NSManagedObjectContext MR_context];
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:self.fetchedResultsController.managedObjectContext];
     
     __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
     
-    [context MR_saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
+    [context performBlockAndWait:^{
         postToSend.message = self.textInputbar.textView.text;
         
         postToSend.author = [KGUser MR_findFirstByAttribute:@"identifier" withValue:[[KGBusinessLogic sharedInstance] currentUserId] inContext:context];
@@ -753,9 +753,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         postToSend.createdAt = [NSDate date];
         [postToSend configureBackendPendingId];
     }];
-    
-    
-    
+
     [self clearTextView];
     
     [context MR_saveToPersistentStoreAndWait];

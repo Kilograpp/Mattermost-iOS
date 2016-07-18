@@ -118,8 +118,6 @@
                 [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
             }
         }
-        
-        return 0;
     }
     //ячейка для autoCompletionView:
     // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
