@@ -586,8 +586,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
-    
+    [self clearTextView];
     [self dismissKeyboard:YES];
+
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:self.channel.notificationsName
