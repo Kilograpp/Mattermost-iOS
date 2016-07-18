@@ -214,5 +214,9 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     return NO;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [[KGAlertManager sharedManager]hideWarning];
+
+}
 
 @end
