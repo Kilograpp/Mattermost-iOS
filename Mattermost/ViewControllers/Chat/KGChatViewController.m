@@ -64,6 +64,7 @@
 #import "KGChannelsObserver.h"
 
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
+static NSString *const kShowAboutSegueIdentier = @"showAbout";
 
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -657,6 +658,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self performSegueWithIdentifier:kShowSettingsSegueIdentier sender:nil];
 }
 
+- (void)navigateToAboutMattermost {
+    [self performSegueWithIdentifier:kShowAboutSegueIdentier sender:nil];
+}
 
 #pragma mark - Actions
 
