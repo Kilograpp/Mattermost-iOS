@@ -110,4 +110,6 @@ SPEC CHECKSUMS:
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 4fef1716af7f18e953dc79ba60057d255570d2fb
+
+COCOAPODS: 1.0.1

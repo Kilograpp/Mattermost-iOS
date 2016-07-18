@@ -9,15 +9,14 @@
 #import "KGRightMenuViewController.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import <MFSideMenu/MFSideMenu.h>
+#import <Masonry/Masonry.h>
 #import "KGBusinessLogic+Session.h"
+#import "KGUser.h"
 #import "KGAppDelegate.h"
 #import "KGAlertManager.h"
-#import "KGRightMenuDataSourceEntry.h"
-#import "KGRightMenuCell.h"
 #import "KGBusinessLogic+Session.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
-#import "KGUser.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 #import "KGProfileTableViewController.h"
@@ -26,15 +25,18 @@
 #import "KGSettingsViewController.h"
 #import "KGTeamsViewController.h"
 #import <UITableView_Cache/UITableView+Cache.h>
+#import "KGConstants.h"
+
+#import "KGRightMenuDataSourceEntry.h"
+#import "KGManualRightMenuCell.h"
+#import "KGHeaderRightMenuCell.h"
+
+#define KG_SCREEN_WIDTH CGRectGetWidth([UIScreen mainScreen].bounds)
+const static CGFloat KGHeightHeader = 64;
 
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIView *headerView;
-@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (nonatomic, strong) NSArray *dataSource;
-
-- (IBAction)profileAction:(id)sender;
 
 @end
 
@@ -44,55 +46,47 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    [self setupDataSource];
-//    [self setupTableView];
-    [self setup];
+    [self setupDataSource];
+    [self setupHeader];
+    [self setupTableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    //fixme abstraction
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
-    [self.avatarImageView setImageWithURL:user.imageUrl
-                         placeholderImage:nil
-                                  options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-}
+
 
 #pragma mark - Setup
 
-- (void)setup {
-    self.headerView.backgroundColor = [UIColor kg_leftMenuHeaderColor];
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+- (void)setupHeader {
+    KGHeaderRightMenuCell *header = [[KGHeaderRightMenuCell alloc]initWithFrame:CGRectMake(0, 0, KG_SCREEN_WIDTH, KGHeightHeader)];
+    KGUser *user = [[KGBusinessLogic sharedInstance] currentUser];
+    [header configureWithObject:user];
+    __weak __typeof(self)wself = self;
+    header.handler = ^(){
+        [wself.delegate navigationToProfile];
+    };
+    self.tableView.tableHeaderView = header;
     
-    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
-    self.avatarImageView.backgroundColor = [UIColor kg_rightMenuSeparatorColor];
-    [self.avatarImageView setImageWithURL:user.imageUrl
-                         placeholderImage:nil
-                                  options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.nicknameLabel.textColor = [UIColor kg_whiteColor];
-    self.nicknameLabel.font = [UIFont kg_semibold16Font];
-    self.nicknameLabel.text = [@"@" stringByAppendingString:user.nickname];
-    
-    self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
-    self.avatarImageView.backgroundColor = [UIColor whiteColor];
-    self.avatarImageView.clipsToBounds = YES;
+    [header setNeedsLayout];
+    [header layoutIfNeeded];
 }
 
 - (void)setupTableView {
+    
+    [self.tableView registerClass:[KGManualRightMenuCell class]
+           forCellReuseIdentifier:[KGManualRightMenuCell reuseIdentifier] cacheSize:5];
+    
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    [self.tableView registerNib:[KGRightMenuCell nib] forCellReuseIdentifier:[KGRightMenuCell reuseIdentifier] cacheSize:5];
+    self.tableView.separatorInset = UIEdgeInsetsZero;
     self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    
 }
 
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [KGRightMenuCell heightWithObject:nil];
+    return [KGManualRightMenuCell heightCell];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -102,7 +96,6 @@
     item.handler();
 }
 
-
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,12 +103,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    KGRightMenuCell* cell = [tableView dequeueReusableCellWithIdentifier:[KGRightMenuCell reuseIdentifier]];
+
+    KGManualRightMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGManualRightMenuCell reuseIdentifier]];
     [cell configureWithObject:self.dataSource[indexPath.row]];
-    
-    cell.preservesSuperviewLayoutMargins = NO;
-    cell.separatorInset = UIEdgeInsetsZero;
-    cell.layoutMargins = UIEdgeInsetsZero;
 
     return cell;
 }
@@ -128,7 +118,7 @@
 
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Switch Team", nil)
                                                                      iconName:@"menu_switch_icon"
-                                                                   titleColor:[UIColor kg_whiteColor]
+                                                                   titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf showTeams];
                                                                       }]];
@@ -198,18 +188,6 @@
     KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
     [self presentViewController:vc animated:YES completion:nil];
     [[UIStatusBar sharedStatusBar] restoreState];
-}
-
-#pragma mark - Private Setters
-//fixme а зачем это?
-- (void)setDelegate:(id<KGRightMenuDelegate>)delegate {
-    _delegate = delegate;
-}
-
-#pragma mark - Navigation
-
-- (IBAction)profileAction:(id)sender {
-    [self.delegate navigationToProfile];
 }
 
 #pragma mark - Alert
