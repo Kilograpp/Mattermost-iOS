@@ -62,7 +62,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 }
 
 - (void)test {
-    self.textField.text = @"http://mattermost.kilograpp.com";
+    self.textField.text = @"https://mattermost.kilograpp.com";
     self.nextButton.enabled = YES;
 }
 
@@ -214,5 +214,9 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     return NO;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [[KGAlertManager sharedManager]hideWarning];
+
+}
 
 @end

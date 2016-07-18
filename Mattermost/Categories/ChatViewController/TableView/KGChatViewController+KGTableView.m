@@ -202,8 +202,10 @@
     };
     
     cell.mentionTapHandler = ^(NSString *nickname) {
-        self.selectedUsername = nickname;
-        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
+        if (!([nickname isEqualToString:@"channel"] || [nickname isEqualToString:@"all"])){
+            self.selectedUsername = nickname;
+            [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
+        }
     };
     cell.errorTapHandler = ^(KGPost *post) {
         [self errorActionWithPost: post];

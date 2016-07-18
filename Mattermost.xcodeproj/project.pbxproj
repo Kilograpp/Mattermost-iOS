@@ -20,6 +20,7 @@
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
+		4BB94CDA1D3CEC92003BC6A0 /* KGAboutMattermostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BB94CD91D3CEC92003BC6A0 /* KGAboutMattermostViewController.m */; };
 		7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BAE03187F83966A82A1E /* UIColor+KGPreparedColor.m */; };
 		7339B10D1047D9B9CFBD00EE /* RKResponseDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B6110EDAF3A46C9DC98F /* RKResponseDescriptor+Runtime.m */; };
 		7339B2387BF9F29546931469 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B307C5032AD1958D0DF4 /* UIImage+Resize.m */; };
@@ -162,10 +163,11 @@
 		D8F4C3161D29CD3A008BCCB2 /* KGPostAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3151D29CD3A008BCCB2 /* KGPostAction.m */; };
 		D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */; };
 		D8F4C31D1D29E338008BCCB2 /* KGAction.m in Sources */ = {isa = PBXBuildFile; fileRef = D8F4C31C1D29E338008BCCB2 /* KGAction.m */; };
-		DB448366EB1689F182D67BCB /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C8654EBDCD6EBFB16B5B487 /* libPods-Mattermost.a */; };
+		EA3F6C4BF46F30C3D8D8575D /* libPods-Mattermost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D40BAC31F7B2CF8F6A32F5F6 /* libPods-Mattermost.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33302BC8FA0EA4E1D626018B /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		411169EE1D09DE0D00448145 /* KGChannelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannelTableViewCell.h; sourceTree = "<group>"; };
 		411169EF1D09DE0D00448145 /* KGChannelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelTableViewCell.m; sourceTree = "<group>"; };
 		415FFC051D182EEC003F9E23 /* KGTableViewSectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTableViewSectionHeader.h; sourceTree = "<group>"; };
@@ -191,6 +193,8 @@
 		41FC94B81D07FAA5009E1090 /* KGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTextField.m; sourceTree = "<group>"; };
 		41FC94BB1D081F1F009E1090 /* KGLoginBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginBaseViewController.h; sourceTree = "<group>"; };
 		41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginBaseViewController.m; sourceTree = "<group>"; };
+		4BB94CD81D3CEC92003BC6A0 /* KGAboutMattermostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAboutMattermostViewController.h; sourceTree = "<group>"; };
+		4BB94CD91D3CEC92003BC6A0 /* KGAboutMattermostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAboutMattermostViewController.m; sourceTree = "<group>"; };
 		7339B091B7FA00F3D2DF9F31 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
 		7339B175F7FF54B3F3901B68 /* UIFont+KGPreparedFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+KGPreparedFont.h"; sourceTree = "<group>"; };
 		7339B2A82334C5E018BA281C /* UIWindow+KGAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+KGAdditions.m"; sourceTree = "<group>"; };
@@ -219,8 +223,6 @@
 		7339BE2BB052113DFE235C05 /* RKRequestDescriptor+Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKRequestDescriptor+Runtime.h"; sourceTree = "<group>"; };
 		7339BE469E40DDB9A0DAF1B4 /* NSString+HeightCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HeightCalculation.h"; sourceTree = "<group>"; };
 		7339BF95CC05D9C6D2CBF4DE /* NSObject+RuntimeMethodsValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+RuntimeMethodsValues.h"; sourceTree = "<group>"; };
-		7C8654EBDCD6EBFB16B5B487 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FDAA8DDEB7C3165F712D880 /* Pods-Mattermost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.debug.xcconfig"; sourceTree = "<group>"; };
 		9B82210DA8457DEE5157685D /* _KGPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _KGPost.m; sourceTree = "<group>"; };
 		9B8221129F99B833D246D506 /* KGChannelPostsWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChannelPostsWrapper.m; sourceTree = "<group>"; };
 		9B822174A12039F460C51401 /* KGFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFile.h; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 		9B822F245AEA295A19F304B4 /* KGCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGCommand.m; sourceTree = "<group>"; };
 		9B822FA5DE660473F9598FBA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtils.h; sourceTree = "<group>"; };
 		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
+		B44365A4318ADBC8BF36C5EC /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
 		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
 		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
 		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
@@ -293,6 +296,7 @@
 		CD8D690A1D0C514800AFA198 /* KGProfilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfilViewController.m; sourceTree = "<group>"; };
 		CD8D690D1D0C521600AFA198 /* KGRightMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGRightMenuViewController.h; sourceTree = "<group>"; };
 		CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGRightMenuViewController.m; sourceTree = "<group>"; };
+		D40BAC31F7B2CF8F6A32F5F6 /* libPods-Mattermost.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mattermost.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D603E9201D38E3E200145A85 /* KGSoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGSoundManager.h; path = KGSoundManager/KGSoundManager.h; sourceTree = "<group>"; };
 		D603E9211D38E3E200145A85 /* KGSoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGSoundManager.m; path = KGSoundManager/KGSoundManager.m; sourceTree = "<group>"; };
 		D603E9241D38EC8400145A85 /* KGPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGPhotoBrowser.h; path = KGPhotoBrowser/KGPhotoBrowser.h; sourceTree = "<group>"; };
@@ -450,7 +454,6 @@
 		D8F4C3181D29CDF1008BCCB2 /* KGErrorAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGErrorAction.m; sourceTree = "<group>"; };
 		D8F4C31B1D29E338008BCCB2 /* KGAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAction.h; sourceTree = "<group>"; };
 		D8F4C31C1D29E338008BCCB2 /* KGAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAction.m; sourceTree = "<group>"; };
-		F5A83317E63A83D98D829BAE /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,7 +468,7 @@
 				D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */,
 				D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */,
 				D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */,
-				DB448366EB1689F182D67BCB /* libPods-Mattermost.a in Frameworks */,
+				EA3F6C4BF46F30C3D8D8575D /* libPods-Mattermost.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,7 +487,7 @@
 				D63B2BE01D1197B30090D739 /* AsyncDisplayKit.framework */,
 				D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */,
 				D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */,
-				7C8654EBDCD6EBFB16B5B487 /* libPods-Mattermost.a */,
+				D40BAC31F7B2CF8F6A32F5F6 /* libPods-Mattermost.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -619,6 +622,15 @@
 				41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		4BB94CD71D3CEC92003BC6A0 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				4BB94CD81D3CEC92003BC6A0 /* KGAboutMattermostViewController.h */,
+				4BB94CD91D3CEC92003BC6A0 /* KGAboutMattermostViewController.m */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		7339B2062A635809A5F63600 /* NSDate */ = {
@@ -917,15 +929,6 @@
 			path = KGObjectManager;
 			sourceTree = "<group>";
 		};
-		B66325C8AE909E621AAA4FF3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8FDAA8DDEB7C3165F712D880 /* Pods-Mattermost.debug.xcconfig */,
-				F5A83317E63A83D98D829BAE /* Pods-Mattermost.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		CD671BD41D12A3A7004CD55E /* CAGradientLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -998,6 +1001,15 @@
 				CD8D690E1D0C521600AFA198 /* KGRightMenuViewController.m */,
 			);
 			path = RightMenu;
+			sourceTree = "<group>";
+		};
+		D5C3581C4E0FCE745C35F7FF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				33302BC8FA0EA4E1D626018B /* Pods-Mattermost.debug.xcconfig */,
+				B44365A4318ADBC8BF36C5EC /* Pods-Mattermost.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		D603E91F1D38E3B500145A85 /* KGSoundManager */ = {
@@ -1159,7 +1171,7 @@
 				1F7A9C62E9AB6C45AE424260 /* Frameworks */,
 				D696F7731D060FDD008341AF /* Mattermost */,
 				D696F7721D060FDD008341AF /* Products */,
-				B66325C8AE909E621AAA4FF3 /* Pods */,
+				D5C3581C4E0FCE745C35F7FF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1373,6 +1385,7 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4BB94CD71D3CEC92003BC6A0 /* About */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
 				D69FB1961D09C5EA00043C2D /* LeftMenu */,
@@ -1864,6 +1877,7 @@
 				415FFC071D182EEC003F9E23 /* KGTableViewSectionHeader.m in Sources */,
 				D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */,
 				D844A7011D0B2D4B00B53BB3 /* KGFollowUpChatCell.m in Sources */,
+				4BB94CDA1D3CEC92003BC6A0 /* KGAboutMattermostViewController.m in Sources */,
 				D648B44D1D2BB03000D797FD /* KGCommandTableViewCell.m in Sources */,
 				41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */,
 				9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */,
@@ -2040,7 +2054,7 @@
 		};
 		D696F78C1D060FDD008341AF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8FDAA8DDEB7C3165F712D880 /* Pods-Mattermost.debug.xcconfig */;
+			baseConfigurationReference = 33302BC8FA0EA4E1D626018B /* Pods-Mattermost.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2067,7 +2081,7 @@
 		};
 		D696F78D1D060FDD008341AF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F5A83317E63A83D98D829BAE /* Pods-Mattermost.release.xcconfig */;
+			baseConfigurationReference = B44365A4318ADBC8BF36C5EC /* Pods-Mattermost.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

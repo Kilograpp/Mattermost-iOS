@@ -24,6 +24,7 @@
 #import "KGSideMenuContainerViewController.h"
 #import "KGSettingsViewController.h"
 #import "KGTeamsViewController.h"
+#import "KGAboutMattermostViewController.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "KGConstants.h"
 
@@ -63,14 +64,17 @@ const static CGFloat KGHeightHeader = 64;
     header.handler = ^(){
         [wself.delegate navigationToProfile];
     };
-    self.tableView.tableHeaderView = header;
     
-    [header setNeedsLayout];
-    [header layoutIfNeeded];
+    [self.view addSubview:header];
+    [header mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.tableView.mas_top);
+    }];
 }
 
 - (void)setupTableView {
-    
     [self.tableView registerClass:[KGManualRightMenuCell class]
            forCellReuseIdentifier:[KGManualRightMenuCell reuseIdentifier] cacheSize:5];
     
@@ -141,7 +145,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                      iconName:@"menu_question_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf alertUnderDevelopment];
+                                                                          [wSelf navigateToAbout];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
@@ -165,6 +169,13 @@ const static CGFloat KGHeightHeader = 64;
     }
 }
 
+- (void)navigateToAbout {
+    UINavigationController *nc = self.menuContainerViewController.centerViewController;
+    if (![nc.topViewController isKindOfClass:[KGAboutMattermostViewController class]]) {
+        [self toggleRightSideMenuAction];
+        [self.delegate navigateToAboutMattermost];
+    }
+}
 
 #pragma mark - Actions
 
@@ -189,6 +200,7 @@ const static CGFloat KGHeightHeader = 64;
     [self presentViewController:vc animated:YES completion:nil];
     [[UIStatusBar sharedStatusBar] restoreState];
 }
+
 
 #pragma mark - Alert
 

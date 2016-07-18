@@ -83,6 +83,7 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
                                                message:NSLocalizedString(error.message, nil)
                                               duration:kStandartHudDismissDelay
                                               callback:nil];
+    self.alertView.presentingViewController = [self presentingViewController].navigationController;
     [self.alertView showAlertViewAnimated:YES];
 }
 

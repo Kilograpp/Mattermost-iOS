@@ -12,6 +12,7 @@
 
 - (void)navigationToProfile;
 - (void)navigateToSettings;
+- (void)navigateToAboutMattermost;
 @end
 
 @interface KGRightMenuViewController : KGViewController
