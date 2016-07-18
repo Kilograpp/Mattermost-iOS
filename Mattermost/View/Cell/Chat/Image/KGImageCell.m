@@ -39,7 +39,7 @@
 - (void)setupImageView {
     self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.imageView setBackgroundColor:[UIColor kg_whiteColor]];
-    [self.imageView setContentMode: UIViewContentModeLeft];
+    [self.imageView setContentMode: UIViewContentModeScaleAspectFit];
     [self addSubview:self.imageView];
 }
 
@@ -56,8 +56,12 @@
             self.imageView.image = smallImage;
         } else {
             if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallImageKey]) {
-                smallImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallImageKey];
-                self.imageView.image = smallImage;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    UIImage* image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallImageKey];
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        self.imageView.image = image;
+                    });
+                });
             } else {
                 [[SDWebImageManager sharedManager] downloadImageWithURL:url options:SDWebImageHandleCookies progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
 //                    CGFloat widthToHeight = image.size.width/image.size.height;
@@ -67,13 +71,13 @@
                         [UIImage roundedImage:image
                                   whithRadius:3
                                          size:self.bounds.size
-                                   completion:^(UIImage *image) {
+                                   completion:^(UIImage *roundedImage) {
                                        
                                        if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
-                                           wSelf.imageView.image = image;
+                                           wSelf.imageView.image = roundedImage;
                                        }
                                        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                                           [[SDImageCache sharedImageCache] storeImage:image forKey:smallImageKey];
+                                           [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallImageKey];
                                        });
                                    }];
                     }
@@ -85,8 +89,9 @@
 }
 
 - (void)layoutSubviews {
-    self.imageView.frame = self.bounds;
     [super layoutSubviews];
+    self.imageView.frame = self.bounds;
+   
 }
 
 - (void)prepareForReuse {

@@ -160,17 +160,17 @@
     
     if (CGSizeEqualToSize(imageSize, targetSize) == NO)
     {
-        CGFloat widthFactor = targetWidth / width;
+//        CGFloat widthFactor = targetWidth / width;
         CGFloat heightFactor = targetHeight / height;
-        
-        if (widthFactor > heightFactor)
-        {
-            scaleFactor = widthFactor; // scale to fit height
-        }
-        else
-        {
+//        
+//        if (widthFactor > heightFactor)
+//        {
+//            scaleFactor = widthFactor; // scale to fit height
+//        }
+//        else
+//        {
             scaleFactor = heightFactor; // scale to fit width
-        }
+//        }
         
         scaledWidth  = width * scaleFactor;
         scaledHeight = height * scaleFactor;
@@ -197,22 +197,21 @@
     thumbnailRect.origin = thumbnailPoint;
     thumbnailRect.size.width  = scaledWidth;
     thumbnailRect.size.height = scaledHeight;
+
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     [[UIColor whiteColor] setFill];
-    CGContextFillRect(context, thumbnailRect);
-    
-    [[UIBezierPath bezierPathWithRoundedRect:thumbnailRect
+    CGContextFillRect(context, (CGRect){CGPointZero, targetSize});
+    [[UIBezierPath bezierPathWithRoundedRect:(CGRect){CGPointZero, targetSize}
                                 cornerRadius:radius] addClip];
+    
+
     
     [sourceImage drawInRect:thumbnailRect];
     
     newImage = UIGraphicsGetImageFromCurrentImageContext();
     
-    if(newImage == nil)
-    {
-        NSLog(@"could not scale image");
-    }
+
     
     //pop the context to get back to the default
     UIGraphicsEndImageContext();
