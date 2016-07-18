@@ -220,9 +220,9 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
         [self calculateMessageWidth];
         [self calculateMessageHeight];
     } else {
-        if ([self isMissingInlineImages]) {
-            [self parseImagesFromMessageLinks];
-        }
+//        if ([self isMissingInlineImages]) {
+//            [self parseImagesFromMessageLinks];
+//        }
     }
 }
 
@@ -258,10 +258,11 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 }
 
 - (BOOL)isMissingInlineImages {
-    return !self.files.count && self.shouldCheckForMissingFilesValue;
+    return !self.files.count && self.shouldCheckForMissingFilesValue && self.attributedMessage;
 }
 
 - (void)parseImagesFromMessageLinks {
+
     [self.attributedMessage enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, self.attributedMessage.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
         if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
             [link.pathExtension.lowercaseString isEqualToString:@"png"] ||

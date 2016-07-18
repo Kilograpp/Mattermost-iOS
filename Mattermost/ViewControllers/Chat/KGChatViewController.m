@@ -299,6 +299,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсном методе. Разнести на два - handleSuccess и handleError
         [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        if (self.tableView.contentOffset.y < 0) {
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
@@ -667,7 +670,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [self showLoadingView];
             [self loadFirstPageOfDataWithTableRefresh:YES];
         } else {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.refreshControl beginRefreshing];
                 [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
                 [self loadFirstPageOfDataWithTableRefresh:NO];
@@ -677,6 +680,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
     } else {
         self.hasNextPage = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refreshControl beginRefreshing];
+            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+            [self loadFirstPageOfDataWithTableRefresh:NO];
+        });
+
     }
 
 
