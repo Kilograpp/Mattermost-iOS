@@ -106,6 +106,10 @@
 
         
         NSFetchRequest* (^singleFetchRequestBlock) (NSURL* ) = ^NSFetchRequest*(NSURL* URL) {
+            if (!URL) {
+                return nil;
+            }
+            
             RKPathMatcher *userPathMatcher = [RKPathMatcher pathMatcherWithPattern:[KGPost firstPagePathPattern]];
             BOOL match = [userPathMatcher matchesPath:[URL relativePath] tokenizeQueryStrings:NO parsedArguments:nil];
             if(match) {
