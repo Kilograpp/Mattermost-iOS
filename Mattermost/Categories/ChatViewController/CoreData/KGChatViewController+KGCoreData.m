@@ -142,6 +142,13 @@
                 [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
             }
         }
+        
+        for(NSManagedObject *object in [[notification userInfo] objectForKey:NSUpdatedObjectsKey]) {
+            if ([object isKindOfClass:[KGPost class]]) {
+                isPost = YES;
+                [[self.fetchedResultsController.managedObjectContext objectWithID:[object objectID]] willAccessValueForKey:nil];
+            }
+        }
         if (isPost) {
             [self.fetchedResultsController.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         }
