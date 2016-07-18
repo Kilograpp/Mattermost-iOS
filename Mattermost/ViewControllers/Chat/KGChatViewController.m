@@ -791,7 +791,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     
-    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:self.fetchedResultsController.managedObjectContext];
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
     
     __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
     
