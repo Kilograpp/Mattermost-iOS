@@ -204,7 +204,7 @@ static CGFloat const kErrorViewSize = 34.f;
                                             }
                                             
                                             if ([wSelf.post.author.imageUrl isEqual:avatarUrl]) { // It is till the same cell
-                                                wSelf.avatarImageView.image = image;
+                                                wSelf.avatarImageView.image = roundedImage;
                                             }
                                             
                                         }
