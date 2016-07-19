@@ -53,9 +53,10 @@
     messageLabel.font = [UIFont kg_regular15Font];
     messageLabel.text = post.message;
     
-    UIImageView *closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(KGScreenWidth() - 29, 22, 20, 20)];
-    [notificationView addSubview:closeImageView];
-    closeImageView.image = [UIImage imageNamed:@"close"];
+    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(KGScreenWidth() - 29, 22, 20, 20)];
+    [notificationView addSubview:closeButton];
+    [closeButton setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    [closeButton addTarget:self action:@selector(hideNotificationViewAnimated) forControlEvents:UIControlEventTouchUpInside];
     
     return notificationView;
 }
@@ -71,8 +72,8 @@
 }
 
 - (void)hideNotificationViewAnimated {
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    [window addSubview:self.notificationView];
+//    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+//    [window addSubview:self.notificationView];
     [UIView animateWithDuration:0.3 animations:^{
         self.notificationView.frame = CGRectMake(0, -64, KGScreenWidth(), 64);
     } completion:^(BOOL finished) {

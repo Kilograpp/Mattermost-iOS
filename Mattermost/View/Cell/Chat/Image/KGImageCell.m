@@ -40,6 +40,7 @@
     self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.imageView setBackgroundColor:[UIColor kg_whiteColor]];
     [self.imageView setContentMode: UIViewContentModeScaleAspectFit];
+    self.imageView.image = KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT));
     [self addSubview:self.imageView];
 }
 

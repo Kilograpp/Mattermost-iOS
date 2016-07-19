@@ -267,7 +267,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 
 - (void)setupFetchedResultsController {
-
+    self.fetchedResultsController.delegate = nil;
+    self.fetchedResultsController = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
     
     NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];

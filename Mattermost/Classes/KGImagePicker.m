@@ -11,6 +11,7 @@
 #import "KGImagePickerController.h"
 #import "KGAlertManager.h"
 #import "KGUtils.h"
+#import "KGAlertManager.h"
 
 @interface KGImagePicker () <CTAssetsPickerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -44,7 +45,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                 picker.delegate = self;
-                
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     picker.modalPresentationStyle = UIModalPresentationFormSheet;
                 
@@ -60,7 +60,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
                 picker.delegate = self;
-                
+                [picker setAlwaysEnableDoneButton:NO];
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     picker.modalPresentationStyle = UIModalPresentationFormSheet;
                 
@@ -134,6 +134,17 @@
     }
 
     safetyCall(self.didFinishPickingHandler, NO);
+}
+
+- (BOOL)assetsPickerController:(CTAssetsPickerController *)picker shouldSelectAsset:(PHAsset *)asset {
+    if (picker.selectedAssets.count < 5){
+        [[KGAlertManager sharedManager] hideWarning];
+        return YES;
+    } else {
+        [[KGAlertManager sharedManager] showWarningWithMessage:@"You can't select more then five photo"];
+        return NO;
+    }
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
