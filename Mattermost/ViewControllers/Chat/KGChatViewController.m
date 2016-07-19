@@ -898,16 +898,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 [theCell showError];
                 
             }
-            
             [postToSend.managedObjectContext MR_saveToPersistentStoreAndWait];
-            [self.fetchedResultsController.managedObjectContext performBlock:^{
-                [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:YES];
-            }];
+            [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:NO];
             
-            
-            // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
-            
-    }];
+        }];
 
     }];
     

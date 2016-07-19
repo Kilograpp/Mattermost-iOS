@@ -11,6 +11,8 @@
 @interface KGAboutMattermostViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconKGImageView;
 @property (strong, nonatomic) NSTimer* iconsResizeAnimationTimer;
+@property (weak, nonatomic) IBOutlet UITextView *mattermostLinkView;
+@property (weak, nonatomic) IBOutlet UITextView *kilograppLinkView;
 
 @end
 
@@ -22,9 +24,19 @@
     [super viewDidLoad];
     
     [self setupTitle];
-    [self setupTimer];
+    [self setupLinksColor];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    if(self.iconsResizeAnimationTimer) {
+        [self.iconsResizeAnimationTimer invalidate];
+        self.iconsResizeAnimationTimer = nil;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self setupTimer];
+}
 
 #pragma makr - Setup
 
@@ -39,6 +51,26 @@
 
 - (void)setupTitle {
     self.title = @"About Mattermost";
+}
+
+- (void)setupLinksColor {
+    NSURL *urlKilograppTeam = [NSURL URLWithString:@"http://kilograpp.com/"];
+    NSURL *urlMattermost = [NSURL URLWithString:@"https://mattermost.org/"];
+    
+    NSMutableAttributedString *mattermostString = [[NSMutableAttributedString alloc] initWithString:@"Join the Mattermost community at mattermost.org"];
+    NSMutableAttributedString *kilograppString = [[NSMutableAttributedString alloc] initWithString:@"This application was developed by Kilograpp Team"];
+    
+    NSRange mattermostLinkRange = [[mattermostString string] rangeOfString:@"mattermost.org"];
+    NSRange kilograppLinkRange = [[kilograppString string] rangeOfString:@"Kilograpp Team"];
+    
+//    [mattermostString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:mattermostLinkRange];
+//    [kilograppString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:kilograppLinkRange];
+    NSLog(@"%@",[urlMattermost absoluteString]);
+    [mattermostString addAttribute:NSLinkAttributeName value:urlMattermost  range:mattermostLinkRange];
+    [kilograppString addAttribute:NSLinkAttributeName value:[urlMattermost absoluteString] range:kilograppLinkRange];
+    
+    self.kilograppLinkView.attributedText = kilograppString;
+    self.mattermostLinkView.attributedText = mattermostString;
 }
 
 
@@ -59,5 +91,10 @@
     self.iconKGImageView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
     [UIView commitAnimations];
 }
+
+
+#pragma mark - Attributed String methods
+
+
 
 @end
