@@ -320,86 +320,98 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about_mattermost_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ibA-bK-sUd">
-                                <rect key="frame" x="112" y="35" width="150" height="150"/>
+                                <rect key="frame" x="112" y="79" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="2rr-Zy-PuJ"/>
                                     <constraint firstAttribute="width" constant="150" id="g4f-cK-X6E"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about_kg_icon" translatesAutoresizingMaskIntoConstraints="NO" id="Ymm-JZ-ORp">
-                                <rect key="frame" x="207" y="115" width="60" height="60"/>
+                                <rect key="frame" x="207" y="159" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="s7c-7v-UJE"/>
                                     <constraint firstAttribute="height" constant="60" id="sy6-Jx-qot"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mattermost Team Edition" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDl-Ve-atf">
-                                <rect key="frame" x="15" y="215" width="339" height="30"/>
+                                <rect key="frame" x="15" y="259" width="339" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All your team communication in one place, instantly searchable and accessible anywhere." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdO-lc-yVx">
-                                <rect key="frame" x="15" y="255" width="339" height="34"/>
+                                <rect key="frame" x="15" y="299" width="339" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version: 3.0.0 (3.0.3)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y1D-1Q-3q1">
-                                <rect key="frame" x="15" y="319" width="339" height="18"/>
+                                <rect key="frame" x="15" y="363" width="339" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join the Mattermost community at mattermost.org" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="njl-XE-LzQ">
-                                <rect key="frame" x="15" y="367" width="339" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This application was developed by Kilograpp Team" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L8q-iL-Dip">
-                                <rect key="frame" x="15" y="399" width="339" height="17"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Copyright 2016 Mattermost, Inc. All rights reserved." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5f-4N-UDX">
-                                <rect key="frame" x="15" y="627" width="339" height="14"/>
+                                <rect key="frame" x="15" y="571" width="339" height="70"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="This application was developed by Kilograpp Team" translatesAutoresizingMaskIntoConstraints="NO" id="eDr-lf-R5X" userLabel="kilograppLinkView">
+                                <rect key="frame" x="15" y="431" width="339" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ikt-LH-8ho"/>
+                                </constraints>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Join the Mattermost community at mattermost.org" translatesAutoresizingMaskIntoConstraints="NO" id="mwF-aU-uqP" userLabel="matterMostLinkView">
+                                <rect key="frame" x="15" y="401" width="339" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="6Uq-Rq-VpZ"/>
+                                </constraints>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="LdO-lc-yVx" firstAttribute="top" secondItem="eDl-Ve-atf" secondAttribute="bottom" constant="10" id="35G-KY-X2d"/>
                             <constraint firstItem="LdO-lc-yVx" firstAttribute="leading" secondItem="eDl-Ve-atf" secondAttribute="leading" id="6Mx-4H-svO"/>
-                            <constraint firstItem="K5f-4N-UDX" firstAttribute="leading" secondItem="L8q-iL-Dip" secondAttribute="leading" id="Bxx-J1-XIp"/>
-                            <constraint firstItem="njl-XE-LzQ" firstAttribute="leading" secondItem="Y1D-1Q-3q1" secondAttribute="leading" id="FvT-3K-fiK"/>
+                            <constraint firstItem="K5f-4N-UDX" firstAttribute="top" secondItem="eDr-lf-R5X" secondAttribute="bottom" priority="500" constant="100" id="6dV-rq-NOZ"/>
                             <constraint firstItem="LdO-lc-yVx" firstAttribute="trailing" secondItem="eDl-Ve-atf" secondAttribute="trailing" id="POk-j2-XYd"/>
                             <constraint firstItem="Y1D-1Q-3q1" firstAttribute="trailing" secondItem="LdO-lc-yVx" secondAttribute="trailing" id="RSb-pq-5l9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="eDl-Ve-atf" secondAttribute="trailing" constant="5" id="TY4-Ay-Wrp"/>
                             <constraint firstItem="eDl-Ve-atf" firstAttribute="leading" secondItem="Zhj-HJ-9Co" secondAttribute="leading" constant="15" id="V3G-rE-uGm"/>
-                            <constraint firstItem="njl-XE-LzQ" firstAttribute="top" secondItem="Y1D-1Q-3q1" secondAttribute="bottom" constant="30" id="VgV-xR-mva"/>
-                            <constraint firstItem="njl-XE-LzQ" firstAttribute="trailing" secondItem="Y1D-1Q-3q1" secondAttribute="trailing" id="X4j-3v-y88"/>
-                            <constraint firstItem="L8q-iL-Dip" firstAttribute="top" secondItem="njl-XE-LzQ" secondAttribute="bottom" constant="15" id="Xr3-Pp-Hdt"/>
-                            <constraint firstItem="K5f-4N-UDX" firstAttribute="top" secondItem="L8q-iL-Dip" secondAttribute="bottom" priority="250" constant="100" id="aJs-z3-b8I"/>
+                            <constraint firstItem="eDr-lf-R5X" firstAttribute="leading" secondItem="mwF-aU-uqP" secondAttribute="leading" id="YXP-Cj-GgC"/>
+                            <constraint firstItem="eDr-lf-R5X" firstAttribute="top" secondItem="mwF-aU-uqP" secondAttribute="bottom" constant="-10" id="arf-yG-dOE"/>
+                            <constraint firstItem="eDr-lf-R5X" firstAttribute="trailing" secondItem="mwF-aU-uqP" secondAttribute="trailing" id="asg-qS-JE2"/>
                             <constraint firstItem="eDl-Ve-atf" firstAttribute="top" secondItem="ibA-bK-sUd" secondAttribute="bottom" constant="30" id="bxy-U9-H9E"/>
                             <constraint firstItem="Ymm-JZ-ORp" firstAttribute="bottom" secondItem="ibA-bK-sUd" secondAttribute="bottom" constant="-10" id="cB9-xg-Lin"/>
+                            <constraint firstItem="K5f-4N-UDX" firstAttribute="leading" secondItem="eDr-lf-R5X" secondAttribute="leading" id="eZQ-Ml-cff"/>
                             <constraint firstItem="Y1D-1Q-3q1" firstAttribute="leading" secondItem="LdO-lc-yVx" secondAttribute="leading" id="hat-eW-tsk"/>
-                            <constraint firstItem="L8q-iL-Dip" firstAttribute="leading" secondItem="njl-XE-LzQ" secondAttribute="leading" id="kse-hL-IeV"/>
                             <constraint firstItem="ibA-bK-sUd" firstAttribute="top" secondItem="X6A-3n-a2v" secondAttribute="bottom" constant="15" id="m4b-JK-pHM"/>
                             <constraint firstItem="Ymm-JZ-ORp" firstAttribute="trailing" secondItem="ibA-bK-sUd" secondAttribute="trailing" constant="5" id="nwm-tK-7G8"/>
+                            <constraint firstItem="mwF-aU-uqP" firstAttribute="top" secondItem="Y1D-1Q-3q1" secondAttribute="bottom" constant="20" id="pt8-Bu-d4v"/>
                             <constraint firstItem="Y1D-1Q-3q1" firstAttribute="top" secondItem="LdO-lc-yVx" secondAttribute="bottom" constant="30" id="sGh-3c-wcN"/>
                             <constraint firstItem="htl-RW-aau" firstAttribute="top" secondItem="K5f-4N-UDX" secondAttribute="bottom" constant="26" id="smD-gG-efS"/>
                             <constraint firstItem="ibA-bK-sUd" firstAttribute="centerX" secondItem="Zhj-HJ-9Co" secondAttribute="centerX" id="tI8-LA-LyO"/>
-                            <constraint firstItem="L8q-iL-Dip" firstAttribute="trailing" secondItem="njl-XE-LzQ" secondAttribute="trailing" id="vAF-D1-1Sb"/>
-                            <constraint firstItem="K5f-4N-UDX" firstAttribute="trailing" secondItem="L8q-iL-Dip" secondAttribute="trailing" id="vJE-fm-WKD"/>
+                            <constraint firstItem="mwF-aU-uqP" firstAttribute="leading" secondItem="Y1D-1Q-3q1" secondAttribute="leading" id="vav-Mc-uOD"/>
+                            <constraint firstItem="mwF-aU-uqP" firstAttribute="trailing" secondItem="Y1D-1Q-3q1" secondAttribute="trailing" id="wky-5d-DDO"/>
+                            <constraint firstItem="K5f-4N-UDX" firstAttribute="trailing" secondItem="eDr-lf-R5X" secondAttribute="trailing" id="xaU-5L-sQc"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="iconKGImageView" destination="Ymm-JZ-ORp" id="pdP-J4-yZk"/>
+                        <outlet property="kilograppLinkView" destination="eDr-lf-R5X" id="NUn-EI-TOp"/>
+                        <outlet property="mattermostLinkView" destination="mwF-aU-uqP" id="b7E-fC-cxT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLM-AO-m0X" userLabel="First Responder" sceneMemberID="firstResponder"/>
