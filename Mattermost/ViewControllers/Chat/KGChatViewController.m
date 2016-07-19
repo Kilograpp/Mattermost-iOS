@@ -830,10 +830,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         }
         
         [context MR_saveToPersistentStoreAndWait];
-        [self.fetchedResultsController.managedObjectContext performBlock:^{
-            [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:YES];
-        }];
-        
+
         [self resetCurrentPost];
     }];
 }
