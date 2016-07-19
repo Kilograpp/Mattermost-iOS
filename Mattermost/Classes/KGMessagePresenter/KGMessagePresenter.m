@@ -45,7 +45,9 @@
     [notificationView addSubview:nicknameLabel];
     nicknameLabel.textColor = [UIColor whiteColor];
     nicknameLabel.font = [UIFont kg_semibold16Font];
-    nicknameLabel.text = [@"@" stringByAppendingString:post.author.nickname];
+    if (post.author) {
+        nicknameLabel.text = [@"@" stringByAppendingString:post.author.nickname];
+    }
     
     UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(57, 33, KGScreenWidth() - 86, 17)];
     [notificationView addSubview:messageLabel];

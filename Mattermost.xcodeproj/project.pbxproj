@@ -94,6 +94,7 @@
 		D648B4491D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D648B4481D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf */; };
 		D648B44D1D2BB03000D797FD /* KGCommandTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */; };
 		D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */; };
+		D64D419A1D3E43FC00B145F3 /* KGPostUtlis.m in Sources */ = {isa = PBXBuildFile; fileRef = D64D41991D3E43FC00B145F3 /* KGPostUtlis.m */; };
 		D64EB5AC1D36398D00D66425 /* NSDate+KGDateComparation.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */; };
 		D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */; };
 		D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */; };
@@ -326,6 +327,8 @@
 		D648B44B1D2BB03000D797FD /* KGCommandTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGCommandTableViewCell.h; path = Commands/KGCommandTableViewCell.h; sourceTree = "<group>"; };
 		D648B44C1D2BB03000D797FD /* KGCommandTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGCommandTableViewCell.m; path = Commands/KGCommandTableViewCell.m; sourceTree = "<group>"; };
 		D648B44E1D2BB04B00D797FD /* KGCommandTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = KGCommandTableViewCell.xib; path = Commands/KGCommandTableViewCell.xib; sourceTree = "<group>"; };
+		D64D41981D3E43FC00B145F3 /* KGPostUtlis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGPostUtlis.h; sourceTree = "<group>"; };
+		D64D41991D3E43FC00B145F3 /* KGPostUtlis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGPostUtlis.m; sourceTree = "<group>"; };
 		D64EB5AA1D36398D00D66425 /* NSDate+KGDateComparation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+KGDateComparation.h"; sourceTree = "<group>"; };
 		D64EB5AB1D36398D00D66425 /* NSDate+KGDateComparation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+KGDateComparation.m"; sourceTree = "<group>"; };
 		D64EB5AF1D364ED200D66425 /* KGChatViewController+KGTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KGChatViewController+KGTableView.h"; path = "ChatViewController/TableView/KGChatViewController+KGTableView.h"; sourceTree = "<group>"; };
@@ -1610,6 +1613,8 @@
 				D81DC2AF1D39A4BA00D48FCD /* KGDrawer.m */,
 				D81DC2B41D3AC3C000D48FCD /* KGHardwareUtils.h */,
 				D81DC2B51D3AC3C000D48FCD /* KGHardwareUtils.m */,
+				D64D41981D3E43FC00B145F3 /* KGPostUtlis.h */,
+				D64D41991D3E43FC00B145F3 /* KGPostUtlis.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1834,6 +1839,7 @@
 				D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */,
 				D60E0F221D37E3DF00863FCD /* KGNavigationBarTitleView.m in Sources */,
 				41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */,
+				D64D419A1D3E43FC00B145F3 /* KGPostUtlis.m in Sources */,
 				D6F0C9211D3A77B0009CA938 /* KGMessagePresenter.m in Sources */,
 				D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */,
 				D8B4291B1D073740008BF955 /* KGBusinessLogic+Team.m in Sources */,

@@ -137,11 +137,11 @@
 }
 
 - (BOOL)assetsPickerController:(CTAssetsPickerController *)picker shouldSelectAsset:(PHAsset *)asset {
-    if (picker.selectedAssets.count < 5){
+    if (picker.selectedAssets.count < 5) {
         [[KGAlertManager sharedManager] hideWarning];
         return YES;
     } else {
-        [[KGAlertManager sharedManager] showWarningWithMessage:@"You can't select more then five photo"];
+        [[KGAlertManager sharedManager] showWarningWithMessage:@"You can't select more then 5 photos"];
         return NO;
     }
     
