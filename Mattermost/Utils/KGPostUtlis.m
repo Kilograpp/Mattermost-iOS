@@ -61,26 +61,13 @@
     __block KGPost* postToSend = [KGPost MR_createEntityInContext:self.pendingMessagesContext];
     __block KGError *postError = nil;
     
-    if (attachments) {
-        [self uploadAttachments:attachments channel:channel completion:^(NSArray *files, KGError *error) {
-            if (error) {
-                postError = error;
-                return;
-            }
-            
-            [self configurePost:postToSend message:message channel:channel attachments:files];
-            
-            [self.pendingMessagesContext MR_saveToPersistentStoreAndWait];
-            
-            [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
-                if (completion) {
-                    completion(postToSend, error);
-                }
-            }];
-
-            }];
-    } else {
-        [self configurePost:postToSend message:message channel:channel attachments:nil];
+    [self uploadAttachmentsIfNeeded:attachments channel:channel completion:^(NSArray *files, KGError *error) {
+        if (error) {
+            postError = error;
+            return;
+        }
+        
+        [self configurePost:postToSend message:message channel:channel attachments:files];
         
         [self.pendingMessagesContext MR_saveToPersistentStoreAndWait];
         
@@ -89,41 +76,47 @@
                 completion(postToSend, error);
             }
         }];
-
-    }
+    }];
 }
 
 
 #pragma mark - Private
 
-- (void)uploadAttachments:(NSArray *)attachments channel:(KGChannel *)channel completion:(void(^)(NSArray *files, KGError *error))completion {
-    dispatch_group_t group = dispatch_group_create();
-//    dispatch_group_enter(group);
-    __block KGError *imageError = nil;
-    __block NSMutableArray *filesArray = [NSMutableArray array];
-    
-    for (UIImage *image in attachments) {
-        dispatch_group_enter(group);
-        [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-                                            atChannel:channel
-               withCompletion:^(KGFile* file, KGError* error) {
-                   if (error) {
-                       imageError = error;
-                       return;
-                   }
-                   KGFile *file_ = [KGFile MR_findFirstByAttribute:[KGFileAttributes backendLink]
-                                                         withValue:file.backendLink
-                                                         inContext:self.pendingMessagesContext];
-                   [filesArray addObject:file_];
-                   dispatch_group_leave(group);
-               }];
-    }
-    
-        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-            if (completion) {
-                completion(filesArray, imageError);
-            }
-        });
+- (void)uploadAttachmentsIfNeeded:(NSArray *)attachments
+                          channel:(KGChannel *)channel
+           completion:(void(^)(NSArray *files, KGError *error))completion {
+                    if (attachments) {
+                        dispatch_group_t group = dispatch_group_create();
+                        __block KGError *imageError = nil;
+                        __block NSMutableArray *filesArray = [NSMutableArray array];
+                        
+                        for (UIImage *image in attachments) {
+                            dispatch_group_enter(group);
+                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
+                                                                atChannel:channel
+                                                           withCompletion:^(KGFile* file, KGError* error) {
+                                                               if (error) {
+                                                                   imageError = error;
+                                                                   return;
+                                                               }
+                                                               KGFile *file_ = [KGFile MR_findFirstByAttribute:[KGFileAttributes backendLink]
+                                                                                                     withValue:file.backendLink
+                                                                                                     inContext:self.pendingMessagesContext];
+                                                               [filesArray addObject:file_];
+                                                               dispatch_group_leave(group);
+                                                           }];
+                        }
+                        
+                        dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+                            if (completion) {
+                                completion(filesArray, imageError);
+                            }
+                        });
+                    } else {
+                        if (completion) {
+                            completion(nil, nil);
+                        }
+                    }
 }
 
 - (void)assignFiles:(NSArray *)files toPost:(KGPost *)post {
