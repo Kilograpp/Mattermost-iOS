@@ -58,8 +58,8 @@
     [mapping addConnectionForRelationship:@"channel" connectedBy:@{@"channelId" : @"identifier"}];
 
     [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"(identifier).filenames"
-                                                                            toKeyPath:@"files"
-                                                                          withMapping:[KGFile simpleEntityMapping]]];
+                                                                             toKeyPath:@"files"
+                                                                           withMapping:[KGFile simpleEntityMapping]]];
 
     return mapping;
 }
@@ -211,31 +211,82 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
 #pragma mark - Core Data
 
 
-- (void)willSave {
-    if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        self.message = [self.message emojizedString];
-        NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
-        [string enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, string.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
-            if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
-                [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
-                [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
-                KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
-                [file setLink:link.absoluteString];
-                [self addFilesObject:file];
-            }
+//- (void)willSave {
+//    if ([self isMessageUnprocessed]) {
+//        [self replaceEmojiWithUnicode];
+//        [self parseMarkdown];
+//        [self parseImagesFromMessageLinks];
+//        [self saveCreatedAtDateAsString];
+//        [self calculateMessageWidth];
+//        [self calculateMessageHeight];
+//    } else {
+//        if ([self isMissingInlineImages]) {
+//            [self parseImagesFromMessageLinks];
+//        }
+//    }
+//    [super willSave];
+//}
+//
+#pragma mark - Configuration Support
+
+- (BOOL)isMessageUnprocessed {
+    return ![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage;
+}
+
+- (void)saveCreatedAtDateAsString {
+    self.createdAtString = [self.createdAt timeFormatForMessages];
+}
+
+- (void)parseMarkdown {
+    self.attributedMessage = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message];
+}
+
+
+- (void)replaceEmojiWithUnicode {
+    self.message = [self.message emojizedString];
+}
+
+- (void)calculateMessageWidth {
+    self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
+}
+
+- (void)calculateMessageHeight {
+    CGFloat textWidth = KGScreenWidth() - 88;
+    CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                        context:nil];
+    self.height =  @(ceilf(frame.size.height));
+}
+
+- (BOOL)isMissingInlineImages {
+    return !self.files.count && self.shouldCheckForMissingFilesValue && self.attributedMessage;
+}
+
+- (void)setMessage:(NSString *)message {
+    [self willChangeValueForKey:[KGPostAttributes message]];
+    [self setPrimitiveMessage:[message emojizedString]];
+    [self parseMarkdown];
+    [self parseImagesFromMessageLinks];
+    [self saveCreatedAtDateAsString];
+    [self calculateMessageWidth];
+    [self calculateMessageHeight];
+    [self didChangeValueForKey:[KGPostAttributes message]];
+}
+
+- (void)parseImagesFromMessageLinks {
+
+    [self.attributedMessage enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, self.attributedMessage.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
+        if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
+            [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
+            [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
             
-        }];
-        
-        self.attributedMessage = string.copy;
-        self.createdAtString = [self.createdAt timeFormatForMessages];
-        self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
-        
-        CGFloat textWidth = KGScreenWidth() - 88;
-        CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                            context:nil];
-        self.height =  @(ceilf(frame.size.height));
-    }
+            KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
+            [file setLink:link.absoluteString];
+            [self addFilesObject:file];
+
+            [self setPrimitiveShouldCheckForMissingFilesValue:YES];
+        }
+    }];
 }
 
 @end

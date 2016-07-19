@@ -64,14 +64,17 @@ const static CGFloat KGHeightHeader = 64;
     header.handler = ^(){
         [wself.delegate navigationToProfile];
     };
-    self.tableView.tableHeaderView = header;
     
-    [header setNeedsLayout];
-    [header layoutIfNeeded];
+    [self.view addSubview:header];
+    [header mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.left.equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_right);
+        make.bottom.equalTo(self.tableView.mas_top);
+    }];
 }
 
 - (void)setupTableView {
-    
     [self.tableView registerClass:[KGManualRightMenuCell class]
            forCellReuseIdentifier:[KGManualRightMenuCell reuseIdentifier] cacheSize:5];
     

@@ -27,12 +27,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self instantiateSingletons];
     [self loadInitialScreen];
     [self setupKeyboardManager];
     [self registerForRemoteNotifications];
     [self setupFabric];
     [self sendLaunchNotificationWithOptions:launchOptions];
-    [self instantiateSingletons];
+    
     return YES;
 }
 
@@ -85,6 +86,7 @@
 
 - (void)instantiateSingletons {
     [KGDrawer sharedInstance];
+    [KGPreferences sharedInstance];
     [KGHardwareUtils sharedInstance];
 }
 

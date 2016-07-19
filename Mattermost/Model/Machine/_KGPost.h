@@ -64,6 +64,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* message;
 
+@property (nonatomic, strong, nullable) NSNumber* shouldCheckForMissingFiles;
+
+@property (atomic) BOOL shouldCheckForMissingFilesValue;
+- (BOOL)shouldCheckForMissingFilesValue;
+- (void)setShouldCheckForMissingFilesValue:(BOOL)value_;
+
 @property (nonatomic, strong, nullable) NSString* type;
 
 @property (nonatomic, strong, nullable) NSDate* updatedAt;
@@ -134,6 +140,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveMessage;
 - (void)setPrimitiveMessage:(NSString*)value;
 
+- (NSNumber*)primitiveShouldCheckForMissingFiles;
+- (void)setPrimitiveShouldCheckForMissingFiles:(NSNumber*)value;
+
+- (BOOL)primitiveShouldCheckForMissingFilesValue;
+- (void)setPrimitiveShouldCheckForMissingFilesValue:(BOOL)value_;
+
 - (NSDate*)primitiveUpdatedAt;
 - (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
@@ -164,6 +176,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)height;
 + (NSString *)identifier;
 + (NSString *)message;
++ (NSString *)shouldCheckForMissingFiles;
 + (NSString *)type;
 + (NSString *)updatedAt;
 + (NSString *)userId;
