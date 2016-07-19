@@ -53,7 +53,7 @@
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
 #import <ObjectiveSugar.h>
-
+#import "KGMembersViewController.h"
 #import <RestKit/RestKit.h>
 #import "KGObjectManager.h"
 #import <SOCKit/SOCKit.h>
@@ -68,13 +68,14 @@
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 
+static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
 
 @interface KGChatViewController () <UINavigationControllerDelegate, KGChannelsObserverDelegate,
-                            KGRightMenuDelegate>
+                            KGRightMenuDelegate, KGChatNavigationDelegate>
 
 @property (nonatomic, strong) KGChannel *channel;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
@@ -136,7 +137,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
- 
+ self.navigationController.delegate = self;
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
@@ -163,7 +164,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 // TODO: Code Review: Разнести по отдельным методам. InitialSetup - каша из мелкой конфигурации. Ничего страшного, если она разнесется на три-четыре разных метода
 - (void)initialSetup {
     _isFirstLoad = YES;
-    self.navigationController.delegate = self;
+    
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     [KGChannelsObserver sharedObserver].delegate = self;
@@ -662,6 +663,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
 }
 
+#pragma mark - KGChatNavigationDelegate
+
+- (void)navigationToMembers {
+    NSLog(@"navigation delegate");
+    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+}
 
 #pragma mark - KGChannelsObserverDelegate
 
@@ -718,8 +725,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         });
 
     }
-
-
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
     if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
         [self.navigationController popViewControllerAnimated:NO];
@@ -976,6 +981,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         vc.userId = user.identifier;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
+    if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
+        KGMembersViewController *vc = segue.destinationViewController;
+        vc.channel = self.channel;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
+    }
+    
 }
 
 
