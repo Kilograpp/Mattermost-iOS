@@ -250,7 +250,7 @@ static CGFloat const kErrorViewSize = 34.f;
     self.nameLabel.frame = CGRectMake(53, 8, nameWidth, 20);
     self.dateLabel.frame = CGRectMake(_nameLabel.frame.origin.x + nameWidth + 5, 8, timeWidth, 20);
     self.loadingView.frame = CGRectMake(KGScreenWidth() - kLoadingViewSize - kStandartPadding, 36, kLoadingViewSize, 20);
-    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize)/2 ,kErrorViewSize ,kErrorViewSize);
+    self.errorView.frame = CGRectMake(KGScreenWidth() - kErrorViewSize ,(self.frame.size.height - kErrorViewSize) / 2,kErrorViewSize ,kErrorViewSize);
     
     [self alignSubviews];
 }
@@ -270,7 +270,7 @@ static CGFloat const kErrorViewSize = 34.f;
 }
 
 - (void)errorAction {
-    if (self.errorTapHandler) {
+    if (self.errorTapHandler) { 
         self.errorTapHandler(self.post);
     }
     
