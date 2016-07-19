@@ -349,53 +349,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 }
 
-//// TODO: Code Review: Разнести отправку поста и отправку команды в два метода
-//- (void)sendPost {
-//    // TODO: Code Review: Вынести условие в отдельный метод
-//    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
-//        [self applyCommand];
-//        return;
-//    }
-//    
-//    
-//    NSManagedObjectContext* context = [NSManagedObjectContext MR_context];
-//    
-//    __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
-//    
-//    [context MR_saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
-//        postToSend.message = self.textInputbar.textView.text;
-//        
-//        postToSend.author = [KGUser MR_findFirstByAttribute:@"identifier" withValue:[[KGBusinessLogic sharedInstance] currentUserId] inContext:context];
-//        postToSend.channel = [self.channel MR_inContext:context];
-//        postToSend.createdAt = [NSDate date];
-//        [postToSend configureBackendPendingId];
-//    }];
-//    
-//    [self clearTextView];
-//    
-//    [context MR_saveToPersistentStoreAndWait];
-//    
-//    [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
-//        // TODO: Code Review: Слишком много логики в интерфейсно методе
-//        KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
-//        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
-//        [cell finishAnimation];
-//        if (error) {
-//            postToSend.error = @YES;
-//            [[KGAlertManager sharedManager] showError:error];
-//            [cell showError];
-//        }
-//        
-//        [context MR_saveToPersistentStoreAndWait];
-//        [self.fetchedResultsController.managedObjectContext performBlock:^{
-//            [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:YES];
-//        }];
-//        
-////        [self resetCurrentPost];
-//    }];
-//}
-
 - (void)sendPost {
+    // TODO: Code Review: Вынести условие в отдельный метод
+    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
+        [self applyCommand];
+        return;
+    }
+    
     NSString *message = self.textView.text;
     [[KGPostUtlis sharedInstance] sendPostInChannel:self.channel
                                             message:message
@@ -468,7 +428,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.%@ BEGINSWITH[c] %@", filterTerm, word];
         self.autocompletionDataSource = [self.autocompletionDataSource filteredArrayUsingPredicate:predicate];
     }
-    
 }
 
 
@@ -494,10 +453,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)assignPhotos {
     
     __block BOOL operationCancelled = NO;
-    __block BOOL photosLoad = YES;
     self.picker = [KGImagePicker new];
-//    dispatch_group_t group = dispatch_group_create();
-//    dispatch_group_enter(group);
     
     __weak typeof(self) wSelf = self;
     
@@ -508,35 +464,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
-//        dispatch_group_enter(group);
-//        [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-//                                            atChannel:wSelf.channel
-//                                       withCompletion:^(KGFile* file, KGError* error) {
-//                                           if (self.currentPost.files.count < 5) {
-//                                               [self.currentPost addFilesObject:file];
-//                                           } else {
-//                                               photosLoad = NO;
-//                                           }
-//                                           dispatch_group_leave(group);
-//                                       }];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
-//        dispatch_group_leave(group);
     }];
-    
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        if (!operationCancelled){
-//            [[KGAlertManager sharedManager] hideHud];
-//            if (!photosLoad) {
-//                [[KGAlertManager sharedManager] showWarningWithMessage:@"Uploads limited to 5 files maximum. Please use additional posts for more files."];
-//            }
-//            [self sendPost];
-//        }
-//    });
-    
 }
-
-
 
 - (void)updateNavigationBarAppearance {
     NSString *subtitleString;
