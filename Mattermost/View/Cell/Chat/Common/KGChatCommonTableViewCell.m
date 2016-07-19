@@ -263,7 +263,7 @@ static CGFloat const kErrorViewSize = 34.f;
 
 - (void)prepareForReuse {
     _avatarImageView.image = nil;
-    _messageLabel.text = nil;
+    _messageLabel.attributedText = nil;
     [_messageOperation cancel];
     _loadingView.hidden = YES;
     self.errorView.hidden = YES;
