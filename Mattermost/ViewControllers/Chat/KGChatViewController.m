@@ -276,7 +276,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                 ascending:NO
                                             withPredicate:predicate
                                                 inContext:context];
-    [request setFetchLimit:60];
+    [request setFetchLimit:50];
     
     self.fetchedResultsController = [KGPost MR_fetchController:request
                                                       delegate:self
@@ -299,6 +299,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
         // TODO: Code Review: Слишком много логики в интерфейсном методе. Разнести на два - handleSuccess и handleError
         [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        if (self.tableView.contentOffset.y < 0) {
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
         if (error) {
             [[KGAlertManager sharedManager] showError:error];
         }
@@ -324,7 +327,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     self.loadingInProgress = YES;
     [self showTopActivityIndicator];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
+        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel fromPost:self.fetchedResultsController.fetchedObjects.lastObject completion:^(BOOL isLastPage, KGError *error) {
             // TODO: Code Review: Разнести на два метода
             if (error) {
                 [[KGAlertManager sharedManager] showError:error];
@@ -667,7 +670,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [self showLoadingView];
             [self loadFirstPageOfDataWithTableRefresh:YES];
         } else {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.refreshControl beginRefreshing];
                 [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
                 [self loadFirstPageOfDataWithTableRefresh:NO];
@@ -677,6 +680,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
     } else {
         self.hasNextPage = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refreshControl beginRefreshing];
+            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+            [self loadFirstPageOfDataWithTableRefresh:NO];
+        });
+
     }
 
 
@@ -758,7 +767,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-        NSLog(@"SHOW_LOADING_VIEW");
+//        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -771,7 +780,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
-    NSLog(@"HIDE_LOADING_VIEW");
+//    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
@@ -791,7 +800,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     
-    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:self.fetchedResultsController.managedObjectContext];
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
     
     __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
     
@@ -993,8 +1002,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
     [self presentViewController:controller animated:YES completion:nil];
 }
-
-
 
 
 #pragma mark - UITextViewDelegate

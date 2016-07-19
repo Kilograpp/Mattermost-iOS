@@ -51,6 +51,7 @@
         <attribute name="height" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shouldCheckForMissingFiles" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="userId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -82,7 +83,7 @@
         <element name="Command" positionX="-137" positionY="-63" width="128" height="103"/>
         <element name="ExternalFile" positionX="250" positionY="272" width="128" height="58"/>
         <element name="File" positionX="151" positionY="342" width="128" height="163"/>
-        <element name="Post" positionX="-56" positionY="218" width="128" height="313"/>
+        <element name="Post" positionX="-56" positionY="218" width="128" height="328"/>
         <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
         <element name="User" positionX="-549" positionY="131" width="128" height="208"/>
     </elements>

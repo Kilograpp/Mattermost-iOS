@@ -181,7 +181,9 @@ static CGFloat const kErrorViewSize = 34.f;
 - (void)configureAvatarImage {
     __weak typeof(self) wSelf = self;
     
-    __block NSString* smallAvatarKey = [self.post.author.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+    NSURL* avatarUrl = self.post.author.imageUrl;
+    
+    __block NSString* smallAvatarKey = [avatarUrl.absoluteString stringByAppendingString:@"_feed"];
     UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
     if (smallAvatar) {
         self.avatarImageView.image = smallAvatar;
@@ -190,7 +192,7 @@ static CGFloat const kErrorViewSize = 34.f;
             smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
             self.avatarImageView.image = smallAvatar;
         } else {
-            [self.avatarImageView setImageWithURL:self.post.author.imageUrl
+            [self.avatarImageView setImageWithURL:avatarUrl
                                  placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
                                           options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
                                         completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -199,15 +201,18 @@ static CGFloat const kErrorViewSize = 34.f;
                                             if (!roundedImage) {
                                                 roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
                                                 [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
-                                                
                                             }
                                             
-                                            wSelf.avatarImageView.image = roundedImage;
+                                            if ([wSelf.post.author.imageUrl isEqual:avatarUrl]) { // It is till the same cell
+                                                wSelf.avatarImageView.image = roundedImage;
+                                            }
+                                            
                                         }
                       usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
             [self.avatarImageView removeActivityIndicator];
         }
     }
+    
 
 }
 
