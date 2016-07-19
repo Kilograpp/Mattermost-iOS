@@ -16,6 +16,7 @@
 		419096EF1D1435D900725440 /* KGProfileTableHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 419096EE1D1435D900725440 /* KGProfileTableHeader.xib */; };
 		419096F51D1455B400725440 /* KGProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 419096F41D1455B400725440 /* KGProfileTableViewController.m */; };
 		41A80B8F1D1ABA3400E8A0EA /* KGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */; };
+		41AD23841D3E6E2E0007E413 /* KGMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41AD23831D3E6E2E0007E413 /* KGMembersViewController.m */; };
 		41B020B91D19946900594995 /* KGImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41B020B81D19946900594995 /* KGImagePickerController.m */; };
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
@@ -185,6 +186,8 @@
 		419096F41D1455B400725440 /* KGProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGProfileTableViewController.m; sourceTree = "<group>"; };
 		41A80B8D1D1ABA3400E8A0EA /* KGFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFileCell.h; sourceTree = "<group>"; };
 		41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGFileCell.m; sourceTree = "<group>"; };
+		41AD23821D3E6E2E0007E413 /* KGMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGMembersViewController.h; path = Members/KGMembersViewController.h; sourceTree = "<group>"; };
+		41AD23831D3E6E2E0007E413 /* KGMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGMembersViewController.m; path = Members/KGMembersViewController.m; sourceTree = "<group>"; };
 		41B020B71D19946900594995 /* KGImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePickerController.h; sourceTree = "<group>"; };
 		41B020B81D19946900594995 /* KGImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePickerController.m; sourceTree = "<group>"; };
 		41FC94B31D07FA87009E1090 /* KGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGButton.h; sourceTree = "<group>"; };
@@ -572,6 +575,15 @@
 				41A80B8E1D1ABA3400E8A0EA /* KGFileCell.m */,
 			);
 			path = File;
+			sourceTree = "<group>";
+		};
+		41AD23811D3E6E080007E413 /* Members */ = {
+			isa = PBXGroup;
+			children = (
+				41AD23821D3E6E2E0007E413 /* KGMembersViewController.h */,
+				41AD23831D3E6E2E0007E413 /* KGMembersViewController.m */,
+			);
+			name = Members;
 			sourceTree = "<group>";
 		};
 		41B020B51D19940E00594995 /* KGImagePickerController */ = {
@@ -1385,6 +1397,7 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				41AD23811D3E6E080007E413 /* Members */,
 				4BB94CD71D3CEC92003BC6A0 /* About */,
 				D6C154C21D07555D00B053CE /* Base */,
 				D844A6E11D0AE2B100B53BB3 /* Chat */,
@@ -1853,6 +1866,7 @@
 				D69FB19D1D09C62D00043C2D /* KGSideMenuContainerViewController.m in Sources */,
 				D6DF885A1D3307020091DBDE /* KGDateFormatter.m in Sources */,
 				D6ABC3E31D33E6730047ECAF /* KGUserStatus.m in Sources */,
+				41AD23841D3E6E2E0007E413 /* KGMembersViewController.m in Sources */,
 				D696F7761D060FDD008341AF /* main.m in Sources */,
 				D69FB1931D09C5BF00043C2D /* KGChatNavigationController.m in Sources */,
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,

@@ -54,8 +54,9 @@
     
     self.kg_titleView = [[KGNavigationBarTitleView alloc] init];
     self.kg_titleView.frame = CGRectMake(0.f, 0.f, KGScreenWidth() * 0.6f, 44.f);
-
     [self.navigationBar.topItem setTitleView:self.kg_titleView];
+    [self.kg_titleView.titleLabel setUserInteractionEnabled:YES];
+    [self.kg_titleView.titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMembers)]];
 }
 
 - (void)configureTitleViewWithChannel:(KGChannel *)channel
@@ -63,6 +64,9 @@
     [self.kg_titleView configureWithChannel:channel loadingInProgress:loadingInProgress];
 }
 
+- (void)showMembers {
+    [self.delegate navigationToMembers];
+}
 
 #pragma mark - Status Bar
 
