@@ -123,9 +123,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
-    
-    [[KGBusinessLogic sharedInstance] loadFullUsersListWithCompletion:nil];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -375,7 +372,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[KGPostUtlis sharedInstance] sendPostInChannel:self.channel
                                             message:message
                                         attachments:self.imageAttachments
-                                         completion:^(KGPost *post, KGError *error) {
+         completion:^(KGPost *post, KGError *error) {
+            [[KGAlertManager sharedManager] hideHud];
             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:post]];
             [cell finishAnimation];
             if (error) {
@@ -474,14 +472,18 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
     } willBeginPickingHandler:^{
 //        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
-        [[KGAlertManager sharedManager] showProgressHud];
-        [self sendPost];
+//        if (!isCancelled) {
+//            [[KGAlertManager sharedManager] showProgressHud];
+//            [self sendPost];
+//        }
     }];
 }
 
