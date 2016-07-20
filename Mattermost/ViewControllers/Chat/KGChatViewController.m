@@ -65,6 +65,8 @@
 
 #import "KGPostUtlis.h"
 
+#import "KGBusinessLogic+Users.h"
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 
@@ -121,6 +123,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
+    
+    [[KGBusinessLogic sharedInstance] loadFullUsersListWithCompletion:nil];
 
 }
 
