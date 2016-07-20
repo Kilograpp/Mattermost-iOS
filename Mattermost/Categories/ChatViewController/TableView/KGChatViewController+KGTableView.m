@@ -64,7 +64,7 @@
         NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
         KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
         NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
-        BOOL notBetweenPages = ((index+1) % 60 != 0 && (index % 60) != 0) || index == 0;
+        BOOL notBetweenPages = ((index+1) % 60 != 0 && (index+1 % 50) != 0) || index == 0;
         if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && notBetweenPages) {
             reuseIdentifier = !post.hasAttachments ?
             [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
@@ -108,7 +108,7 @@
             KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
     
             NSInteger index = [self.fetchedResultsController.fetchedObjects indexOfObject:post];
-            BOOL notBetweenPages = ((index+1) % 60 != 0 && (index % 60) != 0) || index == 0;
+            BOOL notBetweenPages = ((index+1) % 60 != 0 && (index+1 % 50) != 0) || index == 0;
 
             if (postsHaveSameAuthor(post, prevPost) && [post timeIntervalSincePost:prevPost] < 3600 && notBetweenPages) {
                 return !post.hasAttachments ?
