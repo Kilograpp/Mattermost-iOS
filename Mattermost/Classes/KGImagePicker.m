@@ -60,7 +60,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
                 picker.delegate = self;
-                [picker setAlwaysEnableDoneButton:NO];
+                [picker setShowsNumberOfAssets:YES];
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     picker.modalPresentationStyle = UIModalPresentationFormSheet;
                 
@@ -83,7 +83,6 @@
     KGImagePickerController *pickerController = [[KGImagePickerController alloc] init];
     pickerController.sourceType = type;
     pickerController.delegate = self;
-    
     [self.controller presentViewController:pickerController animated:YES completion:nil];
 }
 
@@ -138,13 +137,17 @@
 
 - (BOOL)assetsPickerController:(CTAssetsPickerController *)picker shouldSelectAsset:(PHAsset *)asset {
     if (picker.selectedAssets.count < 5){
-        [[KGAlertManager sharedManager] hideWarning];
         return YES;
     } else {
-        [[KGAlertManager sharedManager] showWarningWithMessage:@"You can't select more then five photo"];
+        [[KGAlertManager sharedManager] showWarningWithMessage:@"Uploads limited to 5 files maximum. Please use additional posts for more files."];
         return NO;
     }
     
+}
+
+- (BOOL)assetsPickerController:(CTAssetsPickerController *)picker shouldDeselectAsset:(PHAsset *)asset {
+    [[KGAlertManager sharedManager] hideWarning];
+    return YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

@@ -14,7 +14,7 @@
 #import "KGDrawer.h"
 
 #define KG_IMAGE_WIDTH  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f)
-#define KG_IMAGE_HEIGHT  ((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f)
+#define KG_IMAGE_HEIGHT  (ceilf((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f))
 
 @interface KGImageCell ()
 @property (nonatomic, strong) UIImageView* imageView;
@@ -37,7 +37,7 @@
 
 
 - (void)setupImageView {
-    self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)];
     [self.imageView setBackgroundColor:[UIColor kg_whiteColor]];
     [self.imageView setContentMode: UIViewContentModeScaleAspectFit];
     self.imageView.image = KGRoundedPlaceholderImageForAttachmentsCell(CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT));
@@ -71,9 +71,8 @@
                     if(image) {
                         [UIImage roundedImage:image
                                   whithRadius:3
-                                         size:self.bounds.size
+                                         size:CGSizeMake(KG_IMAGE_WIDTH, KG_IMAGE_HEIGHT)
                                    completion:^(UIImage *roundedImage) {
-                                       
                                        if ([wSelf.file.thumbLink isEqual:url]) { // It is till the same cell
                                            wSelf.imageView.image = roundedImage;
                                        }
