@@ -10,11 +10,11 @@
 #import "KGChannel.h"
 #import <MagicalRecord/MagicalRecord.h>
 #import "NSManagedObject+CustomFinder.h"
+#import "UIStatusBar+SharedBar.h"
 
-@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
+@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *membersTableView;
-@property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (nonatomic, strong, readwrite) NSArray *searchResultDataSource;
 @property (nonatomic, strong, readwrite) NSArray *dataSource;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -34,6 +34,9 @@
     self.searchController.dimsBackgroundDuringPresentation = NO;
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.searchBar.backgroundColor = [UIColor lightGrayColor];
+
     self.membersTableView.tableHeaderView = self.searchController.searchBar;
     self.definesPresentationContext = YES;
 }
@@ -85,6 +88,7 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     NSString *searchString = searchController.searchBar.text;
     NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self contains[c] %@", searchString];
     self.searchResultDataSource = [self.dataSource filteredArrayUsingPredicate:resultPredicate];
