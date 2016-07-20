@@ -137,12 +137,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
- self.navigationController.delegate = self;
+ 
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
-    
 }
 
 
@@ -164,11 +163,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 // TODO: Code Review: Разнести по отдельным методам. InitialSetup - каша из мелкой конфигурации. Ничего страшного, если она разнесется на три-четыре разных метода
 - (void)initialSetup {
     _isFirstLoad = YES;
-    
+    self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
+    KGChatNavigationController *nc = (KGChatNavigationController *)self.navigationController;
+    nc.kg_delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
 }
 
@@ -602,8 +603,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - KGChatNavigationDelegate
 
-- (void)navigationToMembers {
-    NSLog(@"navigation delegate");
+- (void)didSelectTitleView {
+   // NSLog(@"navigation delegate");
     [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
 }
 
