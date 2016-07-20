@@ -45,21 +45,14 @@
 
     self.isFirstLoad = YES;
     [self setup];
-
-    //[self setupNavigationBar];
-
-    //[boton release];
-    
 }
 
 - (void)setupNavigationBar {
-//    self.title = @"Профиль";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navbar_close_icon"]
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(backAction)];
     backButton.tintColor = [UIColor blackColor];
-    //self.navigationItem.leftBarButtonItem.
     self.navigationItem.leftBarButtonItem = backButton;
 
 }
@@ -75,8 +68,6 @@
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     }];
     }
-//    [self.navigationController popViewControllerAnimated:YES];
-    //[[UIStatusBar sharedStatusBar] moveToPreviousView];
 }
 
 - (void)setup {
