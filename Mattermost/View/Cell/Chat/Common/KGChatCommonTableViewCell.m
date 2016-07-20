@@ -21,7 +21,7 @@
 #import <DGActivityIndicatorView.h>
 #import "UIView+Align.h"
 
-static CGFloat const kLoadingViewSize = 20.f;
+static CGFloat const kLoadingViewSize = 22.f;
 static CGFloat const kErrorViewSize = 34.f;
 
 

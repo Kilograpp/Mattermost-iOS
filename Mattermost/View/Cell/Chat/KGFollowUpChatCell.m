@@ -15,7 +15,7 @@
 #import "UIView+Align.h"
 #import <DGActivityIndicatorView.h>
 
-static CGFloat const kLoadingViewSize = 25.f;
+static CGFloat const kLoadingViewSize = 22.f;
 static CGFloat const kErrorViewSize = 34.f;
 
 @interface KGFollowUpChatCell ()

@@ -375,8 +375,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                             message:message
                                         attachments:self.imageAttachments
          completion:^(KGPost *post, KGError *error) {
-            [[KGAlertManager sharedManager] hideHud];
-            KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:post]];
+             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[post MR_inContext:self.fetchedResultsController.managedObjectContext]]];
             [cell finishAnimation];
             if (error) {
                 post.error = @YES;
@@ -385,6 +384,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             }
     
             [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveToPersistentStoreAndWait];
+             [[KGAlertManager sharedManager] hideHud];
     }];
     
     [self clearTextView];
@@ -795,7 +795,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
         [context MR_saveToPersistentStoreAndWait];
 
-        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
+        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
         
         [theCell hideError];
         [theCell startAnimation];
@@ -803,7 +803,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
             KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
             
-            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
+            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:fetchedPost]];
             [theCell finishAnimation];
             
             if (error) {
@@ -820,11 +820,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
     
     UIAlertAction *deleteAction =
-            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
         
         [post MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
