@@ -52,6 +52,8 @@
 #import "KGCommand.h"
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
+#import "KGLoginNavigationController.h"
+#import "KGTeamsViewController.h"
 #import <ObjectiveSugar.h>
 #import "KGMembersViewController.h"
 #import <RestKit/RestKit.h>
@@ -65,9 +67,11 @@
 
 #import "KGPostUtlis.h"
 
+#import "KGBusinessLogic+Users.h"
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
-
+static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
 static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -121,6 +125,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
+    
+    [[KGBusinessLogic sharedInstance] loadFullUsersListWithCompletion:nil];
 
 }
 
@@ -268,6 +274,16 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self showAutoCompletionView:show];
 }
 
+- (CGFloat)maximumHeightForAutoCompletionView {
+    CGFloat autocompletionCellheight =
+            self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
+    return self.autocompletionDataSource.count * autocompletionCellheight;
+}
+
+- (CGFloat)heightForAutoCompletionView {
+    return self.maximumHeightForAutoCompletionView;
+}
+
 
 #pragma mark - NSFetchedResultsController
 
@@ -385,7 +401,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self clearTextView];
 }
 
-
 - (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
     NSArray *files = post.nonImageFiles;
     
@@ -462,11 +477,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     } willBeginPickingHandler:^{
-        [[KGAlertManager sharedManager] showProgressHud];
+//        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
     }];
 }
 
@@ -522,11 +539,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)resetAttachments {
     [self.imageAttachments removeAllObjects];
-}
-
-- (CGFloat)maximumHeightForAutoCompletionView {
-    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-    return cellHeight * self.autocompletionDataSource.count;
 }
 
 
@@ -685,6 +697,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self performSegueWithIdentifier:kShowAboutSegueIdentier sender:nil];
 }
 
+- (void)navigateToTeams {
+    KGTeamsViewController *vc = [[UIStoryboard storyboardWithName:@"Login" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGTeamsViewController"];
+    KGLoginNavigationController *nc = [[KGLoginNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];
+}
+
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
@@ -759,49 +777,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 }
 
-// TODO: Code Review: Разнести отправку поста и отправку команды в два метода
-//- (void)sendPost {
-//    // TODO: Code Review: Вынести условие в отдельный метод
-//    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
-//        [self applyCommand];
-//        return;
-//    }
-//    
-//    
-//    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
-//    
-//    __block KGPost* postToSend = [KGPost MR_createEntityInContext:context];
-//    
-//    [context performBlockAndWait:^{
-//        postToSend.message = self.textInputbar.textView.text;
-//        
-//        postToSend.author = [KGUser MR_findFirstByAttribute:@"identifier" withValue:[[KGBusinessLogic sharedInstance] currentUserId] inContext:context];
-//        postToSend.channel = [self.channel MR_inContext:context];
-//        postToSend.createdAt = [NSDate date];
-//        [postToSend configureBackendPendingId];
-//    }];
-//
-//    [self clearTextView];
-//    
-//    [context MR_saveToPersistentStoreAndWait];
-//    
-//    [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
-//        // TODO: Code Review: Слишком много логики в интерфейсно методе
-//        KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
-//        KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
-//        [cell finishAnimation];
-//        if (error) {
-//            postToSend.error = @YES;
-//            [[KGAlertManager sharedManager] showError:error];
-//            [cell showError];
-//        }
-//        
-//        [context MR_saveToPersistentStoreAndWait];
-//
-//        [self resetCurrentPost];
-//    }];
-//}
-
 - (void)errorActionWithPost: (KGPost *)post {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kErrorAlertViewTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -843,7 +818,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
     
     UIAlertAction *deleteAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
         [post MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];

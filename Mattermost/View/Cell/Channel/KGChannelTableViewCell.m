@@ -111,6 +111,8 @@ const static CGFloat kHeightCellLeftMenu = 50;
         }
         
         [self configureForState:self.isSelectedCell];
+        
+        [self setupDotView];
     }
 }
 
@@ -144,9 +146,10 @@ const static CGFloat kHeightCellLeftMenu = 50;
         }
             
         case KGUserAwayStatus: {
-            self.dotViewColor = [UIColor clearColor];
+            self.dotViewColor = [UIColor kg_yellowColor];
             self.dotViewBorderColor = [UIColor kg_yellowColor];
             self.dotViewBorderColorIfSelected = [UIColor kg_yellowColor];
+            
             break;
         }
         case KGUserUnknownStatus: {

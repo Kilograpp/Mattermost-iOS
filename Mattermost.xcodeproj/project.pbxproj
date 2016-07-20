@@ -123,6 +123,7 @@
 		D6A3DE291D2A68C100F9DF0F /* KGChatViewController+KGCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = D6A3DE281D2A68C100F9DF0F /* KGChatViewController+KGCoreData.m */; };
 		D6ABC3E31D33E6730047ECAF /* KGUserStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = D6ABC3E21D33E6730047ECAF /* KGUserStatus.m */; };
 		D6ABC3E71D33EF2A0047ECAF /* KGUserStatusObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = D6ABC3E61D33EF2A0047ECAF /* KGUserStatusObserver.m */; };
+		D6BBFF451D3F831F00F1462D /* KGBusinessLogic+Users.m in Sources */ = {isa = PBXBuildFile; fileRef = D6BBFF441D3F831F00F1462D /* KGBusinessLogic+Users.m */; };
 		D6C154C61D07557600B053CE /* KGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154C51D07557600B053CE /* KGViewController.m */; };
 		D6C154CB1D07559E00B053CE /* KGServerUrlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CA1D07559E00B053CE /* KGServerUrlViewController.m */; };
 		D6C154CE1D0755A800B053CE /* KGLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D6C154CD1D0755A800B053CE /* KGLoginViewController.m */; };
@@ -383,6 +384,8 @@
 		D6ABC3E21D33E6730047ECAF /* KGUserStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGUserStatus.m; path = KGUserStatus/KGUserStatus.m; sourceTree = "<group>"; };
 		D6ABC3E51D33EF2A0047ECAF /* KGUserStatusObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGUserStatusObserver.h; path = KGUserStatusObserver/KGUserStatusObserver.h; sourceTree = "<group>"; };
 		D6ABC3E61D33EF2A0047ECAF /* KGUserStatusObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGUserStatusObserver.m; path = KGUserStatusObserver/KGUserStatusObserver.m; sourceTree = "<group>"; };
+		D6BBFF431D3F831F00F1462D /* KGBusinessLogic+Users.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "KGBusinessLogic+Users.h"; path = "Users/KGBusinessLogic+Users.h"; sourceTree = "<group>"; };
+		D6BBFF441D3F831F00F1462D /* KGBusinessLogic+Users.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGBusinessLogic+Users.m"; path = "Users/KGBusinessLogic+Users.m"; sourceTree = "<group>"; };
 		D6C154C41D07557600B053CE /* KGViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGViewController.h; sourceTree = "<group>"; };
 		D6C154C51D07557600B053CE /* KGViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGViewController.m; sourceTree = "<group>"; };
 		D6C154C91D07559E00B053CE /* KGServerUrlViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGServerUrlViewController.h; sourceTree = "<group>"; };
@@ -1294,6 +1297,7 @@
 		D696F7991D061301008341AF /* BusinessLogic */ = {
 			isa = PBXGroup;
 			children = (
+				D6BBFF421D3F82F800F1462D /* Users */,
 				9B822D190D7E79A75E3533DE /* Channels */,
 				9B82294CA20E428FCC37B6D8 /* File */,
 				9B82279F2329C139228A2068 /* Notifications */,
@@ -1431,6 +1435,15 @@
 				D6ABC3E61D33EF2A0047ECAF /* KGUserStatusObserver.m */,
 			);
 			name = KGUserStatusObserver;
+			sourceTree = "<group>";
+		};
+		D6BBFF421D3F82F800F1462D /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				D6BBFF431D3F831F00F1462D /* KGBusinessLogic+Users.h */,
+				D6BBFF441D3F831F00F1462D /* KGBusinessLogic+Users.m */,
+			);
+			name = Users;
 			sourceTree = "<group>";
 		};
 		D6C154C21D07555D00B053CE /* Base */ = {
@@ -1876,6 +1889,7 @@
 				D696F7761D060FDD008341AF /* main.m in Sources */,
 				D69FB1931D09C5BF00043C2D /* KGChatNavigationController.m in Sources */,
 				D6E682421D1D2983006F11CE /* NSMutableURLRequest+KGHandleCookies.m in Sources */,
+				D6BBFF451D3F831F00F1462D /* KGBusinessLogic+Users.m in Sources */,
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */,

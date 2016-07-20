@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -236,21 +236,13 @@
             </objects>
             <point key="canvasLocation" x="1070.5" y="547.5"/>
         </scene>
-        <!--SettingsAccount-->
-        <scene sceneID="O6e-oo-8mK">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SettingsAccount" id="ExM-Qi-d3C" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="biS-YQ-4Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1443.5" y="57"/>
-        </scene>
         <!--Login-->
         <scene sceneID="MnC-Vk-wJ6">
             <objects>
                 <viewControllerPlaceholder storyboardName="Login" id="MBR-Ft-t4M" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXT-34-Ac9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1424.5" y="154"/>
+            <point key="canvasLocation" x="1433.5" y="191"/>
         </scene>
         <!--Settings-->
         <scene sceneID="qGy-pD-bgt">
@@ -417,7 +409,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLM-AO-m0X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2096.5" y="512.5"/>
+            <point key="canvasLocation" x="2153.5" y="624.5"/>
         </scene>
         <!--Members Table View Controller-->
         <scene sceneID="vVg-nf-otc">
@@ -709,35 +701,7 @@
             </objects>
             <point key="canvasLocation" x="1569.5" y="-345.5"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="SMU-x0-M3E">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tJe-0n-lo3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tableViewController id="lKM-uv-U53" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Uuk-FR-lwB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="M8U-mU-7Nl">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M8U-mU-7Nl" id="F0P-2B-cET">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="lKM-uv-U53" id="nK2-cP-ibl"/>
-                            <outlet property="delegate" destination="lKM-uv-U53" id="GyR-uX-fG9"/>
-                        </connections>
-                    </tableView>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </tableViewController>
-            </objects>
-            <point key="canvasLocation" x="2056.5" y="-408.5"/>
-        </scene>
+
         <!--Members View Controller-->
         <scene sceneID="UZQ-UY-Tb5">
             <objects>

@@ -8,6 +8,6 @@
 
 #import "KGViewController.h"
 
-@interface KGAboutMattermostViewController : KGViewController
+@interface KGAboutMattermostViewController : UIViewController
 
 @end

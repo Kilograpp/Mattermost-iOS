@@ -25,6 +25,7 @@
 #import "KGSettingsViewController.h"
 #import "KGTeamsViewController.h"
 #import "KGAboutMattermostViewController.h"
+#import "KGLoginNavigationController.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "KGConstants.h"
 
@@ -124,7 +125,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                      iconName:@"menu_switch_icon"
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
-                                                                          [wSelf showTeams];
+                                                                          [wSelf navigateToTeams];
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
@@ -177,6 +178,15 @@ const static CGFloat KGHeightHeader = 64;
     }
 }
 
+- (void)navigateToTeams {
+    KGLoginNavigationController *nc = self.menuContainerViewController.centerViewController;
+    if (![nc.topViewController isKindOfClass:[KGTeamsViewController class]]) {
+        [self toggleRightSideMenuAction];
+        [self.delegate navigateToTeams];
+        [[UIStatusBar sharedStatusBar] restoreState];
+    }
+}
+
 #pragma mark - Actions
 
 - (void)toggleRightSideMenuAction {
@@ -194,13 +204,13 @@ const static CGFloat KGHeightHeader = 64;
     }];
     
 }
-
+/*
 - (void)showTeams {
     KGTeamsViewController *vc = [KGTeamsViewController configuredContainerViewController];
     [self presentViewController:vc animated:YES completion:nil];
     [[UIStatusBar sharedStatusBar] restoreState];
 }
-
+*/
 
 #pragma mark - Alert
 
