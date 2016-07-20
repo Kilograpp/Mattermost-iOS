@@ -51,12 +51,17 @@
     self.navigationBar.barTintColor = [UIColor kg_navigationBarTintColor];
     
     [self setupTitleLabel];
-    
-    //FIXME: вынести в отдельные методы конфигурацию titleView и UITapGestureRecognizer
+    [self setupTitleView];
+    [self setupGestureRecognizer];
+}
+
+- (void)setupTitleView {
     self.kg_titleView = [[KGNavigationBarTitleView alloc] init];
     self.kg_titleView.frame = CGRectMake(0.f, 0.f, KGScreenWidth() * 0.6f, 44.f);
     [self.navigationBar.topItem setTitleView:self.kg_titleView];
-    
+}
+
+- (void)setupGestureRecognizer {
     [self.kg_titleView.titleLabel setUserInteractionEnabled:YES];
     [self.kg_titleView.titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMembers)]];
 }
@@ -67,7 +72,7 @@
 }
 
 - (void)showMembers {
-    [self.delegate navigationToMembers];
+    [self.kg_delegate didSelectTitleView];
 }
 
 #pragma mark - Status Bar
