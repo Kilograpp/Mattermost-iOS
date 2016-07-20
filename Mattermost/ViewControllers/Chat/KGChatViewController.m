@@ -918,7 +918,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         vc.channel = self.channel;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
-    
+
 }
 
 
