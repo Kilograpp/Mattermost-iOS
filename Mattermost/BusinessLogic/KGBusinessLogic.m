@@ -83,7 +83,7 @@
         [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFRKNetworkReachabilityStatus status) {
             if (status == AFRKNetworkReachabilityStatusNotReachable) {
                 [self closeSocket];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
+                [self updateStatusForAllUsers];
             } else {
                 [self openSocket];
             }
