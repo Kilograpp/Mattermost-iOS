@@ -67,7 +67,7 @@
 //    [kilograppString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:kilograppLinkRange];
     NSLog(@"%@",[urlMattermost absoluteString]);
     [mattermostString addAttribute:NSLinkAttributeName value:urlMattermost  range:mattermostLinkRange];
-    [kilograppString addAttribute:NSLinkAttributeName value:[urlMattermost absoluteString] range:kilograppLinkRange];
+    [kilograppString addAttribute:NSLinkAttributeName value:urlKilograppTeam range:kilograppLinkRange];
     
     self.kilograppLinkView.attributedText = kilograppString;
     self.mattermostLinkView.attributedText = mattermostString;
