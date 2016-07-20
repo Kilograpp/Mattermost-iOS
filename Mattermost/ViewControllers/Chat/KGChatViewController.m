@@ -470,11 +470,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     } willBeginPickingHandler:^{
-        [[KGAlertManager sharedManager] showProgressHud];
+//        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
     }];
 }
 
@@ -531,11 +533,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)resetAttachments {
     [self.imageAttachments removeAllObjects];
 }
-
-//- (CGFloat)maximumHeightForAutoCompletionView {
-//    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-//    return cellHeight * self.autocompletionDataSource.count;
-//}
 
 
 #pragma mark - Notifications
