@@ -21,6 +21,7 @@
 		41FC94B51D07FA87009E1090 /* KGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B41D07FA87009E1090 /* KGButton.m */; };
 		41FC94B91D07FAA5009E1090 /* KGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94B81D07FAA5009E1090 /* KGTextField.m */; };
 		41FC94BD1D081F1F009E1090 /* KGLoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */; };
+		4B3E71D41D3F915E000F3EF5 /* KGChannelInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B3E71D31D3F915E000F3EF5 /* KGChannelInfoViewController.m */; };
 		4BB94CDA1D3CEC92003BC6A0 /* KGAboutMattermostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BB94CD91D3CEC92003BC6A0 /* KGAboutMattermostViewController.m */; };
 		7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339BAE03187F83966A82A1E /* UIColor+KGPreparedColor.m */; };
 		7339B10D1047D9B9CFBD00EE /* RKResponseDescriptor+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 7339B6110EDAF3A46C9DC98F /* RKResponseDescriptor+Runtime.m */; };
@@ -198,6 +199,8 @@
 		41FC94B81D07FAA5009E1090 /* KGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTextField.m; sourceTree = "<group>"; };
 		41FC94BB1D081F1F009E1090 /* KGLoginBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGLoginBaseViewController.h; sourceTree = "<group>"; };
 		41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGLoginBaseViewController.m; sourceTree = "<group>"; };
+		4B3E71D21D3F915E000F3EF5 /* KGChannelInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KGChannelInfoViewController.h; path = Channel/KGChannelInfoViewController.h; sourceTree = "<group>"; };
+		4B3E71D31D3F915E000F3EF5 /* KGChannelInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KGChannelInfoViewController.m; path = Channel/KGChannelInfoViewController.m; sourceTree = "<group>"; };
 		4BB94CD81D3CEC92003BC6A0 /* KGAboutMattermostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAboutMattermostViewController.h; sourceTree = "<group>"; };
 		4BB94CD91D3CEC92003BC6A0 /* KGAboutMattermostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAboutMattermostViewController.m; sourceTree = "<group>"; };
 		7339B091B7FA00F3D2DF9F31 /* NSError+KGError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+KGError.h"; sourceTree = "<group>"; };
@@ -640,6 +643,15 @@
 				41FC94BC1D081F1F009E1090 /* KGLoginBaseViewController.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		4B3E71D11D3F901F000F3EF5 /* Channel */ = {
+			isa = PBXGroup;
+			children = (
+				4B3E71D21D3F915E000F3EF5 /* KGChannelInfoViewController.h */,
+				4B3E71D31D3F915E000F3EF5 /* KGChannelInfoViewController.m */,
+			);
+			name = Channel;
 			sourceTree = "<group>";
 		};
 		4BB94CD71D3CEC92003BC6A0 /* About */ = {
@@ -1404,6 +1416,7 @@
 		D6AA86491D0693D9003DF669 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4B3E71D11D3F901F000F3EF5 /* Channel */,
 				41AD23811D3E6E080007E413 /* Members */,
 				4BB94CD71D3CEC92003BC6A0 /* About */,
 				D6C154C21D07555D00B053CE /* Base */,
@@ -1981,6 +1994,7 @@
 				9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */,
 				D6A3DE291D2A68C100F9DF0F /* KGChatViewController+KGCoreData.m in Sources */,
 				9B822A0C7ED90195DC0C7991 /* UIStatusBar+SharedBar.m in Sources */,
+				4B3E71D41D3F915E000F3EF5 /* KGChannelInfoViewController.m in Sources */,
 				9B8221D21C9894CC0071E7F7 /* KGCommand.m in Sources */,
 				9B822B4B3B75D399D392ACD6 /* _KGCommand.m in Sources */,
 				D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */,

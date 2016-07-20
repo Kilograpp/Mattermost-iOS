@@ -53,6 +53,7 @@
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
 #import "KGLoginNavigationController.h"
+#import "KGChannelInfoViewController.h"
 #import "KGTeamsViewController.h"
 #import <ObjectiveSugar.h>
 #import "KGMembersViewController.h"
@@ -72,6 +73,7 @@
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
+static NSString *const kPresentChannelInfoSegueIdentier = @"presentChannelInfo";
 static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -611,7 +613,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)didSelectTitleView {
    // NSLog(@"navigation delegate");
-    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+//    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+    
+    [self performSegueWithIdentifier:kPresentChannelInfoSegueIdentier sender:nil];
 }
 
 #pragma mark - KGChannelsObserverDelegate
@@ -735,6 +739,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
  }
 
+- (void)presentChannelInfo {
+    KGChannelInfoViewController *vc = [[UIStoryboard storyboardWithName:@"Chat" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGChannelInfoViewController"];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];    
+}
 
 #pragma mark - Loading View
 
@@ -890,6 +899,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
         KGMembersViewController *vc = segue.destinationViewController;
+        vc.channel = self.channel;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
+    }
+    if ([segue.identifier isEqualToString:kPresentChannelInfoSegueIdentier]) {
+        UINavigationController *nc = segue.destinationViewController;
+        KGChannelInfoViewController *vc = nc.viewControllers.firstObject;
         vc.channel = self.channel;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
