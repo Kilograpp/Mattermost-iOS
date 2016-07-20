@@ -7,8 +7,6 @@
 //
 
 #import "KGChatViewController.h"
-#import "KGChatRootCell.h"
-
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
 #import "KGChannel.h"
@@ -29,7 +27,6 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGFollowUpChatCell.h"
-#import "KGImageChatCell.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
@@ -40,7 +37,6 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGProfileTableViewController.h"
-#import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
@@ -296,7 +292,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                 ascending:NO
                                             withPredicate:predicate
                                                 inContext:context];
-    [request setFetchLimit:50];
+    [request setFetchLimit:60];
     
     self.fetchedResultsController = [KGPost MR_fetchController:request
                                                       delegate:self
@@ -349,6 +345,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel fromPost:self.fetchedResultsController.fetchedObjects.lastObject completion:^(BOOL isLastPage, KGError *error) {
             // TODO: Code Review: Разнести на два метода
+            if (self.fetchedResultsController.fetchedObjects.count == 60) {
+                [[NSManagedObjectContext MR_defaultContext] refreshAllObjects];
+            }
             if (error) {
                 [[KGAlertManager sharedManager] showError:error];
             }
@@ -664,11 +663,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
     } else {
         self.hasNextPage = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.refreshControl beginRefreshing];
-            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
-            [self loadFirstPageOfDataWithTableRefresh:NO];
-        });
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self.refreshControl beginRefreshing];
+//            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+//            [self loadFirstPageOfDataWithTableRefresh:NO];
+//        });
 
     }
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];

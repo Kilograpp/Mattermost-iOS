@@ -62,8 +62,6 @@
 		9B822D9DAFE83AF80CA1CC8A /* KGFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B82287569BAFA8E7E1DECF6 /* KGFile.m */; };
 		9B822F35B53BFD3636FFD704 /* KGPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B822A262E677040DD4EF48D /* KGPreferences.m */; };
 		9B822F620A497CBB234F4DEC /* KGObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B8229BCCC1CA21A588969C5 /* KGObjectManager.m */; };
-		CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */; };
-		CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */; };
 		CD5E1F6F1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */; };
 		CD625C681D19977C00ED4E2F /* KGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = CD625C671D19977C00ED4E2F /* KGAlertView.m */; };
 		CD6F3B171D3BE705009E157E /* KGManualRightMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6F3B161D3BE705009E157E /* KGManualRightMenuCell.m */; };
@@ -100,7 +98,6 @@
 		D64EB5B11D364ED200D66425 /* KGChatViewController+KGTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B01D364ED200D66425 /* KGChatViewController+KGTableView.m */; };
 		D64EB5B51D368C1300D66425 /* KGChatViewController+KGLoading.m in Sources */ = {isa = PBXBuildFile; fileRef = D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */; };
 		D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */; };
-		D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D66328431D1F6AEB0043B7DD /* IVManualCell.m */; };
 		D66EEDD61D149711000E4BA4 /* UIImage+KGRotate.m in Sources */ = {isa = PBXBuildFile; fileRef = D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */; };
 		D67923F11D09439E00481694 /* KGResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D67923F01D09439E00481694 /* KGResetPasswordViewController.m */; };
 		D67A24871D10448B006579E8 /* KGChatCommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D67A24861D10448B006579E8 /* KGChatCommonTableViewCell.m */; };
@@ -145,12 +142,9 @@
 		D8436E751D270C3100DEF464 /* TSMarkdownParser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */; };
 		D8436E761D270ED900DEF464 /* SocketRocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C31D1C29970034E450 /* SocketRocket.framework */; };
 		D844A6E41D0AE2D600B53BB3 /* KGChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */; };
-		D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */; };
-		D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */; };
 		D844A6F21D0AFA0000B53BB3 /* KGTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A6F11D0AFA0000B53BB3 /* KGTableViewCell.m */; };
 		D844A6FD1D0B03BB00B53BB3 /* ActiveLabel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */; };
 		D844A7011D0B2D4B00B53BB3 /* KGFollowUpChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A7001D0B2D4B00B53BB3 /* KGFollowUpChatCell.m */; };
-		D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */; };
 		D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */; };
 		D844A7121D0C6D8800B53BB3 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */; };
 		D8B428F01D06DFE6008BF955 /* KGTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = D8B428ED1D06DFE6008BF955 /* KGTeam.m */; };
@@ -279,9 +273,6 @@
 		9B822FA5DE660473F9598FBA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringUtils.h; sourceTree = "<group>"; };
 		9B822FEE7032FD6461D8CEF3 /* KGChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChannel.h; sourceTree = "<group>"; };
 		B44365A4318ADBC8BF36C5EC /* Pods-Mattermost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mattermost.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mattermost/Pods-Mattermost.release.xcconfig"; sourceTree = "<group>"; };
-		CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageChatCell.h; sourceTree = "<group>"; };
-		CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageChatCell.m; sourceTree = "<group>"; };
-		CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGImageChatCell.xib; sourceTree = "<group>"; };
 		CD5E1F6D1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CAGradientLayer+KGPreparedGradient.h"; sourceTree = "<group>"; };
 		CD5E1F6E1D12A61F00185B25 /* CAGradientLayer+KGPreparedGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CAGradientLayer+KGPreparedGradient.m"; sourceTree = "<group>"; };
 		CD625C661D19977C00ED4E2F /* KGAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAlertView.h; sourceTree = "<group>"; };
@@ -341,8 +332,6 @@
 		D64EB5B41D368C1300D66425 /* KGChatViewController+KGLoading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "KGChatViewController+KGLoading.m"; path = "ChatViewController/Loading/KGChatViewController+KGLoading.m"; sourceTree = "<group>"; };
 		D65E5AC81D0F51D400D5E0C6 /* KGImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImageCell.h; sourceTree = "<group>"; };
 		D65E5AC91D0F51D400D5E0C6 /* KGImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImageCell.m; sourceTree = "<group>"; };
-		D66328421D1F6AEB0043B7DD /* IVManualCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVManualCell.h; sourceTree = "<group>"; };
-		D66328431D1F6AEB0043B7DD /* IVManualCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVManualCell.m; sourceTree = "<group>"; };
 		D66EEDD41D149711000E4BA4 /* UIImage+KGRotate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+KGRotate.h"; sourceTree = "<group>"; };
 		D66EEDD51D149711000E4BA4 /* UIImage+KGRotate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+KGRotate.m"; sourceTree = "<group>"; };
 		D67923EF1D09439E00481694 /* KGResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGResetPasswordViewController.h; sourceTree = "<group>"; };
@@ -425,9 +414,6 @@
 		D8436E741D270C3100DEF464 /* TSMarkdownParser.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSMarkdownParser.framework; path = Carthage/Build/iOS/TSMarkdownParser.framework; sourceTree = "<group>"; };
 		D844A6E21D0AE2D600B53BB3 /* KGChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatViewController.h; sourceTree = "<group>"; };
 		D844A6E31D0AE2D600B53BB3 /* KGChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatViewController.m; sourceTree = "<group>"; };
-		D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGChatRootCell.h; sourceTree = "<group>"; };
-		D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGChatRootCell.m; sourceTree = "<group>"; };
-		D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGChatRootCell.xib; sourceTree = "<group>"; };
 		D844A6EC1D0AE74F00B53BB3 /* ActiveLabel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActiveLabel.framework; path = Carthage/Build/iOS/ActiveLabel.framework; sourceTree = "<group>"; };
 		D844A6F01D0AFA0000B53BB3 /* KGTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGTableViewCell.h; sourceTree = "<group>"; };
 		D844A6F11D0AFA0000B53BB3 /* KGTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGTableViewCell.m; sourceTree = "<group>"; };
@@ -435,7 +421,6 @@
 		D844A6FE1D0B05B300B53BB3 /* Mattermost-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mattermost-Swift.h"; sourceTree = "<group>"; };
 		D844A6FF1D0B2D4B00B53BB3 /* KGFollowUpChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGFollowUpChatCell.h; sourceTree = "<group>"; };
 		D844A7001D0B2D4B00B53BB3 /* KGFollowUpChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGFollowUpChatCell.m; sourceTree = "<group>"; };
-		D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KGFollowUpChatCell.xib; sourceTree = "<group>"; };
 		D844A7061D0B34A900B53BB3 /* KGAvatarImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGAvatarImageView.h; sourceTree = "<group>"; };
 		D844A7071D0B34A900B53BB3 /* KGAvatarImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGAvatarImageView.m; sourceTree = "<group>"; };
 		D844A7111D0C6D8800B53BB3 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -1587,17 +1572,8 @@
 				D67A24841D104443006579E8 /* Common */,
 				41A80B8C1D1ABA0A00E8A0EA /* File */,
 				D65E5AC71D0F519400D5E0C6 /* Image */,
-				D66328421D1F6AEB0043B7DD /* IVManualCell.h */,
-				D66328431D1F6AEB0043B7DD /* IVManualCell.m */,
-				D844A6E71D0AE3A700B53BB3 /* KGChatRootCell.h */,
-				D844A6E81D0AE3A700B53BB3 /* KGChatRootCell.m */,
-				D844A6EA1D0AE3B600B53BB3 /* KGChatRootCell.xib */,
 				D844A6FF1D0B2D4B00B53BB3 /* KGFollowUpChatCell.h */,
 				D844A7001D0B2D4B00B53BB3 /* KGFollowUpChatCell.m */,
-				D844A7021D0B2DB500B53BB3 /* KGFollowUpChatCell.xib */,
-				CD05D73F1D0B3F4500675EAC /* KGImageChatCell.h */,
-				CD05D7401D0B3F4500675EAC /* KGImageChatCell.m */,
-				CD05D7411D0B3F4500675EAC /* KGImageChatCell.xib */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1730,20 +1706,17 @@
 				419096EF1D1435D900725440 /* KGProfileTableHeader.xib in Resources */,
 				D69FB1731D097B2700043C2D /* Chat.storyboard in Resources */,
 				D636DBEF1D0EAE87003C0B0D /* SF-UI-Display-Bold.otf in Resources */,
-				CD05D7431D0B3F4500675EAC /* KGImageChatCell.xib in Resources */,
 				D636DBE91D0EADA5003C0B0D /* SF-UI-Text-Regular.otf in Resources */,
 				D636DBF31D0EAF7A003C0B0D /* SF-UI-Display-Medium.otf in Resources */,
 				D696F7871D060FDD008341AF /* LaunchScreen.storyboard in Resources */,
 				D636DBF51D0EB30F003C0B0D /* SF-UI-Text-Semibold.otf in Resources */,
 				D696F7841D060FDD008341AF /* Assets.xcassets in Resources */,
 				D605F76F1D26EE1200C4D84C /* KGTeamCell.xib in Resources */,
-				D844A6EB1D0AE3B600B53BB3 /* KGChatRootCell.xib in Resources */,
 				D648B44F1D2BB04B00D797FD /* KGCommandTableViewCell.xib in Resources */,
 				419096E51D14118800725440 /* KGProfileCell.xib in Resources */,
 				D68BAFFE1D0B215800B4564B /* KGChannelTableViewCell.xib in Resources */,
 				D636DBEB1D0EADB9003C0B0D /* SF-UI-Display-Regular.otf in Resources */,
 				415FFC091D182F06003F9E23 /* KGTableViewSectionHeader.xib in Resources */,
-				D844A7031D0B2DB500B53BB3 /* KGFollowUpChatCell.xib in Resources */,
 				D648B4491D2BAC4B00D797FD /* SF-UI-Text-LightItalic.otf in Resources */,
 				D60E0F241D37E3F100863FCD /* KGNavigationBarTitleView.xib in Resources */,
 				9B822AD63A5A13F8DCDE6B9D /* Login.storyboard in Resources */,
@@ -1893,7 +1866,6 @@
 				D6C154DB1D07572200B053CE /* KGLoginNavigationController.m in Sources */,
 				D8B428FA1D06E09F008BF955 /* KGBusinessLogic+Session.m in Sources */,
 				D8F4C3191D29CDF1008BCCB2 /* KGErrorAction.m in Sources */,
-				D66328441D1F6AEB0043B7DD /* IVManualCell.m in Sources */,
 				D8B428F71D06DFED008BF955 /* _KGUser.m in Sources */,
 				D605F76E1D26EE1200C4D84C /* KGTeamCell.m in Sources */,
 				D69FB1771D097F4200043C2D /* KGAlertManager.m in Sources */,
@@ -1927,7 +1899,6 @@
 				9B822C77EA713DF67DD890E5 /* KGBusinessLogic+Channel.m in Sources */,
 				9B82204F6BE59AF0784385F8 /* KGBusinessLogic+Posts.m in Sources */,
 				9B822478B94669140F45CB09 /* _KGPost.m in Sources */,
-				D844A6E91D0AE3A700B53BB3 /* KGChatRootCell.m in Sources */,
 				D65E5ACA1D0F51D400D5E0C6 /* KGImageCell.m in Sources */,
 				D69FB1991D09C5FA00043C2D /* KGLeftMenuViewController.m in Sources */,
 				D67A539D1D25C7390039A201 /* KGImageView.m in Sources */,
@@ -1945,7 +1916,6 @@
 				D686269B1D21E31A00FAC1CB /* KGUIUtils.m in Sources */,
 				D64493C31D33A2390072F157 /* NSCalendar+KGSharedCalendar.m in Sources */,
 				D844A7081D0B34A900B53BB3 /* KGAvatarImageView.m in Sources */,
-				CD05D7421D0B3F4500675EAC /* KGImageChatCell.m in Sources */,
 				9B822464818CF17B8A1F2DE9 /* KGError.m in Sources */,
 				D603E9221D38E3E200145A85 /* KGSoundManager.m in Sources */,
 				9B822CFACEBDBEBD1D650291 /* KGBusinessLogic+Notifications.m in Sources */,
