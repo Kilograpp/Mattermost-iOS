@@ -22,5 +22,6 @@ typedef NS_ENUM(NSInteger, KGUserNetworkStatus) {
 + (NSString*)usersStatusPathPattern;
 + (NSString*)logoutPathPattern;
 + (NSString*)attachDevicePathPattern;
++ (NSString *)fullUsersListPathPattern;
 - (NSString*)stringFromNetworkStatus;
 @end

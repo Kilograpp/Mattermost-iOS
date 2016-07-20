@@ -14,7 +14,7 @@
 #import "KGDrawer.h"
 
 #define KG_IMAGE_WIDTH  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f)
-#define KG_IMAGE_HEIGHT  ((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f)
+#define KG_IMAGE_HEIGHT  (ceilf((CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f - 5.f))
 
 @interface KGImageCell ()
 @property (nonatomic, strong) UIImageView* imageView;

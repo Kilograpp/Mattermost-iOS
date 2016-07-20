@@ -67,6 +67,8 @@
 
 #import "KGPostUtlis.h"
 
+#import "KGBusinessLogic+Users.h"
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
@@ -123,6 +125,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
+    
+    [[KGBusinessLogic sharedInstance] loadFullUsersListWithCompletion:nil];
 
 }
 
@@ -139,12 +143,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
- self.navigationController.delegate = self;
+ 
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
     }
-    
 }
 
 
@@ -166,11 +169,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 // TODO: Code Review: Разнести по отдельным методам. InitialSetup - каша из мелкой конфигурации. Ничего страшного, если она разнесется на три-четыре разных метода
 - (void)initialSetup {
     _isFirstLoad = YES;
-    
+    self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
     [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
+    KGChatNavigationController *nc = (KGChatNavigationController *)self.navigationController;
+    nc.kg_delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
 }
 
@@ -472,11 +477,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     } willBeginPickingHandler:^{
-        [[KGAlertManager sharedManager] showProgressHud];
+//        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
     }];
 }
 
@@ -533,11 +540,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)resetAttachments {
     [self.imageAttachments removeAllObjects];
 }
-
-//- (CGFloat)maximumHeightForAutoCompletionView {
-//    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-//    return cellHeight * self.autocompletionDataSource.count;
-//}
 
 
 #pragma mark - Notifications
@@ -607,8 +609,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 #pragma mark - KGChatNavigationDelegate
 
-- (void)navigationToMembers {
-    NSLog(@"navigation delegate");
+- (void)didSelectTitleView {
+   // NSLog(@"navigation delegate");
     [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
 }
 

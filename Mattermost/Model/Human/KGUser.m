@@ -75,6 +75,7 @@ static NSString * const kOfflineNetworkString = @"offline";
     return mapping;
 }
 
+
 //+ (RKEntityMapping*)statusEntityMapping {
 //    RKEntityMapping *mapping = [super emptyEntityMapping];
 //    [mapping setForceCollectionMapping:YES];
@@ -126,6 +127,10 @@ static NSString * const kOfflineNetworkString = @"offline";
     return @"users/websocket";
 }
 
++ (NSString *)fullUsersListPathPattern {
+    return @"users/profiles_for_dm_list/:identifier";
+}
+
 #pragma mark - Response Descriptors
 
 + (RKResponseDescriptor*)authResponseDescriptor {
@@ -167,6 +172,14 @@ static NSString * const kOfflineNetworkString = @"offline";
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self authPathPattern]
                                                        keyPath:@"theme_props"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)fullUsersListResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGUser entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self fullUsersListPathPattern]
+                                                       keyPath:nil
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 

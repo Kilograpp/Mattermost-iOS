@@ -237,21 +237,13 @@
             </objects>
             <point key="canvasLocation" x="1070.5" y="547.5"/>
         </scene>
-        <!--SettingsAccount-->
-        <scene sceneID="O6e-oo-8mK">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SettingsAccount" id="ExM-Qi-d3C" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="biS-YQ-4Zl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1443.5" y="57"/>
-        </scene>
         <!--Login-->
         <scene sceneID="MnC-Vk-wJ6">
             <objects>
                 <viewControllerPlaceholder storyboardName="Login" id="MBR-Ft-t4M" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LXT-34-Ac9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1424.5" y="154"/>
+            <point key="canvasLocation" x="1433.5" y="191"/>
         </scene>
         <!--Settings-->
         <scene sceneID="qGy-pD-bgt">
