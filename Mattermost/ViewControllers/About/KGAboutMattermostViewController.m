@@ -9,8 +9,9 @@
 #import "KGAboutMattermostViewController.h"
 
 @interface KGAboutMattermostViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *iconKGImageView;
 @property (strong, nonatomic) NSTimer* iconsResizeAnimationTimer;
+
+@property (weak, nonatomic) IBOutlet UIImageView *iconKGImageView;
 @property (weak, nonatomic) IBOutlet UITextView *mattermostLinkView;
 @property (weak, nonatomic) IBOutlet UITextView *kilograppLinkView;
 
@@ -24,7 +25,7 @@
     [super viewDidLoad];
     
     [self setupTitle];
-    [self setupLinksColor];
+    [self setupLinks];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -37,6 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [self setupTimer];
 }
+
 
 #pragma makr - Setup
 
@@ -53,19 +55,13 @@
     self.title = @"About Mattermost";
 }
 
-- (void)setupLinksColor {
+- (void)setupLinks {
     NSURL *urlKilograppTeam = [NSURL URLWithString:@"http://kilograpp.com/"];
     NSURL *urlMattermost = [NSURL URLWithString:@"https://mattermost.org/"];
-    
     NSMutableAttributedString *mattermostString = [[NSMutableAttributedString alloc] initWithString:@"Join the Mattermost community at mattermost.org"];
     NSMutableAttributedString *kilograppString = [[NSMutableAttributedString alloc] initWithString:@"This application was developed by Kilograpp Team"];
-    
     NSRange mattermostLinkRange = [[mattermostString string] rangeOfString:@"mattermost.org"];
     NSRange kilograppLinkRange = [[kilograppString string] rangeOfString:@"Kilograpp Team"];
-    
-//    [mattermostString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:mattermostLinkRange];
-//    [kilograppString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:kilograppLinkRange];
-    NSLog(@"%@",[urlMattermost absoluteString]);
     [mattermostString addAttribute:NSLinkAttributeName value:urlMattermost  range:mattermostLinkRange];
     [kilograppString addAttribute:NSLinkAttributeName value:urlKilograppTeam range:kilograppLinkRange];
     
@@ -91,10 +87,5 @@
     self.iconKGImageView.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
     [UIView commitAnimations];
 }
-
-
-#pragma mark - Attributed String methods
-
-
 
 @end

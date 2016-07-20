@@ -52,6 +52,8 @@
 #import "KGCommand.h"
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
+#import "KGLoginNavigationController.h"
+#import "KGTeamsViewController.h"
 #import <ObjectiveSugar.h>
 #import "KGMembersViewController.h"
 #import <RestKit/RestKit.h>
@@ -69,7 +71,7 @@
 
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
-
+static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
 static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -697,6 +699,12 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self performSegueWithIdentifier:kShowAboutSegueIdentier sender:nil];
 }
 
+- (void)navigateToTeams {
+    KGTeamsViewController *vc = [[UIStoryboard storyboardWithName:@"Login" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGTeamsViewController"];
+    KGLoginNavigationController *nc = [[KGLoginNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];
+}
+
 #pragma mark - Actions
 
 - (void)toggleLeftSideMenuAction {
@@ -887,7 +895,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         vc.channel = self.channel;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
-    
+
 }
 
 
