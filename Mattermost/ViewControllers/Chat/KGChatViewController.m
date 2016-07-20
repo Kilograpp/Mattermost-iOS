@@ -382,7 +382,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 [cell showError];
             }
     
-            [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveToPersistentStoreAndWait];
+            [[KGPostUtlis sharedInstance].pendingMessagesContext performBlockAndWait:^{
+                [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveOnlySelfAndWait];
+            }];
              [[KGAlertManager sharedManager] hideHud];
     }];
     
