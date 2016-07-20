@@ -6,7 +6,7 @@ platform :ios do
   before_all do 
     cocoapods(use_bundle_exec: true)
     carthage(platform: "iOS")
-    match(force: true)
+    match
     gym
   end
 
