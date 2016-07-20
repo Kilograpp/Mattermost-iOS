@@ -163,7 +163,7 @@
                                     <constraint firstAttribute="bottom" secondItem="PPM-Op-0Zd" secondAttribute="bottom" constant="8" id="OLn-Xi-V1R"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAr-eG-x93" customClass="KGButton">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZAr-eG-x93" customClass="KGButton">
                                 <rect key="frame" x="158" y="358" width="58" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Gle-rj-Mpo"/>

@@ -229,7 +229,12 @@
                         <segue destination="mhr-Tt-zyI" kind="show" identifier="showSettings" id="4MF-Yv-klK"/>
                         <segue destination="4CP-zM-Hwz" kind="show" identifier="presentProfile" id="Wxe-qw-6a6"/>
                         <segue destination="VLG-ci-8Yy" kind="show" identifier="showAbout" id="If4-NK-QtA"/>
+<<<<<<< HEAD
                         <segue destination="ABo-aQ-GtL" kind="show" identifier="showMembers" id="HUJ-AJ-V2C"/>
+=======
+                        <segue destination="ABo-aQ-GtL" kind="show" identifier="showMembers" id="GCE-ai-4lu"/>
+                        <segue destination="UlB-UW-Cj8" kind="presentation" identifier="presentChannelInfo" id="74H-sY-n4P"/>
+>>>>>>> 55da25d9825ec38dd89dad41ac15e6bae1c4e74d
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zzH-lL-vPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -711,7 +716,30 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UUz-f5-AAU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1569.5" y="-345.5"/>
+            <point key="canvasLocation" x="1413.5" y="-470.5"/>
+        </scene>
+        <!--Channel Info View Controller-->
+        <scene sceneID="JnK-g5-HS4">
+            <objects>
+                <viewController storyboardIdentifier="KGChannelInfoViewController" id="6mT-0G-c06" customClass="KGChannelInfoViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="3aK-WE-cV1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="6mT-0G-c06" id="YjF-Vq-WLJ"/>
+                            <outlet property="delegate" destination="6mT-0G-c06" id="lK0-wz-HWx"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4eh-27-DXP"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableView" destination="3aK-WE-cV1" id="UcQ-z2-Xm3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pdF-I7-8hu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2842.5" y="-532.5"/>
         </scene>
         <!--Members View Controller-->
         <scene sceneID="UZQ-UY-Tb5">
@@ -758,7 +786,30 @@
                     </connections>
                 </searchDisplayController>
             </objects>
+<<<<<<< HEAD
             <point key="canvasLocation" x="2478.5" y="-195.5"/>
+=======
+            <point key="canvasLocation" x="2520.5" y="209.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fNP-5J-a1w">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UlB-UW-Cj8" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YYp-fX-tWl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="6mT-0G-c06" kind="relationship" relationship="rootViewController" id="001-JQ-oXg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wce-fo-C7k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2424" y="-532"/>
+>>>>>>> 55da25d9825ec38dd89dad41ac15e6bae1c4e74d
         </scene>
     </scenes>
     <resources>
