@@ -7,8 +7,6 @@
 //
 
 #import "KGChatViewController.h"
-#import "KGChatRootCell.h"
-
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
 #import "KGChannel.h"
@@ -29,7 +27,6 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGFollowUpChatCell.h"
-#import "KGImageChatCell.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
@@ -40,7 +37,6 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGProfileTableViewController.h"
-#import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
