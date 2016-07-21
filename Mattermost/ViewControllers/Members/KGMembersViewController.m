@@ -12,7 +12,7 @@
 #import "NSManagedObject+CustomFinder.h"
 #import "UIStatusBar+SharedBar.h"
 
-@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate>
+@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
 
 @property (weak, nonatomic) IBOutlet UITableView *membersTableView;
 @property (nonatomic, strong, readwrite) NSArray *searchResultDataSource;
@@ -29,16 +29,11 @@
     [self setupNavigationBar];
     [self setupTable];
     [self setupDataSource];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
-    self.searchController.searchResultsUpdater = self;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.searchBar.scopeButtonTitles = @[];
-    self.searchController.searchBar.delegate = self;
-    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
-    self.searchController.searchBar.backgroundColor = [UIColor lightGrayColor];
+    [self setupSearchController];
+}
 
-    self.membersTableView.tableHeaderView = self.searchController.searchBar;
-    self.definesPresentationContext = YES;
+- (void)viewWillAppear:(BOOL)animated {
+    
 }
 
 - (void)setupNavigationBar {
@@ -54,7 +49,19 @@
 }
 
 - (void)setupDataSource {
-    self.dataSource = [[NSArray alloc]initWithObjects:@"Aaa",@"Bab",@"Cbb", nil];
+    self.dataSource = [[NSArray alloc]initWithObjects:@"Aaad",@"Baab",@"Cbbd",@"daab", nil];
+}
+
+- (void)setupSearchController {
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchBar.scopeButtonTitles = @[];
+    self.searchController.searchBar.delegate = self;
+    self.membersTableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.searchBar.translucent = NO;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -62,7 +69,6 @@
         return self.dataSource.count;
     }
     return self.searchResultDataSource.count;
-    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -88,10 +94,13 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     NSString *searchString = searchController.searchBar.text;
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self contains[c] %@", searchString];
-    self.searchResultDataSource = [self.dataSource filteredArrayUsingPredicate:resultPredicate];
+    if (searchString.length == 0) {
+        self.searchResultDataSource = self.dataSource;
+    } else {
+        NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"self contains[c] %@", searchString];
+        self.searchResultDataSource = [self.dataSource filteredArrayUsingPredicate:resultPredicate];
+    }
     [self.membersTableView reloadData];
 }
 
