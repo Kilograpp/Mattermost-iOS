@@ -92,6 +92,9 @@ static const CGFloat KGHeightCell  = 58;
     return [NSString stringWithFormat:@"%@Identifier", NSStringFromClass([self class])];
 }
 
+
+#pragma mark - Override
+
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
     
