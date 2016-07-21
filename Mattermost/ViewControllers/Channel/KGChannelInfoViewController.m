@@ -14,6 +14,8 @@
 #import "KGChannel.h"
 #import "KGTeam.h"
 
+#define membersCount (int)self.channel.members.count
+
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
     kSectionInformation,
@@ -28,14 +30,15 @@ typedef NS_ENUM(NSInteger, NumberOfRows) {
     kSectionTitleNumberOfRows = 1,
     kSectionInformationNumberOfRows = 4,
     kSectionNotificationNumberOfRows = 1,
-    kSectionMembersNumberOfRows = 5,
+    kSectionMembersNumberOfRows = 2,
     kSectionLeaveNumberOfRows = 1,
 };
 
 static CGFloat const kTableViewTitleSectionHeaderHeight = 0.1f;
-static CGFloat const kTableViewMembersSectionHeaderHeight = 30.f;
+static CGFloat const kTableViewMembersSectionHeaderHeight = 40.f;
 static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
-
+static CGFloat const kTableViewTitleCellHeight = 90.f;
+static CGFloat const kTableViewCellHeight = 50.f;
 
 @interface KGChannelInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -66,12 +69,9 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kSectionTitle) {
-        return 80.f;
+        return kTableViewTitleCellHeight;
     }
-    if (indexPath.section == kSectionMembers) {
-        return 60.f;
-    }
-    return 50.f;
+    return kTableViewCellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -88,7 +88,7 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
     if (section == kSectionMembers) {
     UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
     header.textLabel.font = [UIFont kg_regular16Font];
-    header.textLabel.text = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
+    header.textLabel.text = [NSString stringWithFormat:@"%d MEMBERS", membersCount];
     return header;
     }
     return [UIView new];
@@ -109,7 +109,7 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
         case kSectionNotification:
             return kSectionNotificationNumberOfRows;
         case kSectionMembers:
-            return kSectionMembersNumberOfRows;
+            return (kSectionMembersNumberOfRows+MIN(membersCount,5));
         case kSectionLeave:
             return kSectionLeaveNumberOfRows;
         default:
@@ -134,6 +134,9 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
             cell.textLabel.text = [self.titlesArray objectAtIndex:indexPath.row];
             cell.detailTextLabel.text = [self.detailsArray objectAtIndex:indexPath.row];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if (indexPath.row >= 2) {
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
             return cell;
         }
             
@@ -153,7 +156,7 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
                 cell.textLabel.textColor = [UIColor kg_blueColor];
                 return cell;
             }
-            if (indexPath.row == (kSectionMembersNumberOfRows - 1)) {
+            if (indexPath.row == (kSectionMembersNumberOfRows + MIN(membersCount,5) - 1)) {
                 UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
                 cell.textLabel.text = @"See all Members";
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -161,11 +164,10 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
                 return cell;
             }
                 UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
+                KGUser *user = [self.users objectAtIndex:indexPath.row - 1];
+                cell.textLabel.text = [self configureUserName:user];
                 cell.imageView.image = [UIImage imageNamed:@"about_mattermost_icon"];
-            
-                KGUser *user = [self.users objectAtIndex:indexPath.row];
-                cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", user.status];
+                cell.detailTextLabel.text = [self configureStatus:user];
             
                 return cell;
                                      
@@ -222,5 +224,29 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+#pragma mark - Class methods
+
+- (NSString*)configureUserName:(KGUser *)user {
+    if (!user.lastName.length) {
+        if (!user.firstName.length) {
+            return user.nickname;
+        }
+        return [NSString stringWithFormat:@"%@ (%@)", user.nickname, user.firstName];
+    }
+    return [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
+}
+// Fix this later
+- (NSString*)configureStatus:(KGUser *)user {
+    switch([user.status integerValue]) {
+        case 0:
+            return nil;
+        
+            
+        default:
+            return nil;
+            
+    }
+}
 @end
 
