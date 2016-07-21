@@ -20,6 +20,7 @@
 #import "KGPreferences.h"
 #import "KGObjectManager.h"
 #import "KGBusinessLogic+Channel.h"
+#import "KGJsonSerialization.h"
 #import "KGNotificationValues.h"
 #import "KGPost.h"
 #import <HexColors/HexColors.h>
@@ -90,11 +91,10 @@
             
         }];
         
-        
         if ([KGHardwareUtils sharedInstance].devicePerformance == KGPerformanceLow){
             [[manager operationQueue] setMaxConcurrentOperationCount:2];
         }
-        
+
         manager.requestSerializationMIMEType = RKMIMETypeJSON;
 
         RKValueTransformer* dateTransformer = [self millisecondsSince1970ToDateValueTransformer];
@@ -102,6 +102,8 @@
         [[RKValueTransformer defaultValueTransformer] insertValueTransformer:dateTransformer atIndex:0];
         [[RKValueTransformer defaultValueTransformer] addValueTransformer:colorTransformer];
 
+        [RKMIMETypeSerialization registerClass:[KGJsonSerialization class] forMIMEType:RKMIMETypeJSON];
+        
         [manager addResponseDescriptorsFromArray:[RKResponseDescriptor findAllDescriptors]];
         [manager addRequestDescriptorsFromArray:[RKRequestDescriptor findAllDescriptors]];
 
