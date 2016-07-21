@@ -34,6 +34,17 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.scopeButtonTitles = @[];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.searchBar.backgroundColor = [UIColor lightGrayColor];
+
+    self.membersTableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+
 }
 
 - (void)setupNavigationBar {
