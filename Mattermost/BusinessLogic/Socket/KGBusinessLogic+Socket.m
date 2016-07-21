@@ -23,6 +23,7 @@
 #import <ObjectiveSugar/ObjectiveSugar.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import "KGChannelsObserver.h"
+#import "KGPostUtlis.h"
 
 static const NSInteger KGNotificationSecondsDelay = 5;
 
@@ -177,18 +178,29 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
 #pragma mark - Post
 
 - (BOOL)existsPostWithId:(NSString*)identifier orPendingId:(NSString*)pendingIdentifier {
+    NSManagedObjectContext* context = [[KGPostUtlis sharedInstance] pendingMessagesContext];
     NSString* identifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes identifier], identifier);
     NSString* pendingIdentifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes backendPendingId], pendingIdentifier);
     NSString* finalCondition = NSStringWithFormat(@"%@ || %@", identifierCondition, pendingIdentifierCondition);
-    NSFetchRequest* request = [KGPost MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:finalCondition]];
-    return [[NSManagedObjectContext MR_defaultContext] countForFetchRequest:request error:nil] != 0;
+    NSFetchRequest* request = [KGPost MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:finalCondition] inContext:context];
+    __block BOOL postExists;
+    [context performBlockAndWait:^{
+        postExists = [context countForFetchRequest:request error:nil] != 0;
+    }];
+    
+    return postExists;
 }
 
 - (void)setupPostWithIdentifier:(NSString*)postIdentifier forChannelWithIdentifier:(NSString*)channelIdentifier success:(void(^)(KGPost *post))completion{
-    KGPost *post = [KGPost MR_createEntity];
+    NSManagedObjectContext* context = [[KGPostUtlis sharedInstance] pendingMessagesContext];
+    KGPost *post = [KGPost MR_createEntityInContext:context];
     [post setIdentifier:postIdentifier];
-    [post setChannel:[KGChannel managedObjectById:channelIdentifier]];
+    [post setChannel:[KGChannel managedObjectById:channelIdentifier inContext:context]];
     [self updatePost:post completion:^(KGError *error) {
+        [context performBlockAndWait:^{
+            [context MR_saveOnlySelfAndWait];
+        }];
+        
         safetyCall(completion, post);
     }];
 
