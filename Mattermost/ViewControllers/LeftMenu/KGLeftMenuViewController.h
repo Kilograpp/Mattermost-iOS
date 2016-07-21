@@ -12,6 +12,6 @@
 
 @interface KGLeftMenuViewController : KGViewController
 
-//- (void)selectChannel:(KGChannel*)channel;
+- (void)selectChannel:(KGChannel*)channel;
 
 @end
