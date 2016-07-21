@@ -17,6 +17,8 @@
 
 #import "KGUserStatus.h"
 #import "KGUserStatusObserver.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "UIImage+Resize.h"
 
 #define membersCount (int)self.channel.members.count
 
@@ -127,7 +129,6 @@ static CGFloat const kTableViewCellHeight = 50.f;
     switch (indexPath.section) {
         case kSectionTitle: {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
-            
             cell.textLabel.text = self.channel.name;
             cell.imageView.image = [UIImage imageNamed:@"about_kg_icon"];
             return cell;
@@ -170,9 +171,19 @@ static CGFloat const kTableViewCellHeight = 50.f;
                 UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
                 KGUser *user = [self.users objectAtIndex:indexPath.row - 1];
                 cell.textLabel.text = [self configureUserName:user];
-                cell.imageView.image = [UIImage imageNamed:@"about_mattermost_icon"];
                 cell.detailTextLabel.text = [self configureStatus:user];
+                
             
+                __weak typeof(cell) wCell = cell;
+                [wCell.imageView setImageWithURL:user.imageUrl
+                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                            UIImage *roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                            wCell.imageView.image = roundedImage;
+                                        }
+                      usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+     
                 return cell;
                                      
         }
@@ -188,6 +199,12 @@ static CGFloat const kTableViewCellHeight = 50.f;
             break;
     }
     return [UITableViewCell new];
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == kSectionMembers) {
+        NSLog(@"Members select row %d",indexPath.row);
+    }
 }
 
 #pragma mark - Setup
@@ -237,10 +254,7 @@ static CGFloat const kTableViewCellHeight = 50.f;
 
 - (NSString*)configureUserName:(KGUser *)user {
     if (!user.lastName.length) {
-        if (!user.firstName.length) {
-            return user.nickname;
-        }
-        return [NSString stringWithFormat:@"%@ (%@)", user.nickname, user.firstName];
+        return (!user.firstName.length) ? user.nickname : [NSString stringWithFormat:@"%@ (%@)", user.nickname, user.firstName];
     }
     return [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
 }
