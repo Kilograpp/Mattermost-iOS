@@ -39,6 +39,7 @@ const static CGFloat KGHeightHeader = 64;
 @interface KGRightMenuViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -52,8 +53,6 @@ const static CGFloat KGHeightHeader = 64;
     [self setupHeader];
     [self setupTableView];
 }
-
-
 
 #pragma mark - Setup
 
@@ -82,7 +81,7 @@ const static CGFloat KGHeightHeader = 64;
     self.tableView.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.view.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
     self.tableView.separatorInset = UIEdgeInsetsZero;
-    self.tableView.separatorColor = [UIColor kg_rightMenuSeparatorColor];
+    self.tableView.separatorColor = [[UIColor kg_rightMenuSeparatorColor] colorWithAlphaComponent:0.7];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     
 }
@@ -126,6 +125,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf navigateToTeams];
+                                                                          
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Settings", nil)
@@ -133,6 +133,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf navigateToSettings];
+                                                                         
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Invite New Members", nil)
@@ -147,6 +148,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                    titleColor:[UIColor kg_lightBlueColor]
                                                                       handler:^{
                                                                           [wSelf navigateToAbout];
+                                                                         
                                                                       }]];
     
     [rightMenuDataSource addObject:[KGRightMenuDataSourceEntry entryWithTitle:NSLocalizedString(@"Logout", nil)
@@ -154,6 +156,7 @@ const static CGFloat KGHeightHeader = 64;
                                                                    titleColor:[UIColor kg_whiteColor]
                                                                       handler:^{
                                                                           [wSelf logout];
+                                                                          
                                                                       }]];
     
     
@@ -217,5 +220,6 @@ const static CGFloat KGHeightHeader = 64;
 -(void) alertUnderDevelopment {
     [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
 }
+
 
 @end
