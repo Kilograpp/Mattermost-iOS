@@ -246,7 +246,7 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
     self.message = [self.message emojizedString];
 }
 
-- (void)calculateMessageWidth {
+- (void)calculateCreateAtWidth {
     self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
 }
 
@@ -262,13 +262,19 @@ bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
     return !self.files.count && self.shouldCheckForMissingFilesValue && self.attributedMessage;
 }
 
+- (void)setCreatedAt:(NSDate *)createdAt {
+    [self willChangeValueForKey:[KGPostAttributes createdAt]];
+    [self setPrimitiveCreatedAt:createdAt];
+    [self didChangeValueForKey:[KGPostAttributes createdAt]];
+    [self saveCreatedAtDateAsString];
+    [self calculateCreateAtWidth];
+}
+
 - (void)setMessage:(NSString *)message {
     [self willChangeValueForKey:[KGPostAttributes message]];
     [self setPrimitiveMessage:[message emojizedString]];
     [self parseMarkdown];
     [self parseImagesFromMessageLinks];
-    [self saveCreatedAtDateAsString];
-    [self calculateMessageWidth];
     [self calculateMessageHeight];
     [self didChangeValueForKey:[KGPostAttributes message]];
 }

@@ -7,8 +7,6 @@
 //
 
 #import "KGChatViewController.h"
-#import "KGChatRootCell.h"
-
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
 #import "KGChannel.h"
@@ -29,7 +27,6 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGFollowUpChatCell.h"
-#import "KGImageChatCell.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
@@ -40,7 +37,6 @@
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KGProfileTableViewController.h"
-#import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
@@ -53,6 +49,7 @@
 #import "KGChatViewController+KGLoading.h"
 #import "KGChatViewController+KGTableView.h"
 #import "KGLoginNavigationController.h"
+#import "KGChannelInfoViewController.h"
 #import "KGTeamsViewController.h"
 #import <ObjectiveSugar.h>
 #import "KGMembersViewController.h"
@@ -72,6 +69,7 @@
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
+static NSString *const kPresentChannelInfoSegueIdentier = @"presentChannelInfo";
 static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
@@ -125,9 +123,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
-    
-    [[KGBusinessLogic sharedInstance] loadFullUsersListWithCompletion:nil];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -299,7 +294,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                 ascending:NO
                                             withPredicate:predicate
                                                 inContext:context];
-    [request setFetchLimit:50];
+    [request setFetchLimit:60];
     
     self.fetchedResultsController = [KGPost MR_fetchController:request
                                                       delegate:self
@@ -352,6 +347,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel fromPost:self.fetchedResultsController.fetchedObjects.lastObject completion:^(BOOL isLastPage, KGError *error) {
             // TODO: Code Review: Разнести на два метода
+            if (self.fetchedResultsController.fetchedObjects.count == 60) {
+                [[NSManagedObjectContext MR_defaultContext] refreshAllObjects];
+            }
             if (error) {
                 [[KGAlertManager sharedManager] showError:error];
             }
@@ -377,8 +375,8 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[KGPostUtlis sharedInstance] sendPostInChannel:self.channel
                                             message:message
                                         attachments:self.imageAttachments
-                                         completion:^(KGPost *post, KGError *error) {
-            KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:post]];
+         completion:^(KGPost *post, KGError *error) {
+             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[post MR_inContext:self.fetchedResultsController.managedObjectContext]]];
             [cell finishAnimation];
             if (error) {
                 post.error = @YES;
@@ -386,7 +384,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                 [cell showError];
             }
     
-            [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveToPersistentStoreAndWait];
+            [[KGPostUtlis sharedInstance].pendingMessagesContext performBlockAndWait:^{
+                [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveOnlySelfAndWait];
+            }];
+             [[KGAlertManager sharedManager] hideHud];
     }];
     
     [self clearTextView];
@@ -476,14 +477,18 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
     } willBeginPickingHandler:^{
 //        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
-        [[KGAlertManager sharedManager] showProgressHud];
-        [self sendPost];
+//        if (!isCancelled) {
+//            [[KGAlertManager sharedManager] showProgressHud];
+//            [self sendPost];
+//        }
     }];
 }
 
@@ -611,7 +616,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)didSelectTitleView {
    // NSLog(@"navigation delegate");
-    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+//    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+    
+    [self performSegueWithIdentifier:kPresentChannelInfoSegueIdentier sender:nil];
 }
 
 #pragma mark - KGChannelsObserverDelegate
@@ -620,6 +627,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
     [self clearTextView];
     [self dismissKeyboard:YES];
+    [self.typingIndicatorView dismissIndicator];
 
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
@@ -662,11 +670,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
     } else {
         self.hasNextPage = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.refreshControl beginRefreshing];
-            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
-            [self loadFirstPageOfDataWithTableRefresh:NO];
-        });
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self.refreshControl beginRefreshing];
+//            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+//            [self loadFirstPageOfDataWithTableRefresh:NO];
+//        });
 
     }
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
@@ -735,6 +743,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
  }
 
+- (void)presentChannelInfo {
+    KGChannelInfoViewController *vc = [[UIStoryboard storyboardWithName:@"Chat" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGChannelInfoViewController"];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];    
+}
 
 #pragma mark - Loading View
 
@@ -793,7 +806,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         
         [context MR_saveToPersistentStoreAndWait];
 
-        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
+        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
         
         [theCell hideError];
         [theCell startAnimation];
@@ -801,7 +814,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
             KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
             
-            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath: [self.fetchedResultsController indexPathForObject:fetchedPost]];
+            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:fetchedPost]];
             [theCell finishAnimation];
             
             if (error) {
@@ -818,11 +831,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
     
     UIAlertAction *deleteAction =
-            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
         
         [post MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
@@ -888,12 +900,19 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         vc.userId = user.identifier;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
+    
     if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
         KGMembersViewController *vc = segue.destinationViewController;
         vc.channel = self.channel;
         [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
 
+    if ([segue.identifier isEqualToString:kPresentChannelInfoSegueIdentier]) {
+        UINavigationController *nc = segue.destinationViewController;
+        KGChannelInfoViewController *vc = nc.viewControllers.firstObject;
+        vc.channel = self.channel;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
+    }
 }
 
 

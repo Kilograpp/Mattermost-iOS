@@ -83,6 +83,7 @@
         [manager.HTTPClient setReachabilityStatusChangeBlock:^(AFRKNetworkReachabilityStatus status) {
             if (status == AFRKNetworkReachabilityStatusNotReachable) {
                 [self closeSocket];
+                [self updateStatusForAllUsers];
             } else {
                 [self openSocket];
             }

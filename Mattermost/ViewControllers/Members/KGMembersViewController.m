@@ -12,7 +12,7 @@
 #import "NSManagedObject+CustomFinder.h"
 #import "UIStatusBar+SharedBar.h"
 
-@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating>
+@interface KGMembersViewController ()  <UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *membersTableView;
 @property (nonatomic, strong, readwrite) NSArray *searchResultDataSource;
@@ -34,6 +34,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.scopeButtonTitles = @[];
+    self.searchController.searchBar.delegate = self;
+    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchController.searchBar.backgroundColor = [UIColor lightGrayColor];
+
+    self.membersTableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
 }
 
 - (void)setupNavigationBar {
@@ -94,6 +104,7 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     NSString *searchString = searchController.searchBar.text;
     if (searchString.length == 0) {
         self.searchResultDataSource = self.dataSource;

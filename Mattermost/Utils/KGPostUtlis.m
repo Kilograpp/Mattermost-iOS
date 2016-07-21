@@ -69,7 +69,10 @@
         
         [self configurePost:postToSend message:message channel:channel attachments:files];
         
-        [self.pendingMessagesContext MR_saveToPersistentStoreAndWait];
+        [self.pendingMessagesContext performBlockAndWait:^{
+            [self.pendingMessagesContext MR_saveOnlySelfAndWait];
+        }];
+        
         
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
             if (completion) {

@@ -114,4 +114,9 @@
     self.fetchedResultsController = [KGTeam MR_fetchAllSortedBy:nil ascending:NO withPredicate:nil groupBy:nil delegate:self];
 }
 
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 @end
