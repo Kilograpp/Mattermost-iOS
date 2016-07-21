@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -17,14 +17,6 @@
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rgg-pg-5pK">
                         <rect key="frame" x="8" y="5" width="304" height="55"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZS-Dj-2Js">
-                                <rect key="frame" x="27" y="17" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SX4-tk-9gc">
@@ -33,8 +25,14 @@
                             <constraint firstAttribute="width" constant="5" id="jhA-9X-4du"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PZS-Dj-2Js">
+                        <rect key="frame" x="35" y="22" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="65f-Vy-Xzf">
-                        <rect key="frame" x="17" y="22" width="11" height="21"/>
+                        <rect key="frame" x="17" y="22" width="12" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -54,8 +52,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="65f-Vy-Xzf" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="12" id="0p7-yw-bVJ"/>
+                    <constraint firstItem="PZS-Dj-2Js" firstAttribute="leading" secondItem="65f-Vy-Xzf" secondAttribute="trailing" constant="6" id="5Kp-fY-Ajh"/>
                     <constraint firstItem="UHV-gr-rVd" firstAttribute="centerX" secondItem="hKw-Yk-ciB" secondAttribute="centerX" id="Cnn-pI-zac"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="top" secondItem="jux-hp-kEL" secondAttribute="topMargin" constant="-3" id="Ddl-gF-HL8"/>
+                    <constraint firstItem="PZS-Dj-2Js" firstAttribute="centerY" secondItem="jux-hp-kEL" secondAttribute="centerY" id="IIc-9U-XAk"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="trailing" secondItem="jux-hp-kEL" secondAttribute="trailingMargin" id="IXt-6Y-d2K"/>
                     <constraint firstItem="65f-Vy-Xzf" firstAttribute="centerY" secondItem="jux-hp-kEL" secondAttribute="centerY" id="Ou3-4Q-FsW"/>
                     <constraint firstItem="SX4-tk-9gc" firstAttribute="height" secondItem="jux-hp-kEL" secondAttribute="height" id="Tza-cY-rjd"/>
@@ -67,6 +67,7 @@
                     <constraint firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="leading" id="ec4-U7-OUe"/>
                     <constraint firstItem="UHV-gr-rVd" firstAttribute="width" secondItem="hKw-Yk-ciB" secondAttribute="width" id="f3J-2U-tSK"/>
                     <constraint firstItem="UHV-gr-rVd" firstAttribute="centerY" secondItem="hKw-Yk-ciB" secondAttribute="centerY" id="oBw-OE-2dq"/>
+                    <constraint firstItem="PZS-Dj-2Js" firstAttribute="leading" secondItem="hKw-Yk-ciB" secondAttribute="trailing" constant="8" id="qRp-gm-4eU"/>
                     <constraint firstItem="hKw-Yk-ciB" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="15" id="zFn-au-d1r"/>
                     <constraint firstItem="rgg-pg-5pK" firstAttribute="leading" secondItem="SX4-tk-9gc" secondAttribute="trailing" constant="3" id="zIa-PJ-soZ"/>
                     <constraint firstItem="UHV-gr-rVd" firstAttribute="height" secondItem="hKw-Yk-ciB" secondAttribute="height" id="zcP-cu-tZ7"/>

@@ -168,25 +168,31 @@ static CGFloat const kTableViewCellHeight = 50.f;
                 cell.textLabel.textColor = [UIColor kg_blueColor];
                 return cell;
             }
-                UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
-                KGUser *user = [self.users objectAtIndex:indexPath.row - 1];
-                cell.textLabel.text = [self configureUserName:user];
-                cell.detailTextLabel.text = [self configureStatus:user];
-                
             
-                __weak typeof(cell) wCell = cell;
-                [wCell.imageView setImageWithURL:user.imageUrl
-                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
-                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                            UIImage *roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
-                                            wCell.imageView.image = roundedImage;
-                                        }
-                      usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-     
-                return cell;
+            static NSString *userCellReuseIdentifier = @"userCellReuseIdentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:userCellReuseIdentifier];
+            }
+            
+            KGUser *user = [self.users objectAtIndex:indexPath.row - 1];
+            cell.textLabel.text = [self configureUserName:user];
+            cell.detailTextLabel.text = [self configureStatus:user];
+            
+            __weak typeof(cell) wCell = cell;
+            [wCell.imageView setImageWithURL:user.imageUrl
+                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                      options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                        UIImage *roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                        wCell.imageView.image = roundedImage;
+                                    }
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+ 
+            return cell;
                                      
         }
+            
         case kSectionLeave: {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
             cell.textLabel.text = @"Leave Channel";

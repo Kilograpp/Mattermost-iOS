@@ -51,7 +51,7 @@ const static CGFloat kHeightCellLeftMenu = 50;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-  //  [self setupChannelNameLabel];
+    [self setupChannelNameLabel];
     [self setupBachground];
     [self setupDotView];
     [self setupSelectedView];
@@ -65,11 +65,11 @@ const static CGFloat kHeightCellLeftMenu = 50;
     self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
-//- (void)setupChannelNameLabel {
-//    self.channelNameLabel.font = [UIFont kg_regular18Font];
-//    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
-//    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
-//}
+- (void)setupChannelNameLabel {
+    self.channelNameLabel.font = [UIFont kg_regular18Font];
+    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+}
 
 - (void)setupUserStatusActivityIndicator {
     self.userStatusUnknownIndicator.type = DGActivityIndicatorAnimationTypeBallScaleMultiple;
