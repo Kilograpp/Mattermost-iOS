@@ -20,7 +20,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 
-#define membersCount (int)self.channel.members.count
+#define membersCount ((int)self.channel.members.count)
 
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
@@ -36,15 +36,21 @@ typedef NS_ENUM(NSInteger, NumberOfRows) {
     kSectionTitleNumberOfRows = 1,
     kSectionInformationNumberOfRows = 4,
     kSectionNotificationNumberOfRows = 1,
-    kSectionMembersNumberOfRows = 2,
+    kSectionMembersMinNumberOfRows = 2,
     kSectionLeaveNumberOfRows = 1,
 };
 
-static CGFloat const kTableViewTitleSectionHeaderHeight = 0.1f;
-static CGFloat const kTableViewMembersSectionHeaderHeight = 40.f;
-static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
-static CGFloat const kTableViewTitleCellHeight = 90.f;
-static CGFloat const kTableViewCellHeight = 50.f;
+static CGFloat const kTableViewTitleSectionHeaderHeight = 0.1;
+static CGFloat const kTableViewMembersSectionHeaderHeight = 40;
+static CGFloat const kTableViewOtherSectionsHeaderHeight = 15;
+static CGFloat const kTableViewTitleCellHeight = 90;
+static CGFloat const kTableViewCellHeight = 50;
+
+static NSInteger const kMaxVisibleNumberOfMembersRows = 5;
+
+static NSString *const kDefaultTableViewCellReuseIdentifier = @"defaultTableViewCellReuseIdentifier";
+static NSString *const kUserCellReuseIdentifier = @"userCellReuseIdentifier";
+static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIdentifier";
 
 @interface KGChannelInfoViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -61,17 +67,193 @@ static CGFloat const kTableViewCellHeight = 50.f;
     [super viewDidLoad];
     
 //    [[UIStatusBar sharedStatusBar] restoreState];
-    [self setupCloseBarItem];
+    [self setupLeftBarButtonItem];
     [self setupTitle];
-    [self fillTitlesArray];
-    [self fillDetailsArray];
-    [self fillUsersArray];
-    
-    [self setupTableView];
+    [self setupTitlesArray];
+    [self setupDetailsArray];
+    [self setupUsersArray];
 }
 
 
-#pragma mark - TableViewDelegate
+#pragma mark - Setup
+
+- (void)setupTitlesArray {
+    self.titlesArray = @[@"Header", @"Purpose", @"URL", @"ID"];
+}
+
+// TODO self.channel.team -> URL
+- (void)setupDetailsArray {
+    self.detailsArray = @[self.channel.header, self.channel.purpose, @"kilograpp", self.channel.identifier];
+}
+
+- (void)setupUsersArray {
+    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+        //        NSPredicate *predicate = [NSPredicate predicateWithFormat:@""];
+        //        self.users = [KGUser MR_findAllWithPredicate:predicate];
+        self.users = self.channel.members.allObjects;
+        KGUser *user = self.users.firstObject;
+        KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:user.identifier];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)setupLeftBarButtonItem {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
+                                                                                          target:self
+                                                                                          action:@selector(dismissAction)];
+}
+
+- (void)setupTitle {
+    self.title = @"Channel Info";
+}
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return kSectionCount;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    switch (section) {
+        case kSectionTitle:
+            return kSectionTitleNumberOfRows;
+        case kSectionInformation:
+            return kSectionInformationNumberOfRows;
+        case kSectionNotification:
+            return kSectionNotificationNumberOfRows;
+        case kSectionMembers:
+            return (kSectionMembersMinNumberOfRows + MIN([self numberOfMembersInChannel], kMaxVisibleNumberOfMembersRows));
+        case kSectionLeave:
+            return kSectionLeaveNumberOfRows;
+        default:
+            return 0;
+    }
+    
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case kSectionTitle: {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultTableViewCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                              reuseIdentifier:kDefaultTableViewCellReuseIdentifier];
+            }
+
+            cell.textLabel.text = self.channel.name;
+            cell.textLabel.textColor = [UIColor kg_blackColor];
+            cell.imageView.image = [UIImage imageNamed:@"about_kg_icon"];
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
+            return cell;
+        }
+            
+        case kSectionInformation: {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTitleValueCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                              reuseIdentifier:kTitleValueCellReuseIdentifier];
+            };
+            cell.textLabel.text = self.titlesArray[indexPath.row];
+            cell.textLabel.textColor = [UIColor kg_blackColor];
+            cell.detailTextLabel.text = self.detailsArray[indexPath.row];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+          
+            return cell;
+        }
+            
+        case kSectionNotification: {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTitleValueCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                              reuseIdentifier:kTitleValueCellReuseIdentifier];
+            };
+
+            cell.textLabel.text = @"Notification";
+            cell.textLabel.textColor = [UIColor kg_blackColor];
+            cell.imageView.image = [UIImage imageNamed:@"profile_notification_icon"];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            return cell;
+        }
+            
+        case kSectionMembers: {
+            if (indexPath.row == 0) {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultTableViewCellReuseIdentifier];
+                if (!cell) {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                  reuseIdentifier:kDefaultTableViewCellReuseIdentifier];
+                }
+                cell.textLabel.text = @"Add Members";
+                cell.textLabel.textColor = [UIColor kg_blueColor];
+                
+                return cell;
+            }
+            
+            if (indexPath.row == (kSectionMembersMinNumberOfRows + MIN([self numberOfMembersInChannel], kMaxVisibleNumberOfMembersRows) - 1)) {
+                UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultTableViewCellReuseIdentifier];
+                if (!cell) {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                  reuseIdentifier:kDefaultTableViewCellReuseIdentifier];
+                }
+
+                cell.textLabel.text = @"See all Members";
+                cell.imageView.image = nil;
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                cell.textLabel.textColor = [UIColor kg_blueColor];
+                
+                return cell;
+            }
+            
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kUserCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                              reuseIdentifier:kUserCellReuseIdentifier];
+            }
+            
+            KGUser *user = self.users [indexPath.row - 1];
+            cell.textLabel.text = [self configureUserName:user];
+            cell.textLabel.textColor = [UIColor kg_blackColor];
+            cell.detailTextLabel.text = [self configureStatus:user];
+            cell.imageView.layer.cornerRadius = 20;
+            cell.imageView.clipsToBounds = YES;
+            
+            __weak typeof(cell) wCell = cell;
+            [wCell.imageView setImageWithURL:user.imageUrl
+                            placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                     options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                   completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                       UIImage *roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                       wCell.imageView.image = roundedImage;
+                                   }
+                 usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [cell.imageView removeActivityIndicator];
+            
+            return cell;
+        }
+            
+        case kSectionLeave: {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDefaultTableViewCellReuseIdentifier];
+            if (!cell) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                              reuseIdentifier:kDefaultTableViewCellReuseIdentifier];
+            }
+            cell.textLabel.text = @"Leave Channel";
+            cell.textLabel.textColor = [UIColor kg_blueColor];
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
+            return cell;
+        }
+            
+        default:
+            break;
+    }
+    
+    return [UITableViewCell new];
+}
+
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kSectionTitle) {
@@ -92,172 +274,26 @@ static CGFloat const kTableViewCellHeight = 50.f;
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == kSectionMembers) {
-    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
-    header.textLabel.font = [UIFont kg_regular16Font];
-    header.textLabel.text = [NSString stringWithFormat:@"%d MEMBERS", membersCount];
-    return header;
-    }
-    return [UIView new];
-}
-
-#pragma mark - TableViewDatasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return kSectionCount;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    switch (section) {
-        case kSectionTitle:
-            return kSectionTitleNumberOfRows;
-        case kSectionInformation:
-            return kSectionInformationNumberOfRows;
-        case kSectionNotification:
-            return kSectionNotificationNumberOfRows;
-        case kSectionMembers:
-            return (kSectionMembersNumberOfRows+MIN(membersCount,5));
-        case kSectionLeave:
-            return kSectionLeaveNumberOfRows;
-        default:
-            return 0;
+        UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+        header.textLabel.font = [UIFont kg_regular16Font];
+        header.textLabel.text = [NSString stringWithFormat:@"%d MEMBERS", [self numberOfMembersInChannel]];
+            
+        return header;
     }
     
-    return 0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.section) {
-        case kSectionTitle: {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
-            cell.textLabel.text = self.channel.name;
-            cell.imageView.image = [UIImage imageNamed:@"about_kg_icon"];
-            return cell;
-        }
-            
-        case kSectionInformation: {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
-            cell.textLabel.text = [self.titlesArray objectAtIndex:indexPath.row];
-            cell.detailTextLabel.text = [self.detailsArray objectAtIndex:indexPath.row];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            if (indexPath.row >= 2) {
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            return cell;
-        }
-            
-        case kSectionNotification: {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
-            cell.textLabel.text = @"Notification";
-            cell.imageView.image = [UIImage imageNamed:@"profile_notification_icon"];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            return cell;
-        }
-            
-        case kSectionMembers: {
-            if (indexPath.row == 0) {
-                UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
-                cell.textLabel.text = @"Add Members";
-                cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                cell.textLabel.textColor = [UIColor kg_blueColor];
-                return cell;
-            }
-            if (indexPath.row == (kSectionMembersNumberOfRows + MIN(membersCount,5) - 1)) {
-                UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
-                cell.textLabel.text = @"See all Members";
-                cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                cell.textLabel.textColor = [UIColor kg_blueColor];
-                return cell;
-            }
-            
-            static NSString *userCellReuseIdentifier = @"userCellReuseIdentifier";
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:userCellReuseIdentifier];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:userCellReuseIdentifier];
-            }
-            
-            KGUser *user = [self.users objectAtIndex:indexPath.row - 1];
-            cell.textLabel.text = [self configureUserName:user];
-            cell.detailTextLabel.text = [self configureStatus:user];
-            
-            __weak typeof(cell) wCell = cell;
-            [wCell.imageView setImageWithURL:user.imageUrl
-                             placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
-                                      options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
-                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                                        UIImage *roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
-                                        wCell.imageView.image = roundedImage;
-                                    }
-                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
- 
-            return cell;
-                                     
-        }
-            
-        case kSectionLeave: {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
-            cell.textLabel.text = @"Leave Channel";
-            cell.textLabel.textColor = [UIColor kg_blueColor];
-            cell.textLabel.textAlignment = NSTextAlignmentCenter;
-            return cell;
-        }
-            
-        default:
-            break;
-    }
-    return [UITableViewCell new];
-}
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == kSectionMembers) {
-        NSLog(@"Members select row %d",indexPath.row);
-    }
-}
-
-#pragma mark - Setup
-
-- (void)fillTitlesArray {
-    self.titlesArray = @[@"Header", @"Purpose", @"URL", @"ID"];
-}
-
-// TODO self.channel.team -> URL
-- (void)fillDetailsArray {
-    self.detailsArray = @[self.channel.header, self.channel.purpose, @"kilograpp", self.channel.identifier];
-}
-
-- (void)fillUsersArray {
-    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@""];
-//        self.users = [KGUser MR_findAllWithPredicate:predicate];
-        self.users = self.channel.members.allObjects;
-        KGUser *user = self.users.firstObject;
-        KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:user.identifier];
-        [self.tableView reloadData];
-    }];
-}
-
-- (void)setupTableView {
-    self.tableView.delegate = self;
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-}
-
-- (void)setupCloseBarItem {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeChannelInfo)];
-}
-
-- (void)setupTitle {
-    self.title = @"Channel Info";
+    return [UIView new];
 }
 
 
 #pragma mark - Action
 
-- (void)closeChannelInfo {
+- (void)dismissAction {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-#pragma mark - Class methods
-
+#pragma mark - Private
+//FIXME: унифицировать вывод имени - например @getmaxx(Igor Vedeneev) или @jufina
 - (NSString*)configureUserName:(KGUser *)user {
     if (!user.lastName.length) {
         return (!user.firstName.length) ? user.nickname : [NSString stringWithFormat:@"%@ (%@)", user.nickname, user.firstName];
@@ -276,5 +312,9 @@ static CGFloat const kTableViewCellHeight = 50.f;
             
     }
 }
-@end
 
+- (NSInteger)numberOfMembersInChannel {
+    return self.channel.members.count;
+}
+
+@end
