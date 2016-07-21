@@ -11,4 +11,5 @@
 
 @interface KGMembersViewController : KGViewController
 @property (nonatomic, strong) KGChannel *channel;
+@property (assign, nonatomic) BOOL isAdditionMembers;
 @end
