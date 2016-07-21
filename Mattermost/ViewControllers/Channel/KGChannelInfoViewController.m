@@ -13,12 +13,17 @@
 #import "UIColor+KGPreparedColor.h"
 #import "KGChannel.h"
 #import "KGTeam.h"
+
 #import "MagicalRecord.h"
 
 #import "KGUserStatus.h"
 #import "KGUserStatusObserver.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
+
+#import "KGMembersViewController.h"
+
+static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
@@ -56,7 +61,7 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
 @property (nonatomic, strong) NSArray *detailsArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *users;
-
+@property (nonatomic, assign) BOOL isAdditionMembers;
 @end
 
 @implementation KGChannelInfoViewController
@@ -70,6 +75,7 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
     [self setupTitlesArray];
     [self setupDetailsArray];
     [self setupUsersArray];
+    [self setupNavigationBar];
 }
 
 
@@ -93,6 +99,10 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
         KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:user.identifier];
         [self.tableView reloadData];
     }];
+}
+
+- (void)setupNavigationBar {
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
 }
 
 - (void)setupLeftBarButtonItem {
@@ -250,6 +260,47 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
     return [UITableViewCell new];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case kSectionTitle: {
+            
+            break;
+        }
+            
+        case kSectionInformation: {
+            
+            break;
+        }
+            
+        case kSectionNotification: {
+            
+            break;
+        }
+            
+        case kSectionMembers: {
+            NSInteger lastRowNumber = [self numberOfMembersInChannel] + kSectionMembersMinNumberOfRows - 1;
+            if (indexPath.row == 0 || indexPath.row == lastRowNumber) {
+                if (indexPath.row == 0) {
+                    self.isAdditionMembers = YES;
+                } else {
+                    self.isAdditionMembers = NO;
+                }
+                [self navigateToMembers];
+            }
+            break;
+            
+        }
+        case kSectionLeave: {
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 
 #pragma mark - UITableViewDelegate
 
@@ -282,11 +333,25 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
     return [UIView new];
 }
 
+- (void)navigateToMembers {
+    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+}
+
 
 #pragma mark - Action
 
 - (void)dismissAction {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
+        KGMembersViewController *vc = segue.destinationViewController;
+        vc.channel = self.channel;
+        vc.isAdditionMembers = self.isAdditionMembers;
+    }
 }
 
 
