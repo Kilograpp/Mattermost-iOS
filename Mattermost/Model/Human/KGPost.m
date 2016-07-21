@@ -9,7 +9,12 @@
 #import "TSMarkdownParser+Singleton.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
+#import "NSDate+DateFormatter.h"
 #import <NSStringEmojize/NSString+Emojize.h>
+#import "NSCalendar+KGSharedCalendar.h"
+#import "KGBusinessLogic+Session.h"
+#import "KGExternalFile.h"
+#import <MagicalRecord/MagicalRecord.h>
 
 @interface KGPost ()
 
@@ -53,8 +58,8 @@
     [mapping addConnectionForRelationship:@"channel" connectedBy:@{@"channelId" : @"identifier"}];
 
     [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"(identifier).filenames"
-                                                                            toKeyPath:@"files"
-                                                                          withMapping:[KGFile simpleEntityMapping]]];
+                                                                             toKeyPath:@"files"
+                                                                           withMapping:[KGFile simpleEntityMapping]]];
 
     return mapping;
 }
@@ -142,7 +147,7 @@
 - (void)configureDiplayDate {
     if (!self.creationDay && self.createdAt) {
         unsigned int      intFlags   = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay;
-        NSCalendar       *calendar   = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSCalendar       *calendar   = [NSCalendar kg_sharedGregorianCalendar];
         NSDateComponents *components = [[NSDateComponents alloc] init];
         
         components = [calendar components:intFlags fromDate:self.createdAt];
@@ -183,24 +188,111 @@
 }
 
 
-#pragma mark - Public Getters
+#pragma mark - Public
+
+bool postsHaveSameAuthor(KGPost *post1, KGPost *post2) {
+    return [post1.author.identifier isEqualToString:post2.author.identifier];
+}
+
+- (NSTimeInterval)timeIntervalSincePost:(KGPost *)post {
+    return [self.createdAt timeIntervalSinceDate:post.createdAt];
+}
+
+- (BOOL)hasAttachments {
+    return self.files.count;
+}
+
+- (void)configureBackendPendingId {
+    [self setBackendPendingId:
+     [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
+      [self.createdAt timeIntervalSince1970]]];
+}
 
 #pragma mark - Core Data
 
 
-- (void)willSave {
-    if (![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage) {
-        [TSMarkdownParser sharedInstance].skipLinkAttribute = YES;
-        self.message = [self.message emojizedString];
-        NSMutableAttributedString *string = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message].mutableCopy;
-        self.attributedMessage = string.copy;
-        
-        CGFloat textWidth = KGScreenWidth() - 88;
-        CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                                            options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                                                            context:nil];
-        self.height =  @(ceilf(frame.size.height));
-    }
+//- (void)willSave {
+//    if ([self isMessageUnprocessed]) {
+//        [self replaceEmojiWithUnicode];
+//        [self parseMarkdown];
+//        [self parseImagesFromMessageLinks];
+//        [self saveCreatedAtDateAsString];
+//        [self calculateMessageWidth];
+//        [self calculateMessageHeight];
+//    } else {
+//        if ([self isMissingInlineImages]) {
+//            [self parseImagesFromMessageLinks];
+//        }
+//    }
+//    [super willSave];
+//}
+//
+#pragma mark - Configuration Support
+
+- (BOOL)isMessageUnprocessed {
+    return ![NSStringUtils isStringEmpty:self.message] && !self.attributedMessage;
+}
+
+- (void)saveCreatedAtDateAsString {
+    self.createdAtString = [self.createdAt timeFormatForMessages];
+}
+
+- (void)parseMarkdown {
+    self.attributedMessage = [[TSMarkdownParser sharedInstance] attributedStringFromMarkdown:self.message];
+}
+
+
+- (void)replaceEmojiWithUnicode {
+    self.message = [self.message emojizedString];
+}
+
+- (void)calculateCreateAtWidth {
+    self.createdAtWidthValue = [NSStringUtils widthOfString:self.createdAtString withFont:[UIFont kg_regular13Font]];
+}
+
+- (void)calculateMessageHeight {
+    CGFloat textWidth = KGScreenWidth() - 88;
+    CGRect frame = [self.attributedMessage boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                        context:nil];
+    self.height =  @(ceilf(frame.size.height));
+}
+
+- (BOOL)isMissingInlineImages {
+    return !self.files.count && self.shouldCheckForMissingFilesValue && self.attributedMessage;
+}
+
+- (void)setCreatedAt:(NSDate *)createdAt {
+    [self willChangeValueForKey:[KGPostAttributes createdAt]];
+    [self setPrimitiveCreatedAt:createdAt];
+    [self didChangeValueForKey:[KGPostAttributes createdAt]];
+    [self saveCreatedAtDateAsString];
+    [self calculateCreateAtWidth];
+}
+
+- (void)setMessage:(NSString *)message {
+    [self willChangeValueForKey:[KGPostAttributes message]];
+    [self setPrimitiveMessage:[message emojizedString]];
+    [self parseMarkdown];
+    [self parseImagesFromMessageLinks];
+    [self calculateMessageHeight];
+    [self didChangeValueForKey:[KGPostAttributes message]];
+}
+
+- (void)parseImagesFromMessageLinks {
+
+    [self.attributedMessage enumerateAttribute:NSLinkAttributeName inRange:NSMakeRange(0, self.attributedMessage.length) options:0 usingBlock:^(NSURL*  _Nullable link, NSRange range, BOOL * _Nonnull stop) {
+        if ([link.pathExtension.lowercaseString isEqualToString:@"jpg"] ||
+            [link.pathExtension.lowercaseString isEqualToString:@"png"] ||
+            [link.pathExtension.lowercaseString isEqualToString:@"jpeg"]) {
+            
+            KGExternalFile* file = [KGExternalFile MR_createEntityInContext:self.managedObjectContext];
+            [file setLink:link.absoluteString];
+            [self addFilesObject:file];
+
+            [self setPrimitiveShouldCheckForMissingFilesValue:YES];
+        }
+    }];
 }
 
 @end

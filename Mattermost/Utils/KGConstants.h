@@ -20,3 +20,13 @@ extern NSTimeInterval        const KGStandartAnimationDuration;
 extern NSString * const KGXRequestedWithHeader;
 extern NSString * const KGContentTypeHeader;
 extern NSString * const KGAcceptLanguageHeader;
+extern NSString * const KGSocketProtocol;
+
+#pragma mark - Internal 
+
+extern NSString * const KGUserDefaultsPreferencesKey;
+
+
+#pragma mark - Local notification
+
+extern NSString * const KGNotificationDidReceiveNewMessage;

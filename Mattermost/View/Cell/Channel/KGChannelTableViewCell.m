@@ -11,6 +11,9 @@
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
 #import "KGChannel.h"
+#import "KGUserStatusObserver.h"
+#import "KGUserStatus.h"
+
 const static CGFloat kHeightCellLeftMenu = 50;
 
 @interface KGChannelTableViewCell()
@@ -26,8 +29,10 @@ const static CGFloat kHeightCellLeftMenu = 50;
 @property (strong, nonatomic) UIColor *dotViewBorderColor;
 @property (strong, nonatomic) UIColor *dotViewBorderColorIfSelected;
 
+@property (strong, nonatomic) KGUserStatus *userStatus;
 
 @end
+
 @implementation KGChannelTableViewCell
 
 #pragma mark - Init
@@ -46,7 +51,7 @@ const static CGFloat kHeightCellLeftMenu = 50;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-  //  [self setupChannelNameLabel];
+    [self setupChannelNameLabel];
     [self setupBachground];
     [self setupDotView];
     [self setupSelectedView];
@@ -60,11 +65,11 @@ const static CGFloat kHeightCellLeftMenu = 50;
     self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
 }
 
-//- (void)setupChannelNameLabel {
-//    self.channelNameLabel.font = [UIFont kg_regular18Font];
-//    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
-//    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
-//}
+- (void)setupChannelNameLabel {
+    self.channelNameLabel.font = [UIFont kg_regular18Font];
+    self.channelNameLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+    self.sharpLabel.textColor = [UIColor kg_sectionColorLeftMenu];
+}
 
 - (void)setupUserStatusActivityIndicator {
     self.userStatusUnknownIndicator.type = DGActivityIndicatorAnimationTypeBallScaleMultiple;
@@ -99,12 +104,15 @@ const static CGFloat kHeightCellLeftMenu = 50;
         
         if (channel.type == KGChannelTypePrivate) {
             [self configureCellForChannelPrivate:channel.hasNewMessages];
+            self.userStatus = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:channel.identifier];
             [self configureDotViewForNetworkStatus:channel.networkStatus];
         } else {
             [self configureCellForCnannelPublic:channel.hasNewMessages];
         }
         
         [self configureForState:self.isSelectedCell];
+        
+        [self setupDotView];
     }
 }
 
@@ -138,9 +146,10 @@ const static CGFloat kHeightCellLeftMenu = 50;
         }
             
         case KGUserAwayStatus: {
-            self.dotViewColor = [UIColor clearColor];
+            self.dotViewColor = [UIColor kg_yellowColor];
             self.dotViewBorderColor = [UIColor kg_yellowColor];
             self.dotViewBorderColorIfSelected = [UIColor kg_yellowColor];
+            
             break;
         }
         case KGUserUnknownStatus: {

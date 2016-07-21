@@ -6,7 +6,11 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGUtils.h"
+#import "KGTheme.h"
 #import <RestKit.h>
+#import "KGUserStatus.h"
+#import "KGUserStatusObserver.h"
+#import "UIFont+KGPreparedFont.h"
 
 static NSString * const kAwayNetworkString = @"away";
 static NSString * const kOnlineNetworkString = @"online";
@@ -27,7 +31,8 @@ static NSString * const kOfflineNetworkString = @"offline";
 }
 
 - (KGUserNetworkStatus)networkStatus {
-    SWITCH(self.backendStatus) {
+    KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:self.identifier];
+    SWITCH(status.backendStatus) {
         CASE(kOnlineNetworkString) {
             return KGUserOnlineStatus;
         }
@@ -70,16 +75,17 @@ static NSString * const kOfflineNetworkString = @"offline";
     return mapping;
 }
 
-+ (RKEntityMapping*)statusEntityMapping {
-    RKEntityMapping *mapping = [super emptyEntityMapping];
-    [mapping setForceCollectionMapping:YES];
-    [mapping setIdentificationAttributes:@[@"identifier"]];
-    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
-    [mapping addAttributeMappingsFromDictionary:@{
-            @"(identifier)" : @"backendStatus"
-    }];
-    return mapping;
-}
+
+//+ (RKEntityMapping*)statusEntityMapping {
+//    RKEntityMapping *mapping = [super emptyEntityMapping];
+//    [mapping setForceCollectionMapping:YES];
+//    [mapping setIdentificationAttributes:@[@"identifier"]];
+//    [mapping addAttributeMappingFromKeyOfRepresentationToAttribute:@"identifier"];
+//    [mapping addAttributeMappingsFromDictionary:@{
+//            @"(identifier)" : @"backendStatus"
+//    }];
+//    return mapping;
+//}
 
 
 
@@ -115,6 +121,14 @@ static NSString * const kOfflineNetworkString = @"offline";
 
 + (NSString*)logoutPathPattern {
     return @"users/logout";
+}
+
++ (NSString*)socketPathPattern {
+    return @"users/websocket";
+}
+
++ (NSString *)fullUsersListPathPattern {
+    return @"users/profiles_for_dm_list/:identifier";
 }
 
 #pragma mark - Response Descriptors
@@ -153,6 +167,30 @@ static NSString * const kOfflineNetworkString = @"offline";
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
++ (RKResponseDescriptor*)themeResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGTheme mapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self authPathPattern]
+                                                       keyPath:@"theme_props"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)fullUsersListResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGUser entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self fullUsersListPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)uploadAvatarResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self uploadAvatarPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
 //+ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
 //    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
 //                                                        method:RKRequestMethodGET
@@ -162,7 +200,7 @@ static NSString * const kOfflineNetworkString = @"offline";
 //}
 
 + (RKResponseDescriptor*)statusResponseDescriptor {
-    return [RKResponseDescriptor responseDescriptorWithMapping:[self statusEntityMapping]
+    return [RKResponseDescriptor responseDescriptorWithMapping:[KGUserStatus objectMapping]
                                                         method:RKRequestMethodPOST
                                                    pathPattern:[self usersStatusPathPattern]
                                                        keyPath:nil
@@ -175,6 +213,7 @@ static NSString * const kOfflineNetworkString = @"offline";
 - (void)willSave {
     if ([NSStringUtils isStringEmpty:self.nickname] && ![NSStringUtils isStringEmpty:self.username]) {
         self.nickname = self.username;
+        self.nicknameWidthValue = [NSStringUtils widthOfString:self.nickname withFont:[UIFont kg_semibold16Font]];
     }
 }
 

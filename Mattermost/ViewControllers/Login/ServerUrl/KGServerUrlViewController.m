@@ -28,7 +28,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 @property (weak, nonatomic) IBOutlet KGTextField *textField;
 
 @property (weak, nonatomic) IBOutlet KGButton *nextButton;
-
+@property (strong, nonatomic) NSString *urlAddress;
 @end
 
 @implementation KGServerUrlViewController
@@ -51,7 +51,6 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     [super viewDidAppear:animated];
     
     [self.textField becomeFirstResponder];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -62,7 +61,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 }
 
 - (void)test {
-//    self.textField.text = @"https://mattermost.kilograpp.com";
+    self.textField.text = @"https://mattermost.kilograpp.com";
     self.nextButton.enabled = YES;
 }
 
@@ -132,26 +131,59 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 }
 
 - (void)nextActionHandler {
-    if ([self.textField.text kg_isValidUrl]) {
+    [self setServerBaseUrl];
         [self validateServerUrl];
-    } else {
-        [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
-    }
 }
 
 - (void)validateServerUrl {
+    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+     NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+    
+    if ([urlTest evaluateWithObject:[KGPreferences sharedInstance].serverBaseUrl]) {
     [[KGAlertManager sharedManager] showProgressHud];
-    [self setServerBaseUrl];
-    [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
-        if (error) {
-            [self processError:error];
-        } else {
-            [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
-        }
+    
+        [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+            if (error) {
+                [self processError:error];
+            } else {
+                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+            }
         
-        [[KGAlertManager sharedManager] hideHud];
+            [[KGAlertManager sharedManager] hideHud];
     }];
+    } else {
+        __block NSString * addres = [KGPreferences sharedInstance].serverBaseUrl;
+        __block NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
+        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+        [[KGPreferences sharedInstance] save];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+            if (error) {
+                urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", addres];
+                [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                [[KGPreferences sharedInstance] save];
+                [[KGAlertManager sharedManager] showProgressHud];
+                
+                [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
+                    if (error) {
+                        [self processError:error];
+                    } else {
+                        [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+                    }
+                    
+                    [[KGAlertManager sharedManager] hideHud];
+                }];
+                NSLog(@"error");
+            } else {
+                [self performSegueWithIdentifier:kShowLoginSegueIdentifier sender:nil];
+            }
+            
+            [[KGAlertManager sharedManager] hideHud];
+        }];
+
+    }
 }
+
 
 #pragma mark - UITextFieldDelegate
 
@@ -165,5 +197,9 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     return NO;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [[KGAlertManager sharedManager]hideWarning];
+
+}
 
 @end

@@ -29,6 +29,11 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"createdAtWidthValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"createdAtWidth"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"errorValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"error"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -36,6 +41,11 @@
 	}
 	if ([key isEqualToString:@"heightValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"height"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"shouldCheckForMissingFilesValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"shouldCheckForMissingFiles"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -50,6 +60,28 @@
 @dynamic channelId;
 
 @dynamic createdAt;
+
+@dynamic createdAtString;
+
+@dynamic createdAtWidth;
+
+- (float)createdAtWidthValue {
+	NSNumber *result = [self createdAtWidth];
+	return [result floatValue];
+}
+
+- (void)setCreatedAtWidthValue:(float)value_ {
+	[self setCreatedAtWidth:@(value_)];
+}
+
+- (float)primitiveCreatedAtWidthValue {
+	NSNumber *result = [self primitiveCreatedAtWidth];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveCreatedAtWidthValue:(float)value_ {
+	[self setPrimitiveCreatedAtWidth:@(value_)];
+}
 
 @dynamic creationDay;
 
@@ -99,6 +131,26 @@
 
 @dynamic message;
 
+@dynamic shouldCheckForMissingFiles;
+
+- (BOOL)shouldCheckForMissingFilesValue {
+	NSNumber *result = [self shouldCheckForMissingFiles];
+	return [result boolValue];
+}
+
+- (void)setShouldCheckForMissingFilesValue:(BOOL)value_ {
+	[self setShouldCheckForMissingFiles:@(value_)];
+}
+
+- (BOOL)primitiveShouldCheckForMissingFilesValue {
+	NSNumber *result = [self primitiveShouldCheckForMissingFiles];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveShouldCheckForMissingFilesValue:(BOOL)value_ {
+	[self setPrimitiveShouldCheckForMissingFiles:@(value_)];
+}
+
 @dynamic type;
 
 @dynamic updatedAt;
@@ -135,6 +187,12 @@
 + (NSString *)createdAt {
 	return @"createdAt";
 }
++ (NSString *)createdAtString {
+	return @"createdAtString";
+}
++ (NSString *)createdAtWidth {
+	return @"createdAtWidth";
+}
 + (NSString *)creationDay {
 	return @"creationDay";
 }
@@ -152,6 +210,9 @@
 }
 + (NSString *)message {
 	return @"message";
+}
++ (NSString *)shouldCheckForMissingFiles {
+	return @"shouldCheckForMissingFiles";
 }
 + (NSString *)type {
 	return @"type";

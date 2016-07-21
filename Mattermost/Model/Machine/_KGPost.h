@@ -36,6 +36,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSDate* createdAt;
 
+@property (nonatomic, strong, nullable) NSString* createdAtString;
+
+@property (nonatomic, strong, nullable) NSNumber* createdAtWidth;
+
+@property (atomic) float createdAtWidthValue;
+- (float)createdAtWidthValue;
+- (void)setCreatedAtWidthValue:(float)value_;
+
 @property (nonatomic, strong, nullable) NSDate* creationDay;
 
 @property (nonatomic, strong, nullable) NSDate* deletedAt;
@@ -55,6 +63,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString* identifier;
 
 @property (nonatomic, strong, nullable) NSString* message;
+
+@property (nonatomic, strong, nullable) NSNumber* shouldCheckForMissingFiles;
+
+@property (atomic) BOOL shouldCheckForMissingFilesValue;
+- (BOOL)shouldCheckForMissingFilesValue;
+- (void)setShouldCheckForMissingFilesValue:(BOOL)value_;
 
 @property (nonatomic, strong, nullable) NSString* type;
 
@@ -93,6 +107,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDate*)primitiveCreatedAt;
 - (void)setPrimitiveCreatedAt:(NSDate*)value;
 
+- (NSString*)primitiveCreatedAtString;
+- (void)setPrimitiveCreatedAtString:(NSString*)value;
+
+- (NSNumber*)primitiveCreatedAtWidth;
+- (void)setPrimitiveCreatedAtWidth:(NSNumber*)value;
+
+- (float)primitiveCreatedAtWidthValue;
+- (void)setPrimitiveCreatedAtWidthValue:(float)value_;
+
 - (NSDate*)primitiveCreationDay;
 - (void)setPrimitiveCreationDay:(NSDate*)value;
 
@@ -117,6 +140,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveMessage;
 - (void)setPrimitiveMessage:(NSString*)value;
 
+- (NSNumber*)primitiveShouldCheckForMissingFiles;
+- (void)setPrimitiveShouldCheckForMissingFiles:(NSNumber*)value;
+
+- (BOOL)primitiveShouldCheckForMissingFilesValue;
+- (void)setPrimitiveShouldCheckForMissingFilesValue:(BOOL)value_;
+
 - (NSDate*)primitiveUpdatedAt;
 - (void)setPrimitiveUpdatedAt:(NSDate*)value;
 
@@ -139,12 +168,15 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)backendPendingId;
 + (NSString *)channelId;
 + (NSString *)createdAt;
++ (NSString *)createdAtString;
++ (NSString *)createdAtWidth;
 + (NSString *)creationDay;
 + (NSString *)deletedAt;
 + (NSString *)error;
 + (NSString *)height;
 + (NSString *)identifier;
 + (NSString *)message;
++ (NSString *)shouldCheckForMissingFiles;
 + (NSString *)type;
 + (NSString *)updatedAt;
 + (NSString *)userId;

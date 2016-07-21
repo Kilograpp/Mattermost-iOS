@@ -7,13 +7,9 @@
 //
 
 #import "KGChatViewController.h"
-#import "KGChatRootCell.h"
-#import "KGPost.h"
 #import "KGBusinessLogic.h"
 #import "KGBusinessLogic+Posts.h"
-#import "UIStatusBar+SharedBar.h"
 #import "KGChannel.h"
-#import <MagicalRecord.h>
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
@@ -31,24 +27,16 @@
 #import "KGBusinessLogic+Session.h"
 #import "NSStringUtils.h"
 #import "KGFollowUpChatCell.h"
-#import "KGUser.h"
-#import "KGImageChatCell.h"
-#import "NSDate+DateFormatter.h"
 #import "KGChatCommonTableViewCell.h"
 #import "KGChatAttachmentsTableViewCell.h"
 #import "KGAutoCompletionCell.h"
 #import "KGChannelNotification.h"
-#import "KGFile.h"
-#import "KGAlertManager.h"
 #import "UIImage+KGRotate.h"
 #import <UITableView_Cache/UITableView+Cache.h>
 #import "KGNotificationValues.h"
-#import <IDMPhotoBrowser/IDMPhotoBrowser.h>
 #import "UIImage+Resize.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "KGTableViewSectionHeader.h"
 #import "KGProfileTableViewController.h"
-#import "KGChatRootCell.h"
 #import "UIImage+Resize.h"
 #import <QuickLook/QuickLook.h>
 #import "NSMutableURLRequest+KGHandleCookies.h"
@@ -58,43 +46,66 @@
 #import "KGAction.h"
 #import "KGChatViewController+KGCoreData.h"
 #import "KGCommand.h"
-#import "KGCommandTableViewCell.h"
+#import "KGChatViewController+KGLoading.h"
+#import "KGChatViewController+KGTableView.h"
+#import "KGLoginNavigationController.h"
+#import "KGChannelInfoViewController.h"
+#import "KGTeamsViewController.h"
+#import <ObjectiveSugar.h>
+#import "KGMembersViewController.h"
+#import <RestKit/RestKit.h>
+#import "KGObjectManager.h"
+#import <SOCKit/SOCKit.h>
+#import <MagicalRecord/MagicalRecord.h>
 
-static NSString *const kPresentProfileSegueIdentier = @"presentProfile";
+#import "KGImagePicker.h"
+
+#import "KGChannelsObserver.h"
+
+#import "KGPostUtlis.h"
+
+#import "KGBusinessLogic+Users.h"
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
-
+static NSString *const kShowAboutSegueIdentier = @"showAbout";
+static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
+static NSString *const kPresentChannelInfoSegueIdentier = @"presentChannelInfo";
+static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 static NSString *const kUsernameAutocompletionPrefix = @"@";
 static NSString *const kCommandAutocompletionPrefix = @"/";
 
 static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap Resend to send this message.";
-@interface KGChatViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, KGLeftMenuDelegate, NSFetchedResultsControllerDelegate,
-                            KGRightMenuDelegate, CTAssetsPickerControllerDelegate, UIDocumentInteractionControllerDelegate>
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+@interface KGChatViewController () <UINavigationControllerDelegate, KGChannelsObserverDelegate,
+                            KGRightMenuDelegate, KGChatNavigationDelegate>
+
 @property (nonatomic, strong) KGChannel *channel;
-@property (nonatomic, strong) UIView *loadingView;
-@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
-@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @property (nonatomic, strong) NSString *previousMessageAuthorId;
-@property (nonatomic, strong) UIRefreshControl *refreshControl;
+// TODO: Code Review: Убрать currentPost как избыточный.
 @property (nonatomic, strong) KGPost *currentPost;
 @property (nonatomic, strong) NSArray *searchResultArray;
-@property (nonatomic, strong) NSArray *autocompletionDataSource;
-@property (nonatomic, copy) NSString *selectedUsername;
+// TODO: Code Review: Этот флаг должен быть реализован на уровне базового контроллера и передаваться параметром в перегруженные viewDidLoad/appear и прочее.
 @property (assign) BOOL isFirstLoad;
-@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
 @property (assign) BOOL loadingInProgress;
-@property (assign) BOOL hasNextPage;
 
-@property (nonatomic, assign, getter=isCommandModeOn) BOOL commandModeOn;
-@property (nonatomic, assign) BOOL shouldShowCommands;
-@property (nonatomic, strong) KGCommand *selectedCommand;
-@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
 @property (assign) BOOL errorOccured;
+
+@property (nonatomic, strong) NSOperationQueue *filesInfoQueue;
+
+@property (nonatomic, strong) UIView *loadingView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingActivityIndicator;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (weak, nonatomic) IBOutlet UILabel *noMessadgesLabel;
+@property (nonatomic, strong) UIActivityIndicatorView *topActivityIndicator;
+@property (strong, nonatomic) KGImagePicker* picker;
+
+@property (nonatomic, copy) NSMutableArray *imageAttachments;
+
 
 - (IBAction)rightBarButtonAction:(id)sender;
 
 @end
+
 
 @implementation KGChatViewController
 
@@ -104,10 +115,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [super viewDidLoad];
 
     [self initialSetup];
-    [self setupTableView];
-    [self setupAutocompletionView];
+    [self setupFilesInfoOperationQueue];
+    [self configureTableView];
+    [self configureAutocompletionView];
     [self setupIsNoMessagesLabelShow:YES];
-    [self setupKeyboardToolbar];
+    [self configureKeyboardToolbar];
     [self setupLeftBarButtonItem];
     [self setupRefreshControl];
     [self registerObservers];
@@ -115,7 +127,6 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     // Todo, Code Review: Нарушение абстракции
     [self.textView isFirstResponder];
     [self.textView resignFirstResponder];
@@ -127,7 +138,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+ 
     if (_isFirstLoad) {
         [self replaceStatusBar];
         _isFirstLoad = NO;
@@ -138,43 +149,43 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    // Todo, Code Review: Нарушение абстракции
     if ([self isMovingFromParentViewController]) {
         self.navigationController.delegate = nil;
     }
 }
 
-// Todo, Code Review: Нарушение абстракции, вынести отписку в отдельный метод
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeObservers];
 }
 
 
 #pragma mark - Setup
 
+// TODO: Code Review: Разнести по отдельным методам. InitialSetup - каша из мелкой конфигурации. Ничего страшного, если она разнесется на три-четыре разных метода
 - (void)initialSetup {
-      _isFirstLoad = YES;
+    _isFirstLoad = YES;
     self.navigationController.delegate = self;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    KGLeftMenuViewController *leftVC = (KGLeftMenuViewController *)self.menuContainerViewController.leftMenuViewController;
     KGRightMenuViewController *rightVC  = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
-    leftVC.delegate = self;
+    [KGChannelsObserver sharedObserver].delegate = self;
     rightVC.delegate = self;
-    self.shouldClearTextAtRightButtonPress = NO;
+    KGChatNavigationController *nc = (KGChatNavigationController *)self.navigationController;
+    nc.kg_delegate = self;
     self.autoCompletionView.backgroundColor = [UIColor kg_autocompletionViewBackgroundColor];
-    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
-- (void)setupTableView {
+
+- (void)configureTableView {
     [self.tableView registerClass:[KGChatAttachmentsTableViewCell class]
+     // TODO: Code Review: Заменить константы на enum со значениями: часто используемая ячейка, редко и прочее.
            forCellReuseIdentifier:[KGChatAttachmentsTableViewCell reuseIdentifier] cacheSize:5];
     [self.tableView registerClass:[KGChatCommonTableViewCell class]
-           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:7];
+           forCellReuseIdentifier:[KGChatCommonTableViewCell reuseIdentifier] cacheSize:10];
     [self.tableView registerClass:[KGFollowUpChatCell class]
            forCellReuseIdentifier:[KGFollowUpChatCell reuseIdentifier] cacheSize:10];
 
-    [self.tableView registerNib:[KGTableViewSectionHeader nib]
-            forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
+    [self.tableView registerClass:[KGTableViewSectionHeader class]
+           forHeaderFooterViewReuseIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
 
     [self.tableView registerNib:[KGAutoCompletionCell nib]
          forCellReuseIdentifier:[KGAutoCompletionCell reuseIdentifier] cacheSize:15];
@@ -182,26 +193,30 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
          forCellReuseIdentifier:[KGCommandTableViewCell reuseIdentifier] cacheSize:15];
 
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    // TODO: Code Review: Заменить на стиль из темы
     self.tableView.tableFooterView.backgroundColor = [UIColor whiteColor];
+    // TODO: Code Review: Заменить на стиль из темы
     self.tableView.backgroundColor = [UIColor kg_whiteColor];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
-- (void)setupKeyboardToolbar {
-    [self setupTextView];
-    [self setupInputBarRightButton];
-    [self setupTextInputBar];
+- (void)configureKeyboardToolbar {
+    [self configureTextView];
+    [self configureInputBarRightButton];
+    [self configureTextInputBar];
 }
 
-- (void)setupTextInputBar {
+- (void)configureTextInputBar {
     self.textInputbar.autoHideRightButton = NO;
     self.textInputbar.textView.font = [UIFont kg_regular15Font];
     self.textInputbar.textView.placeholder = NSLocalizedString(@"Type something...", nil);
     self.textInputbar.textView.layer.borderWidth = 0.f;
     self.textInputbar.translucent = NO;
+    // TODO: Code Review: Заменить на стиль из темы
     self.textInputbar.barTintColor = [UIColor kg_whiteColor];
 }
 
-- (void)setupInputBarRightButton {
+- (void)configureInputBarRightButton {
     self.rightButton.titleLabel.font = [UIFont kg_semibold16Font];
     [self.rightButton setTitle:NSLocalizedString(@"Send", nil) forState:UIControlStateNormal];
     [self.rightButton addTarget:self action:@selector(sendPost) forControlEvents:UIControlEventTouchUpInside];
@@ -209,11 +224,14 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [self.leftButton addTarget:self action:@selector(assignPhotos) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setupTextView {
+- (void)configureTextView {
+    self.shouldClearTextAtRightButtonPress = NO;
     self.textView.delegate = self;
 }
 
-- (void)setupAutocompletionView {
+- (void)configureAutocompletionView {
+    self.autoCompletionView.scrollsToTop = NO;
+    self.textView.scrollsToTop = NO;
     [self registerPrefixesForAutoCompletion:@[ kUsernameAutocompletionPrefix, kCommandAutocompletionPrefix ]];
 }
 
@@ -230,7 +248,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     if (isShow) {
         [self.view bringSubviewToFront:self.noMessadgesLabel];
     }
-    
+}
+
+- (void)setupFilesInfoOperationQueue {
+    self.filesInfoQueue = [[NSOperationQueue alloc] init];
+    self.filesInfoQueue.maxConcurrentOperationCount = 1;
 }
 
 #pragma mark - SLKViewController
@@ -239,7 +261,176 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     return UITableViewStyleGrouped;
 }
 
+// TODO: Code Review: Слишком много логики в интерфейсном методе.
 - (void)didChangeAutoCompletionPrefix:(NSString *)prefix andWord:(NSString *)word {
+    [self setupAutoCompletionDataSourceWithAutocompletionPrefix:prefix word:word];
+    BOOL show = (self.autocompletionDataSource.count > 0);
+    self.shouldShowCommands = [prefix isEqualToString:kCommandAutocompletionPrefix];
+    [self showAutoCompletionView:show];
+}
+
+- (CGFloat)maximumHeightForAutoCompletionView {
+    CGFloat autocompletionCellheight =
+            self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
+    return self.autocompletionDataSource.count * autocompletionCellheight;
+}
+
+- (CGFloat)heightForAutoCompletionView {
+    return self.maximumHeightForAutoCompletionView;
+}
+
+
+#pragma mark - NSFetchedResultsController
+
+
+- (void)setupFetchedResultsController {
+    self.fetchedResultsController.delegate = nil;
+    self.fetchedResultsController = nil;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
+    
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
+    
+    NSFetchRequest *request = [KGPost MR_requestAllSortedBy:[KGPostAttributes createdAt]
+                                                ascending:NO
+                                            withPredicate:predicate
+                                                inContext:context];
+    [request setFetchLimit:60];
+    
+    self.fetchedResultsController = [KGPost MR_fetchController:request
+                                                      delegate:self
+                                                  useFileCache:NO
+                                                     groupedBy:[KGPostAttributes creationDay]
+                                                     inContext:context];
+    
+    
+    [self.fetchedResultsController performFetch:nil];
+
+    self.fetchedResultsController.fetchedObjects.count == 0 ?
+            [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
+}
+
+
+#pragma mark - Requests
+
+- (void)loadFirstPageOfDataWithTableRefresh:(BOOL)shouldRefreshTable {
+    self.loadingInProgress = YES;
+    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
+        // TODO: Code Review: Слишком много логики в интерфейсном методе. Разнести на два - handleSuccess и handleError
+        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
+        if (self.tableView.contentOffset.y < 0) {
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+        if (error) {
+            [[KGAlertManager sharedManager] showError:error];
+        }
+        
+        if (shouldRefreshTable) {
+            [self setupFetchedResultsController];
+            [self.tableView reloadData];
+        }
+        
+        [self hideLoadingViewAnimated:YES];
+        self.loadingInProgress = NO;
+        self.hasNextPage = !isLastPage;
+        self.errorOccured = error ? YES : NO;
+    }];
+}
+
+- (void)loadNextPageOfData {
+    // TODO: Code Review: Вынести в метод shouldBeginLoadingNextPage
+    if (self.loadingInProgress || !self.hasNextPage) {
+        return;
+    }
+
+    self.loadingInProgress = YES;
+    [self showTopActivityIndicator];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel fromPost:self.fetchedResultsController.fetchedObjects.lastObject completion:^(BOOL isLastPage, KGError *error) {
+            // TODO: Code Review: Разнести на два метода
+            if (self.fetchedResultsController.fetchedObjects.count == 60) {
+                [[NSManagedObjectContext MR_defaultContext] refreshAllObjects];
+            }
+            if (error) {
+                [[KGAlertManager sharedManager] showError:error];
+            }
+            [self hideTopActivityIndicator];
+            self.loadingInProgress = NO;
+            self.hasNextPage = !isLastPage;
+            self.errorOccured = error ? YES : NO;
+            
+        }];
+    });
+    
+
+}
+
+- (void)sendPost {
+    // TODO: Code Review: Вынести условие в отдельный метод
+    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
+        [self applyCommand];
+        return;
+    }
+    
+    NSString *message = self.textView.text;
+    [[KGPostUtlis sharedInstance] sendPostInChannel:self.channel
+                                            message:message
+                                        attachments:self.imageAttachments
+         completion:^(KGPost *post, KGError *error) {
+             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[post MR_inContext:self.fetchedResultsController.managedObjectContext]]];
+            [cell finishAnimation];
+            if (error) {
+                post.error = @YES;
+                [[KGAlertManager sharedManager] showError:error];
+                [cell showError];
+            }
+    
+            [[KGPostUtlis sharedInstance].pendingMessagesContext performBlockAndWait:^{
+                [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveOnlySelfAndWait];
+            }];
+             [[KGAlertManager sharedManager] hideHud];
+    }];
+    
+    [self clearTextView];
+    [self resetAttachments];
+}
+
+- (void)applyCommand {
+    [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
+                                                      inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
+                                                          [action execute];
+                                                      }];
+    [self clearTextView];
+}
+
+- (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
+    NSArray *files = post.nonImageFiles;
+    
+    for (KGFile *file in files) {
+        if (file.sizeValue == 0) {
+            [self loadAdditionalInfoForFile:file];
+        }
+    }
+}
+
+- (void)loadAdditionalInfoForFile:(KGFile *)file {
+//    NSString* path = SOCStringFromStringWithObject([KGFile updatePathPattern], file);
+//    NSURLRequest *request = [[KGBusinessLogic sharedInstance].defaultObjectManager requestWithObject:nil
+//                                                                                              method:RKRequestMethodGET
+//                                                                                                path:path
+//                                                                                          parameters:nil];
+//    RKManagedObjectRequestOperation* operation =
+//            [[KGBusinessLogic sharedInstance].defaultObjectManager managedObjectRequestOperationWithRequest:request
+//                                                                                       managedObjectContext:[NSManagedObjectContext MR_defaultContext]
+//                                                                                                    success:nil
+//                                                                                                    failure:nil];
+//    [self.filesInfoQueue addOperation:operation];
+
+}
+
+
+#pragma mark - Private
+
+- (void)setupAutoCompletionDataSourceWithAutocompletionPrefix:(NSString *)prefix word:(NSString *)word {
     NSString *filterTerm;
     
     if ([prefix isEqualToString:kUsernameAutocompletionPrefix]) {
@@ -249,292 +440,13 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         filterTerm = [KGCommandAttributes trigger];
         self.autocompletionDataSource = [KGCommand MR_findAll];
     }
-
+    
     if (word.length) {
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.%@ BEGINSWITH[c] %@", filterTerm, word];
         self.autocompletionDataSource = [self.autocompletionDataSource filteredArrayUsingPredicate:predicate];
     }
-
-    BOOL show = (self.autocompletionDataSource.count > 0);
-    self.shouldShowCommands = [prefix isEqualToString:kCommandAutocompletionPrefix];
-    [self showAutoCompletionView:show];
 }
 
-- (CGFloat)heightForAutoCompletionView {
-    CGFloat cellHeight = self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-    return cellHeight * self.autocompletionDataSource.count;
-}
-
-- (CGFloat)maximumHeightForAutoCompletionView {
-    return self.tableView.bounds.size.height;
-}
-
-
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (![tableView isEqual:self.tableView]) {
-        return 1;
-    }
-    return self.fetchedResultsController.sections.count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
-        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-        return [sectionInfo numberOfObjects];
-    }
-    
-    return self.autocompletionDataSource.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Todo, Code Review: Один метод делегата на две таблицы - это плохо, разнести по категориям
-    if (![tableView isEqual:self.tableView]) {
-        return [self autoCompletionCellAtIndexPath:indexPath];
-    }
-    
-    NSString *reuseIdentifier;
-    KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (self.hasNextPage && (self.fetchedResultsController.fetchedObjects.count - [self.fetchedResultsController.fetchedObjects indexOfObject:post] == 3)) {
-        [self loadNextPageOfData];
-    }
-
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[indexPath.section];
-    // Todo, Code Review: Не понятное условие
-    if (indexPath.row == [sectionInfo numberOfObjects] - 1) {//для первой ячейки
-        reuseIdentifier = post.files.count == 0 ?
-                [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
-    } else {
-        NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-        KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-        // Todo, Code Review: TimeIntervalSinceDate заменить на minutesEarlierThan из DateTools и вставить пять минут. Вообще, следует вынести сравнение дат с пятиминутным интервалом в категорию даты дополнительно.
-        // Todo, Code Review: PrevPost и Post сравнение авторов надо сделать нормальным методов внутри поста, а не так в контроллере.
-        // Todo, Code Review: Двойные условия на проверку attachment. Ее надо вынести глобально, а не трижды(см. выше) проверять внутри каждого условия
-        if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
-            reuseIdentifier = post.files.count == 0 ?
-                    [KGFollowUpChatCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
-        } else {
-            reuseIdentifier = post.files.count == 0 ?
-                    [KGChatCommonTableViewCell reuseIdentifier] : [KGChatAttachmentsTableViewCell reuseIdentifier];
-        }
-    }
-
-    KGTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-//    [cell startAnimation];
-    [self assignBlocksForCell:cell post:post];
-    
-    if (post.nonImageFiles) {
-        [self loadAdditionalPostFilesInfo:post indexPath:indexPath];
-    }
-
-    [cell configureWithObject:post];
-    
-    cell.transform = self.tableView.transform;
-    // Todo, Code Review: Фон ячейки должен конфигурироваться изнутри
-    cell.backgroundColor = (!post.isUnread) ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    //[cell finishAnimation];
-    //if (cell)
-    return cell;
-}
-
-
-#pragma mark - UITableViewDelegate
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Todo, Code Review: Отдельная категория, см. выше
-    if ([tableView isEqual:self.tableView]) {
-        KGPost *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[(NSUInteger) indexPath.section];
-
-        // Todo, Code Review: Условие на файлы см. выше
-        if (indexPath.row == [sectionInfo numberOfObjects] - 1) {
-            return post.files.count == 0 ?
-                    [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
-        } else {
-            NSIndexPath *prevIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
-            KGPost *prevPost = [self.fetchedResultsController objectAtIndexPath:prevIndexPath];
-            // Todo, Code Review: Условие на даты см. выше
-            if ([prevPost.author.identifier isEqualToString:post.author.identifier] && [post.createdAt timeIntervalSinceDate:prevPost.createdAt] < 3600) {
-                return post.files.count == 0 ?
-                        [KGFollowUpChatCell heightWithObject:post]  : [KGChatAttachmentsTableViewCell heightWithObject:post];
-            } else {
-                return post.files.count == 0 ?
-                        [KGChatCommonTableViewCell heightWithObject:post] : [KGChatAttachmentsTableViewCell heightWithObject:post];
-            }
-        }
-        
-        return 0.f;
-    }
-    //ячейка для autoCompletionView:
-    // Todo, Code Review: Все датасорс методы для другой таблицы вынести в отдельную категорию
-    return  self.shouldShowCommands ? [KGCommandTableViewCell heightWithObject:nil] : [KGAutoCompletionCell heightWithObject:nil];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    KGTableViewSectionHeader *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[KGTableViewSectionHeader reuseIdentifier]];
-    id<NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    // Todo, Code Review: Формат даты надо выносить в глобальные
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss Z"];
-    NSDate *date = [formatter dateFromString:[sectionInfo name]];
-    NSString *dateName = [date dateFormatForMessageTitle];
-    [header configureWithObject:dateName];
-//    header.backgroundColor  = [UIColor whiteColor];
-    header.dateLabel.transform = self.tableView.transform;
-    return header;
-
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-//    view.backgroundColor = [tableView isEqual:self.autoCompletionView] ? [UIColor kg_autocompletionViewBackgroundColor] : [UIColor whiteColor];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return [self.tableView isEqual:self.tableView] ? CGFLOAT_MIN : 4;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if ([tableView isEqual:self.tableView]) {
-        return [KGTableViewSectionHeader height];
-    }
-    
-    return 0;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Todo, Code Review: В отдельную категорию делегаты для autocompletion
-    if ([tableView isEqual:self.autoCompletionView]) {
-
-        // Todo, Code Review: В отдельный метод, который должен скрывать auto-completion view
-        if (self.shouldShowCommands) {
-            KGCommand *command = self.autocompletionDataSource[indexPath.row];
-            [self acceptAutoCompletionWithString:[command.trigger stringByAppendingString:@" "] keepPrefix:YES];
-            [self cancelAutoCompletion];
-        } else {
-            KGUser *user = self.autocompletionDataSource[indexPath.row];
-            [self acceptAutoCompletionWithString:[user.username stringByAppendingString:@" "] keepPrefix:YES];
-        }
-    }
-}
-
-
-#pragma mark - NSFetchedResultsController
-
-- (void)setupFetchedResultsController {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel = %@", self.channel];
-    self.fetchedResultsController = [KGPost MR_fetchAllSortedBy:[KGPostAttributes createdAt]
-                                                      ascending:NO
-                                                  withPredicate:predicate
-                                                        groupBy:[KGPostAttributes creationDay]
-                                                       delegate:self
-                                     ];
-
-    self.fetchedResultsController.fetchedObjects.count == 0 ?
-            [self setupIsNoMessagesLabelShow:NO] : [self setupIsNoMessagesLabelShow:YES];
-}
-
-
-#pragma mark - Requests
-
-- (void)loadFirstPageOfData {
-    self.loadingInProgress = YES;
-    [[KGBusinessLogic sharedInstance] loadFirstPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-        [self.refreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:0.05];
-        if (error) {
-            [[KGAlertManager sharedManager] showError:error];
-        }
-        [self setupFetchedResultsController];
-        [self.tableView reloadData];
-        [self hideLoadingViewAnimated:YES];
-        self.loadingInProgress = NO;
-        self.hasNextPage = !isLastPage;
-        self.errorOccured = error ? YES : NO;
-    }];
-}
-
-- (void)loadNextPageOfData {
-    if (self.loadingInProgress || !self.hasNextPage) {
-        return;
-    }
-    
-    self.loadingInProgress = YES;
-    [self showTopActivityIndicator];
-    [[KGBusinessLogic sharedInstance] loadNextPageForChannel:self.channel completion:^(BOOL isLastPage, KGError *error) {
-        if (error) {
-            [[KGAlertManager sharedManager] showError:error];
-        }
-        [self hideTopActivityIndicator];
-        self.loadingInProgress = NO;
-        self.hasNextPage = !isLastPage;
-        self.errorOccured = error ? YES : NO;
-    }];
-}
-
-
-- (void)sendPost {
-
-    // Todo, Code Review: Не соблюдение абстаркции, вынести конфигурацию сообщения для отправки в отдельный метод
-    // Todo, Code Review: Вынести создание пустой сущности в геттер
-    
-    if ([self.textInputbar.textView.text hasPrefix:kCommandAutocompletionPrefix]) {
-
-        [[KGBusinessLogic sharedInstance] executeCommandWithMessage:self.textInputbar.textView.text
-                                                          inChannel:self.channel withCompletion:^(KGAction *action, KGError *error) {
-                    [action execute];
-                }];
-        self.textView.text = @"";
-        return;
-    }
-
-    if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
-    }
-    self.currentPost.message = self.textInputbar.textView.text;
-    self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
-    self.currentPost.channel = self.channel;
-    self.currentPost.createdAt = [NSDate date];
-    self.textView.text = @"";
-    
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-
-    // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
-    [self.currentPost setBackendPendingId:
-            [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
-                                                 [self.currentPost.createdAt timeIntervalSince1970]]];
-    [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
-        if (error) {
-            self.currentPost.error = @YES;
-            [[KGAlertManager sharedManager] showError:error];
-            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        }
-
-        // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
-            self.currentPost = nil;
-    }];
-}
-
-
-- (void)loadAdditionalPostFilesInfo:(KGPost *)post indexPath:(NSIndexPath *)indexPath {
-    NSArray *files = post.nonImageFiles;
-    
-    for (KGFile *file in files) {
-        if (file.sizeValue == 0) {
-            [[KGBusinessLogic sharedInstance] updateFileInfo:file withCompletion:^(KGError *error) {
-                if (error) {
-                    [[KGAlertManager sharedManager] showError:error];
-                } else {
-                    KGTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-                    [cell configureWithObject:post];
-                }
-            }];
-        }
-    }
-}
-
-
-#pragma mark - Private
 
 - (KGAutoCompletionCell *)autoCompletionCellAtIndexPath:(NSIndexPath *)indexPath {
     KGAutoCompletionCell *cell;
@@ -550,161 +462,114 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)configureCell:(KGTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // Todo, Code Review: Лишнее, если конфигурация autocompletion будет из категории
     if ([cell isKindOfClass:[KGTableViewCell class]]) {
-//        [cell startAnimation];
         [cell configureWithObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
         cell.transform = self.tableView.transform;
     }
 }
 
 - (void)assignPhotos {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction *openCameraAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take photo", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                    picker.delegate = self;
-                    
-                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                        picker.modalPresentationStyle = UIModalPresentationFormSheet;
-                    
-                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    [self presentViewController:picker animated:YES completion:nil];
-            });
-        }];
+    __block BOOL operationCancelled = NO;
+    self.picker = [KGImagePicker new];
+    
+    __weak typeof(self) wSelf = self;
+    
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
+    [self.picker launchPickerFromController:self didHidePickerHandler:^{
+        [[UIStatusBar sharedStatusBar] moveToPreviousView];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [self sendPost];
+    } willBeginPickingHandler:^{
+//        [[KGAlertManager sharedManager] showProgressHud];
+    } didPickImageHandler:^(UIImage *image) {
+        [wSelf.imageAttachments addObject:image];
+    } didFinishPickingHandler:^(BOOL isCancelled){
+        operationCancelled = isCancelled;
+//        if (!isCancelled) {
+//            [[KGAlertManager sharedManager] showProgressHud];
+//            [self sendPost];
+//        }
     }];
-    
-    UIAlertAction *openGalleryAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Take from library", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                CTAssetsPickerController *picker = [[CTAssetsPickerController alloc] init];
-                picker.delegate = self;
-                
-                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                    picker.modalPresentationStyle = UIModalPresentationFormSheet;
-                
-                [self presentViewController:picker animated:YES completion:nil];
-            });
-        }];
-            }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:openCameraAction];
-    [alertController addAction:openGalleryAction];
-    [alertController addAction:cancelAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)presentPickerControllerWithType:(UIImagePickerControllerSourceType)type {
-    KGImagePickerController *pickerController = [[KGImagePickerController alloc] init];
-    pickerController.sourceType = type;
-    pickerController.delegate = self;
-    
-    [self presentViewController:pickerController animated:YES completion:nil];
-}
-
-// Todo, Code Review: Каша из асбтракции
-- (void)updateNavigationBarAppearance:(BOOL)loadingInProgress errorOccured:(BOOL)errorOccured {
+- (void)updateNavigationBarAppearance {
     NSString *subtitleString;
-    BOOL shouldHighlight = NO;
+    BOOL loadingInProgress;
     if (self.channel.type == KGChannelTypePrivate) {
         KGUser *user = [KGUser managedObjectById:self.channel.interlocuterId];
         if (user) {
             subtitleString = user.stringFromNetworkStatus;
-            shouldHighlight = user.networkStatus == KGUserOnlineStatus;
+            loadingInProgress = user.networkStatus == KGUserUnknownStatus;
         }
     } else {
         subtitleString = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     }
-
-    [(KGChatNavigationController *)self.navigationController setupTitleViewWithUserName:self.channel.displayName
-                                                                               subtitle:subtitleString
-                                                                        shouldHighlight:shouldHighlight
-                                                                      loadingInProgress:loadingInProgress
-                                                                           errorOccured:errorOccured];
+    
+    KGChatNavigationController *navController = (KGChatNavigationController *)self.navigationController;
+    [navController configureTitleViewWithChannel:self.channel loadingInProgress:loadingInProgress];
 }
 
 - (void)updateNavigationBarAppearanceFromNotification:(NSNotification *)notification {
-    [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
+    [self updateNavigationBarAppearance];
 }
 - (void)photoBrowser:(IDMPhotoBrowser *)photoBrowser willDismissAtPageIndex:(NSUInteger)index {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
-}
-
-- (void)assignBlocksForCell:(KGTableViewCell *)cell post:(KGPost *)post {
-    cell.photoTapHandler = ^(NSUInteger selectedPhoto, UIView *view) {
-        NSArray *urls = [post.sortedFiles valueForKeyPath:NSStringFromSelector(@selector(downloadLink))];
-        IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotoURLs:urls animatedFromView:view];
-        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
-        [browser setDelegate:self];
-        [browser setInitialPageIndex:selectedPhoto];
-        [self presentViewController:browser animated:YES completion:nil];
-    };
-    cell.fileTapHandler = ^(NSUInteger selectedFile) {
-        KGFile *file = post.sortedFiles[selectedFile];
-        
-        if (file.localLink) {
-            [self openFile:file];
-        } else {
-            [[KGAlertManager sharedManager] showProgressHud];
-            [[KGBusinessLogic sharedInstance] downloadFile:file
-                                                  progress:^(NSUInteger persentValue) {
-                                                  } completion:^(KGError *error) {
-                                                      if (error) {
-                                                          [[KGAlertManager sharedManager]showError:error];
-                                                      }
-                                                      [[KGAlertManager sharedManager] hideHud];
-                                                      [self openFile:file];
-                                                  }];
-        }
-    };
-    
-    cell.mentionTapHandler = ^(NSString *nickname) {
-        self.selectedUsername = nickname;
-        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
-    };
-    cell.errorTapHandler = ^(KGPost *post) {
-        [self errorActionWithPost: post];
-    };
-//    if (post.error) {
-////        [cell.errorView addTarget:cell action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
-//    }
-
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
 }
 
-
+// TODO: Code Review: Переименовать на более говорящее название
 - (void)replaceStatusBar {
-    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view ];
+    [[UIStatusBar sharedStatusBar] moveToView:self.navigationController.view];
 }
+
+- (void)resetCurrentPost {
+    self.currentPost = nil;
+}
+
+- (void)configureCurrentPost {
+    self.currentPost.message = self.textInputbar.textView.text;
+    
+    self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
+    self.currentPost.channel = self.channel;
+    self.currentPost.createdAt = [NSDate date];
+    [self.currentPost configureBackendPendingId];
+}
+
+- (void)clearTextView {
+    self.textView.text = nil;
+}
+
+- (void)resetAttachments {
+    [self.imageAttachments removeAllObjects];
+}
+
 
 #pragma mark - Notifications
 
 - (void)handleChannelNotification:(NSNotification *)notification {
     if ([notification.object isKindOfClass:[KGChannelNotification class]]) {
         KGChannelNotification *kg_notification = notification.object;
-        //проверка на то, что текущий юзер != юзеру, который пишет
 
         switch (kg_notification.action) {
             case KGActionTyping: {
+                // TODO: Code Review: Вынести в отдельный метод
                 NSString *currentUserID = [[KGPreferences sharedInstance] currentUserId];
                 KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
                 if (![user.identifier isEqualToString:currentUserID]) {
                     [self.typingIndicatorView insertUsername:user.nickname];
                 }
+                
                 break;
             }
 
             case KGActionPosted: {
+                // TODO: Code Review: Вынести в отдельный метод
                 KGUser *user = [KGUser managedObjectById:kg_notification.userIdentifier];
                 [self.typingIndicatorView removeUsername: user.nickname];
-//                [self setupFetchedResultsController];
+
                 break;
             }
 
@@ -720,83 +585,17 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                              selector:@selector(updateNavigationBarAppearanceFromNotification:)
                                                  name:KGNotificationUsersStatusUpdate
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(managedObjectContextDidSave:)
+                                                 name:NSManagedObjectContextObjectsDidChangeNotification
+                                               object:nil];
+}
+
+- (void)removeObservers {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
-#pragma mark -  CTAssetsPickerControllerDelegate
-
-// Todo, Code Review: Каша из абстракции
-- (void)assetsPickerController:(CTAssetsPickerController *)picker didFinishPickingAssets:(NSArray *)assets {
-    PHImageManager *manager = [PHImageManager defaultManager];
-    self.requestOptions = [[PHImageRequestOptions alloc] init];
-    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
-    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-
-    __weak typeof(self) wSelf = self;
-
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-    
-    dispatch_group_t group = dispatch_group_create();
-    if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
-    }
-    
-    self.textInputbar.rightButton.enabled = NO;
-    for (PHAsset *asset in assets) {
-        dispatch_group_enter(group);
-        [manager requestImageForAsset:asset
-                           targetSize:PHImageManagerMaximumSize
-                          contentMode:PHImageContentModeAspectFill
-                              options:self.requestOptions
-                        resultHandler:^(UIImage *image, NSDictionary *info) {
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-                                                                atChannel:wSelf.channel
-                                withCompletion:^(KGFile* file, KGError* error) {
-                                    [self.currentPost addFilesObject:file];
-                                    dispatch_group_leave(group);
-                            }];
-                        }];
-    }
-    
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [[KGAlertManager sharedManager] hideHud];
-        self.textInputbar.rightButton.enabled = YES;
-        [self sendPost];
-    });
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-    
-    __weak typeof(self) wSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[KGAlertManager sharedManager] showProgressHud];
-    }];
-        dispatch_group_t group = dispatch_group_create();
-    if (!self.currentPost) {
-        self.currentPost = [KGPost MR_createEntity];
-    }
-    dispatch_group_enter(group);
-    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-                            [[KGBusinessLogic sharedInstance] uploadImage:[image kg_normalizedImage]
-                                                                atChannel:wSelf.channel
-                                                           withCompletion:^(KGFile* file, KGError* error) {
-                                                               [self.currentPost addFilesObject:file];
-                                                               dispatch_group_leave(group);
-                                                           }];
-    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-    }
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [[KGAlertManager sharedManager] hideHud];
-        self.textInputbar.rightButton.enabled = YES;
-        [self sendPost];
-    });
-}
 #pragma mark - UINavigationControllerDelegate
 
 - (void)navigationController:(UINavigationController *)navigationController
@@ -813,12 +612,23 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
 }
 
+#pragma mark - KGChatNavigationDelegate
 
-#pragma mark - KGLeftMenuDelegate
+- (void)didSelectTitleView {
+   // NSLog(@"navigation delegate");
+//    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+    
+    [self performSegueWithIdentifier:kPresentChannelInfoSegueIdentier sender:nil];
+}
+
+#pragma mark - KGChannelsObserverDelegate
 
 // Todo, Code Review: Каша из абстракции
 - (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier {
+    [self clearTextView];
     [self dismissKeyboard:YES];
+    [self.typingIndicatorView dismissIndicator];
+
     if (self.channel) {
         [[NSNotificationCenter defaultCenter] removeObserver:self
                                                         name:self.channel.notificationsName
@@ -831,51 +641,75 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
                                                  name:self.channel.notificationsName
                                                object:nil];
 
-    [self updateNavigationBarAppearance:YES errorOccured:NO];
+    
+    [self updateNavigationBarAppearance];
     // Todo, Code Review: Мертвый код
     self.channel.lastViewDate = [NSDate date];
     [self.tableView slk_scrollToTopAnimated:NO];
 
-    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-        if (error) {
-            [[KGAlertManager sharedManager] showError:error];
-        } else {
-            NSTimeInterval interval = self.channel.updatedAt.timeIntervalSinceNow;
-            //FIXME: refactor
-            if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
-                self.channel.lastViewDate = [NSDate date];
-                self.channel.firstLoaded = @NO;
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-                [self showLoadingView];
-                [self loadFirstPageOfData];
-            } else {
-                [self setupFetchedResultsController];
-                [self.tableView reloadData];
-            }
-        }
-        self.errorOccured = error ? YES : NO;
-        [self updateNavigationBarAppearance:NO errorOccured:self.errorOccured];
-    }];
+    
+    [self setupFetchedResultsController];
+    [self.tableView reloadData];
+    
+    NSTimeInterval interval = self.channel.lastViewDate.timeIntervalSinceNow;
+    if ([self.channel.firstLoaded boolValue] || self.channel.hasNewMessages || fabs(interval) > 1000) {
+        self.channel.lastViewDate = [NSDate date];
+        self.channel.firstLoaded = @NO;
 
+        if (!self.fetchedResultsController.fetchedObjects.count) {
+            [self showLoadingView];
+            [self loadFirstPageOfDataWithTableRefresh:YES];
+        } else {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.refreshControl beginRefreshing];
+                [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+                [self loadFirstPageOfDataWithTableRefresh:NO];
+            });
+            
+        }
+        
+    } else {
+        self.hasNextPage = YES;
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self.refreshControl beginRefreshing];
+//            [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+//            [self loadFirstPageOfDataWithTableRefresh:NO];
+//        });
+
+    }
     [[KGBusinessLogic sharedInstance] updateLastViewDateForChannel:self.channel withCompletion:nil];
+    if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
 }
 
 
 #pragma mark - KGRightMenuDelegate
 
 - (void)navigationToProfile {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"SettingsAccount" bundle:nil];
-    KGPresentNavigationController *presentNC = [storyboard instantiateViewControllerWithIdentifier:@"navigation"];
-    presentNC.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self presentViewController:presentNC animated:YES completion:nil];
-    });
+    if ([self.navigationController.viewControllers.lastObject isKindOfClass:[KGProfileTableViewController class]]) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    self.title = @"";
+    [self toggleRightSideMenuAction];
+    self.selectedUsername = [KGBusinessLogic sharedInstance].currentUser.username;
+    [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:nil];
 }
 
 - (void)navigateToSettings {
+
     [self performSegueWithIdentifier:kShowSettingsSegueIdentier sender:nil];
 }
 
+- (void)navigateToAboutMattermost {
+    [self performSegueWithIdentifier:kShowAboutSegueIdentier sender:nil];
+}
+
+- (void)navigateToTeams {
+    KGTeamsViewController *vc = [[UIStoryboard storyboardWithName:@"Login" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGTeamsViewController"];
+    KGLoginNavigationController *nc = [[KGLoginNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];
+}
 
 #pragma mark - Actions
 
@@ -889,6 +723,30 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (IBAction)rightBarButtonAction:(id)sender {
     [self toggleRightSideMenuAction];
+}
+
+- (void)showProfile: (KGUser *)user {
+    if (([self.channel.backendType isEqualToString:@"O"]) && (![[KGBusinessLogic sharedInstance].currentUser isEqual: user])) {
+        //[self showLoadingView];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"displayName = %@", user.nickname];
+        KGChannel *channel = [[KGChannel MR_findAllWithPredicate:predicate] firstObject];
+        if (channel) {
+            [self didSelectChannelWithIdentifier:channel.identifier];
+            [[KGPreferences sharedInstance] setLastChannelId:channel.identifier];
+        } else {
+            [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
+        }
+    } else {
+        self.title = @"";
+        self.selectedUsername = user.username;
+        [self performSegueWithIdentifier:kPresentProfileSegueIdentier sender:self.selectedUsername];
+    }
+ }
+
+- (void)presentChannelInfo {
+    KGChannelInfoViewController *vc = [[UIStoryboard storyboardWithName:@"Chat" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"KGChannelInfoViewController"];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nc animated:YES completion:nil];    
 }
 
 #pragma mark - Loading View
@@ -908,7 +766,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
         self.loadingView = [[UIView alloc] init];
         self.loadingView.backgroundColor = [UIColor whiteColor];
 //    }
-        NSLog(@"SHOW_LOADING_VIEW");
+//        NSLog(@"SHOW_LOADING_VIEW");
     [self.view addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -921,7 +779,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)hideLoadingViewAnimated:(BOOL)animated {
-    NSLog(@"HIDE_LOADING_VIEW");
+//    NSLog(@"HIDE_LOADING_VIEW");
     NSTimeInterval duration = animated ? KGStandartAnimationDuration : 0;
     
     [UIView animateWithDuration:duration animations:^{
@@ -932,58 +790,59 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }];
 }
 
-- (void)errorActionWithPost: (KGPost *)post{
+- (void)errorActionWithPost: (KGPost *)post {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:kErrorAlertViewTitle message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
     
     UIAlertAction *resendAction =
     [UIAlertAction actionWithTitle:NSLocalizedString(@"Resend", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
         
-        self.currentPost = [KGPost MR_createEntity];
-        self.currentPost.message = post.message;
-        self.currentPost.author = [[KGBusinessLogic sharedInstance] currentUser];
-        self.currentPost.channel = self.channel;
-        self.currentPost.createdAt = [NSDate date];
-//        self.currentPost.files = post.files;
-        //self.textView.text = @"";
         
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-     
-        // Todo, Code Review: Не соблюдение абстракции, вынести в отдельный метод внутрь поста
-        [self.currentPost setBackendPendingId:
-        [NSString stringWithFormat:@"%@:%lf",[[KGBusinessLogic sharedInstance] currentUserId],
-        [self.currentPost.createdAt timeIntervalSince1970]]];
-        [post MR_deleteEntity];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        [[KGBusinessLogic sharedInstance] sendPost:self.currentPost completion:^(KGError *error) {
+        NSManagedObjectContext* context = [NSManagedObjectContext MR_context];
+        
+        __block KGPost* postToSend = [post MR_inContext:context];
+        
+        postToSend.error = nil;
+        
+        [context MR_saveToPersistentStoreAndWait];
+
+        KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[postToSend MR_inContext:self.fetchedResultsController.managedObjectContext]]];
+        
+        [theCell hideError];
+        [theCell startAnimation];
+        
+        [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
+            KGPost* fetchedPost = [postToSend MR_inContext:self.fetchedResultsController.managedObjectContext];
+            
+            KGTableViewCell* theCell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:fetchedPost]];
+            [theCell finishAnimation];
+            
             if (error) {
-                self.currentPost.error = @YES;
+                postToSend.error = @YES;
                 [[KGAlertManager sharedManager] showError:error];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                [theCell showError];
+                
             }
-        
-            // Todo, Code Review: Не соблюдение абстракции, вынести сброс текущего поста в отдельный метод
-            self.currentPost = nil;
-    }];
+            [postToSend.managedObjectContext MR_saveToPersistentStoreAndWait];
+            [self.fetchedResultsController.managedObjectContext refreshObject:fetchedPost mergeChanges:NO];
+            
+        }];
 
     }];
     
     UIAlertAction *deleteAction =
-    [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        //[self.fetchedResultsController.fetchedObjects delete:post];
-        //[[NSManagedObjectContext MR_defaultContext] deleteObject:post];
+            [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        
         [post MR_deleteEntity];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
     }];
     
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:resendAction];
     [alertController addAction:deleteAction];
     [alertController addAction:cancelAction];
-    //[self.superview pre
-    [self presentViewController:alertController animated:YES completion:nil];
     
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - RefreshControl
@@ -1000,7 +859,7 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)refreshControl {
-    [self loadFirstPageOfData];
+    [self loadFirstPageOfDataWithTableRefresh:NO];
 }
 
 
@@ -1036,11 +895,23 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:kPresentProfileSegueIdentier]) {
-        UINavigationController *nc = segue.destinationViewController;
-        KGProfileTableViewController *vc = nc.viewControllers.firstObject;
-        KGUser *user = [KGUser
-                MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
+        KGProfileTableViewController *vc = segue.destinationViewController;
+        KGUser *user = [KGUser MR_findFirstByAttribute:NSStringFromSelector(@selector(username)) withValue:self.selectedUsername];
         vc.userId = user.identifier;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
+    }
+    
+    if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
+        KGMembersViewController *vc = segue.destinationViewController;
+        vc.channel = self.channel;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
+    }
+
+    if ([segue.identifier isEqualToString:kPresentChannelInfoSegueIdentier]) {
+        UINavigationController *nc = segue.destinationViewController;
+        KGChannelInfoViewController *vc = nc.viewControllers.firstObject;
+        vc.channel = self.channel;
+        [vc.menuContainerViewController setMenuState:MFSideMenuStateClosed completion:nil];
     }
 }
 
@@ -1058,30 +929,45 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 }
 
 
+#pragma mark - Private Getters
+
+- (KGPost *)currentPost {
+    if (!_currentPost) {
+        _currentPost = [KGPost MR_createEntity];
+    }
+    
+    return _currentPost;
+}
+
+- (NSMutableArray *)imageAttachments {
+    if (!_imageAttachments) {
+        _imageAttachments = [NSMutableArray array];
+    }
+    
+    return _imageAttachments;
+}
+
+
 #pragma mark - Files
 // Todo, Code Review: Вынести в бизнес логику
 - (void)openFile:(KGFile *)file {
-    NSURL *URL = [NSURL fileURLWithPath:file.localLink];
+    
+    NSURL* URL = file.downloadLink;
+    
+    NSString* fileName = [[file.name lastPathComponent] capitalizedString];
+    
+    UIAlertController* controller = [[UIAlertController alloc] init];
+    [controller setTitle:NSStringWithFormat(@"%@ %@?", NSLocalizedString(@"What to do with", nil), fileName)];
+    [controller setMessage:NSLocalizedString(@"You should be Mattermost authorized in Safari to open the document.", nil)];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Open file in Safari", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:URL];
+    }]];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Copy link to clipboard", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIPasteboard generalPasteboard] setString:URL.absoluteString];
+    }]];
+    [controller addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil]];
 
-    if (URL) {
-        UIDocumentInteractionController *documentInteractionController =
-                [UIDocumentInteractionController interactionControllerWithURL:URL];
-        [documentInteractionController setDelegate:self];
-        BOOL result = [documentInteractionController presentPreviewAnimated:YES];
-        if (!result) {
-            [[KGAlertManager sharedManager] showError:cannotOpenFileError()];
-        }
-    } else {
-        [[KGAlertManager sharedManager] showError:fileDoesntExsistError()];
-    }
-}
-
-- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
-    return self;
-}
-
-- (nullable UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
-    return self.view;
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 

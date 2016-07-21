@@ -62,6 +62,12 @@
     [self.navigationView bringSubviewToFront:self.titleLabel];
 }
 
++ (instancetype)configuredContainerViewController {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+    NSString *str = NSStringFromClass([KGTeamsViewController class]);
+    KGTeamsViewController *vc = [sb instantiateViewControllerWithIdentifier:str];
+    return vc;
+}
 
 #pragma mark - UITableViewDelegate
 
@@ -87,6 +93,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self showProgressHud];
     [[KGBusinessLogic sharedInstance] loadChannelsWithCompletion:^(KGError *error) {
         [self hideProgressHud];
         if (error) {
@@ -105,6 +112,11 @@
 
 - (void)setupFetchedResultsController {
     self.fetchedResultsController = [KGTeam MR_fetchAllSortedBy:nil ascending:NO withPredicate:nil groupBy:nil delegate:self];
+}
+
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

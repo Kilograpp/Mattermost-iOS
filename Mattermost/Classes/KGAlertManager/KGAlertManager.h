@@ -28,5 +28,5 @@
 - (void)showErrorWithMessage:(NSString *)message;
 - (void)showWarningWithMessage:(NSString *)message;
 - (void)showUnauthorizedError;
-
+- (void)hideWarning;
 @end

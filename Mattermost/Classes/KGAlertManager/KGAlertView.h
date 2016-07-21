@@ -18,7 +18,7 @@ typedef enum {
 
 @property (copy, nonatomic) void(^callback)();
 @property (assign) BOOL enableTapToDismiss;//default YES
-
+@property (nonatomic, strong) UIViewController *presentingViewController;
 
 - (instancetype)initWithType:(KGAlertType)type
                      message:(NSString *)message
@@ -27,5 +27,6 @@ typedef enum {
 
 - (void)showAlertViewAnimated:(BOOL)animated;
 - (void)hideAlertViewAnimated:(BOOL)animated;
+//- (void)hideAlertViewAnimated:(BOOL)animated completion:(void (^)())callback;
 
 @end

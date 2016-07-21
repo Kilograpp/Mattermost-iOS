@@ -54,6 +54,8 @@
 }
 
 
+
+
 + (RKResponseDescriptor*)teamListingsResponseDescriptor {
     return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
                                                         method:RKRequestMethodGET

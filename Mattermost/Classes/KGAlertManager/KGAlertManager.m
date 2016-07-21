@@ -19,8 +19,9 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 @interface KGAlertManager ()
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, assign, getter=isHudHidden) BOOL hudHidden;
-@property (nonatomic, strong) KGAlertView *alertView;
+@property (nonatomic, retain) KGAlertView *alertView;
 
+@property (assign) BOOL alertHidden;
 @end
 
 @implementation KGAlertManager
@@ -29,17 +30,23 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
     static dispatch_once_t once;
     static id sharedInstance;
     dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] init];
+        sharedInstance = [[self alloc] initPrivate];
     });
     return sharedInstance;
 }
 
-- (instancetype)init
+- (instancetype)initPrivate
 {
     self = [super init];
     if (self) {
         _hudHidden = YES;
     }
+    return self;
+}
+
+- (instancetype)init {
+    self = nil;
+    NSAssert(false, @"use +sharedManager instead!");
     return self;
 }
 
@@ -72,14 +79,11 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 }
 
 - (void)showError:(KGError *)error {
-    if (self.alertView) {
-        [self.alertView hideAlertViewAnimated:NO];
-    }
-    
     self.alertView = [[KGAlertView alloc] initWithType:KGAlertTypeError
                                                message:NSLocalizedString(error.message, nil)
                                               duration:kStandartHudDismissDelay
                                               callback:nil];
+    self.alertView.presentingViewController = [self presentingViewController].navigationController;
     [self.alertView showAlertViewAnimated:YES];
 }
 
@@ -90,6 +94,15 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 //                                  withDuration:kStandartHudDismissDelay
 //                                  withCallback:nil];
 }
+
+- (void)showErrorWithMessage:(NSString *)message {
+    self.alertView = [[KGAlertView alloc] initWithType:KGAlertTypeError
+                                               message:NSLocalizedString(message, nil)
+                                              duration:kStandartHudDismissDelay
+                                              callback:nil];
+    [self.alertView showAlertViewAnimated:YES];
+}
+
 
 - (void)showUnauthorizedError {
 //    self.alertView = [KGAlertView sharedMessage];
@@ -102,16 +115,24 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
 - (void)showWarningWithMessage:(NSString *)message {
     if (self.alertView) {
         [self.alertView hideAlertViewAnimated:NO];
+        [self.alertView removeFromSuperview];
+        self.alertView = nil;
     }
-    
     self.alertView = [[KGAlertView alloc] initWithType:KGAlertTypeWarning
                                                message:NSLocalizedString(message, nil)
                                               duration:kStandartHudDismissDelay
-                                              callback:nil];
+                                              callback:^{
+                                                  //todo
+                                              }];
+    self.alertView.presentingViewController = [self presentingViewController];
     [self.alertView showAlertViewAnimated:YES];
 }
 
-
+- (void)hideWarning {
+    if (self.alertView) {
+        [self.alertView hideAlertViewAnimated:YES];
+    }
+}
 
 #pragma mark - Private
 

@@ -163,7 +163,7 @@
         companionIdentifier = (![sideIds.firstObject isEqualToString:[KGBusinessLogic sharedInstance].currentUserId]) ? sideIds.firstObject : sideIds.lastObject;
         
         KGUser *user = [KGUser managedObjectById:companionIdentifier inContext:[NSManagedObjectContext MR_defaultContext] ];
-        [[NSManagedObjectContext MR_defaultContext] refreshObject:user mergeChanges:YES];
+        //[[NSManagedObjectContext MR_defaultContext] refreshObject:user mergeChanges:YES];
         userNetworkStatus = [user networkStatus];
     }
     return userNetworkStatus;

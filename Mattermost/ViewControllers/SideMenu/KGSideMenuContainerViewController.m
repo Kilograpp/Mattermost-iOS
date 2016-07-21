@@ -12,6 +12,7 @@
 #import "KGLeftMenuViewController.h"
 #import "KGRightMenuViewController.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGAlertManager.h"
 
 @interface KGSideMenuContainerViewController ()
 @end
@@ -55,12 +56,12 @@
 #pragma mark - Override
 
 - (void)setMenuState:(MFSideMenuState)menuState completion:(void (^)(void))completion {
-    __weak typeof (self) wSelf = self;
+
     [super setMenuState:menuState completion: ^{
+        [[KGAlertManager sharedManager]hideWarning];
         if (completion) {
             completion();
         }
-       // [wSelf toogleStatusBarState];
     }];
 }
 

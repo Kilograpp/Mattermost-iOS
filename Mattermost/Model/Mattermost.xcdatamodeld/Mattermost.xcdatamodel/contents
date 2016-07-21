@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
     <entity name="Channel" representedClassName="KGChannel" syncable="YES">
         <attribute name="backendType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
@@ -25,6 +25,9 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="trigger" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="ExternalFile" representedClassName="KGExternalFile" parentEntity="File" syncable="YES">
+        <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="File" representedClassName="KGFile" syncable="YES">
         <attribute name="backendLink" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="backendMimeType" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,12 +43,15 @@
         <attribute name="backendPendingId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="channelId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="createdAtString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAtWidth" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="creationDay" optional="YES" transient="YES" attributeType="Date" syncable="YES"/>
         <attribute name="deletedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="error" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="height" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="shouldCheckForMissingFiles" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="userId" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -66,6 +72,7 @@
         <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nicknameWidth" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="status" optional="YES" transient="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="channels" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Channel" inverseName="members" inverseEntity="Channel" syncable="YES"/>
@@ -74,9 +81,10 @@
     <elements>
         <element name="Channel" positionX="25" positionY="-108" width="128" height="300"/>
         <element name="Command" positionX="-137" positionY="-63" width="128" height="103"/>
-        <element name="File" positionX="457" positionY="342" width="128" height="163"/>
-        <element name="Post" positionX="-56" positionY="218" width="128" height="285"/>
+        <element name="ExternalFile" positionX="250" positionY="272" width="128" height="58"/>
+        <element name="File" positionX="151" positionY="342" width="128" height="163"/>
+        <element name="Post" positionX="-56" positionY="218" width="128" height="328"/>
         <element name="Team" positionX="-207" positionY="81" width="128" height="103"/>
-        <element name="User" positionX="-549" positionY="131" width="128" height="193"/>
+        <element name="User" positionX="-549" positionY="131" width="128" height="208"/>
     </elements>
 </model>
