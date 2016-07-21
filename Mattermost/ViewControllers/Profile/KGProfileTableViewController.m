@@ -277,8 +277,10 @@
         self.avatarImageView.image = self.updatedAvatarImage;
         [[KGAlertManager sharedManager] showProgressHud];
         [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:^(KGError *error) {
-            [[KGAlertManager sharedManager] hideHud];
-            [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[KGAlertManager sharedManager] hideHud];
+
+            });
         }];
         
  
