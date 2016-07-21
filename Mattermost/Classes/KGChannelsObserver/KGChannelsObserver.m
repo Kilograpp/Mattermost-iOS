@@ -14,6 +14,7 @@
 #import "KGPost.h"
 #import "KGChannel.h"
 #import <MagicalRecord/MagicalRecord.h>
+#import "KGConstants.h"
 
 @implementation KGChannelsObserver
 
@@ -57,6 +58,10 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"channel.identifier == %@", channelId];
     KGPost *post = [KGPost MR_findFirstWithPredicate:predicate sortedBy:[KGPostAttributes createdAt] ascending:NO];
     [self.messagePresenter presentNotificationWithMessage:post];
+}
+
+- (void)postNewMessageNotification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationDidReceiveNewMessage object:nil];
 }
 
 

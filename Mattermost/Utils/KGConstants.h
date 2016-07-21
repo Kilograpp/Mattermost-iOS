@@ -25,3 +25,8 @@ extern NSString * const KGSocketProtocol;
 #pragma mark - Internal 
 
 extern NSString * const KGUserDefaultsPreferencesKey;
+
+
+#pragma mark - Local notification
+
+extern NSString * const KGNotificationDidReceiveNewMessage;
