@@ -153,13 +153,13 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     }];
     } else {
         __block NSString * addres = [KGPreferences sharedInstance].serverBaseUrl;
-        __block NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
+        __block NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", addres];
         [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
         [[KGPreferences sharedInstance] save];
         [[KGAlertManager sharedManager] showProgressHud];
         [[KGBusinessLogic sharedInstance] loadTeamsWithCompletion:^(BOOL userShouldSelectTeam, KGError *error) {
             if (error) {
-                urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", addres];
+                urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
                 [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
                 [[KGPreferences sharedInstance] save];
                 [[KGAlertManager sharedManager] showProgressHud];

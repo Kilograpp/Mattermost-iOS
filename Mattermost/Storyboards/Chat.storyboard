@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="09i-HE-tfz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -719,10 +719,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="GsE-t5-Sci" firstAttribute="top" secondItem="TVk-dW-dc0" secondAttribute="bottom" id="G2I-Un-Bcb"/>
-                            <constraint firstItem="P62-XH-lzu" firstAttribute="top" secondItem="GsE-t5-Sci" secondAttribute="bottom" id="TGX-AX-46I"/>
-                            <constraint firstItem="GsE-t5-Sci" firstAttribute="leading" secondItem="W5s-EL-z5h" secondAttribute="leading" id="XRW-OK-QXa"/>
-                            <constraint firstItem="GsE-t5-Sci" firstAttribute="width" secondItem="W5s-EL-z5h" secondAttribute="width" id="hQV-0u-TGY"/>
+                            <constraint firstAttribute="trailing" secondItem="GsE-t5-Sci" secondAttribute="trailing" id="KA4-sS-Wo1"/>
+                            <constraint firstItem="P62-XH-lzu" firstAttribute="top" secondItem="GsE-t5-Sci" secondAttribute="bottom" id="fZS-zf-Wi7"/>
+                            <constraint firstItem="GsE-t5-Sci" firstAttribute="top" secondItem="TVk-dW-dc0" secondAttribute="bottom" id="ihZ-If-zsV"/>
+                            <constraint firstItem="GsE-t5-Sci" firstAttribute="leading" secondItem="W5s-EL-z5h" secondAttribute="leading" id="jvx-Ac-XUn"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -732,7 +732,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hP1-au-Kqt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2520.5" y="209.5"/>
+            <point key="canvasLocation" x="3285.5" y="-532.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fNP-5J-a1w">

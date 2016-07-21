@@ -36,18 +36,12 @@
     [self setupTable];
     [self fillUsersArray];
 //    [self setupSearchBar];
-//    [self setupSearchController];
+    [self setupSearchController];
     
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-  [self setupSearchController];
 }
 
 - (void)setupNavigationBar {
@@ -105,15 +99,17 @@
     self.searchController.searchBar.scopeButtonTitles = @[];
     self.searchController.searchBar.delegate = self;
     self.membersTableView.tableHeaderView = self.searchController.searchBar;
-    self.searchController.definesPresentationContext = YES;
+    self.definesPresentationContext = YES;
     self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    self.searchController.searchBar.barTintColor = [UIColor whiteColor];
+//    self.searchController.searchBar.barTintColor = [UIColor redColor];
     self.searchController.searchBar.backgroundColor = [UIColor whiteColor];
-    self.searchController.searchBar.translucent = YES;
+    self.searchController.searchBar.translucent = NO;
     self.searchController.dimsBackgroundDuringPresentation = NO;
-    self.searchController.obscuresBackgroundDuringPresentation = YES;
+//    self.searchController.obscuresBackgroundDuringPresentation = YES;
     self.searchController.delegate = self;
     self.searchController.searchBar.backgroundImage = [UIImage new];
+    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
