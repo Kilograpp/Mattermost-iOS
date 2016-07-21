@@ -18,4 +18,6 @@
 
 @interface KGRightMenuViewController : KGViewController
 @property (nonatomic, weak) id<KGRightMenuDelegate> delegate;
+
+- (void)updateAvatarImage;
 @end

@@ -75,13 +75,25 @@ const static CGFloat KGHeightAvatar = 35;
 
 - (void)configureWithObject:(id)object {
     KGUser *user = object;
-    [_avatarImageView setImageWithURL:user.imageUrl
-                         placeholderImage:nil
-                                  options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+
+    
+    NSString* smallAvatarKey = [user.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+    
+    if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+        UIImage *smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+        self.avatarImageView.image = smallAvatar;
+    } else {
+        [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
 
     _titleMenuLabel.text = [@"@" stringByAppendingString:user.nickname];
 
+}
+
+
+- (void)updateAvatarImage {
+    
 }
 
 #pragma mark - Action

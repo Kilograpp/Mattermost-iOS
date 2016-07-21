@@ -18,6 +18,9 @@
 #import "KGImagePickerController.h"
 #import "UIStatusBar+SharedBar.h"
 #import "KGChatNavigationController.h"
+#import "UIImage+Resize.h"
+#import "KGRightMenuViewController.h"
+#import <MFSideMenu/MFSideMenu.h>
 
 @import AVFoundation;
 @import Photos;
@@ -35,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (assign) BOOL isFirstLoad;
 @property (assign) BOOL isCurrentUser;
-@property (assign) KGUser *user;
+@property (nonatomic, strong) KGUser *user;
 @end
 
 @implementation KGProfileTableViewController
@@ -82,14 +85,16 @@
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.backgroundColor = [UIColor whiteColor];
     self.nameTitleLabel.text = self.user.nickname;
-    [self.avatarImageView setImageWithURL:self.user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    self.name.text = user.firstName;
-//    self.username.text = user.nickname;
-//    self.nickname.text = user.nickname;
-//    self.email.text = user.email;
-    //self.headerView.backgroundColor = [UIColor kg_lightLightGrayColor];
     
+    NSString* smallAvatarKey = [self.user.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+    
+    if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+        UIImage *smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+        self.avatarImageView.image = smallAvatar;
+    } else {
+        [self.avatarImageView setImageWithURL:self.user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
 }
 
 
@@ -273,13 +278,24 @@
     }
     
     self.updatedAvatarImage = [image kg_normalizedImage];
-    if (self.updatedAvatarImage){
+    
+    
+    if (self.updatedAvatarImage) {
         self.avatarImageView.image = self.updatedAvatarImage;
         [[KGAlertManager sharedManager] showProgressHud];
         [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:^(KGError *error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[KGAlertManager sharedManager] hideHud];
+//                [[KGAlertManager sharedManager] hideHud];
 
+//
+                NSURL* avatarUrl = self.user.imageUrl;
+                NSString* smallAvatarKey = [avatarUrl.absoluteString stringByAppendingString:@"_feed"];
+                UIImage *imageToCathe = self.updatedAvatarImage;
+                UIImage *roundedImage = KGRoundedImage(imageToCathe, CGSizeMake(40, 40));
+                [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+                
+                KGRightMenuViewController *vc = self.menuContainerViewController.rightMenuViewController;
+                [vc updateAvatarImage];
             });
         }];
         

@@ -13,4 +13,6 @@
 @property (nonatomic, copy) void(^_Nonnull handler)();
 - (void)configureWithObject:(id _Nonnull)object;
 
+- (void)updateAvatarImage;
+
 @end

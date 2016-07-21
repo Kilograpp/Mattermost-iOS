@@ -40,7 +40,7 @@ const static CGFloat KGHeightHeader = 64;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
-
+@property (nonatomic, strong) KGHeaderRightMenuCell *headerView;
 @end
 
 
@@ -57,16 +57,16 @@ const static CGFloat KGHeightHeader = 64;
 #pragma mark - Setup
 
 - (void)setupHeader {
-    KGHeaderRightMenuCell *header = [[KGHeaderRightMenuCell alloc]initWithFrame:CGRectMake(0, 0, KG_SCREEN_WIDTH, KGHeightHeader)];
+    self.headerView = [[KGHeaderRightMenuCell alloc]initWithFrame:CGRectMake(0, 0, KG_SCREEN_WIDTH, KGHeightHeader)];
     KGUser *user = [[KGBusinessLogic sharedInstance] currentUser];
-    [header configureWithObject:user];
+    [self.headerView configureWithObject:user];
     __weak __typeof(self)wself = self;
-    header.handler = ^(){
+    self.headerView.handler = ^(){
         [wself.delegate navigationToProfile];
     };
     
-    [self.view addSubview:header];
-    [header mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.view addSubview:self.headerView];
+    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top);
         make.left.equalTo(self.view.mas_left);
         make.right.equalTo(self.view.mas_right);
@@ -83,7 +83,6 @@ const static CGFloat KGHeightHeader = 64;
     self.tableView.separatorInset = UIEdgeInsetsZero;
     self.tableView.separatorColor = [[UIColor kg_rightMenuSeparatorColor] colorWithAlphaComponent:0.7];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-    
 }
 
 
@@ -219,6 +218,14 @@ const static CGFloat KGHeightHeader = 64;
 
 -(void) alertUnderDevelopment {
     [[KGAlertManager sharedManager] showWarningWithMessage:@"This section is under development"];
+}
+
+
+#pragma mark - Public
+
+- (void)updateAvatarImage {
+    KGUser *user = [[KGBusinessLogic sharedInstance] currentUser];
+    [self.headerView configureWithObject:user];
 }
 
 

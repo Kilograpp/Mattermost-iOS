@@ -15,12 +15,12 @@ static NSString * KGTrueStringResponse = @"true";
 + (id)objectFromData:(NSData *)data error:(NSError **)error
 {
     id result = [NSJSONSerialization JSONObjectWithData:data options:0 error:error];
-//    if (!result) {
-//        NSString* stringResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        if ([stringResponse isEqualToString:KGTrueStringResponse]){
-//            result = [NSDictionary dictionary];
-//        }
-//    }
+    if (!result) {
+        NSString* stringResponse = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if ([stringResponse isEqualToString:KGTrueStringResponse]){
+            result = [NSDictionary dictionary];
+        }
+    }
     return result;
 }
 
