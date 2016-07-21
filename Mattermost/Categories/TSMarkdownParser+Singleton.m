@@ -102,28 +102,8 @@
         [TSMarkdownParser addAttributes:weakParser.quoteAttributes atIndex:level - 1 toString:attributedString range:range];
     }];
     
-//    [defaultParser addImageParsingWithLinkFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSString * _Nullable link) {
-//        UIImage *image = [UIImage imageNamed:link];
-//        if (image) {
-//            NSTextAttachment *imageAttachment = [NSTextAttachment new];
-//            imageAttachment.image = image;
-//            imageAttachment.bounds = CGRectMake(0, -5, image.size.width, image.size.height);
-//            NSAttributedString *imgStr = [NSAttributedString attributedStringWithAttachment:imageAttachment];
-//            [attributedString replaceCharactersInRange:range withAttributedString:imgStr];
-//        } else {
-//            if (!weakParser.skipLinkAttribute) {
-//                NSURL *url = [NSURL URLWithString:link] ?: [NSURL URLWithString:
-//                                                            [link stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-//                if (url.scheme) {
-//                    [attributedString addAttribute:NSLinkAttributeName
-//                                             value:url
-//                                             range:range];
-//                }
-//            }
-//            [attributedString addAttributes:weakParser.imageAttributes range:range];
-//        }
-//    }];
-//    
+
+    
     [defaultParser addLinkParsingWithLinkFormattingBlock:^(NSMutableAttributedString *attributedString, NSRange range, NSString * _Nullable link) {
         if (!weakParser.skipLinkAttribute) {
             NSURL *url = [NSURL URLWithString:link] ?: [NSURL URLWithString:

@@ -133,6 +133,7 @@
 		D6F0C9211D3A77B0009CA938 /* KGMessagePresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = D6F0C9201D3A77B0009CA938 /* KGMessagePresenter.m */; };
 		D80474291D2A9202007B41D7 /* TSMarkdownParser+Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = D80474281D2A9202007B41D7 /* TSMarkdownParser+Singleton.m */; };
 		D80638CA1D1C2ABF0034E450 /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80638C91D1C2ABF0034E450 /* Masonry.framework */; };
+		D8087AD81D40EDD1001918E8 /* KGJsonSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = D8087AD71D40EDD1001918E8 /* KGJsonSerialization.m */; };
 		D81DC27E1D36E10100D48FCD /* KGImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC27D1D36E10100D48FCD /* KGImagePicker.m */; };
 		D81DC2831D3833B700D48FCD /* _KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2821D3833B700D48FCD /* _KGExternalFile.m */; };
 		D81DC2861D3833BE00D48FCD /* KGExternalFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D81DC2851D3833BE00D48FCD /* KGExternalFile.m */; };
@@ -399,6 +400,8 @@
 		D80638C31D1C29970034E450 /* SocketRocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SocketRocket.framework; path = Carthage/Build/iOS/SocketRocket.framework; sourceTree = "<group>"; };
 		D80638C71D1C2A270034E450 /* WebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebImage.framework; path = Carthage/Build/iOS/WebImage.framework; sourceTree = "<group>"; };
 		D80638C91D1C2ABF0034E450 /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
+		D8087AD61D40EDD1001918E8 /* KGJsonSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGJsonSerialization.h; sourceTree = "<group>"; };
+		D8087AD71D40EDD1001918E8 /* KGJsonSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGJsonSerialization.m; sourceTree = "<group>"; };
 		D81DC27C1D36E10100D48FCD /* KGImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KGImagePicker.h; sourceTree = "<group>"; };
 		D81DC27D1D36E10100D48FCD /* KGImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KGImagePicker.m; sourceTree = "<group>"; };
 		D81DC2811D3833B700D48FCD /* _KGExternalFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _KGExternalFile.h; sourceTree = "<group>"; };
@@ -790,6 +793,7 @@
 		9B822306C2CC8C4F7F4B8DD9 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D8087AD51D40EDBB001918E8 /* KGJsonSerialization */,
 				D6F0C91E1D3A7775009CA938 /* KGMessagePresenter */,
 				D603E9231D38EC0A00145A85 /* KGPhotoBrowser */,
 				D603E91F1D38E3B500145A85 /* KGSoundManager */,
@@ -1545,6 +1549,15 @@
 			name = TSMarkdownParser;
 			sourceTree = "<group>";
 		};
+		D8087AD51D40EDBB001918E8 /* KGJsonSerialization */ = {
+			isa = PBXGroup;
+			children = (
+				D8087AD61D40EDD1001918E8 /* KGJsonSerialization.h */,
+				D8087AD71D40EDD1001918E8 /* KGJsonSerialization.m */,
+			);
+			name = KGJsonSerialization;
+			sourceTree = "<group>";
+		};
 		D81DC27B1D36E0EB00D48FCD /* KGImagePicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -1947,6 +1960,7 @@
 				D8F4C31D1D29E338008BCCB2 /* KGAction.m in Sources */,
 				7339B06DD540DA80B564CF48 /* UIColor+KGPreparedColor.m in Sources */,
 				7339B28E45A14BCC22EDC15E /* UIFont+KGPreparedFont.m in Sources */,
+				D8087AD81D40EDD1001918E8 /* KGJsonSerialization.m in Sources */,
 				7339BF65257F6813487AAFFB /* UIWindow+KGAdditions.m in Sources */,
 				9B822A9C60B2A7E047DA975B /* KGBusinessLogic+ApplicationNotifications.m in Sources */,
 				D6A3DE291D2A68C100F9DF0F /* KGChatViewController+KGCoreData.m in Sources */,
