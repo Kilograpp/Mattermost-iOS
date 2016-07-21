@@ -617,8 +617,11 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 - (void)didSelectTitleView {
    // NSLog(@"navigation delegate");
 //    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
-    
+    if (self.channel.type == KGChannelTypePublic) {
     [self performSegueWithIdentifier:kPresentChannelInfoSegueIdentier sender:nil];
+    } else {
+        [[KGAlertManager sharedManager]showWarningWithMessage:@"This section is under development"];
+    }
 }
 
 #pragma mark - KGChannelsObserverDelegate

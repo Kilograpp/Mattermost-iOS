@@ -25,6 +25,7 @@
 #import "KGPreferences.h"
 #import "KGChannelsObserver.h"
 #import "KGHardwareUtils.h"
+#import "KGConstants.h"
 
 @interface KGLeftMenuViewController () <NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -220,18 +221,6 @@
 }
 
 
-#pragma mark - Private Setters
-
-//- (void)setDelegate:(id<KGLeftMenuDelegate>)delegate {
-//    _delegate = delegate;
-//    if (self.selectedIndexPath == nil) {
-//        [self setInitialSelectedChannel];
-//    } else {
-//        [self reselectCurrentIndexPath];
-//    }
-//}
-
-
 #pragma mark - Notifications
 
 - (void)registerObservers {
@@ -243,6 +232,18 @@
                                              selector:@selector(updateTableView:)
                                                  name:KGNotificationChannelsStateUpdate
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateTableView:)
+                                                 name:KGNotificationDidReceiveNewMessage
+                                               object:nil];
+}
+
+- (void)removeObserver {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)dealloc {
+    [self removeObserver];
 }
 
 

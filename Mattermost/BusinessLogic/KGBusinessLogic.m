@@ -156,7 +156,9 @@
     }];
 }
 
+
 #pragma mark - Configuration
+
 - (void)setupManagedObjectStore {
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     self.managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
@@ -177,11 +179,13 @@
     [NSManagedObjectContext MR_setDefaultContext:self.managedObjectStore.mainQueueManagedObjectContext];
 }
 
+
 #pragma mark - Private
 
 - (NSString *)currentLocale {
     return [[NSLocale preferredLanguages] firstObject];
 }
+
 
 #pragma mark - Notifications & Observers
 
@@ -230,7 +234,6 @@
         self.shouldReloadDefaultManager = YES;
         [self savePreferences];
     }
-
 }
 
 #pragma mark - Application States

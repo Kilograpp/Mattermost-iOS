@@ -5,13 +5,17 @@
 //  Created by Julia Samoshchenko on 20.07.16.
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
-
+#import "KGBusinessLogic.h"
+#import "KGBusinessLogic+Channel.h"
 #import "KGChannelInfoViewController.h"
 #import "UIStatusBar+SharedBar.h"
 #import "UIFont+KGPreparedFont.h"
 #import "UIColor+KGPreparedColor.h"
 #import "KGChannel.h"
 #import "KGTeam.h"
+#import "KGMembersViewController.h"
+
+static NSString *const kPresentMembersSegueIdentier = @"showMembers";
 
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
@@ -31,7 +35,8 @@ typedef NS_ENUM(NSInteger, NumberOfRows) {
     kSectionLeaveNumberOfRows = 1,
 };
 
-static CGFloat const kTableViewFirstSectionHeaderHeight = 0.1f;
+static CGFloat const kTableViewTitleSectionHeaderHeight = 0.1f;
+static CGFloat const kTableViewMembersSectionHeaderHeight = 30.f;
 static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 
 
@@ -41,25 +46,25 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 @property (nonatomic, strong) NSArray *detailsArray;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *users;
-
-
+@property (nonatomic, assign) BOOL isAdditionMembers;
 @end
 
 @implementation KGChannelInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    [[UIStatusBar sharedStatusBar] restoreState];
     [self setupCloseBarItem];
     [self setupTitle];
     [self fillTitlesArray];
     [self fillDetailsArray];
     [self fillUsersArray];
-    
+    [self setupNavigationBar];
     [self setupTableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
 
 #pragma mark - TableViewDelegate
 
@@ -75,7 +80,10 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == kSectionTitle) {
-        return kTableViewFirstSectionHeaderHeight;
+        return kTableViewTitleSectionHeaderHeight;
+    }
+    if (section == kSectionMembers ) {
+        return kTableViewMembersSectionHeaderHeight;
     }
     return kTableViewOtherSectionsHeaderHeight;
 }
@@ -83,7 +91,7 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section == kSectionMembers) {
     UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
-    header.textLabel.font = [UIFont kg_regular14Font];
+    header.textLabel.font = [UIFont kg_regular16Font];
     header.textLabel.text = [NSString stringWithFormat:@"%d members", (int)self.channel.members.count];
     return header;
     }
@@ -158,19 +166,19 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
             }
                 UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
                 cell.imageView.image = [UIImage imageNamed:@"about_mattermost_icon"];
-            /*
+            
                 KGUser *user = [self.users objectAtIndex:indexPath.row];
                 cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
                 cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", user.status];
-             */
+            
                 return cell;
                                      
         }
         case kSectionLeave: {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"DefaultStyleCell"];
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultStyleCell"];
             cell.textLabel.text = @"Leave Channel";
             cell.textLabel.textColor = [UIColor kg_blueColor];
-            
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
             return cell;
         }
             
@@ -178,6 +186,46 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
             break;
     }
     return [UITableViewCell new];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case kSectionTitle: {
+            
+            break;
+        }
+            
+        case kSectionInformation: {
+            
+            break;
+        }
+            
+        case kSectionNotification: {
+            
+            break;
+        }
+            
+        case kSectionMembers: {
+            if (indexPath.row == 0 || indexPath.row == (kSectionMembersNumberOfRows - 1)) {
+                if (indexPath.row == 0) {
+                    self.isAdditionMembers = YES;
+                } else {
+                    self.isAdditionMembers = NO;
+                }
+                [self navigateToMembers];
+            }
+            break;
+            
+        }
+        case kSectionLeave: {
+            
+            break;
+        }
+            
+        default:
+            break;
+    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - Setup
@@ -192,7 +240,14 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 }
 
 - (void)fillUsersArray {
-    self.users = [self.channel.members allObjects];
+    [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
+        self.users = [self.channel.members allObjects];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)setupNavigationBar {
+    [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
 }
 
 - (void)setupTableView {
@@ -208,10 +263,24 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
     self.title = @"Channel Info";
 }
 
+- (void)navigateToMembers {
+    [self performSegueWithIdentifier:kPresentMembersSegueIdentier sender:nil];
+}
+
 #pragma mark - Action
 
 - (void)closeChannelInfo {
-    [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^ {
+            [[UIStatusBar sharedStatusBar] moveToPreviousView];
+        }];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kPresentMembersSegueIdentier]) {
+        KGMembersViewController *vc = segue.destinationViewController;
+        vc.channel = self.channel;
+        vc.isAdditionMembers = self.isAdditionMembers;
+    }
 }
 @end
 

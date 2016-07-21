@@ -25,5 +25,7 @@ NSString * const KGNotificationChannelsStateUpdate          = @"deChannelUpdateM
 NSString * const KGNotificationDidReceiveRemoteNotification = @"datRmteNotifyBudForYa";
 NSString * const KGNotificationDidFinishLaunching           = @"justGotTherePal";
 
+NSString * const KGNotificationDidReceiveNewMessage         = @"com.kilograpp.new_message";
+
 NSString * const KGUserDefaultsPreferencesKey               = @"com.kilograpp.mattermost.preferences";
 

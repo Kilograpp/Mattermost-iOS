@@ -29,4 +29,6 @@
 - (void)playAlertSoundForChannelWithIdentifier:(NSString *)channelId;
 - (void)presentMessageNotificationForChannel:(NSString *)channelId;
 
+- (void)postNewMessageNotification;
+
 @end
