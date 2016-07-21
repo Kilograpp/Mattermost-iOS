@@ -51,7 +51,6 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
     [super viewDidAppear:animated];
     
     [self.textField becomeFirstResponder];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,24 +132,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
 - (void)nextActionHandler {
     [self setServerBaseUrl];
-   // if ([[KGBusinessLogic sharedInstance] isValidateServerAddress]) {
         [self validateServerUrl];
-   // } else {
-     //   [self processErrorWithTitle:@"Error" message:@"Incorrect server URL format"];
-    //}
-    
-//    [self setServerBaseUrl];
-//    ç
-//    [[KGBusinessLogic sharedInstance] validateServerAddress:^(KGError *error){
-//        if (error) {
-//            NSString *urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", addres];
-//            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
-//            [[KGPreferences sharedInstance] save];
-//        } else {
-//            [self validateServerUrl];
-//        }
-//    }];
-
 }
 
 - (void)validateServerUrl {
@@ -201,6 +183,7 @@ static NSString *const kShowLoginSegueIdentifier = @"showLoginScreen";
 
     }
 }
+
 
 #pragma mark - UITextFieldDelegate
 
