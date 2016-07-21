@@ -275,8 +275,12 @@
     self.updatedAvatarImage = [image kg_normalizedImage];
     if (self.updatedAvatarImage){
         self.avatarImageView.image = self.updatedAvatarImage;
-        [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:nil];
-        [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:^(KGError *error) {
+            [[KGAlertManager sharedManager] hideHud];
+            [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
+        }];
+        
  
     }
 }

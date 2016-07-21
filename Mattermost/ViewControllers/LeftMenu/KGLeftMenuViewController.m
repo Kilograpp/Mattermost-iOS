@@ -184,10 +184,9 @@
 }
 
 - (void)selectChannel:(KGChannel*)channel {
-//    NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
-//    [self.delegate didSelectChannelWithIdentifier:channel.identifier];
-//    self.selectedIndexPath = path;
-//    [self.tableView reloadData];
+    NSIndexPath* path = [self.fetchedResultsController indexPathForObject:channel];
+    self.selectedIndexPath = path;
+    [self.tableView reloadData];
 }
 
 - (void)setInitialSelectedChannel {

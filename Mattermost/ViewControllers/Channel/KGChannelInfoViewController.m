@@ -13,6 +13,10 @@
 #import "UIColor+KGPreparedColor.h"
 #import "KGChannel.h"
 #import "KGTeam.h"
+#import "MagicalRecord.h"
+
+#import "KGUserStatus.h"
+#import "KGUserStatusObserver.h"
 
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
@@ -197,7 +201,11 @@ static CGFloat const kTableViewOtherSectionsHeaderHeight = 15.f;
 
 - (void)fillUsersArray {
     [[KGBusinessLogic sharedInstance] loadExtraInfoForChannel:self.channel withCompletion:^(KGError *error) {
-        self.users = [self.channel.members allObjects];
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@""];
+//        self.users = [KGUser MR_findAllWithPredicate:predicate];
+        self.users = self.channel.members.allObjects;
+        KGUser *user = self.users.firstObject;
+        KGUserStatus *status = [[KGUserStatusObserver sharedObserver] userStatusForIdentifier:user.identifier];
         [self.tableView reloadData];
     }];
 }

@@ -672,7 +672,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UUz-f5-AAU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1413.5" y="-470.5"/>
+            <point key="canvasLocation" x="1638.5" y="-471.5"/>
         </scene>
         <!--Channel Info View Controller-->
         <scene sceneID="JnK-g5-HS4">
@@ -763,7 +763,7 @@
         <!--Navigation Controller-->
         <scene sceneID="fNP-5J-a1w">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UlB-UW-Cj8" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UlB-UW-Cj8" customClass="KGNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YYp-fX-tWl">

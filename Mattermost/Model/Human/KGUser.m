@@ -183,6 +183,15 @@ static NSString * const kOfflineNetworkString = @"offline";
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }
 
++ (RKResponseDescriptor*)updateAvatarResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self emptyResponseMapping]
+                                                        method:RKRequestMethodPOST
+                                                   pathPattern:[self uploadAvatarPathPattern]
+                                                       keyPath:nil
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
+
 
 //+ (RKResponseDescriptor*)channelMembersListResponseDescriptor {
 //    return [RKResponseDescriptor responseDescriptorWithMapping:[self directProfileEntityMapping]
