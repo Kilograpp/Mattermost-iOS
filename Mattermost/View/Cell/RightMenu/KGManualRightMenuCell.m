@@ -13,7 +13,8 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 
-const static CGFloat KGHeightImage = 20;
+static const CGFloat KGHeightImage = 20;
+static const CGFloat KGHeightCell  = 58;
 
 
 @interface KGManualRightMenuCell()
@@ -40,7 +41,7 @@ const static CGFloat KGHeightImage = 20;
 
 - (void)setupContentView {
     self.backgroundColor = [UIColor kg_leftMenuBackgroundColor];
-    self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.preservesSuperviewLayoutMargins = NO;
     self.separatorInset = UIEdgeInsetsZero;
     self.layoutMargins = UIEdgeInsetsZero;
@@ -81,28 +82,24 @@ const static CGFloat KGHeightImage = 20;
     
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    self.backgroundColor = selected ? [UIColor kg_leftMenuHeaderColor] : [UIColor kg_leftMenuBackgroundColor];
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-    self.backgroundColor = [[UIColor kg_leftMenuBackgroundColor] colorWithAlphaComponent:0.8];
-}
-
 #pragma mark - Public
 
 + (CGFloat)heightCell{
-    return 58;
+    return KGHeightCell;
 }
 
 + (NSString *)reuseIdentifier {
     return [NSString stringWithFormat:@"%@Identifier", NSStringFromClass([self class])];
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    
+    self.backgroundColor = highlighted ? [UIColor kg_leftMenuHeaderColor]  : [UIColor kg_leftMenuBackgroundColor];
+    self.titleMenuLabel.backgroundColor = highlighted ? [UIColor kg_leftMenuHeaderColor]  : [UIColor kg_leftMenuBackgroundColor];
+    self.iconImageView.backgroundColor = highlighted ? [UIColor kg_leftMenuHeaderColor]  : [UIColor kg_leftMenuBackgroundColor];
 
+}
 
 
 @end
