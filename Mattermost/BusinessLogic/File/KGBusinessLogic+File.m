@@ -38,11 +38,17 @@
     } failure:completion];
 }
 
-- (void)uploadImage:(UIImage*)image atChannel:(KGChannel*)channel withCompletion:(void(^)(KGFile* file, KGError *error))completion {
+- (void)uploadImage:(UIImage*)image
+          atChannel:(KGChannel*)channel
+     withCompletion:(void(^)(KGFile* file, KGError *error))completion
+           progress:(void(^)(NSUInteger persentValue))progress
+{
     NSString* path = SOCStringFromStringWithObject([KGFile uploadFilePathPattern], [self currentTeam]);
     CGFloat scaleFactor = 0.33;
     BOOL shouldCompressImage = [KGPreferences sharedInstance].shouldCompressImages;
     UIImage *finalImage = shouldCompressImage ? [image kg_resizedImageWithHeight:image.size.height * scaleFactor] : image;
+    NSLog(@"%@", shouldCompressImage ? @"COMPRESS" : @"ORIGINAL");
+    NSLog(@"%f x %f", finalImage.size.width, finalImage.size.height);
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]
@@ -59,6 +65,10 @@
         safetyCall(completion, imageFile, nil);
     } failure:^(KGError* error) {
         safetyCall(completion, nil, error);
+    } progress:^(NSUInteger persentValue) {
+        if (progress) {
+            progress(persentValue);
+        }
     }];
 }
 
@@ -77,9 +87,8 @@
     [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
     
     [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        NSLog(@"%f", totalBytesRead/totalBytesExpectedToRead * 100.f);
         if(progress) {
-            progress(totalBytesRead/totalBytesExpectedToRead * 100.f);
+            progress(totalBytesRead/(float)totalBytesExpectedToRead * 100.f);
         }
     }];
     

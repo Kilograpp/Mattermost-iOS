@@ -18,6 +18,7 @@
 - (void)sendPostInChannel:(KGChannel *)channel
                   message:(NSString *)message
               attachments:(NSArray<UIImage *> *)attachments
-               completion:(void(^)(KGPost *post, KGError *error))completion;
+               completion:(void(^)(KGPost *post, KGError *error))completion
+                 progress:(void(^)(NSUInteger persentValue))progress;
 
 @end

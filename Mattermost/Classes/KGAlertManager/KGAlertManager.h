@@ -29,4 +29,7 @@
 - (void)showWarningWithMessage:(NSString *)message;
 - (void)showUnauthorizedError;
 - (void)hideWarning;
+
+- (void)showUploadProgressHudWithProgressBlock:(void(^)(NSUInteger persentValue))progress;
+
 @end

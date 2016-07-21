@@ -679,13 +679,19 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="3aK-WE-cV1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
                             <outlet property="dataSource" destination="6mT-0G-c06" id="YjF-Vq-WLJ"/>
                             <outlet property="delegate" destination="6mT-0G-c06" id="lK0-wz-HWx"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="4eh-27-DXP"/>
+                    <navigationItem key="navigationItem" id="4eh-27-DXP">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="KYR-Ic-tgb">
+                            <connections>
+                                <action selector="leftBarButtonItemAction:" destination="6mT-0G-c06" id="uGX-vr-jtf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableView" destination="3aK-WE-cV1" id="UcQ-z2-Xm3"/>

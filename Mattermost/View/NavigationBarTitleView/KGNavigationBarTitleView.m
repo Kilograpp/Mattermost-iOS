@@ -84,6 +84,7 @@
     [self addSubview:self.titleLabel];
     self.titleLabel.textColor = [UIColor kg_blackColor];
     self.titleLabel.font = [UIFont kg_semibold18Font];
+    self.titleLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 - (void)setupStatusView {

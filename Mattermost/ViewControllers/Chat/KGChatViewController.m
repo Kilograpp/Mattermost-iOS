@@ -66,6 +66,9 @@
 
 #import "KGBusinessLogic+Users.h"
 
+
+#import <MBProgressHUD/MBProgressHUD.h>
+
 static NSString *const kShowSettingsSegueIdentier = @"showSettings";
 static NSString *const kShowAboutSegueIdentier = @"showAbout";
 static NSString *const kPresentTeamsSegueIdentier = @"showTeams";
@@ -100,6 +103,9 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
 @property (strong, nonatomic) KGImagePicker* picker;
 
 @property (nonatomic, copy) NSMutableArray *imageAttachments;
+
+
+@property (nonatomic, strong) MBProgressHUD *uploadProgressHud;
 
 
 - (IBAction)rightBarButtonAction:(id)sender;
@@ -372,11 +378,22 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     }
     
     NSString *message = self.textView.text;
+    if (self.imageAttachments.count) {
+        self.uploadProgressHud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        // Set the annular determinate mode to show task progress.
+        self.uploadProgressHud.mode = MBProgressHUDModeAnnularDeterminate;
+        self.uploadProgressHud.color = [UIColor kg_navigationBarTintColor];
+        self.uploadProgressHud.labelColor = [UIColor kg_blackColor];
+        self.uploadProgressHud.activityIndicatorColor = [UIColor kg_blackColor];
+        self.uploadProgressHud.square = YES;
+    }
     [[KGPostUtlis sharedInstance] sendPostInChannel:self.channel
                                             message:message
                                         attachments:self.imageAttachments
          completion:^(KGPost *post, KGError *error) {
-             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:[post MR_inContext:self.fetchedResultsController.managedObjectContext]]];
+             NSIndexPath *postIndexPath = [self.fetchedResultsController indexPathForObject:[post MR_inContext:self.fetchedResultsController.managedObjectContext]];
+             KGTableViewCell* cell = [self.tableView cellForRowAtIndexPath:postIndexPath];
             [cell finishAnimation];
             if (error) {
                 post.error = @YES;
@@ -387,7 +404,10 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
             [[KGPostUtlis sharedInstance].pendingMessagesContext performBlockAndWait:^{
                 [[KGPostUtlis sharedInstance].pendingMessagesContext MR_saveOnlySelfAndWait];
             }];
-             [[KGAlertManager sharedManager] hideHud];
+             [self.uploadProgressHud hide:YES];
+    } progress:^(NSUInteger persentValue) {
+        self.uploadProgressHud.progress = persentValue / 100.f;
+        self.uploadProgressHud.labelText = [NSString stringWithFormat:@"%d%%", persentValue];
     }];
     
     [self clearTextView];
@@ -477,18 +497,18 @@ static NSString *const kErrorAlertViewTitle = @"Your message was not sent. Tap R
     [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
     [self.picker launchPickerFromController:self didHidePickerHandler:^{
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
-        [[KGAlertManager sharedManager] showProgressHud];
-        [self sendPost];
+//        [[KGAlertManager sharedManager] showProgressHud];
     } willBeginPickingHandler:^{
 //        [[KGAlertManager sharedManager] showProgressHud];
     } didPickImageHandler:^(UIImage *image) {
         [wSelf.imageAttachments addObject:image];
     } didFinishPickingHandler:^(BOOL isCancelled){
         operationCancelled = isCancelled;
-//        if (!isCancelled) {
-//            [[KGAlertManager sharedManager] showProgressHud];
-//            [self sendPost];
-//        }
+        if (!isCancelled) {
+            [self sendPost];
+        } else {
+            [[KGAlertManager sharedManager] hideHud];
+        }
     }];
 }
 

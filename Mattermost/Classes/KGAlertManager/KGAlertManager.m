@@ -58,6 +58,18 @@ static CGFloat const kStandartHudDismissDelay = 4.0f;
     self.hudHidden = NO;
 }
 
+- (void)showUploadProgressHudWithProgressBlock:(void(^)(NSUInteger persentValue))progress{
+    [self hideHudAnimated:NO];
+    self.hud = [MBProgressHUD showHUDAddedTo:self.presentingViewController.view animated:YES];
+    self.hud.removeFromSuperViewOnHide = YES;
+//    self.hud.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:kHUDDimViewAlpha]
+    
+    // Set the annular determinate mode to show task progress.
+    self.hud.mode = MBProgressHUDModeAnnularDeterminate;
+    self.hud.labelText = NSLocalizedString(@"Loading...", @"HUD loading title");
+    self.hudHidden = NO;
+}
+
 - (void)hideHud {
     [self hideHudAnimated:YES];
 }

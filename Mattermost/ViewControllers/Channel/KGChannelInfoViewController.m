@@ -69,8 +69,6 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [[UIStatusBar sharedStatusBar] restoreState];
-    [self setupLeftBarButtonItem];
     [self setupTitle];
     [self setupTitlesArray];
     [self setupDetailsArray];
@@ -103,12 +101,6 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
 
 - (void)setupNavigationBar {
     [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
-}
-
-- (void)setupLeftBarButtonItem {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
-                                                                                          target:self
-                                                                                          action:@selector(dismissAction)];
 }
 
 - (void)setupTitle {
@@ -339,6 +331,9 @@ static NSString *const kTitleValueCellReuseIdentifier = @"titleValueCellReuseIde
 
 
 #pragma mark - Action
+- (IBAction)leftBarButtonItemAction:(id)sender {
+    [self dismissAction];
+}
 
 - (void)dismissAction {
     [self dismissViewControllerAnimated:YES completion:^{

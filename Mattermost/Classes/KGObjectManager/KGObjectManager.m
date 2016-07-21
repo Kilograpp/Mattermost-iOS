@@ -187,7 +187,9 @@
            atPath:(NSString*)path
        parameters:(NSDictionary*)parameters
           success:(void (^)(RKMappingResult *mappingResult))success
-          failure:(void (^)(KGError *error))failure {
+          failure:(void (^)(KGError *error))failure
+         progress:(void(^)(NSUInteger persentValue))progress
+{
     void (^constructingBodyWithBlock)(id <AFRKMultipartFormData>) = ^void(id <AFRKMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImagePNGRepresentation(image) name:name fileName:@"file.png" mimeType:@"image/png"];
     };
@@ -209,6 +211,25 @@
     RKObjectRequestOperation *operation = [self objectRequestOperationWithRequest:request
                                                                           success:successHandlerBlock
                                                                           failure:failureHandlerBlock];
+    
+    
+    [operation.HTTPRequestOperation setUploadProgressBlock:
+     ^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+         if (progress) {
+             NSInteger progressValue = totalBytesWritten / (CGFloat)totalBytesExpectedToWrite * 100;
+             NSLog(@"%d", progressValue);
+             progress(progressValue);
+         }
+     }];
+
+    
+//    [operation.HTTPRequestOperation setUploadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+//        if(progress) {
+//            progress(totalBytesRead/(float)totalBytesExpectedToRead * 100.f);
+//        }
+//    }];
+    
+    
 
     [self enqueueObjectRequestOperation:operation];
 }

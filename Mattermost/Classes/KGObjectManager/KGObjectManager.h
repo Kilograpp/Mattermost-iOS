@@ -81,6 +81,7 @@
            atPath:(NSString*)path
        parameters:(NSDictionary*)parameters
           success:(void (^)(RKMappingResult *mappingResult))success
-          failure:(void (^)(KGError *error))failure;
+          failure:(void (^)(KGError *error))failure
+         progress:(void(^)(NSUInteger persentValue))progress;
 
 @end

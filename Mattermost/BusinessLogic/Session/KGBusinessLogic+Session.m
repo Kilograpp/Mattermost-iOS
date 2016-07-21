@@ -164,7 +164,10 @@ extern NSString * const KGAuthTokenHeaderName;
     NSString* path = [KGUser uploadAvatarPathPattern];
     [self.defaultObjectManager postImage:image withName:@"image" atPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
-    } failure:completion];
+    } failure:completion
+                                progress:^(NSUInteger persentValue) {
+                                    NSLog(@"%d", persentValue);
+    }];
 }
 
 #pragma mark - User

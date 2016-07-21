@@ -294,7 +294,7 @@
                 UIImage *roundedImage = KGRoundedImage(imageToCathe, CGSizeMake(40, 40));
                 [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
                 
-                KGRightMenuViewController *vc = self.menuContainerViewController.rightMenuViewController;
+                KGRightMenuViewController *vc = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
                 [vc updateAvatarImage];
             });
         }];

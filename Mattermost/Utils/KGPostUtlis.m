@@ -52,12 +52,12 @@
 
 #pragma mark - Public
 
-
 - (void)sendPostInChannel:(KGChannel *)channel
                   message:(NSString *)message
               attachments:(NSArray<UIImage *> *)attachments
-               completion:(void(^)(KGPost *post, KGError *error))completion {
-    
+               completion:(void (^)(KGPost *, KGError *))completion
+                 progress:(void (^)(NSUInteger))progress
+{
     __block KGPost* postToSend = [KGPost MR_createEntityInContext:self.pendingMessagesContext];
     __block KGError *postError = nil;
     
@@ -66,19 +66,23 @@
             postError = error;
             return;
         }
-        
+
         [self configurePost:postToSend message:message channel:channel attachments:files];
-        
+
         [self.pendingMessagesContext performBlockAndWait:^{
             [self.pendingMessagesContext MR_saveOnlySelfAndWait];
         }];
-        
-        
+
+
         [[KGBusinessLogic sharedInstance] sendPost:postToSend completion:^(KGError *error) {
             if (completion) {
                 completion(postToSend, error);
             }
         }];
+    } progress:^(NSUInteger persentValue) {
+        if (progress) {
+            progress(persentValue);
+        }
     }];
 }
 
@@ -87,7 +91,8 @@
 
 - (void)uploadAttachmentsIfNeeded:(NSArray *)attachments
                           channel:(KGChannel *)channel
-           completion:(void(^)(NSArray *files, KGError *error))completion {
+           completion:(void(^)(NSArray *files, KGError *error))completion
+                         progress:(void(^)(NSUInteger persentValue))progress {
                     if (attachments) {
                         dispatch_group_t group = dispatch_group_create();
                         __block KGError *imageError = nil;
@@ -107,6 +112,10 @@
                                                                                                      inContext:self.pendingMessagesContext];
                                                                [filesArray addObject:file_];
                                                                dispatch_group_leave(group);
+                                                           } progress:^(NSUInteger persentValue) {
+                                                               if (progress) {
+                                                                   progress(persentValue);
+                                                               }
                                                            }];
                         }
                         

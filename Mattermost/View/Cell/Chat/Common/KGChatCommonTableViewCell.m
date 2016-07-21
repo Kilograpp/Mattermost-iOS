@@ -241,6 +241,7 @@ static CGFloat const kErrorViewSize = 34.f;
     
     CGFloat textWidth = KGScreenWidth() - 61.f;
     self.backgroundColor = [UIColor kg_whiteColor];
+//    self.nameLabel.backgroundColor = [UIColor redColor];
     self.messageLabel.backgroundColor = [UIColor kg_whiteColor];
     
     CGFloat nameWidth = self.post.author.nicknameWidthValue;
