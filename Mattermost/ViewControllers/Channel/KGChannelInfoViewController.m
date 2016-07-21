@@ -20,8 +20,6 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "UIImage+Resize.h"
 
-#define membersCount ((int)self.channel.members.count)
-
 typedef NS_ENUM(NSInteger, Sections) {
     kSectionTitle = 0,
     kSectionInformation,
