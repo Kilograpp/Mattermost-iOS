@@ -33,6 +33,13 @@
     } failure:completion];
 }
 
+- (void)loadMoreChannelsWithCompletion:(void(^)(KGError *error))completion {
+    NSString *path = SOCStringFromStringWithObject([KGChannel moreListPathPattern], [self currentTeam]);
+    [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {
+        safetyCall(completion, nil);
+    } failure:completion];
+}
+
 - (void)loadExtraInfoForChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion {
     NSString * path = SOCStringFromStringWithObject([KGChannel extraInfoPathPattern], channel);
     [self.defaultObjectManager getObjectsAtPath:path success:^(RKMappingResult *mappingResult) {

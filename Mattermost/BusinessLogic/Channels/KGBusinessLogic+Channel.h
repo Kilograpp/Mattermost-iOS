@@ -14,7 +14,7 @@
 
 - (void)loadChannelsWithCompletion:(void(^)(KGError *error))completion;
 - (void)loadExtraInfoForChannel:(KGChannel*)channel withCompletion:(void(^)(KGError *error))completion;
-
+- (void)loadMoreChannelsWithCompletion:(void(^)(KGError *error))completion;
 - (NSString*)notificationNameForChannelWithIdentifier:(NSString*)identifier;
 
 - (void)updateChannelsState;

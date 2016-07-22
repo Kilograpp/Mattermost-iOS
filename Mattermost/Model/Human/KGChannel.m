@@ -77,6 +77,10 @@
     return @"teams/:identifier/channels/";
 }
 
++ (NSString*)moreListPathPattern {
+    return @"teams/:identifier/channels/more";
+}
+
 + (NSString*)extraInfoPathPattern {
     return @"teams/:team.identifier/channels/:identifier/extra_info";
 }
@@ -91,6 +95,14 @@
     return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
                                                         method:RKRequestMethodGET
                                                    pathPattern:[self listPathPattern]
+                                                       keyPath:@"channels"
+                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+}
+
++ (RKResponseDescriptor*)channelsMoreListResponseDescriptor {
+    return [RKResponseDescriptor responseDescriptorWithMapping:[self entityMapping]
+                                                        method:RKRequestMethodGET
+                                                   pathPattern:[self moreListPathPattern]
                                                        keyPath:@"channels"
                                                    statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 }

@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIFont+KGPreparedFont.h"
 #import "KGBusinessLogic+Session.h"
+#import "UIImage+Resize.h"
 
 @import UIKit;
 
@@ -49,6 +50,7 @@
     [self setupMessageForNotificationView:notificationView withPost:post];
     [self setupCloseButtonForNotificationView:notificationView];
     [self setupSwipeGestureForNotificationView:notificationView];
+    [self setupAvatarForNotificationView:notificationView withPost:post];
     
     return notificationView;
 }
@@ -58,18 +60,40 @@
     [notificationView addSubview:avatarImageView];
     avatarImageView.layer.cornerRadius = 20;
     avatarImageView.clipsToBounds = YES;
-    //[avatarImageView setImageWithURL:post.author.imageUrl usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    __weak typeof(avatarImageView) weakAvatar = avatarImageView;
     
-    __block UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    activityIndicator.center = avatarImageView.center;
-    activityIndicator.hidesWhenStopped = YES;
-    [avatarImageView sd_setImageWithURL:post.author.imageUrl
-                              completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        [activityIndicator removeFromSuperview];
-        
-    }];
-    [avatarImageView addSubview:activityIndicator];
-    [activityIndicator startAnimating];
+    NSURL* avatarUrl = post.author.imageUrl;
+    
+    __block NSString* smallAvatarKey = [avatarUrl.absoluteString stringByAppendingString:@"_feed"];
+    UIImage* smallAvatar = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+    if (smallAvatar) {
+        avatarImageView.image = smallAvatar;
+    } else {
+        if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+            smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+            avatarImageView.image = smallAvatar;
+        } else {
+            [avatarImageView setImageWithURL:avatarUrl
+                                 placeholderImage:KGRoundedPlaceholderImage(CGSizeMake(40, 40))
+                                          options:SDWebImageHandleCookies | SDWebImageAvoidAutoSetImage
+                                        completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                                            
+                                            UIImage* roundedImage = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:smallAvatarKey];
+                                            if (!roundedImage) {
+                                                roundedImage = KGRoundedImage(image, CGSizeMake(40, 40));
+                                                [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+                                            }
+                                            
+                                            if ([post.author.imageUrl isEqual:avatarUrl]) { // It is till the same cell
+                                                weakAvatar.image = roundedImage;
+                                            }
+                                            
+                                        }
+                      usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            [avatarImageView removeActivityIndicator];
+        }
+    }
+
 }
 
 - (void)setupTitleForNotificationView:(UIView *)notificationView withPost:(KGPost *)post {
