@@ -14,14 +14,15 @@ before_install:
     - brew install mogenerator
     
     - bundle install
-
-    - pod --version
-    - pod setup --silent > /dev/null
-    - pod repo update --silent
+    
+    - bundle exec pod repo remove master
+    - bundle exec pod --version
+    - bundle exec pod setup --silent > /dev/null
+    - bundle exec pod repo update --silent
 
 before_script:
     - carthage bootstrap --platform ios
-    - pod install
+    - bundle exec pod install
 
 script:
     - xctool -workspace Mattermost.xcworkspace -scheme Mattermost -sdk iphonesimulator9.3 build -destination "platform=iOS Simulator,name=iPhone 6"
