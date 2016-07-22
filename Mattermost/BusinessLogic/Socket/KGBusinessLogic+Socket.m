@@ -182,15 +182,14 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
 #pragma mark - Post
 
 - (BOOL)existsPostWithId:(NSString*)identifier orPendingId:(NSString*)pendingIdentifier {
-    NSManagedObjectContext* context = [[KGPostUtlis sharedInstance] pendingMessagesContext];
+    NSManagedObjectContext* context = [NSManagedObjectContext MR_contextWithParent:[[KGPostUtlis sharedInstance] pendingMessagesContext]];
     NSString* identifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes identifier], identifier);
     NSString* pendingIdentifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes backendPendingId], pendingIdentifier);
     NSString* finalCondition = NSStringWithFormat(@"%@ || %@", identifierCondition, pendingIdentifierCondition);
-    NSFetchRequest* request = [KGPost MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:finalCondition] inContext:context];
-    __block BOOL postExists;
-    [context performBlockAndWait:^{
-        postExists = [context countForFetchRequest:request error:nil] != 0;
-    }];
+    
+    BOOL postExists;
+    KGPost *post = [KGPost MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:finalCondition] inContext:context];
+    postExists = post ? YES : NO;
     
     return postExists;
 }
