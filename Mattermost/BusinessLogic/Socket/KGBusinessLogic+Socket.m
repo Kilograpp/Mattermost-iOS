@@ -127,11 +127,13 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
 
     if (![NSStringUtils isStringEmpty:postString]) { // Make sure a post exists
         NSDictionary *postDict = [self parseMessageFromString:postString];
-        if (![self existsPostWithId:postDict[KGIdentifierKey] orPendingId:postDict[KGPendingPostIdKey]]) {
+        
+        [self existsPostWithId:postDict[KGIdentifierKey] orPendingId:postDict[KGPendingPostIdKey] exists:^() {
             [self setupPostWithIdentifier:postDict[KGIdentifierKey] forChannelWithIdentifier:channelId success:^(KGPost *post) {
                 [self postNotificationWithChannelIdentifier:channelId userIdentifier:userId actionString:action];
             }];
-        } // Otherwise its our own message
+        }];
+        // Otherwise its our own message
     } else {
         [self postNotificationWithChannelIdentifier:channelId userIdentifier:userId actionString:action];
     }
@@ -147,6 +149,7 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
         [[KGChannelsObserver sharedObserver] presentMessageNotificationForChannel:channelId];
         KGChannel *channel = [KGChannel managedObjectById:channelId inContext:[NSManagedObjectContext MR_defaultContext]];
         channel.lastPostDate = [NSDate date];
+        
         [[NSManagedObjectContext MR_defaultContext] MR_saveOnlySelfAndWait];
         [[KGChannelsObserver sharedObserver] postNewMessageNotification];
     }
@@ -181,20 +184,21 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
 
 #pragma mark - Post
 
-- (BOOL)existsPostWithId:(NSString*)identifier orPendingId:(NSString*)pendingIdentifier {
+- (void)existsPostWithId:(NSString*)identifier orPendingId:(NSString*)pendingIdentifier exists:(void(^)())completion {
     NSManagedObjectContext* context = [[KGPostUtlis sharedInstance] pendingMessagesContext];
     NSString* identifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes identifier], identifier);
     NSString* pendingIdentifierCondition = NSStringWithFormat(@"(self.%@ ==[c] '%@')", [KGPostAttributes backendPendingId], pendingIdentifier);
     NSString* finalCondition = NSStringWithFormat(@"%@ || %@", identifierCondition, pendingIdentifierCondition);
     NSFetchRequest* request = [KGPost MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:finalCondition] inContext:context];
-    __block BOOL postExists;
-    [context performBlockAndWait:^{
-        postExists = [context countForFetchRequest:request error:nil] != 0;
+    [context performBlock:^{
+        BOOL postExists = [context countForFetchRequest:request error:nil] != 0;
+        if (postExists) {
+            safetyCall(completion)
+        }
     }];
-    
-    return postExists;
 }
 
+    
 - (void)setupPostWithIdentifier:(NSString*)postIdentifier forChannelWithIdentifier:(NSString*)channelIdentifier success:(void(^)(KGPost *post))completion{
     NSManagedObjectContext* context = [[KGPostUtlis sharedInstance] pendingMessagesContext];
     KGPost *post = [KGPost MR_createEntityInContext:context];
@@ -204,7 +208,7 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
         [context performBlockAndWait:^{
             [context MR_saveOnlySelfAndWait];
         }];
-        
+
         safetyCall(completion, post);
     }];
 
@@ -230,7 +234,6 @@ static NSString * const KGPendingPostIdKey = @"pending_post_id";
 - (NSData*)dataFromDictionary:(NSDictionary*)dictionary {
     return [NSJSONSerialization dataWithJSONObject:dictionary options:0 error:nil];
 }
-
 
 
 @end
