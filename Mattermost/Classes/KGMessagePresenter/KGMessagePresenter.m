@@ -129,6 +129,7 @@
 
 - (void)setupSwipeGestureForNotificationView:(UIView *)notificationView {
     UISwipeGestureRecognizer *swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hideNotificationViewAnimated)];
+    swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
     notificationView.userInteractionEnabled = YES;
     [notificationView addGestureRecognizer:swipeGestureRecognizer];
 }
