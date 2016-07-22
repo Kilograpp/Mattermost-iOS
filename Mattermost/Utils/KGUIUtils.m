@@ -14,4 +14,8 @@ CGFloat KGScreenWidth() {
     return CGRectGetWidth([UIScreen mainScreen].bounds);
 }
 
+CGFloat KGScreenHeight() {
+    return CGRectGetHeight([UIScreen mainScreen].bounds);
+}
+
 @end

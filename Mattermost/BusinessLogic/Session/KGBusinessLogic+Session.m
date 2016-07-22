@@ -9,7 +9,7 @@
 #import "KGBusinessLogic+Session.h"
 #import <RestKit.h>
 #import <RKManagedObjectStore.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SOCKit/SOCKit.h>
 #import "KGUser.h"
 #import "KGNotificationValues.h"
@@ -18,6 +18,10 @@
 #import "KGBusinessLogic+Notifications.h"
 #import "KGUtils.h"
 #import "KGBusinessLogic+Socket.h"
+#import "KGUserStatusObserver.h"
+#import "NSString+Validation.h"
+#import "KGHardwareUtils.h"
+#import "KGUserStatus.h"
 
 extern NSString * const KGAuthTokenHeaderName;
 
@@ -46,33 +50,117 @@ extern NSString * const KGAuthTokenHeaderName;
 - (void)updateStatusForUsersWithIds:(NSArray<NSString*>*)userIds completion:(void(^)(KGError *error))completion {
     NSString* path = [KGUser usersStatusPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:userIds  success:^(RKMappingResult* mappingResult) {
+        [[KGUserStatusObserver sharedObserver] updateWithArray:mappingResult.array];
         safetyCall(completion, nil);
-    } failure:completion];
+    } failure:^(KGError* error) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSString *userId in userIds) {
+            KGUserStatus *status = [[KGUserStatus alloc] init];
+            status.identifier = userId;
+            //FIXME: REFACTOR
+            status.backendStatus = @"asdd";
+            [array addObject:status];
+        }
+        [[KGUserStatusObserver sharedObserver] updateWithArray:array.copy];
+        
+        safetyCall(completion, error);
+    }];
 }
 
 - (void)loginWithEmail:(NSString *)login password:(NSString *)password completion:(void(^)(KGError *error))completion {
     NSDictionary *params = @{ @"login_id" : login, @"password" : password, @"token" : @"" };
     NSString *path = [KGUser authPathPattern];
     [self.defaultObjectManager postObjectAtPath:path parameters:params success:^(RKMappingResult *mappingResult) {
-        [self updateCurrentUserWithObject:mappingResult.firstObject];
+        [self setDefaultValueForImagesCompression];
+        [self updateCurrentThemeWithObject:mappingResult.dictionary[@"theme_props"]];
+        [self updateCurrentUserWithObject:mappingResult.dictionary[[NSNull null]]];
         [self subscribeToRemoteNotificationsIfNeededWithCompletion:completion];
         [self openSocket];
     } failure:completion];
 }
 
-//- (void)checkUrlWithCompletion:(void(^)(KGError *error))completion  {
-//    NSString *path = [KGUser authPathPattern];
-//    [self.defaultObjectManager postObjectAtPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
-//        NSLog(@"seccess");
+- (BOOL)isValidateServerAddress {
+    __block BOOL result = NO;
+    NSString *address = [[KGPreferences sharedInstance] serverBaseUrl];
+    __block NSString *urlAddress = address;
+//    NSString *urlRegEx = @"((http|https)://){1}((.)*)";
+//    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES[c] %@", urlRegEx];
+//    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                    [[KGPreferences sharedInstance] save];
+            urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+            [self validateServerAddress:^(KGError *error){
+                if (error) {
+                    [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+                    [[KGPreferences sharedInstance] save];
+                    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+                } else {
+                    result = YES;
+                }
+            }];
+        } else {
+            result = YES;
+        }
+    }];
+    
+    if (result) {
+        return YES;
+    }
+    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+            [[KGPreferences sharedInstance] save];
+            urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+        } else {
+            result = YES;
+        }
+    }];
+
+    if (result) {
+        return YES;
+    }
+    
+    [self validateServerAddress:^(KGError *error){
+        if (error) {
+            result = NO;
+        } else {
+            result = YES;
+        }
+    }];
+
+    return result;
+//    if ([urlTest evaluateWithObject:urlAddress]) {
+//        if ([urlAddress kg_isValidUrl]) {
+//            return YES;
+//        }
 //    }
-//                                        failure:completion];
-//}
+//    urlAddress = [NSString stringWithFormat:@"%@%@", @"https://", address];
+//    if ([urlAddress kg_isValidUrl]) {
+//        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+//        [[KGPreferences sharedInstance] save];
+//        return YES;
+//    }
+//    urlAddress = [NSString stringWithFormat:@"%@%@", @"http://", address];
+//    if ([urlAddress kg_isValidUrl]) {
+//        [[KGPreferences sharedInstance] setServerBaseUrl:urlAddress];
+//        [[KGPreferences sharedInstance] save];
+//        return YES;
+//    }
+//    return NO;
+    
+}
 
 - (void)updateImageForCurrentUser:(UIImage*)image withCompletion:(void(^)(KGError *error))completion{
     NSString* path = [KGUser uploadAvatarPathPattern];
     [self.defaultObjectManager postImage:image withName:@"image" atPath:path parameters:nil success:^(RKMappingResult *mappingResult) {
         safetyCall(completion, nil);
-    } failure:completion];
+    } failure:completion
+                                progress:^(NSUInteger persentValue) {
+                                    NSLog(@"%d", persentValue);
+    }];
 }
 
 #pragma mark - User
@@ -83,6 +171,14 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (KGUser *)currentUser {
     return [KGUser managedObjectById:[self currentUserId]];
+}
+
+- (void)setDefaultValueForImagesCompression {
+    [[KGPreferences sharedInstance] setShouldCompressImages:YES];
+}
+
+- (void)updateCurrentThemeWithObject:(KGTheme*)theme {
+    [[KGPreferences sharedInstance] setCurrentTheme:theme];
 }
 
 - (void)updateCurrentUserWithObject:(KGUser*)user {
@@ -113,6 +209,7 @@ extern NSString * const KGAuthTokenHeaderName;
         [self resetPersistentStore];
         [self clearCookies];
         [self closeSocket];
+        [[KGPreferences sharedInstance] reset];
         safetyCall(completion, nil);
     }];
 
@@ -160,12 +257,15 @@ extern NSString * const KGAuthTokenHeaderName;
 
 - (void)updateStatusForAllUsers {
     if (self.isSignedIn){
-        [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
-        }];
+        if ([[KGHardwareUtils sharedInstance] devicePerformance] == KGPerformanceHigh ||
+            [[KGHardwareUtils sharedInstance] currentCpuLoad] < 30) {
+            [self updateStatusForUsers:[KGUser MR_findAll] completion:^(KGError* error) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:KGNotificationUsersStatusUpdate object:nil];
+            }];
+        }
+        
         
     }
-
 }
 
 @end

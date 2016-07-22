@@ -11,6 +11,8 @@
 
 @interface NSString (HeightCalculation)
 
-- (CGFloat)heightForTextWithWidth:(CGFloat)textWidth withFont:(UIFont *)fontType;
+- (CGFloat)kg_heightForTextWidth:(CGFloat)textWidth font:(UIFont *)fontType;
+
+
 
 @end

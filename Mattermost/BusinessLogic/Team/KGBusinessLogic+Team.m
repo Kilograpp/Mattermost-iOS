@@ -8,7 +8,7 @@
 
 #import "KGBusinessLogic+Team.h"
 #import <RestKit.h>
-#import <MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "KGTeam.h"
 #import "KGPreferences.h"
 #import "KGUtils.h"

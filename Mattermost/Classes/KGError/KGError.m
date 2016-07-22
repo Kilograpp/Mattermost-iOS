@@ -55,7 +55,7 @@ static NSString *const KGErrorServerInternalMessage = @"Повторите по�
     
     KGError *kg_error = error.userInfo[RKObjectMapperErrorObjectsKey][0];
     if (!kg_error) {
-        NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+        NSHTTPURLResponse *response = error.userInfo[AFRKNetworkingOperationFailingURLResponseErrorKey];
         if (response.statusCode == 500) {
             kg_error = [KGError errorWithCode:response.statusCode title:KGErrorServerInternalTitle message:KGErrorServerInternalMessage];
         }
@@ -85,6 +85,22 @@ static NSString *const KGErrorServerInternalMessage = @"Повторите по�
                                                                                                 keyPath:nil
                                                                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassClientError)];
     return errorResponseDescriptor;
+}
+
+
+#pragma mark - Pre-defined errors
+
+KGError *cannotOpenFileError() {
+    return [KGError errorWithCode:KGErrorCannotOpenFile
+                            title:NSLocalizedString(@"File format is not supported", nil)
+                          message:@"File format is not supported"];
+}
+
+KGError *fileDoesntExsistError() {
+    return [KGError errorWithCode:KGErrorCannotOpenFile
+                            title:NSLocalizedString(@"File doesnt exist", nil)
+                          message:@"File doesnt exist"];
+
 }
 
 @end

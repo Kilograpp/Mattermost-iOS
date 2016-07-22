@@ -8,7 +8,7 @@
 
 #import "RKRequestDescriptor+Runtime.h"
 #import "KGManagedObject.h"
-#import "NSObject+DumpValues.h"
+#import "NSObject+RuntimeMethodsValues.h"
 
 extern NSString * const KGRestKitClassPrefix;
 

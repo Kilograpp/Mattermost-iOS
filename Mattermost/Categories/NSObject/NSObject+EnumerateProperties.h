@@ -5,6 +5,15 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef NS_ENUM(NSInteger, KGPropertyType) {
+    KGTypeObject,
+    KGTypePrimitiveBool,
+    KGTypePrimitiveUnknown,
+    KGTypeUnknown
+};
+
+
 @interface NSObject (EnumerateProperties)
-- (void)enumeratePropertiesWithBlock:(void(^)(NSString* propertyName))handler;
+- (void)enumeratePropertiesWithBlock:(void(^)(NSString* propertyName, KGPropertyType type))handler;
 @end

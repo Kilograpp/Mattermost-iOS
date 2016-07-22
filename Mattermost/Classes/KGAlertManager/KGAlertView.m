@@ -8,147 +8,192 @@
 
 #import "KGAlertView.h"
 #import "UIFont+KGPreparedFont.h"
-#import "CAGradientLayer+KGPreparedGradient.h"
 #import "UIColor+KGPreparedColor.h"
+#import "NSString+HeightCalculation.h"
+#import "KGUIUtils.h"
+#import <Masonry/Masonry.h>
 
 static KGAlertView *sharedMessages;
-static CGFloat const kAlertViewHeight = 70;
-static CGFloat const kImageHeight = 30;
-static CGFloat const kImageWidth = 20;
-static CGFloat const kImageMarginGorizontal = 10;
-static CGFloat const kImageMarginVertical = 20;
-static CGFloat const kLabelMarginTralling = 10;
-static CGFloat const kLabelHeight = 20;
-
 
 @interface KGAlertView ()
+@property (nonatomic, copy)   NSString *message;
 @property (nonatomic, strong) UILabel *messageLabel;
-@property (nonatomic, strong) UIImageView *imageType;
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, assign) NSTimeInterval duration;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, assign, getter=isPresenting) BOOL presenting;
+
 @end
 
 @implementation KGAlertView
 
-- (void) setupAlertView {
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    self.frame = CGRectMake(0, -kAlertViewHeight, screenWidth, kAlertViewHeight);
-    [self setupImageType];
-    [self setupMessageLabelWithWidth:screenWidth];
-    [[[[UIApplication sharedApplication] delegate] window] addSubview:self];
-}
+#pragma mark - Init
 
-- (void)setupImageType {
-    self.imageType = [[UIImageView alloc]initWithFrame:CGRectMake(kImageMarginGorizontal, kImageMarginVertical, kImageWidth, kImageHeight)];
-    self.imageType.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:self.imageType];
-}
-
-
-- (void)setupMessageLabelWithWidth:(CGFloat)screenWidth {
-    self.messageLabel = [[UILabel alloc]initWithFrame:CGRectMake((kImageMarginGorizontal + kImageWidth + kImageMarginGorizontal),
-                                                                 kImageMarginVertical + kImageHeight/4,
-                                                                 (screenWidth - kImageMarginGorizontal - kImageWidth - kImageMarginGorizontal - kLabelMarginTralling),
-                                                                 kLabelHeight)];
-    self.messageLabel.font = [UIFont kg_boldText13Font];
-    self.messageLabel.textColor = [UIColor kg_whiteColor];
-    [self addSubview:self.messageLabel];
-}
-
-
-+ (KGAlertView *)sharedMessage{
-    if (!sharedMessages){
-        sharedMessages = [[[self class] alloc] init];
+- (instancetype)initWithType:(KGAlertType)type
+                     message:(NSString *)message
+                    duration:(NSTimeInterval)duration
+                    callback:(void (^)())callback {
+    if (self = [super init]) {
+        [self setMessage:message];
+        [self setDuration:duration];
+        [self setupFrame];
+        [self setupMessageLabel];
+        [self setupIconImageView];
+        [self setupBackgroundViewWithAlertType:type];
+        [self setupMessageLabel];
+        [self setEnableTapToDismiss:YES];
+        [self setupTapGestureRecognizer];
     }
-    return sharedMessages;
+    
+    return self;
 }
 
-- (void)configureAlertViewType:(KGMessageType)messageType {
+
+#pragma mark - Setup
+
+- (void)setupFrame {
+    self.frame = CGRectMake(0, -[self heightWithMessage], KGScreenWidth(), [self heightWithMessage]);
+}
+
+- (void)setupBackgroundViewWithAlertType:(KGAlertType)type {
+    UIColor *backgroundColor;
+    NSString *iconImageName;
+    switch (type) {
+        case KGAlertTypeError: {
+            backgroundColor = [UIColor kg_redColorForAlert];
+            iconImageName = @"error_alert";
+            break;
+        }
+            
+        case KGAlertTypeWarning: {
+            backgroundColor = [UIColor kg_yellowColorForAlert];
+            iconImageName = @"warning_alert";
+            break;
+        }
+            
+        case KGAlertTypeSuccess: {
+            backgroundColor = [UIColor kg_greenColorForAlert];
+            iconImageName = @"success_alert";
+            break;
+        }
+            
+        default:
+            break;
+    }
     
-    switch (messageType) {
-        case KGMessageTypeWarning:
-            [self configureTypeWarning];
-            break;
-        case KGMessageTypeError:
-            [self configureTypeError];
-            break;
-        case KGMessageTypeSuccess:
-            [self configureTypeSuccess];
-            break;
+    self.iconImageView.image = [UIImage imageNamed:iconImageName];
+    self.backgroundColor = backgroundColor;
+}
+
+- (void)setupTapGestureRecognizer {
+    if (self.enableTapToDismiss) {
+        self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDismissAction)];
+        [self addGestureRecognizer:self.tapGestureRecognizer];
     }
 }
 
-- (void)configureTypeWarning {
-    [self setupColorForView :[UIColor kg_yellowColorForAlert]];
-    self.imageType.image = [UIImage imageNamed:@"warning_alert"];
+- (void)addToSuperview {
+//    [[[[UIApplication sharedApplication] delegate] window] addSubview:self];
+//    [[[UIApplication sharedApplication] keyWindow] addSubview:self];
+    [self.presentingViewController.view addSubview:self];
 }
 
-- (void)configureTypeError {
-    [self setupColorForView :[UIColor kg_redColorForAlert]];
-    self.imageType.image = [UIImage imageNamed:@"error_alert"];
+- (void)setupIconImageView {
+    self.iconImageView = [[UIImageView alloc] init];
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:self.iconImageView];
     
-}
-
-- (void)configureTypeSuccess {
-    [self setupColorForView :[UIColor kg_greenColorForAlert]];
-     self.imageType.image = [UIImage imageNamed:@"success_alert"];
-}
-
-- (void)setupColorForView:(UIColor *)color {
-    self.backgroundColor = color;
-}
-
-- (void)showAnimationAlertView{
-    [UIView animateWithDuration:0.35
-                          delay:0.00
-         usingSpringWithDamping:0.9
-          initialSpringVelocity:0.3
-                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
-        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
-        CGRect frameNew = self.frame;
-        frameNew.origin.y = frameNew.origin.y + kAlertViewHeight;
-        self.frame = frameNew;
-                            
-    } completion:^(BOOL finished) {
-        
+    [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.trailing.equalTo(self.messageLabel.mas_leading).offset(-8);
+        make.centerY.equalTo(self.messageLabel);
+        make.height.width.equalTo(@25);
     }];
 }
 
-- (void) hideAnimationAlertView {
-    [UIView animateWithDuration:0.35
+
+- (void)setupMessageLabel {
+    self.messageLabel = [[UILabel alloc] init];
+    self.messageLabel.font = [UIFont kg_boldText13Font];
+    self.messageLabel.textColor = [UIColor kg_whiteColor];
+    self.messageLabel.text = self.message;
+    self.messageLabel.numberOfLines = 0;
+    [self addSubview:self.messageLabel];
+    
+    [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(self).offset(53);
+        make.top.equalTo(self).offset(15);
+        make.trailing.equalTo(self).offset(-8);
+        make.bottom.equalTo(self).offset(-8);
+    }];
+}
+
+
+#pragma mark - Public
+
+- (void)showAlertViewAnimated:(BOOL)animated {
+    [self addToSuperview];
+    [UIView animateWithDuration:animated ? 0.35 : 0
                           delay:0.00
          usingSpringWithDamping:0.9
           initialSpringVelocity:0.3
-                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
-                            CGRect frameNew = self.frame;
-                            frameNew.origin.y = frameNew.origin.y - kAlertViewHeight;
-                            self.frame = frameNew;
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+//                         [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelStatusBar + 1;
+                         
+        CGRect frameNew = self.frame;
+        frameNew.origin.y = frameNew.origin.y + [self heightWithMessage];
+        self.frame = frameNew;
                             
-                        } completion:^(BOOL finished) {
-                            [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelNormal;
-                            if (self.callback) {
-                                [self callback];
-                            }
-                            [self.messageLabel removeFromSuperview];
-                            [self.imageType removeFromSuperview];
-                        }];
+    } completion:^(BOOL finished) {
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, self.duration * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
+            [self hideAlertViewAnimated:YES];
+
+        });
+    }];
 }
 
-- (void)showAlertViewWithMessage:(NSString *)message
-                                withType:(KGMessageType)type
-                            withDuration:(NSTimeInterval)duration
-                            withCallback:(void (^)())callback {
-    [self setupAlertView];
-    self.callback = callback;
-    [self.messageLabel setText:message];
-    [self configureAlertViewType:type];
-    [self showAnimationAlertView];
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC);
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
-        [self hideAnimationAlertView];
-        
-    });
-
+- (void)hideAlertViewAnimated:(BOOL)animated {
+    [UIView animateWithDuration:animated ? 0.35 : 0
+                          delay:0.00
+         usingSpringWithDamping:0.9
+          initialSpringVelocity:0.3
+                        options:UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         CGRect frameNew = self.frame;
+                         frameNew.origin.y = frameNew.origin.y - [self heightWithMessage];
+                         self.frame = frameNew;
+                         
+                     } completion:^(BOOL finished) {
+//                          [self removeFromSuperview];
+//                        [[[UIApplication sharedApplication] delegate] window].windowLevel = UIWindowLevelNormal;
+                         if (self.callback) {
+                             [self callback];
+                         }
+                     }];
 }
 
 
+#pragma mark - Private
+
+- (CGFloat)heightWithMessage {
+    CGFloat messageLabelHeight = [self.message kg_heightForTextWidth:KGScreenWidth() - 70 font:[UIFont kg_boldText13Font]];
+    return MAX(messageLabelHeight + 40, 70);
+}
+
+
+#pragma mark - Actions
+
+- (void)tapDismissAction {
+    [self hideAlertViewAnimated:YES];
+}
+
+
+#pragma mark - Private Getters
+
+- (BOOL)isPresenting {
+    return self.superview ? YES : NO;
+}
 
 @end

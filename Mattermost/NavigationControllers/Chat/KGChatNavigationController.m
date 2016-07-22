@@ -9,10 +9,17 @@
 #import "KGChatNavigationController.h"
 #import "UIColor+KGPreparedColor.h"
 #import "UIFont+KGPreparedFont.h"
+#import "KGUIUtils.h"
+#import <DGActivityIndicatorView.h>
+
+#import "KGNavigationBarTitleView.h"
 
 @interface KGChatNavigationController () <UINavigationControllerDelegate>
+@property (nonatomic, strong) KGNavigationBarTitleView *kg_titleView;
 @property (nonatomic, strong) UILabel *kg_titleLabel;
 @property (nonatomic, strong) UILabel *kg_subtitleLabel;
+@property (nonatomic, strong) UIView *activityIndicatorView;
+@property (nonatomic, strong) DGActivityIndicatorView *loadingView;
 @end
 
 @implementation KGChatNavigationController 
@@ -20,7 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.delegate = self;
     [self setupNavigationBar];
 }
 
@@ -31,41 +37,43 @@
 }
 
 
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
-
 #pragma mark - Setup
 
-- (void)setupNavigationBar {
-    UINavigationBar *navBar = self.navigationBar;
-    navBar.translucent = NO;
-    
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 44.f)];
-    self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
-    self.kg_subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 22.f, CGRectGetWidth([UIScreen mainScreen].bounds) * 0.6f, 22.f)];
-    
+- (void)setupTitleLabel {
+    self.kg_titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 4.f, KGScreenWidth() * 0.6f, 22.f)];
     self.kg_titleLabel.font = [UIFont kg_navigationBarTitleFont];
     self.kg_titleLabel.textAlignment = NSTextAlignmentCenter;
     self.kg_titleLabel.textColor = [UIColor kg_blackColor];
+}
 
-    self.kg_subtitleLabel.font = [UIFont kg_navigationBarSubtitleFont];
-    self.kg_subtitleLabel.textAlignment = NSTextAlignmentCenter;
-    self.kg_subtitleLabel.textColor = [UIColor kg_blueColor];
-
+- (void)setupNavigationBar {
+    self.navigationBar.translucent = NO;
+    self.navigationBar.barTintColor = [UIColor kg_navigationBarTintColor];
     
-    [titleView addSubview:self.kg_titleLabel];
-    [titleView addSubview:self.kg_subtitleLabel];
-    [self.navigationBar.topItem setTitleView:titleView];
+    [self setupTitleLabel];
+    [self setupTitleView];
+    [self setupGestureRecognizer];
 }
 
-- (void)setupTitleViewWithUserName:(NSString *)userName subtitle:(NSString *)subtitle shouldHighlight:(BOOL)shouldHighlight {
-    self.kg_titleLabel.text = userName;
-    self.kg_subtitleLabel.text = subtitle;
-    self.kg_subtitleLabel.textColor = shouldHighlight ? [UIColor kg_enabledButtonTintColor] : [UIColor kg_disabledButtonTintColor];
+- (void)setupTitleView {
+    self.kg_titleView = [[KGNavigationBarTitleView alloc] init];
+    self.kg_titleView.frame = CGRectMake(0.f, 0.f, KGScreenWidth() * 0.6f, 44.f);
+    [self.navigationBar.topItem setTitleView:self.kg_titleView];
 }
 
+- (void)setupGestureRecognizer {
+    [self.kg_titleView.titleLabel setUserInteractionEnabled:YES];
+    [self.kg_titleView.titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMembers)]];
+}
+
+- (void)configureTitleViewWithChannel:(KGChannel *)channel
+                    loadingInProgress:(BOOL)loadingInProgress {
+    [self.kg_titleView configureWithChannel:channel loadingInProgress:loadingInProgress];
+}
+
+- (void)showMembers {
+    [self.kg_delegate didSelectTitleView];
+}
 
 #pragma mark - Status Bar
 
@@ -79,11 +87,5 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
-
-
-
-//- (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
-//    return UIBarPositionTopAttached;
-//}
 
 @end

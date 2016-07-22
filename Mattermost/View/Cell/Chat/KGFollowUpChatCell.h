@@ -5,17 +5,19 @@
 
 #import "KGTableViewCell.h"
 #import "KGUIUtils.h"
-@class ActiveLabel, KGPost;
+@class ActiveLabel, KGPost,DGActivityIndicatorView;
 
 static NSOperationQueue*  messageQueue;
-
+//static CGFloat const kStandartPadding = 8.f;
 @interface KGFollowUpChatCell : KGTableViewCell {
-    CGRect _msgRect;
     NSString *_dateString;
 }
 
 @property (nonatomic, strong) ActiveLabel *messageLabel;
 @property (strong, nonatomic) NSBlockOperation* messageOperation;
-@property (nonatomic, strong) KGPost *post;
+@property (nonatomic, strong) DGActivityIndicatorView *loadingView;
+//@property (nonatomic, strong) UIButton *errorView;
+
+
 
 @end

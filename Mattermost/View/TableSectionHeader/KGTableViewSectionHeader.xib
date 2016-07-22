@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="KGTableViewSectionHeader">
+            <rect key="frame" x="0.0" y="0.0" width="362" height="56"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ioU-JQ-LAp">
+                    <rect key="frame" x="310" y="17" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="RK2-6r-uVN">
+                    <rect key="frame" x="0.0" y="28" width="295" height="1"/>
+                    <color key="backgroundColor" red="0.84313725490196079" green="0.86274509803921573" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="DE3-Nr-5Oe"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ioU-JQ-LAp" secondAttribute="trailing" constant="10" id="eWZ-L8-vZA"/>
+                <constraint firstItem="ioU-JQ-LAp" firstAttribute="leading" secondItem="RK2-6r-uVN" secondAttribute="trailing" constant="15" id="jdP-P5-19W"/>
+                <constraint firstItem="RK2-6r-uVN" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="l4h-Cn-lPK"/>
+                <constraint firstItem="RK2-6r-uVN" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qXK-FH-a1f"/>
+                <constraint firstItem="ioU-JQ-LAp" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="uMQ-o1-jP8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="dateLabel" destination="ioU-JQ-LAp" id="uaY-tU-Y3E"/>
+                <outlet property="lineView" destination="RK2-6r-uVN" id="b6K-yc-JKz"/>
+            </connections>
+            <point key="canvasLocation" x="442" y="-82"/>
+        </view>
+    </objects>
+</document>

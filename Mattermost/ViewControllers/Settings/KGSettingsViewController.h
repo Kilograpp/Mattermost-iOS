@@ -6,8 +6,8 @@
 //  Copyright © 2016 Kilograpp. All rights reserved.
 //
 
-#import "KGViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface KGSettingsViewController : KGViewController
+@interface KGSettingsViewController : UITableViewController
 
 @end

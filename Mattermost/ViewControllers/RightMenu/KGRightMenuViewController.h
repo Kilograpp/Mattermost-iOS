@@ -11,9 +11,13 @@
 @protocol KGRightMenuDelegate <NSObject>
 
 - (void)navigationToProfile;
-
+- (void)navigateToSettings;
+- (void)navigateToAboutMattermost;
+- (void)navigateToTeams;
 @end
 
 @interface KGRightMenuViewController : KGViewController
 @property (nonatomic, weak) id<KGRightMenuDelegate> delegate;
+
+- (void)updateAvatarImage;
 @end

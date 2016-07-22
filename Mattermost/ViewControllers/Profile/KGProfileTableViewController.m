@@ -17,6 +17,10 @@
 #import "UIImage+KGRotate.h"
 #import "KGImagePickerController.h"
 #import "UIStatusBar+SharedBar.h"
+#import "KGChatNavigationController.h"
+#import "UIImage+Resize.h"
+#import "KGRightMenuViewController.h"
+#import <MFSideMenu/MFSideMenu.h>
 
 @import AVFoundation;
 @import Photos;
@@ -33,9 +37,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nickname;
 @property (weak, nonatomic) IBOutlet UILabel *email;
 @property (assign) BOOL isFirstLoad;
-
-
-
+@property (assign) BOOL isCurrentUser;
+@property (nonatomic, strong) KGUser *user;
 @end
 
 @implementation KGProfileTableViewController
@@ -45,71 +48,53 @@
 
     self.isFirstLoad = YES;
     [self setup];
-    [self setupNavigationBar];
-    
 }
 
 - (void)setupNavigationBar {
-    self.title = @"Профиль";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"navbar_close_icon"]
                                                                    style:UIBarButtonItemStyleDone
                                                                   target:self
                                                                   action:@selector(backAction)];
     backButton.tintColor = [UIColor blackColor];
-    
     self.navigationItem.leftBarButtonItem = backButton;
-}
 
+}
+//
 - (void)backAction {
+    if (self.previousControler) {
+        [self presentViewController:self.previousControler animated:YES completion:nil];
+    } else {
     [[UIStatusBar sharedStatusBar] moveToPreviousView];
+    
     [self dismissViewControllerAnimated:YES completion:^ {
+        NSLog(@"yes");
         [[UIStatusBar sharedStatusBar] moveToPreviousView];
     }];
-
-}
-
-
-
-- (void)viewWillAppear:(BOOL)animated {
-
-
-    [super viewWillAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveToViewWithSnapshot:self.navigationController.view];
     }
-
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    if (self.isFirstLoad) {
-        [[UIStatusBar sharedStatusBar] moveTemporaryToRootView];
-
-        self.isFirstLoad = NO;
-    }
-
-
 }
 
 - (void)setup {
-//    KGUser *user = [KGUser managedObjectById:self.userId];
-    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
+    self.user = [KGUser managedObjectById:self.userId];
+    if ([self.userId isEqual:[KGBusinessLogic sharedInstance].currentUserId]) {
+        self.isCurrentUser = YES;
+    }
+//    KGUser *user = [[KGBusinessLogic sharedInstance]currentUser];
     self.nameTitleLabel.font = [UIFont kg_semibold30Font];
     self.nameTitleLabel.textColor = [UIColor kg_blackColor];
     self.avatarImageView.layer.cornerRadius = CGRectGetHeight(self.avatarImageView.bounds) / 2;
     self.avatarImageView.clipsToBounds = YES;
     self.avatarImageView.backgroundColor = [UIColor whiteColor];
-    self.nameTitleLabel.text = user.nickname;
-    [self.avatarImageView setImageWithURL:user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
-              usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.name.text = user.firstName;
-    self.username.text = user.nickname;
-    self.nickname.text = user.nickname;
-    self.email.text = user.email;
-    //self.headerView.backgroundColor = [UIColor kg_lightLightGrayColor];
+    self.nameTitleLabel.text = self.user.nickname;
+    
+    NSString* smallAvatarKey = [self.user.imageUrl.absoluteString stringByAppendingString:@"_feed"];
+    
+    if ([[SDImageCache sharedImageCache] diskImageExistsWithKey:smallAvatarKey]) {
+        UIImage *smallAvatar = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:smallAvatarKey];
+        self.avatarImageView.image = smallAvatar;
+    } else {
+        [self.avatarImageView setImageWithURL:self.user.imageUrl placeholderImage:nil options:SDWebImageHandleCookies
+                  usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
 }
 
 
@@ -119,6 +104,83 @@
     } else {
         return 30.f;
     }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0) {
+        if (self.isCurrentUser) {
+            return 4;
+        } else {
+            return 3;
+        }
+    } else {
+        if (self.isCurrentUser) {
+            return 3;
+        } else {
+            return 1;
+        }
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
+    
+    if (self.isCurrentUser) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+    } else {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.section == 0){
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Name";
+                cell.detailTextLabel.text = self.user.firstName;
+                cell.imageView.image = [UIImage imageNamed:@"profile_name_icon"];
+                break;
+            case 1:
+                cell.textLabel.text = @"Username";
+                cell.detailTextLabel.text = self.user.nickname;
+                cell.imageView.image = [UIImage imageNamed:@"profile_usename_icon"];
+                break;
+            case 2:
+                cell.textLabel.text = @"Nickname";
+                cell.detailTextLabel.text = self.user.nickname;
+                cell.imageView.image = [UIImage imageNamed:@"profile_nick_icon"];
+                break;
+            case 3:
+                cell.textLabel.text = @"Profile photo";
+                cell.imageView.image = [UIImage imageNamed:@"profile_photo_icon"];
+                break;
+            default:
+                break;
+        }
+        
+    } else {
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Email";
+                cell.detailTextLabel.text = self.user.email;
+                cell.imageView.image = [UIImage imageNamed:@"profile_email_icon"];
+                break;
+            case 1:
+                cell.textLabel.text = @"Change password";
+                cell.imageView.image = [UIImage imageNamed:@"profile_pass_icon"];
+                break;
+            case 2:
+                cell.textLabel.text = @"Notification";
+                cell.detailTextLabel.text = @"On";
+                cell.imageView.image = [UIImage imageNamed:@"profile_notification_icon"];
+                break;
+            default:
+                break;
+        }
+    }
+    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -131,7 +193,9 @@
             case 2:
                 break;
             case 3:
-                [self changeProfilePhoto];
+                if ([self.userId isEqual:[KGBusinessLogic sharedInstance].currentUserId]){
+                    [self changeProfilePhoto];
+                }
                 break;
             default:
                 break;
@@ -214,13 +278,29 @@
     }
     
     self.updatedAvatarImage = [image kg_normalizedImage];
-    if (self.updatedAvatarImage){
+    
+    
+    if (self.updatedAvatarImage) {
         self.avatarImageView.image = self.updatedAvatarImage;
-        [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:nil];
-        [[SDImageCache sharedImageCache] storeImage:self.updatedAvatarImage forKey:[[KGBusinessLogic sharedInstance] currentUser].imageUrl.absoluteString];
+        [[KGAlertManager sharedManager] showProgressHud];
+        [[KGBusinessLogic sharedInstance] updateImageForCurrentUser:self.updatedAvatarImage withCompletion:^(KGError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                [[KGAlertManager sharedManager] hideHud];
+
+//
+                NSURL* avatarUrl = self.user.imageUrl;
+                NSString* smallAvatarKey = [avatarUrl.absoluteString stringByAppendingString:@"_feed"];
+                UIImage *imageToCathe = self.updatedAvatarImage;
+                UIImage *roundedImage = KGRoundedImage(imageToCathe, CGSizeMake(40, 40));
+                [[SDImageCache sharedImageCache] storeImage:roundedImage forKey:smallAvatarKey];
+                
+                KGRightMenuViewController *vc = (KGRightMenuViewController *)self.menuContainerViewController.rightMenuViewController;
+                [vc updateAvatarImage];
+            });
+        }];
+        
  
     }
-    //[self.tableHeaderView reloadWithImage:self.updatedAvatarImage];
 }
 
 

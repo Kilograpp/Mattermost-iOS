@@ -9,16 +9,9 @@
 #import "KGViewController.h"
 
 @class KGChannel;
-@protocol KGLeftMenuDelegate <NSObject>
-
-@required
-- (void)didSelectChannelWithIdentifier:(NSString *)idetnfifier;
-
-@end
 
 @interface KGLeftMenuViewController : KGViewController
 
 - (void)selectChannel:(KGChannel*)channel;
 
-@property (nonatomic, weak) id<KGLeftMenuDelegate> delegate;
 @end

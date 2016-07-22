@@ -21,10 +21,14 @@
 #import "UIImage+Resize.h"
 #import "KGFileCell.h"
 #import "KGUIUtils.h"
+#import <UITableView_Cache/UITableView+Cache.h>
+#import "UIView+Align.h"
+#import "KGDrawer.h"
 
 #define KG_CONTENT_WIDTH  CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f
-#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.66f
-#define KG_FILE_HEIGHT  55.f
+#define KG_IMAGE_HEIGHT  (CGRectGetWidth([UIScreen mainScreen].bounds) - 61.f) * 0.56f
+#define KG_FILE_HEIGHT  56.f
+
 @interface KGChatAttachmentsTableViewCell () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, copy)   NSArray *files;
@@ -45,52 +49,50 @@
 }
 
 
-
 #pragma mark - Setup
 
 - (void)setupTableView {
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.scrollsToTop = NO;
     self.tableView.scrollEnabled = NO;
-    self.tableView.layer.drawsAsynchronously = YES;
+//    self.tableView.layer.drawsAsynchronously = YES;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.contentView addSubview:self.tableView];
     
-    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier]];
-    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier]];
+    [self.tableView registerClass:[KGImageCell class] forCellReuseIdentifier:[KGImageCell reuseIdentifier] cacheSize:5];
+    [self.tableView registerClass:[KGFileCell class] forCellReuseIdentifier:[KGFileCell reuseIdentifier] cacheSize:5];
     self.backgroundColor = [UIColor kg_whiteColor];
 }
 
-
+- (void)setupErrorView {
+    self.errorView = [[UIButton alloc] init];
+    [self.errorView setImage:[UIImage imageNamed:@"chat_file_ic"] forState:UIControlStateNormal];
+    [self.errorView addTarget:self action:@selector(errorAction) forControlEvents:UIControlEventTouchUpInside];
+    self.errorView.imageEdgeInsets = UIEdgeInsetsMake(7, 7, 7, 7);
+}
 #pragma mark - Configuration
 
 - (void)configureWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        [super configureWithObject:object];
-        
-        self.files = [self.post sortedFiles];
-        [self.tableView reloadData];
-        
-        self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
-    }
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's configureWithObject method!");
+    [super configureWithObject:object];
+    self.files = [self.post sortedFiles];
+    [self.tableView reloadData];
+    self.backgroundColor = self.post.isUnread ? [UIColor kg_lightLightGrayColor] : [UIColor kg_whiteColor];
 }
 
 
 #pragma mark - Height
 
 + (CGFloat)heightWithObject:(id)object {
-    if ([object isKindOfClass:[KGPost class]]) {
-        KGPost *post = object;
-        CGFloat heightCell = [super heightWithObject:object];
-        heightCell += tableViewHeight(post.files.allObjects);
+    NSAssert([object isKindOfClass:[KGPost class]],  @"Object must be KGPost class at KGChatAttachmentsTableViewCell's heightWithObject method!");
 
-        return  ceilf(heightCell + 8);
-    }
-    
-    return 0.f;
+    KGPost *post = object;
+    CGFloat heightCell = [super heightWithObject:object];
+    heightCell += tableViewHeight(post.files.allObjects);
+    return  ceilf(heightCell + 8);
 }
 
 
@@ -106,16 +108,14 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.files[indexPath.row] isImage]){
-        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier] forIndexPath:indexPath];
-    
+        KGImageCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGImageCell reuseIdentifier]];
         KGFile *file = self.files[indexPath.row];
         [cell configureWithObject:file];
         return cell;
     } else {
-        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier] forIndexPath:indexPath];
+        KGFileCell *cell = [tableView dequeueReusableCellWithIdentifier:[KGFileCell reuseIdentifier]];
         KGFile *file = self.files[indexPath.row];
-        
-        [cell configureWithObject:file];;
+        [cell configureWithObject:file];
         return cell;
     }
 }
@@ -126,9 +126,8 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.files[indexPath.row] isImage]){
         return ceilf(KG_IMAGE_HEIGHT);
-    } else {
-        return ceilf(KG_FILE_HEIGHT);
     }
+    return ceilf(KG_FILE_HEIGHT);
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -136,7 +135,7 @@
     
     if (file.isImage) {
         if (self.photoTapHandler) {
-            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]).kg_imageView);
+            self.photoTapHandler(indexPath.row, ((KGImageCell *)[self.tableView cellForRowAtIndexPath:indexPath]));
         }
     } else {
         if (self.fileTapHandler) {
@@ -151,10 +150,14 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat bottomYCoordOfMessage = ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height : self.messageLabel.frame.origin.y;
+    CGFloat bottomYCoordOfMessage =
+            self.post.message.length > 0 ? CGRectGetMaxY(self.messageLabel.frame) : CGRectGetMinY(self.messageLabel.frame);
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
-    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, tableViewHeight(self.files));
+    
+    self.tableView.frame = CGRectMake(xCoordOfMessage, bottomYCoordOfMessage + 8, width, self.tableView.contentSize.height);
+    
+    [self alignSubviews];
 }
 
 - (void)prepareForReuse {
@@ -162,7 +165,8 @@
 }
 
 CGFloat tableViewHeight(NSArray *files) {
-    CGFloat heightImage;
+    
+    CGFloat heightImage = 0;
     for (KGFile *file in files) {
         if ([file isImage]){
             heightImage +=  KG_IMAGE_HEIGHT;

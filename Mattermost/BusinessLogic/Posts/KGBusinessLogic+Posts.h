@@ -8,11 +8,17 @@
 @class KGChannel;
 @class KGPost;
 
+extern const NSInteger kDefaultPageSize;
+
 @interface KGBusinessLogic (Posts)
+
+- (void)loadNextPageForChannel:(KGChannel*)channel fromPost:(KGPost*)lastPost completion:(void(^)(BOOL isLastPage, KGError *error))completion;
+
+- (void)loadFirstPageForChannel:(KGChannel*)channel completion:(void (^)(BOOL isLastPage, KGError* error))completion;
 
 - (void)loadPostsForChannel:(KGChannel*)channel
                        page:(NSNumber *)page
-                       size:(NSNumber *)size // Recommended - 60
+                       size:(NSNumber *)size
                  completion:(void(^)(KGError *error))completion;
 
 - (void)updatePost:(KGPost*)post completion:(void(^)(KGError *error))completion;

@@ -37,6 +37,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString* nickname;
 
+@property (nonatomic, strong, nullable) NSNumber* nicknameWidth;
+
+@property (atomic) float nicknameWidthValue;
+- (float)nicknameWidthValue;
+- (void)setNicknameWidthValue:(float)value_;
+
 @property (nonatomic, strong, nullable) NSNumber* status;
 
 @property (atomic) int16_t statusValue;
@@ -80,6 +86,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString*)primitiveNickname;
 - (void)setPrimitiveNickname:(NSString*)value;
 
+- (NSNumber*)primitiveNicknameWidth;
+- (void)setPrimitiveNicknameWidth:(NSNumber*)value;
+
+- (float)primitiveNicknameWidthValue;
+- (void)setPrimitiveNicknameWidthValue:(float)value_;
+
 - (NSNumber*)primitiveStatus;
 - (void)setPrimitiveStatus:(NSNumber*)value;
 
@@ -104,6 +116,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)identifier;
 + (NSString *)lastName;
 + (NSString *)nickname;
++ (NSString *)nicknameWidth;
 + (NSString *)status;
 + (NSString *)username;
 @end

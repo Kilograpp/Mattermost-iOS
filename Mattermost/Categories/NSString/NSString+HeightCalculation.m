@@ -11,13 +11,14 @@
 
 @implementation NSString (HeightCalculation)
 
-- (CGFloat)heightForTextWithWidth:(CGFloat)textWidth withFont:(UIFont *)fontType {
+- (CGFloat)kg_heightForTextWidth:(CGFloat)textWidth font:(UIFont *)fontType {
     NSAttributedString* messageAttributedString = [self bos_makeString:^(BOStringMaker *make) {
         make.font(fontType);
     }];
     
     CGRect rect = [messageAttributedString boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+                                                        options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                                        context:nil];
     return CGRectGetHeight(rect);
 }
 

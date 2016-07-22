@@ -29,6 +29,11 @@
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"nicknameWidthValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"nicknameWidth"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"statusValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"status"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -49,6 +54,26 @@
 @dynamic lastName;
 
 @dynamic nickname;
+
+@dynamic nicknameWidth;
+
+- (float)nicknameWidthValue {
+	NSNumber *result = [self nicknameWidth];
+	return [result floatValue];
+}
+
+- (void)setNicknameWidthValue:(float)value_ {
+	[self setNicknameWidth:@(value_)];
+}
+
+- (float)primitiveNicknameWidthValue {
+	NSNumber *result = [self primitiveNicknameWidth];
+	return [result floatValue];
+}
+
+- (void)setPrimitiveNicknameWidthValue:(float)value_ {
+	[self setPrimitiveNicknameWidth:@(value_)];
+}
 
 @dynamic status;
 
@@ -105,6 +130,9 @@
 }
 + (NSString *)nickname {
 	return @"nickname";
+}
++ (NSString *)nicknameWidth {
+	return @"nicknameWidth";
 }
 + (NSString *)status {
 	return @"status";
