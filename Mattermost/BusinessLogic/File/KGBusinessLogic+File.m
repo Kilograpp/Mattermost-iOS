@@ -47,8 +47,6 @@
     CGFloat scaleFactor = 0.33;
     BOOL shouldCompressImage = [KGPreferences sharedInstance].shouldCompressImages;
     UIImage *finalImage = shouldCompressImage ? [image kg_resizedImageWithHeight:image.size.height * scaleFactor] : image;
-    NSLog(@"%@", shouldCompressImage ? @"COMPRESS" : @"ORIGINAL");
-    NSLog(@"%f x %f", finalImage.size.width, finalImage.size.height);
     NSDictionary* parameters = @{
             @"channel_id" : channel.identifier,
             @"client_ids" : [NSStringUtils randomUUID]

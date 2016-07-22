@@ -217,7 +217,6 @@
      ^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
          if (progress) {
              NSInteger progressValue = totalBytesWritten / (CGFloat)totalBytesExpectedToWrite * 100;
-             NSLog(@"%d", progressValue);
              progress(progressValue);
          }
      }];
