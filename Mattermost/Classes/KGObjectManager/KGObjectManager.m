@@ -221,15 +221,6 @@
          }
      }];
 
-    
-//    [operation.HTTPRequestOperation setUploadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-//        if(progress) {
-//            progress(totalBytesRead/(float)totalBytesExpectedToRead * 100.f);
-//        }
-//    }];
-    
-    
-
     [self enqueueObjectRequestOperation:operation];
 }
 
