@@ -53,18 +53,11 @@ extern NSString * const KGAuthTokenHeaderName;
         [[KGUserStatusObserver sharedObserver] updateWithArray:mappingResult.array];
         safetyCall(completion, nil);
     } failure:^(KGError* error) {
-//        NSBatchUpdateRequest *batchUpdate = [[NSBatchUpdateRequest alloc] initWithEntityName:@"User"];
-//        batchUpdate.propertiesToUpdate = @{ @"backendStatus": @(0) };
-//        batchUpdate.resultType = NSUpdatedObjectIDsResultType;
-//        batchUpdate.affectedStores = @[[NSPersistentStore MR_defaultPersistentStore]];
-//        NSError *err;
-//        NSBatchUpdateResult     *batchResult    = nil;
-//        batchResult = (NSBatchUpdateResult *)[[NSManagedObjectContext MR_defaultContext] executeRequest:batchUpdate error:&err];
-        
         NSMutableArray *array = [NSMutableArray array];
         for (NSString *userId in userIds) {
             KGUserStatus *status = [[KGUserStatus alloc] init];
             status.identifier = userId;
+            //FIXME: REFACTOR
             status.backendStatus = @"asdd";
             [array addObject:status];
         }
