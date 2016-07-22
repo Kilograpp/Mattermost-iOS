@@ -151,8 +151,7 @@
     [super layoutSubviews];
     
     CGFloat bottomYCoordOfMessage =
-            ceilf(self.messageLabel.frame.size.width) > 0 ? self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height :
-                                                            self.messageLabel.frame.origin.y;
+            self.post.message.length > 0 ? CGRectGetMaxY(self.messageLabel.frame) : CGRectGetMinY(self.messageLabel.frame);
     CGFloat xCoordOfMessage = self.messageLabel.frame.origin.x;
     CGFloat width = KGScreenWidth() - 61;
     
