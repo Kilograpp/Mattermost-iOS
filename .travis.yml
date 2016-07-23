@@ -13,12 +13,12 @@ before_install:
     - brew uninstall mogenerator || true
     - brew install mogenerator
     
+    - pod repo remove master
+    - pod --version
+    - pod setup --silent > /dev/null
+    - pod repo update --silent
+   
     - bundle install
-    
-    - bundle exec pod repo remove master
-    - bundle exec pod --version
-    - bundle exec pod setup --silent > /dev/null
-    - bundle exec pod repo update --silent
 
 before_script:
     - carthage bootstrap --platform ios
