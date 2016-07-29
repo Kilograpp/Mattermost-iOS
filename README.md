@@ -36,29 +36,29 @@ If Carthage is not already available it could be installed using this [tutorial]
 7. In the Mattermost Platform Server go to **System Console** > **Email Settings** > **Push Notifications Server** and add the web address of the Mattermost Push Notifications Server. Set **System Console** > **Send Push Notifications** to `true`.
 8. On your iOS device, download and install your app and enter the **Team URL** and credentials based on a team set up on your Mattermost Platform Server 
 
-### Beta Alert 
+#### Beta Alert 
 
 Mind that the application is in beta state. A lot of bugs and lack on functionality may be faced. 
 If you find any obstacle while using our app feel free to open a ticket. 
 
 
 #### Completed
-[x] Markdown 
-[x] Emoji 
-[x] Chat history 
-[x] Commands 
-[x] Outgoing indicator 
-[x] Failure incicator 
+- [x] Markdown 
+- [x] Emoji 
+- [x] Chat history 
+- [x] Commands 
+- [x] Outgoing indicator 
+- [x] Failure incicator 
 
 
 #### Roadmap 
-[ ] Joining new channels 
-[ ] Channels settings 
-[ ] Deleting messages 
-[ ] Editing messages 
-[ ] Replying to messages 
-[ ] Fixing bugs 
-[ ] Swift migration
+- [ ] Joining new channels 
+- [ ] Channels settings 
+- [ ] Deleting messages 
+- [ ] Editing messages 
+- [ ] Replying to messages 
+- [ ] Fixing bugs 
+- [ ] Swift migration
 
 #### Frameworks and Instruments 
 
