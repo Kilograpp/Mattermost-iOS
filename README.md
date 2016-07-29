@@ -26,15 +26,18 @@ iOS application for use with Mattermost server 3.0 and higher (http://www.matter
 2. Change the app bundle id to your own.
 3. Run `pod install` in the project's root directory. This will fetch Cocoapods dependencies.
 If CocoaPods is not already available it could be installed by:
-```
+ 
+ ``` 
 $ [sudo] gem install cocoapods
-```
+ ``` 
+
 4. Run `carthage update --platform iOS`. This will fetch Carthage dependencies. 
 If Carthage is not already available it could be installed using this [tutorial](https://github.com/Carthage/Carthage#installing-carthage) 
 5. Compile and deploy this iOS application to your Enterprise AppStore or publicly.
 6. Install [the latest stable release of the Mattermost Push Notifications Server](https://github.com/mattermost/push-proxy) using the private and public keys generated for your iOS application from step 2. 
 7. In the Mattermost Platform Server go to **System Console** > **Email Settings** > **Push Notifications Server** and add the web address of the Mattermost Push Notifications Server. Set **System Console** > **Send Push Notifications** to `true`.
 8. On your iOS device, download and install your app and enter the **Team URL** and credentials based on a team set up on your Mattermost Platform Server 
+
 
 #### Beta Alert 
 
