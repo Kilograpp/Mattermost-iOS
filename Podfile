@@ -5,7 +5,7 @@ target 'Mattermost' do
   pod 'MagicalRecord'
   pod 'RestKit'
   pod 'BOString'
-  pod 'IQKeyboardManager', :git => 'http://git.kilograpp.com/iOS/IQKeyboardManager.git'
+  pod 'IQKeyboardManager', :git => 'https://git.kilograpp.com/iOS/IQKeyboardManager.git'
   pod 'UIActivityIndicator-for-SDWebImage'
   pod 'ObjectiveSugar'
   pod 'DateTools'

@@ -61,7 +61,7 @@ DEPENDENCIES:
   - Fabric
   - HexColors
   - IDMPhotoBrowser (from `https://github.com/getmaxx/IDMPhotoBrowser.git`)
-  - IQKeyboardManager (from `http://git.kilograpp.com/iOS/IQKeyboardManager.git`)
+  - IQKeyboardManager (from `https://git.kilograpp.com/iOS/IQKeyboardManager.git`)
   - JVFloatLabeledTextField
   - MagicalRecord
   - NSStringEmojize
@@ -74,7 +74,7 @@ EXTERNAL SOURCES:
   IDMPhotoBrowser:
     :git: https://github.com/getmaxx/IDMPhotoBrowser.git
   IQKeyboardManager:
-    :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
+    :git: https://git.kilograpp.com/iOS/IQKeyboardManager.git
 
 CHECKOUT OPTIONS:
   IDMPhotoBrowser:
@@ -82,7 +82,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/getmaxx/IDMPhotoBrowser.git
   IQKeyboardManager:
     :commit: 437a15e8e906e1e5ad3fb27bfd08f1a610da5078
-    :git: http://git.kilograpp.com/iOS/IQKeyboardManager.git
+    :git: https://git.kilograpp.com/iOS/IQKeyboardManager.git
 
 SPEC CHECKSUMS:
   BOString: dd7bab05eac29080daecdf2d8fa7556fa24099b8
@@ -110,6 +110,6 @@ SPEC CHECKSUMS:
   TransitionKit: 9ceccda4cd0cdc0a05ef85eb235e5a3292c3c250
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
 
-PODFILE CHECKSUM: 4fef1716af7f18e953dc79ba60057d255570d2fb
+PODFILE CHECKSUM: 2d3768d2ee092ffb888a792d09696f70b4973ca9
 
 COCOAPODS: 1.0.1
