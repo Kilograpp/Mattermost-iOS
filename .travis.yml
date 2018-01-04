@@ -6,12 +6,7 @@ before_install:
     - env
     - locale
     
-    - brew update
-    - brew outdated xctool || brew upgrade xctool
-    - brew outdated carthage || brew upgrade carthage
-    
-    - brew uninstall mogenerator || true
-    - brew install mogenerator
+    - brew bundle
     
     - bundle install
 
