@@ -6,7 +6,7 @@ before_install:
     - env
     - locale
     
-    - brew bundle
+    - brew update && brew bundle
     
     - bundle install
 
